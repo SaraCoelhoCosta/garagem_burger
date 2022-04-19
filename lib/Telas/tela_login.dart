@@ -1,8 +1,11 @@
 // ignore_for_file: file_names, prefer_const_constructors, unnecessary_new, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/Telas/Componentes/botao.dart';
+import 'package:garagem_burger/Telas/Componentes/campo_texto.dart';
 import 'package:garagem_burger/Telas/tela_cadastroUsuario.dart';
 import 'package:garagem_burger/Telas/tela_esqueceuSenha.dart';
+import 'package:sign_button/sign_button.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TelaLogin extends StatefulWidget {
@@ -53,7 +56,6 @@ class _TelaLoginState extends State<TelaLogin> {
 
     return Scaffold(
       backgroundColor: Color(0xfffed80b), // Cor de fundo.
-
       body: ListView(
         children: <Widget>[
           // Espaçamento vertical início da tela e imagem.
@@ -82,80 +84,73 @@ class _TelaLoginState extends State<TelaLogin> {
               child: Column(
                 children: [
                   // Campo e-mail.
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: TextFormField(
-                      // Campo de texto "E-mail".
-                      decoration: InputDecoration(
-                        labelText: 'E-mail',
-                        prefixIcon: Icon(Icons.email),
-                      ),
+                  CampoTexto(
+                    // Campo de texto "E-mail".
 
-                      // Define o tipo de entrada do campo.
-                      keyboardType: TextInputType.emailAddress,
+                    labelText: 'E-mail',
+                    prefixIcon: Icon(Icons.email),
 
-                      // Aponta para o próximo campo de entrada.
-                      onFieldSubmitted: (_) {
-                        FocusScope.of(context).requestFocus(_campoSenha);
-                      },
+                    // Define o tipo de entrada do campo.
+                    keyboardType: TextInputType.emailAddress,
+                    obscureText: false,
 
-                      // O botão de enter leva para o próximo campo.
-                      textInputAction: TextInputAction.next,
+                    // Aponta para o próximo campo de entrada.
+                    onFieldSubmitted: (_) {
+                      FocusScope.of(context).requestFocus(_campoSenha);
+                    },
 
-                      // Pega informação do campo para realizar o login.
-                      onSaved: (email) => {
-                        _dadosFormulario['email'] = email ?? '',
-                      },
+                    // O botão de enter leva para o próximo campo.
+                    textInputAction: TextInputAction.next,
 
-                      // Validação do campo.
-                      validator: (_email) {
-                        final email = _email ?? '';
+                    // Pega informação do campo para realizar o login.
+                    onSaved: (email) => {
+                      _dadosFormulario['email'] = email ?? '',
+                    },
 
-                        if (email.trim().isEmpty) {
-                          return 'E-mail é obrigatório.';
-                        }
+                    // Validação do campo.
+                    validator: (_email) {
+                      final email = _email ?? '';
 
-                        return null;
-                      },
-                    ),
+                      if (email.trim().isEmpty) {
+                        return 'E-mail é obrigatório.';
+                      }
+
+                      return null;
+                    },
                   ),
 
                   // Campo senha.
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: TextFormField(
-                      // Campo de texto "Senha".
-                      decoration: InputDecoration(
-                        labelText: 'Senha',
-                        prefixIcon: Icon(Icons.lock),
-                      ),
+                  CampoTexto(
+                    // Campo de texto "Senha".
 
-                      // Oculta o texto.
-                      obscureText: true,
+                    labelText: 'Senha',
+                    prefixIcon: Icon(Icons.lock),
 
-                      // Indica qual é o campo.
-                      focusNode: _campoSenha,
+                    // Oculta o texto.
+                    obscureText: true,
 
-                      // O botão de enter leva para o próximo campo.
-                      textInputAction: TextInputAction.done,
+                    // Indica qual é o campo.
+                    focusNode: _campoSenha,
 
-                      // Pega informação do campo para realizar login.
-                      onSaved: (senha) =>
-                          {_dadosFormulario['senha'] = senha ?? ''},
+                    // O botão de enter leva para o próximo campo.
+                    textInputAction: TextInputAction.done,
 
-                      // Validação do campo.
-                      validator: (_senha) {
-                        final senha = _senha ?? '';
+                    // Pega informação do campo para realizar login.
+                    onSaved: (senha) =>
+                        {_dadosFormulario['senha'] = senha ?? ''},
 
-                        if (senha.trim().isEmpty) {
-                          return 'Senha é obrigatória.';
-                        }
+                    // Validação do campo.
+                    validator: (_senha) {
+                      final senha = _senha ?? '';
 
-                        return null;
-                      },
+                      if (senha.trim().isEmpty) {
+                        return 'Senha é obrigatória.';
+                      }
 
-                      onFieldSubmitted: (_) => _fazerLogin(),
-                    ),
+                      return null;
+                    },
+
+                    onFieldSubmitted: (_) => _fazerLogin(),
                   ),
 
                   Padding(
@@ -206,7 +201,7 @@ class _TelaLoginState extends State<TelaLogin> {
                                 ),
                               ),
                               onPressed: () {
-                                Navigator.pushReplacement(
+                                Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => TelaEsqueceuSenha(),
@@ -224,80 +219,18 @@ class _TelaLoginState extends State<TelaLogin> {
             ),
           ),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
-            // Botão.
-            child: ElevatedButton(
-              // Texto do botão.
-              child: Text(
-                "Entrar",
-              ),
+          Botao(
+            // Texto do botão.
+            labelText: "Entrar",
 
-              // Estilo do botão.
-              style: ElevatedButton.styleFrom(
-                primary: Colors.black,
-
-                // Arredonda as bordas do botão.
-                shape: RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(10.0),
-                ),
-
-                // Aumenta a altura do botão (?)
-                padding: EdgeInsets.symmetric(
-                  vertical: 15,
-                ),
-
-                // Estilo do texto do botão.
-                // Fonte do Google.
-                textStyle: GoogleFonts.oxygen(
-                  fontSize: 18, // Tamanho da fonte.
-                  fontWeight: FontWeight.bold, // Largura da fonte.
-                  color: Colors.white, // Cor da fonte.
-                ),
-              ),
-
-              // Ação que o botão realiza ao ser pressionado.
-              onPressed: () => {_fazerLogin()},
-            ),
+            // Ação que o botão realiza ao ser pressionado.
+            onPressed: () => {_fazerLogin()},
           ),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
-            // Botão.
-            child: ElevatedButton(
-              // Texto do botão.
-              child: Text(
-                "Entrar como visitante",
-              ),
-
-              // Estilo do botão.
-              style: ElevatedButton.styleFrom(
-                primary: Colors.black,
-
-                // Arredonda as bordas do botão.
-                shape: RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(10.0),
-                ),
-
-                // Aumenta a altura do botão (?)
-                padding: EdgeInsets.symmetric(
-                  vertical: 15,
-                ),
-
-                // Estilo do texto do botão.
-                // Fonte do Google.
-                textStyle: GoogleFonts.oxygen(
-                  fontSize: 18, // Tamanho da fonte.
-                  fontWeight: FontWeight.bold, // Largura da fonte.
-                  color: Colors.white, // Cor da fonte.
-                ),
-              ),
-
-              // Ação que o botão realiza ao ser pressionado.
-              onPressed: () => {},
-            ),
+          Botao(
+            labelText: "Entrar como visitante",
+            onPressed: () {},
           ),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -328,7 +261,7 @@ class _TelaLoginState extends State<TelaLogin> {
 
                 // Ação executada pelo botão.
                 onPressed: () {
-                  Navigator.pushReplacement(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => TelaCadastroUsuario(),
@@ -360,36 +293,16 @@ class _TelaLoginState extends State<TelaLogin> {
               SizedBox(height: tamanho.height * 0.03),
 
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Expanded(
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      // Imagem.
-                      child: Image.asset(
-                        "./images/google.png",
-                      ),
-                    ),
+                  SignInButton.mini(
+                    buttonType: ButtonType.google,
+                    onPressed: () {},
                   ),
-                  Expanded(
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      // Imagem.
-                      child: Image.asset(
-                        "./images/facebook.png",
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      // Imagem.
-                      child: Image.asset(
-                        "./images/twitter.png",
-                      ),
-                    ),
+                  // Botão facebook.
+                  SignInButton.mini(
+                    buttonType: ButtonType.facebook,
+                    onPressed: () {},
                   ),
                 ],
               ),

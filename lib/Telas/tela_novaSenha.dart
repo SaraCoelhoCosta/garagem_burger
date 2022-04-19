@@ -1,6 +1,8 @@
 // ignore_for_file: file_names, prefer_const_constructors, unnecessary_new, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/Telas/Componentes/botao.dart';
+import 'package:garagem_burger/Telas/Componentes/campo_texto.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TelaNovaSenha extends StatefulWidget {
@@ -64,6 +66,9 @@ class _TelaNovaSenhaState extends State<TelaNovaSenha> {
             ),
           ),
 
+          // Espaçamento vertical entre Imagem e texto.
+          SizedBox(height: tamanho.height * 0.025),
+
           Center(
             child: Text(
               "Digite a nova senha:",
@@ -87,82 +92,72 @@ class _TelaNovaSenhaState extends State<TelaNovaSenha> {
               child: Column(
                 children: [
                   // Campo senha.
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: TextFormField(
-                      // Campo de texto "Senha".
-                      decoration: InputDecoration(
-                        labelText: 'Senha',
-                        prefixIcon: Icon(Icons.lock),
-                      ),
+                  CampoTexto(
+                    // Campo de texto "Senha".
 
-                      // Oculta o texto.
-                      obscureText: true,
+                    labelText: 'Senha',
+                    prefixIcon: Icon(Icons.lock),
 
-                      // Aponta para o próximo campo de entrada.
-                      onFieldSubmitted: (_) {
-                        FocusScope.of(context)
-                            .requestFocus(_campoConfirmarSenha);
-                      },
+                    // Oculta o texto.
+                    obscureText: true,
 
-                      // O botão de enter leva para o próximo campo.
-                      textInputAction: TextInputAction.next,
+                    // Aponta para o próximo campo de entrada.
+                    onFieldSubmitted: (_) {
+                      FocusScope.of(context).requestFocus(_campoConfirmarSenha);
+                    },
 
-                      // Pega informação do campo para realizar alteração da senha.
-                      onSaved: (senha) =>
-                          {_dadosFormulario['senha'] = senha ?? ''},
+                    // O botão de enter leva para o próximo campo.
+                    textInputAction: TextInputAction.next,
 
-                      // Validação do campo.
-                      validator: (_senha) {
-                        final senha = _senha ?? '';
+                    // Pega informação do campo para realizar alteração da senha.
+                    onSaved: (senha) =>
+                        {_dadosFormulario['senha'] = senha ?? ''},
 
-                        if (senha.trim().isEmpty) {
-                          return 'Senha é obrigatória.';
-                        }
+                    // Validação do campo.
+                    validator: (_senha) {
+                      final senha = _senha ?? '';
 
-                        return null;
-                      },
-                    ),
+                      if (senha.trim().isEmpty) {
+                        return 'Senha é obrigatória.';
+                      }
+
+                      return null;
+                    },
                   ),
 
                   // Campo confirmar senha.
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: TextFormField(
-                      // Campo de texto "Confirmar Senha".
-                      decoration: InputDecoration(
-                        labelText: 'Confirmar Senha',
-                        prefixIcon: Icon(Icons.lock),
-                      ),
+                  CampoTexto(
+                    // Campo de texto "Confirmar Senha".
 
-                      // Oculta o texto.
-                      obscureText: true,
+                    labelText: 'Confirmar Senha',
+                    prefixIcon: Icon(Icons.lock),
 
-                      // Indica qual é o campo.
-                      focusNode: _campoConfirmarSenha,
+                    // Oculta o texto.
+                    obscureText: true,
 
-                      // O botão de enter realiza cadastro.
-                      textInputAction: TextInputAction.done,
+                    // Indica qual é o campo.
+                    focusNode: _campoConfirmarSenha,
 
-                      // Pega informação do campo para realizar alteração da senha.
-                      onSaved: (confirmarSenha) => {
-                        _dadosFormulario['confirmarSenha'] =
-                            confirmarSenha ?? ''
-                      },
+                    // O botão de enter realiza cadastro.
+                    textInputAction: TextInputAction.done,
 
-                      // Validação do campo.
-                      validator: (_confirmarSenha) {
-                        final confirmarSenha = _confirmarSenha ?? '';
+                    // Pega informação do campo para realizar alteração da senha.
+                    onSaved: (confirmarSenha) => {
+                      _dadosFormulario['confirmarSenha'] = confirmarSenha ?? ''
+                    },
 
-                        if (confirmarSenha.trim().isEmpty) {
-                          return 'Confirmar Senha é obrigatória.';
-                        }
+                    // Validação do campo.
+                    validator: (_confirmarSenha) {
+                      final confirmarSenha = _confirmarSenha ?? '';
 
-                        return null;
-                      },
+                      if (confirmarSenha.trim().isEmpty) {
+                        return 'Confirmar Senha é obrigatória.';
+                      }
 
-                      onFieldSubmitted: (_) => _alterarSenha(),
-                    ),
+                      return null;
+                    },
+
+                    onFieldSubmitted: (_) => _alterarSenha(),
                   ),
                 ],
               ),
@@ -172,41 +167,10 @@ class _TelaNovaSenhaState extends State<TelaNovaSenha> {
           // Espaçamento vertical entre formulário e botão.
           SizedBox(height: tamanho.height * 0.05),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
-            child: ElevatedButton(
-              // Botão.
-              // Texto do botão.
-              child: Text(
-                "Confirmar",
-              ),
-
-              // Estilo do botão.
-              style: ElevatedButton.styleFrom(
-                primary: Colors.black,
-
-                // Arredonda as bordas do botão.
-                shape: RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(10.0),
-                ),
-
-                // Aumenta a altura do botão (?)
-                padding: EdgeInsets.symmetric(
-                  vertical: 15,
-                ),
-
-                // Estilo do texto do botão.
-                // Fonte do Google.
-                textStyle: GoogleFonts.oxygen(
-                  fontSize: 18, // Tamanho da fonte.
-                  fontWeight: FontWeight.bold, // Largura da fonte.
-                  color: Colors.white, // Cor da fonte.
-                ),
-              ),
-
-              // Ação que o botão realiza ao ser pressionado.
-              onPressed: () => {_alterarSenha()},
-            ),
+          Botao(
+            labelText: "Confirmar",
+            // Ação que o botão realiza ao ser pressionado.
+            onPressed: () => {_alterarSenha()},
           ),
         ],
       ),

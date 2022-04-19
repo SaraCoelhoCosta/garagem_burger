@@ -1,6 +1,8 @@
 // ignore_for_file: file_names, prefer_const_constructors, unnecessary_new, sized_box_for_whitespace, avoid_print, prefer_collection_literals, override_on_non_overriding_member
 
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/Telas/Componentes/botao.dart';
+import 'package:garagem_burger/Telas/Componentes/campo_texto.dart';
 import 'package:garagem_burger/Telas/tela_login.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
@@ -134,340 +136,211 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
               child: Column(
                 children: [
                   // Campo de nome.
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: TextFormField(
-                      // Campo de texto "Nome".
-                      decoration: InputDecoration(
-                        labelText: 'Nome',
-                        prefixIcon: Icon(Icons.person),
-                      ),
+                  CampoTexto(
+                    // Nome do campo.
+                    labelText: 'Nome',
 
-                      // Define o tipo de entrada do campo.
-                      keyboardType: TextInputType.name,
+                    // Icone perfixo.
+                    prefixIcon: Icon(Icons.person),
+                    suffixIconButton: null,
+                    obscureText: false,
+                    // Define o tipo de entrada do campo.
+                    keyboardType: TextInputType.name,
 
-                      // Aponta para o próximo campo de entrada.
-                      onFieldSubmitted: (_) {
-                        FocusScope.of(context).requestFocus(_campoEmail);
-                      },
+                    // Aponta para o próximo campo de entrada.
+                    onFieldSubmitted: (_) {
+                      FocusScope.of(context).requestFocus(_campoEmail);
+                    },
 
-                      // O botão de enter leva para o próximo campo.
-                      textInputAction: TextInputAction.next,
+                    // Pega informação do campo para realizar o cadastro.
+                    onSaved: (nome) => {
+                      _dadosFormulario['nome'] = nome ?? '',
+                    },
 
-                      // Pega informação do campo para realizar o cadastro.
-                      onSaved: (nome) => {
-                        _dadosFormulario['nome'] = nome ?? '',
-                      },
+                    // O botão de enter leva para o próximo campo.
+                    textInputAction: TextInputAction.next,
+                    // Validação do campo.
+                    validator: (_nome) {
+                      final nome = _nome ?? '';
 
-                      // Validação do campo.
-                      validator: (_nome) {
-                        final nome = _nome ?? '';
+                      if (nome.trim().isEmpty) {
+                        return 'Nome é obrigatório.';
+                      }
 
-                        if (nome.trim().isEmpty) {
-                          return 'Nome é obrigatório.';
-                        }
+                      if (!regex.hasMatch(nome)) {
+                        return "Nome inválido!";
+                      }
 
-                        if (!regex.hasMatch(nome)) {
-                          return "Nome inválido!";
-                        }
+                      return null;
+                    },
 
-                        return null;
-                      },
-                    ),
+                    focusNode: null,
+                    inputFormatters: null,
                   ),
 
                   // Campo de e-mail.
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: TextFormField(
-                      // Campo de texto "E-mail".
-                      decoration: InputDecoration(
-                        labelText: 'E-mail',
-                        prefixIcon: Icon(Icons.email),
-                      ),
+                  CampoTexto(
+                    // Campo de texto "E-mail".
 
-                      // Define o tipo de entrada do campo.
-                      keyboardType: TextInputType.emailAddress,
+                    labelText: 'E-mail',
+                    prefixIcon: Icon(Icons.email),
 
-                      // Indica qual é o campo.
-                      focusNode: _campoEmail,
+                    // Define o tipo de entrada do campo.
+                    keyboardType: TextInputType.emailAddress,
 
-                      // Aponta para o próximo campo de entrada.
-                      onFieldSubmitted: (_) {
-                        FocusScope.of(context).requestFocus(_campoTelefone);
-                      },
+                    // Indica qual é o campo.
 
-                      // O botão de enter leva para o próximo campo.
-                      textInputAction: TextInputAction.next,
+                    focusNode: _campoEmail,
 
-                      // Pega informação do campo para realizar o cadastro.
-                      onSaved: (email) => {
-                        _dadosFormulario['email'] = email ?? '',
-                      },
+                    // Aponta para o próximo campo de entrada.
+                    onFieldSubmitted: (_) {
+                      FocusScope.of(context).requestFocus(_campoTelefone);
+                    },
 
-                      // Validação do campo.
-                      validator: (_email) {
-                        final email = _email ?? '';
+                    // O botão de enter leva para o próximo campo.
+                    textInputAction: TextInputAction.next,
 
-                        if (email.trim().isEmpty) {
-                          return 'E-mail é obrigatório.';
-                        }
+                    // Pega informação do campo para realizar o cadastro.
+                    onSaved: (email) => {
+                      _dadosFormulario['email'] = email ?? '',
+                    },
 
-                        if (email.length < 6 ||
-                            !email.contains("@") ||
-                            !email.endsWith(".com")) {
-                          return "E-mail inválido!";
-                        }
+                    // Validação do campo.
+                    validator: (_email) {
+                      final email = _email ?? '';
 
-                        return null;
-                      },
-                    ),
+                      if (email.trim().isEmpty) {
+                        return 'E-mail é obrigatório.';
+                      }
+
+                      if (email.length < 6 ||
+                          !email.contains("@") ||
+                          !email.endsWith(".com")) {
+                        return "E-mail inválido!";
+                      }
+
+                      return null;
+                    },
+                    obscureText: false,
                   ),
 
                   // Campo de telefone.
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: TextFormField(
-                      // Campo de texto "Telefone".
-                      decoration: InputDecoration(
-                        labelText: 'Telefone',
-                        prefixIcon: Icon(Icons.phone),
-                      ),
+                  CampoTexto(
+                    // Campo de texto "Telefone".
 
-                      // Define o tipo de entrada do campo.
-                      keyboardType: TextInputType.number,
+                    labelText: 'Telefone',
+                    prefixIcon: Icon(Icons.phone),
 
-                      // Máscara do telefone.
-                      inputFormatters: [mascaraTelefone],
+                    // Define o tipo de entrada do campo.
+                    keyboardType: TextInputType.number,
 
-                      // Indica qual é o campo.
-                      focusNode: _campoTelefone,
+                    // Máscara do telefone.
+                    inputFormatters: [mascaraTelefone],
 
-                      // Aponta para o próximo campo de entrada.
-                      onFieldSubmitted: (_) {
-                        FocusScope.of(context)
-                            .requestFocus(_campoDataNascimento);
-                      },
+                    // Indica qual é o campo.
+                    focusNode: _campoTelefone,
 
-                      // O botão de enter leva para o próximo campo.
-                      textInputAction: TextInputAction.next,
+                    // Aponta para o próximo campo de entrada.
+                    onFieldSubmitted: (_) {
+                      FocusScope.of(context).requestFocus(_campoDataNascimento);
+                    },
 
-                      // Pega informação do campo para realizar o cadastro.
-                      onSaved: (telefone) =>
-                          {_dadosFormulario['telefone'] = telefone ?? ''},
+                    // O botão de enter leva para o próximo campo.
+                    textInputAction: TextInputAction.next,
 
-                      // Validação do campo.
-                      validator: (_telefone) {
-                        final telefone = _telefone ?? '';
+                    // Pega informação do campo para realizar o cadastro.
+                    onSaved: (telefone) =>
+                        {_dadosFormulario['telefone'] = telefone ?? ''},
 
-                        if (telefone.trim().isEmpty) {
-                          return 'Telefone é obrigatório.';
-                        }
+                    // Validação do campo.
+                    validator: (_telefone) {
+                      final telefone = _telefone ?? '';
 
-                        return null;
-                      },
-                    ),
+                      if (telefone.trim().isEmpty) {
+                        return 'Telefone é obrigatório.';
+                      }
+
+                      return null;
+                    },
+                    obscureText: false,
                   ),
 
-                  // Campo de data de nascimento e cpf.
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 6,
-                          child: TextFormField(
-                            // Campo de texto "Data de Nascimento".
-                            decoration: InputDecoration(
-                              labelText: 'Data de Nascimento',
-                              prefixIcon: Icon(Icons.date_range),
-                            ),
+                  CampoTexto(
+                    // Campo de texto "Senha".
 
-                            // Define o tipo de entrada do campo.
-                            keyboardType: TextInputType.number,
+                    labelText: 'Senha',
+                    prefixIcon: Icon(Icons.lock),
+                    // Icone com ação. - suffixIcon: IconButton(onPressed: () => {}, icon: Icon(Icons.remove_red_eye),),
 
-                            // Máscara da data de nascimento.
-                            inputFormatters: [mascaraDataNascimento],
+                    // Indica qual é o campo.
+                    focusNode: _campoSenha,
 
-                            // Indica qual é o campo.
-                            focusNode: _campoDataNascimento,
+                    // Aponta para o próximo campo de entrada.
+                    onFieldSubmitted: (_) {
+                      FocusScope.of(context).requestFocus(_campoConfirmarSenha);
+                    },
 
-                            // Aponta para o próximo campo de entrada.
-                            onFieldSubmitted: (_) {
-                              FocusScope.of(context).requestFocus(_campoCPF);
-                            },
+                    // O botão de enter leva para o próximo campo.
+                    textInputAction: TextInputAction.next,
 
-                            // O botão de enter leva para o próximo campo.
-                            textInputAction: TextInputAction.next,
+                    // Pega informação do campo para realizar o cadastro.
+                    onSaved: (senha) =>
+                        {_dadosFormulario['senha'] = senha ?? ''},
 
-                            // Pega informação do campo para realizar o cadastro.
-                            onSaved: (dataNascimento) => {
-                              _dadosFormulario['dataNascimento'] =
-                                  dataNascimento ?? ''
-                            },
-                          ),
-                        ),
+                    // Validação do campo.
+                    validator: (_senha) {
+                      final senha = _senha ?? '';
 
-                        // Espaçamento horizontal entre dois campos de texto.
-                        SizedBox(width: tamanho.width * 0.05),
+                      if (senha.trim().isEmpty) {
+                        return 'Senha é obrigatória.';
+                      }
 
-                        Expanded(
-                          flex: 5,
-                          child: TextFormField(
-                            // Campo de texto "CPF".
-                            decoration: InputDecoration(
-                              labelText: 'CPF',
-                              //prefixIcon: Icon(Icons.document_scanner),
-                            ),
-
-                            // Define o tipo de entrada do campo.
-                            keyboardType: TextInputType.number,
-
-                            // Máscara do CPF.
-                            inputFormatters: [mascaraCpf],
-
-                            // Indica qual é o campo.
-                            focusNode: _campoCPF,
-
-                            // Aponta para o próximo campo de entrada.
-                            onFieldSubmitted: (_) {
-                              FocusScope.of(context).requestFocus(_campoSenha);
-                            },
-
-                            // O botão de enter leva para o próximo campo.
-                            textInputAction: TextInputAction.next,
-
-                            // Pega informação do campo para realizar o cadastro.
-                            onSaved: (cpf) =>
-                                {_dadosFormulario['cpf'] = cpf ?? ''},
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // Campo de senha.
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: TextFormField(
-                      // Campo de texto "Senha".
-                      decoration: InputDecoration(
-                        labelText: 'Senha',
-                        prefixIcon: Icon(Icons.lock),
-                        // Icone com ação. - suffixIcon: IconButton(onPressed: () => {}, icon: Icon(Icons.remove_red_eye),),
-                      ),
-
-                      // Oculta o texto.
-                      obscureText: true,
-
-                      // Indica qual é o campo.
-                      focusNode: _campoSenha,
-
-                      // Aponta para o próximo campo de entrada.
-                      onFieldSubmitted: (_) {
-                        FocusScope.of(context)
-                            .requestFocus(_campoConfirmarSenha);
-                      },
-
-                      // O botão de enter leva para o próximo campo.
-                      textInputAction: TextInputAction.next,
-
-                      // Pega informação do campo para realizar o cadastro.
-                      onSaved: (senha) =>
-                          {_dadosFormulario['senha'] = senha ?? ''},
-
-                      // Validação do campo.
-                      validator: (_senha) {
-                        final senha = _senha ?? '';
-
-                        if (senha.trim().isEmpty) {
-                          return 'Senha é obrigatória.';
-                        }
-
-                        return null;
-                      },
-                    ),
+                      return null;
+                    },
+                    keyboardType: null,
+                    obscureText: true,
                   ),
 
                   // Campo de confirmar senha.
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: TextFormField(
-                      // Campo de texto "Confirmar Senha".
-                      decoration: InputDecoration(
-                        labelText: 'Confirmar Senha',
-                        prefixIcon: Icon(Icons.lock),
-                      ),
+                  CampoTexto(
+                    // Campo de texto "Confirmar Senha".
 
-                      // Oculta o texto.
-                      obscureText: true,
+                    labelText: 'Confirmar Senha',
+                    prefixIcon: Icon(Icons.lock),
+                    // Indica qual é o campo.
+                    focusNode: _campoConfirmarSenha,
 
-                      // Indica qual é o campo.
-                      focusNode: _campoConfirmarSenha,
+                    // O botão de enter realiza cadastro.
+                    textInputAction: TextInputAction.done,
+                    // Pega informação do campo para realizar o cadastro.
+                    onSaved: (confirmarSenha) => {
+                      _dadosFormulario['confirmarSenha'] = confirmarSenha ?? ''
+                    },
 
-                      // O botão de enter realiza cadastro.
-                      textInputAction: TextInputAction.done,
-                      // Pega informação do campo para realizar o cadastro.
-                      onSaved: (confirmarSenha) => {
-                        _dadosFormulario['confirmarSenha'] =
-                            confirmarSenha ?? ''
-                      },
+                    // Chama a função para concluir cadastro.
+                    onFieldSubmitted: (_) => _salvarCadastro(),
 
-                      // Chama a função para concluir cadastro.
-                      onFieldSubmitted: (_) => _salvarCadastro(),
+                    // Validação do campo.
+                    validator: (_confirmarSenha) {
+                      final confirmarSenha = _confirmarSenha ?? '';
 
-                      // Validação do campo.
-                      validator: (_confirmarSenha) {
-                        final confirmarSenha = _confirmarSenha ?? '';
+                      if (confirmarSenha.trim().isEmpty) {
+                        return 'Confirmar Senha é obrigatório.';
+                      }
 
-                        if (confirmarSenha.trim().isEmpty) {
-                          return 'Confirmar Senha é obrigatório.';
-                        }
-
-                        return null;
-                      },
-                    ),
+                      return null;
+                    },
+                    obscureText: true,
                   ),
                 ],
               ),
             ),
           ),
 
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
-            // Botão.
-            child: ElevatedButton(
-              // Texto do botão.
-              child: Text(
-                "Cadastrar",
-              ),
-
-              // Estilo do botão.
-              style: ElevatedButton.styleFrom(
-                primary: Colors.black,
-
-                // Arredonda as bordas do botão.
-                shape: RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(10.0),
-                ),
-
-                // Aumenta a altura do botão (?)
-                padding: EdgeInsets.symmetric(
-                  vertical: 15,
-                ),
-
-                // Estilo do texto do botão.
-                // Fonte do Google.
-                textStyle: GoogleFonts.oxygen(
-                  fontSize: 18, // Tamanho da fonte.
-                  fontWeight: FontWeight.bold, // Largura da fonte.
-                  color: Colors.white, // Cor da fonte.
-                ),
-              ),
-
-              // Ação que o botão realiza ao ser pressionado.
-              onPressed: () => {_salvarCadastro()},
-            ),
+          Botao(
+            labelText: "Cadastrar",
+            // Ação que o botão realiza ao ser pressionado.
+            onPressed: () => {_salvarCadastro()},
           ),
 
           Row(

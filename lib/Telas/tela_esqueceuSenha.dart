@@ -1,6 +1,8 @@
 // ignore_for_file: file_names, prefer_const_constructors, unnecessary_new, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/Telas/Componentes/botao.dart';
+import 'package:garagem_burger/Telas/Componentes/campo_texto.dart';
 import 'package:garagem_burger/Telas/tela_login.dart';
 import 'package:garagem_burger/Telas/tela_novaSenha.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -65,6 +67,9 @@ class _TelaEsqueceuSenhaState extends State<TelaEsqueceuSenha> {
             ),
           ),
 
+// Espaçamento vertical entre Imagem e texto.
+          SizedBox(height: tamanho.height * 0.025),
+
           // Texto.
           Center(
             child: Text(
@@ -89,127 +94,59 @@ class _TelaEsqueceuSenhaState extends State<TelaEsqueceuSenha> {
               key: _chaveFormulario,
               child:
                   // Campo e-mail.
-                  Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: TextFormField(
-                  // Campo de texto "E-mail".
-                  decoration: InputDecoration(
-                    labelText: 'E-mail',
-                    prefixIcon: Icon(Icons.email),
-                  ),
+                  CampoTexto(
+                // Campo de texto "E-mail".
 
-                  // Define o tipo de entrada do campo.
-                  keyboardType: TextInputType.emailAddress,
+                labelText: 'E-mail',
+                prefixIcon: Icon(Icons.email),
 
-                  // Pega informação do campo para realizar o login.
-                  onSaved: (email) => {
-                    _dadosFormulario = email ?? '',
-                  },
+                // Define o tipo de entrada do campo.
+                keyboardType: TextInputType.emailAddress,
 
-                  // Validação do campo.
-                  validator: (_email) {
-                    final email = _email ?? '';
+                // Pega informação do campo para realizar o login.
+                onSaved: (email) => {
+                  _dadosFormulario = email ?? '',
+                },
 
-                    if (email.trim().isEmpty) {
-                      return 'E-mail é obrigatório.';
-                    }
+                // Validação do campo.
+                validator: (_email) {
+                  final email = _email ?? '';
 
-                    return null;
-                  },
+                  if (email.trim().isEmpty) {
+                    return 'E-mail é obrigatório.';
+                  }
 
-                  // O botão de enter leva para o próximo campo.
-                  textInputAction: TextInputAction.done,
+                  return null;
+                },
 
-                  onFieldSubmitted: (_) => _enviarEmail(),
-                ),
+                // O botão de enter leva para o próximo campo.
+                textInputAction: TextInputAction.done,
+
+                onFieldSubmitted: (_) => _enviarEmail(), obscureText: false,
               ),
             ),
           ),
 
           // Espaçamento vertical entre formulário e botões.
           SizedBox(height: tamanho.height * 0.05),
-
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
-            // Botão.
-            child: ElevatedButton(
-              // Texto do botão.
-              child: Text(
-                "Confirmar",
-              ),
-
-              // Estilo do botão.
-              style: ElevatedButton.styleFrom(
-                primary: Colors.black,
-
-                // Arredonda as bordas do botão.
-                shape: RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(10.0),
-                ),
-
-                // Aumenta a altura do botão (?)
-                padding: EdgeInsets.symmetric(
-                  vertical: 15,
-                ),
-
-                // Estilo do texto do botão.
-                // Fonte do Google.
-                textStyle: GoogleFonts.oxygen(
-                  fontSize: 18, // Tamanho da fonte.
-                  fontWeight: FontWeight.bold, // Largura da fonte.
-                  color: Colors.white, // Cor da fonte.
-                ),
-              ),
-
-              // Ação que o botão realiza ao ser pressionado.
-              onPressed: () => {
-                _enviarEmail(),
-              },
-            ),
+          Botao(
+            labelText: "Confirmar",
+            // Ação que o botão realiza ao ser pressionado.
+            onPressed: () => {_enviarEmail()},
           ),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
-            // Botão.
-            child: ElevatedButton(
-              // Texto do botão.
-              child: Text(
-                "Voltar",
-              ),
+          Botao(
+            labelText: "Voltar",
 
-              // Estilo do botão.
-              style: ElevatedButton.styleFrom(
-                primary: Colors.black,
-
-                // Arredonda as bordas do botão.
-                shape: RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(10.0),
-                ),
-
-                // Aumenta a altura do botão (?)
-                padding: EdgeInsets.symmetric(
-                  vertical: 15,
-                ),
-
-                // Estilo do texto do botão.
-                // Fonte do Google.
-                textStyle: GoogleFonts.oxygen(
-                  fontSize: 18, // Tamanho da fonte.
-                  fontWeight: FontWeight.bold, // Largura da fonte.
-                  color: Colors.white, // Cor da fonte.
+            // Ação que o botão realiza ao ser pressionado.
+            onPressed: () => {
+              Navigator.pop(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TelaLogin(),
                 ),
               ),
-
-              // Ação que o botão realiza ao ser pressionado.
-              onPressed: () => {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => TelaLogin(),
-                  ),
-                ),
-              },
-            ),
+            },
           ),
         ],
       ),
