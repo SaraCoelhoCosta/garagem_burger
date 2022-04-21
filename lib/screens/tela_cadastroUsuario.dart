@@ -112,9 +112,6 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
                             // Icone perfixo.
                             prefixIcon: Icon(Icons.person),
 
-                            // Botão em forma de ícone sufixo.
-                            suffixIconButton: null,
-
                             // Oculta texto.
                             obscureText: false,
 

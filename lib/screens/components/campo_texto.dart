@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 class CampoTexto extends StatelessWidget {
   final Icon prefixIcon;
   final Widget? suffixIcon;
-  final IconButton? suffixIconButton;
   final String labelText;
   final bool obscureText;
   final TextInputType? keyboardType;
@@ -26,7 +25,6 @@ class CampoTexto extends StatelessWidget {
     required this.onFieldSubmitted,
     this.keyboardType,
     this.focusNode,
-    this.suffixIconButton,
     this.inputFormatters,
     this.suffixIcon,
   });
