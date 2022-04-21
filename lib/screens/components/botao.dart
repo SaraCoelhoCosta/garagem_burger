@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, use_key_in_widget_constructors, unnecessary_new
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
