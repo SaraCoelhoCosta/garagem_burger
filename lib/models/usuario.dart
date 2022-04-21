@@ -5,7 +5,7 @@ class Usuario {
   late String senha;
   String? confirmarSenha;
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> usuario() {
     return {
       'nome': nome,
       'email': email,

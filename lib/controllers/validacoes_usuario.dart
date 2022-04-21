@@ -7,6 +7,8 @@ class ValidacoesUsuario {
       StreamTransformer<String, String>.fromHandlers(handleData: (email, sink) {
     if (email.length >= 6 && email.contains("@") && email.endsWith(".com")) {
       sink.add(email);
+    } else if (email.isEmpty) {
+      sink.addError("E-mail obrigatório");
     } else {
       sink.addError("E-mail inválido");
     }
@@ -14,19 +16,22 @@ class ValidacoesUsuario {
 
   final validacaoNome =
       StreamTransformer<String, String>.fromHandlers(handleData: (nome, sink) {
-    if (nome.trim().isNotEmpty) {
-      sink.add(nome);
-    } else {
+    if (nome.contains(RegExp(r'[0-9]'))) {
       sink.addError('Nome inválido');
+    }
+    if (nome.trim().isEmpty) {
+      sink.addError('Nome obrigatório');
+    } else {
+      sink.add(nome);
     }
   });
 
   final validacaoTelefone = StreamTransformer<String, String>.fromHandlers(
       handleData: (telefone, sink) {
-    if (telefone.isNotEmpty) {
-      sink.add(telefone);
+    if (telefone.isEmpty) {
+      sink.addError("Telefone obrigatório");
     } else {
-      sink.addError("Telefone inválido");
+      sink.add(telefone);
     }
   });
 

@@ -57,16 +57,20 @@ class LoginUsuario extends ValidacoesUsuario {
   }
 
   void logarUsuario() {
-    usuario.email = _emailController.value;
-    usuario.senha = _senhaController.value;
-
-    _estadoController.add(EstadoLogin.CARREGANDO);
-
-    firebase.firebaseAuth
-        .signInWithEmailAndPassword(
-            email: usuario.email, password: usuario.senha)
-        .catchError((erro) {
+    if (!_emailController.hasValue || !_senhaController.hasValue) {
       _estadoController.add(EstadoLogin.FALHA);
-    });
+    } else {
+      usuario.email = _emailController.value;
+      usuario.senha = _senhaController.value;
+
+      _estadoController.add(EstadoLogin.CARREGANDO);
+
+      firebase.firebaseAuth
+          .signInWithEmailAndPassword(
+              email: usuario.email, password: usuario.senha)
+          .catchError((erro) {
+        _estadoController.add(EstadoLogin.FALHA);
+      });
+    }
   }
 }

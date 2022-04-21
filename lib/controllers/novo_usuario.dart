@@ -58,26 +58,34 @@ class NovoUsuario extends ValidacoesUsuario {
   }
 
   void cadastrarUsuario() async {
-    usuario.nome = _nomeController.value;
-    usuario.email = _emailController.value;
-    usuario.telefone = _telefoneController.value;
-    usuario.senha = _senhaController.value;
-
-    dadosUsuario = usuario.toMap();
-
-    _estadoController.add(EstadoNovoUsuario.CARREGANDO);
-
-    firebase.firebaseAuth
-        .createUserWithEmailAndPassword(
-      email: usuario.email,
-      password: usuario.senha,
-    )
-        .then((usuarioAtual) async {
-      firebase.firebaseUser = usuarioAtual as User;
-      await _salvarDados(dadosUsuario);
-    }).catchError((erro) {
+    if (!_emailController.hasValue ||
+        !_senhaController.hasValue ||
+        !_confirmarSenhaController.hasValue ||
+        !_nomeController.hasValue ||
+        _telefoneController.hasValue) {
       _estadoController.add(EstadoNovoUsuario.FALHA);
-    });
+    } else {
+      usuario.nome = _nomeController.value;
+      usuario.email = _emailController.value;
+      usuario.telefone = _telefoneController.value;
+      usuario.senha = _senhaController.value;
+
+      dadosUsuario = usuario.usuario();
+
+      _estadoController.add(EstadoNovoUsuario.CARREGANDO);
+
+      firebase.firebaseAuth
+          .createUserWithEmailAndPassword(
+        email: usuario.email,
+        password: usuario.senha,
+      )
+          .then((usuarioAtual) async {
+        firebase.firebaseUser = usuarioAtual as User;
+        await _salvarDados(dadosUsuario);
+      }).catchError((erro) {
+        _estadoController.add(EstadoNovoUsuario.FALHA);
+      });
+    }
   }
 
   Future<Null> _salvarDados(Map<String, dynamic> dadosUsuario) async {
