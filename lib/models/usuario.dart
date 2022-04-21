@@ -10,8 +10,8 @@ class Usuario {
       'nome': nome,
       'email': email,
       'telefone': telefone,
-      'senha:': senha,
-      'confirmarSenha:': confirmarSenha,
+      'senha': senha,
+      'confirmarSenha': confirmarSenha,
     };
   }
 }
