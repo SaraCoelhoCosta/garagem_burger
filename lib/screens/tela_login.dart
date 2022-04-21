@@ -21,8 +21,9 @@ class _TelaLoginState extends State<TelaLogin> {
   // Campos que estão com foco.
   final _campoSenha = FocusNode();
 
-  // Flag para checkbox.
+  // Flag para checkbox e senha.
   bool isMarcado = false;
+  bool exibirSenha = false;
 
   // Controle para login.
   final _loginUsuario = LoginUsuario();
@@ -143,8 +144,18 @@ class _TelaLoginState extends State<TelaLogin> {
                             // Icone prefixo.
                             prefixIcon: Icon(Icons.lock),
 
+                            // Icone sufixo (exibir senha)
+                            suffixIcon: GestureDetector(
+                              child: Icon(exibirSenha ? Icons.visibility : Icons.visibility_off),
+                              onTap: (){
+                                setState(() {
+                                  exibirSenha = !exibirSenha;
+                                });
+                              },
+                            ),
+
                             // Oculta o texto.
-                            obscureText: true,
+                            obscureText: !exibirSenha,
 
                             // Indica qual é o campo.
                             focusNode: _campoSenha,

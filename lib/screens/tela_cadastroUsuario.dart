@@ -34,6 +34,9 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
   // Controle para cadastro.
   final _novoUsuario = NovoUsuario();
 
+  // Flag para senha.
+  bool exibirSenha = false;
+
   // Libera os recursos após sair da tela ou salvar os dados.
   @override
   void dispose() {
@@ -216,6 +219,15 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
                             prefixIcon: Icon(Icons.lock),
                             // Icone com ação. - suffixIcon: IconButton(onPressed: () => {}, icon: Icon(Icons.remove_red_eye),),
 
+                            // Icone sufixo (exibir senha)
+                            suffixIcon: GestureDetector(
+                              child: Icon(exibirSenha ? Icons.visibility : Icons.visibility_off),
+                              onTap: (){
+                                setState(() {
+                                  exibirSenha = !exibirSenha;
+                                });
+                              },
+                            ),
                             // Indica qual é o campo.
                             focusNode: _campoSenha,
 
@@ -229,7 +241,7 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
                             textInputAction: TextInputAction.next,
 
                             // Oculta texto.
-                            obscureText: true,
+                            obscureText: !exibirSenha,
 
                             // ??
                             onChanged: _novoUsuario.changePassword,
@@ -246,6 +258,16 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
                             // Icone prefixo.
                             prefixIcon: Icon(Icons.lock),
 
+                            // Icone sufixo (exibir senha)
+                            suffixIcon: GestureDetector(
+                              child: Icon(exibirSenha ? Icons.visibility : Icons.visibility_off),
+                              onTap: (){
+                                setState(() {
+                                  exibirSenha = !exibirSenha;
+                                });
+                              },
+                            ),
+
                             // Indica qual é o campo.
                             focusNode: _campoConfirmarSenha,
 
@@ -257,7 +279,7 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
                                 _novoUsuario.cadastrarUsuario(),
 
                             // Oculta texto.
-                            obscureText: true,
+                            obscureText: !exibirSenha,
 
                             // ??
                             onChanged: _novoUsuario.changeConfirmPassword,
