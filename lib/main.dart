@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:garagem_burger/screens/tela_abertura.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+//import 'firebase_options.dart';
 
 // Funcao principal.
 void main() async {
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
 
       title: 'Garagem Burger',
 
-      // Tira simbolo de debug. nknn
+      // Tira simbolo de debug.
       debugShowCheckedModeBanner: false,
 
       theme: ThemeData(
