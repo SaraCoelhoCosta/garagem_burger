@@ -47,15 +47,23 @@ dependencies:
   cloud_firestore: ^3.1.10
 
   # É o código comum necessário para todos os plug-ins do Firebase Flutter.
-  firebase_core: ^1.13.1
+  firebase_core: ^1.14.1
 
   # Botões de rede social.
   sign_button: ^2.0.2
 
+  # Auxilia nas respostas de uma ação através dos eventos.
+  bloc_pattern: ^2.3.2
+
+  # ??
+  rxdart: ^0.27.3
+
+  # ??
+  provider: ^6.0.2
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-
 
 dev_dependencies:
   
@@ -82,6 +90,8 @@ flutter:
   # Imagens
   assets:
      - images/logoHamburgueria.png
+     - images/hamburguer.jpg
+     - images/profile.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
