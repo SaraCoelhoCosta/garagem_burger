@@ -10,8 +10,8 @@ import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    //options: DefaultFirebaseOptions.currentPlatform,
-  );
+      //options: DefaultFirebaseOptions.currentPlatform,
+      );
   runApp(MyApp());
 }
 
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
 
       title: 'Garagem Burger',
 
-      // Tira simbolo de debug.
+      // Tira simbolo de debug. nknn
       debugShowCheckedModeBanner: false,
 
       theme: ThemeData(
