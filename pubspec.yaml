@@ -90,6 +90,8 @@ flutter:
   # Imagens
   assets:
      - images/logoHamburgueria.png
+     - images/hamburguer.jpg
+     - images/profile.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

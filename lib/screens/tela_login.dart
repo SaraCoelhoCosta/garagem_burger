@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/controllers/login_usuario.dart';
-import 'package:garagem_burger/screens/components/botao.dart';
+import 'package:garagem_burger/screens/components/botao_preto.dart';
 import 'package:garagem_burger/screens/components/campo_texto.dart';
-import 'package:garagem_burger/screens/tela_menu.dart';
+import 'package:garagem_burger/screens/tela_principal.dart';
 import 'package:garagem_burger/screens/teste.dart';
 import 'package:garagem_burger/screens/tela_cadastroUsuario.dart';
 //import 'package:garagem_burger/screens/tela_esqueceuSenha.dart';
@@ -242,7 +242,7 @@ class _TelaLoginState extends State<TelaLogin> {
                     ),
                   ),
 
-                  Botao(
+                  BotaoPreto(
                     // Texto do botão.
                     labelText: "Entrar",
 
@@ -250,13 +250,13 @@ class _TelaLoginState extends State<TelaLogin> {
                     onPressed: () => {_loginUsuario.logarUsuario()},
                   ),
 
-                  Botao(
+                  BotaoPreto(
                     labelText: "Entrar como visitante",
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => TelaMenu(),
+                          builder: (context) => TelaPrincipal(),
                         ),
                       );
                     },

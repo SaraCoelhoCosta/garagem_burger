@@ -3,11 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Botao extends StatelessWidget {
+class BotaoPreto extends StatelessWidget {
   final String labelText;
   dynamic Function() onPressed;
 
-  Botao({
+  BotaoPreto({
     required this.labelText,
     required this.onPressed,
   });

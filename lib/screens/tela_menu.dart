@@ -1,78 +1,111 @@
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/screens/components/card_produto.dart';
+import 'package:garagem_burger/screens/components/card_produto_simples.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class TelaMenu extends StatefulWidget {
+class TelaMenu extends StatelessWidget {
   const TelaMenu({Key? key}) : super(key: key);
 
   @override
-  State<TelaMenu> createState() => _TelaMenuState();
-}
-
-class _TelaMenuState extends State<TelaMenu> {
-
-  int _selectedIndex = 0;
-
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Menu',
-      style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-    ),
-    Text(
-      'Carrinho',
-      style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-    ),
-    Text(
-      'Perfil',
-      style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-    ),
-  ];
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xfffed80b),
-        foregroundColor: Colors.black,
-        centerTitle: true,
-        title: Text(
-          'Garagem Burguer',
-          style: GoogleFonts.keaniaOne(
-            fontSize: 26.0,
+    return ListView(
+      children: [
+
+        // Opcoes da aba superior (filtros e icone do usuario)
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  const Icon(
+                    Icons.filter_list,
+                    size: 30,
+                  ),
+                  Text(
+                    '  Filtros',
+                    style: GoogleFonts.oxygen(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Text(
+                    'Bem Vindo, João!  ',
+                    style: GoogleFonts.oxygen(
+                      fontSize: 18,
+                    ),
+                  ),
+                  const Icon(
+                    Icons.account_circle_outlined,
+                    size: 30,
+                  ),
+                ],
+              )
+            ],
           ),
         ),
-      ),
 
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
+        // Ofertas Especiais
+        Padding(
+          padding: const EdgeInsets.only(
+            top: 10.0,
+            left: 8.0,
+          ),
+          child: Text(
+            'OFERTAS ESPECIAIS',
+            style: GoogleFonts.oxygen(
+              fontSize: 22.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
 
-      bottomNavigationBar: BottomNavigationBar(
+        Container(
+          width: double.infinity,
+          height: 100,
+          padding: const EdgeInsets.all(10.0),
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: const [
+              CardProdutoSimples(),
+              CardProdutoSimples(),
+              CardProdutoSimples(),
+              CardProdutoSimples(),
+              CardProdutoSimples(),
+              CardProdutoSimples(),
+            ],
+          ),
+        ),
 
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Menu',
+        // Hamburgueres da casa
+        Padding(
+          padding: const EdgeInsets.only(
+            top: 10.0,
+            left: 8.0,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart_outlined),
-            label: 'Carrinho',
+          child: Text(
+            'HAMBÚRGUERES DA CASA',
+            style: GoogleFonts.oxygen(
+              fontSize: 22.0,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_outlined),
-            label: 'Perfil',
-          ),
-        ],
-        
-        backgroundColor: Colors.black,
-        currentIndex: _selectedIndex,
-        selectedItemColor: const Color(0xfffed80b),
-        unselectedItemColor: Colors.white,
-        onTap: (index){
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-      ),
+        ),
+
+        const CardProduto(),
+        const CardProduto(),
+        const CardProduto(),
+        const CardProduto(),
+        const CardProduto(),
+        const CardProduto(),
+        const CardProduto(),
+        const CardProduto(),
+      ],
     );
   }
 }

@@ -81,6 +81,7 @@ class NovoUsuario extends ValidacoesUsuario {
       )
           .then((usuarioAtual) async {
         firebase.firebaseUser = usuarioAtual as User;
+        // firebase.firebaseUser = usuarioAtual.user!;
         await _salvarDados(dadosUsuario);
       }).catchError((erro) {
         _estadoController.add(EstadoNovoUsuario.FALHA);

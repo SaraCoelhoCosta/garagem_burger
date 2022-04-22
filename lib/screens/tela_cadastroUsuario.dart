@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/controllers/novo_usuario.dart';
-import 'package:garagem_burger/screens/components/botao.dart';
+import 'package:garagem_burger/screens/components/botao_preto.dart';
 import 'package:garagem_burger/screens/components/campo_texto.dart';
 import 'package:garagem_burger/screens/tela_login.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -289,7 +289,7 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
                     ),
                   ),
 
-                  Botao(
+                  BotaoPreto(
                     labelText: "Cadastrar",
                     // Ação que o botão realiza ao ser pressionado.
                     onPressed: () => {_novoUsuario.cadastrarUsuario()},
