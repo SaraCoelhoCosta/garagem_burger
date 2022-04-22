@@ -10,7 +10,6 @@ class TelaMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-
         // Opcoes da aba superior (filtros e icone do usuario)
         Padding(
           padding: const EdgeInsets.all(8.0),
