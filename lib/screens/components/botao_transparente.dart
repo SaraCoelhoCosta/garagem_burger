@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class BotaoTransparente extends StatelessWidget {
   final String text;
   final IconData icon;
+  final Function()? onTap;
 
   const BotaoTransparente({
     Key? key,
     required this.text,
     required this.icon,
+    this.onTap,
   }) : super(key: key);
 
   @override
@@ -37,7 +39,7 @@ class BotaoTransparente extends StatelessWidget {
         ),
         contentPadding: const EdgeInsets.all(6),
         tileColor: const Color.fromARGB(255, 244, 244, 245),
-        onTap: () {},
+        onTap: onTap,
       ),
     );
   }

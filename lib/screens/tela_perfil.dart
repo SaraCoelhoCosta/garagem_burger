@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/screens/components/botao_transparente.dart';
+import 'package:garagem_burger/screens/tela_configuracoes.dart';
 
 // ignore: camel_case_types
 class TelaPerfil extends StatefulWidget {
@@ -42,15 +43,6 @@ class _TelaPerfilState extends State<TelaPerfil> {
     );
   }
 
-  void configuracoes() {
-    // ignore: avoid_print
-    print("Configurações");
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const Configuracoes()),
-    );
-  }
-
   void sair() {
     // ignore: avoid_print
     print("Sair");
@@ -58,6 +50,16 @@ class _TelaPerfilState extends State<TelaPerfil> {
     //exit(0);
   }
 */
+
+  void configuracoes() {
+    // ignore: avoid_print
+    print("Configurações");
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const TelaConfiguracoes()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -81,7 +83,7 @@ class _TelaPerfilState extends State<TelaPerfil> {
                   ],
                 ),
               ),
-              const SizedBox(width: 50),
+              const SizedBox(width: 60),
               Text(
                 name,
                 style: const TextStyle(
@@ -93,40 +95,41 @@ class _TelaPerfilState extends State<TelaPerfil> {
               ),
             ],
           ),
-
+          const SizedBox(height: 20),
           const Divider(
             height: 20,
             thickness: 1,
             indent: 5,
             endIndent: 5,
-            color: Colors.black,
+            color: Colors.grey,
           ),
 
           Padding(
             padding: const EdgeInsets.only(
-              left: 10.0,
-              right: 10.0,
+              left: 25.0,
+              right: 25.0,
               top: 10.0,
             ),
             child: Column(
-              children: const [
-                BotaoTransparente(
+              children: [
+                const BotaoTransparente(
                   text: 'Meus Pedidos',
                   icon: Icons.shopping_cart_outlined,
                 ),
-                BotaoTransparente(
+                const BotaoTransparente(
                   text: 'Minhas Localizações',
                   icon: Icons.location_on_outlined,
                 ),
-                BotaoTransparente(
+                const BotaoTransparente(
                   text: 'Meus Cartões',
                   icon: Icons.credit_card_outlined,
                 ),
                 BotaoTransparente(
                   text: 'Configurações',
                   icon: Icons.settings,
+                  onTap: configuracoes,
                 ),
-                BotaoTransparente(
+                const BotaoTransparente(
                   text: 'Sair',
                   icon: Icons.exit_to_app,
                 ),
