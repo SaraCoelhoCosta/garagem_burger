@@ -55,17 +55,6 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
     _novoUsuario.outState.listen((estado) {
       switch (estado) {
         case EstadoNovoUsuario.SUCESSO:
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(
-              "Cadastro realizado com sucesso!",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            elevation: 6.0,
-            backgroundColor: Colors.green,
-            duration: Duration(seconds: 2),
-          ));
-
           Rotas.nvgSemRetorno(
             context: context,
             rota: Rotas.menu,
