@@ -5,6 +5,7 @@ import 'package:garagem_burger/rotas.dart';
 import 'package:garagem_burger/screens/tela_abertura.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:garagem_burger/screens/tela_cadastroUsuario.dart';
 import 'package:garagem_burger/screens/tela_login.dart';
 import 'package:garagem_burger/screens/tela_principal.dart';
 import 'package:garagem_burger/screens/telas_perfil/tela_configuracoes.dart';
@@ -17,7 +18,7 @@ import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+    //options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(MyApp());
 }
@@ -46,13 +47,14 @@ class MyApp extends StatelessWidget {
       ),
 
       routes: {
-        Rotas.home: (context) => TelaAbertura(),
+        Rotas.abertura: (context) => TelaAbertura(),
         Rotas.menu: (context) => TelaPrincipal(),
         Rotas.meusPedidos: (context) => TelaMeusPedidos(),
         Rotas.minhasLocalizacoes: (context) => TelaMinhasLocalizacoes(),
         Rotas.meusCartoes: (context) => TelaMeusCartoes(),
         Rotas.configuracoes: (context) => TelaConfiguracoes(),
         Rotas.login: (context) => TelaLogin(),
+        Rotas.cadastro: (context) => TelaCadastroUsuario(),
       },
     );
   }

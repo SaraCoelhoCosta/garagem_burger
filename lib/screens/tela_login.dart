@@ -6,7 +6,6 @@ import 'package:garagem_burger/rotas.dart';
 import 'package:garagem_burger/screens/components/botao_preto.dart';
 import 'package:garagem_burger/screens/components/campo_texto.dart';
 import 'package:garagem_burger/screens/tela_cadastroUsuario.dart';
-//import 'package:garagem_burger/screens/tela_esqueceuSenha.dart';
 import 'package:sign_button/sign_button.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -41,7 +40,7 @@ class _TelaLoginState extends State<TelaLogin> {
     _loginUsuario.outState.listen((estado) {
       switch (estado) {
         case EstadoLogin.SUCESSO:
-          _trocarTela(context);
+          Rotas.nvgSemRetorno(context: context, rota: Rotas.menu);
           break;
         case EstadoLogin.FALHA:
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -59,15 +58,6 @@ class _TelaLoginState extends State<TelaLogin> {
         case EstadoLogin.PARADO:
       }
     });
-  }
-
-  void _trocarTela(BuildContext context) {
-    Navigator.of(context).pushReplacementNamed(
-      Rotas.menu,
-      arguments: null,
-      // posteriormente, passar o Usuario no 'arguments'
-      // pra acessar as informações dele dentro do app
-    );
   }
 
   @override
@@ -261,7 +251,10 @@ class _TelaLoginState extends State<TelaLogin> {
 
                   BotaoPreto(
                     labelText: "Entrar como visitante",
-                    onPressed: () => _trocarTela(context),
+                    onPressed: () => Rotas.nvgSemRetorno(
+                      context: context,
+                      rota: Rotas.menu,
+                    ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -292,14 +285,10 @@ class _TelaLoginState extends State<TelaLogin> {
                         ),
 
                         // Ação executada pelo botão.
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => TelaCadastroUsuario(),
-                            ),
-                          );
-                        },
+                        onPressed: () => Rotas.nvgComRetorno(
+                          context: context,
+                          rota: Rotas.cadastro,
+                        ),
                       ),
                     ],
                   ),

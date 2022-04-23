@@ -4,7 +4,6 @@ import 'package:garagem_burger/screens/components/botao_transparente.dart';
 
 // ignore: camel_case_types
 class TelaPerfil extends StatefulWidget {
-
   const TelaPerfil({Key? key}) : super(key: key);
 
   @override
@@ -14,16 +13,6 @@ class TelaPerfil extends StatefulWidget {
 // ignore: camel_case_types
 class _TelaPerfilState extends State<TelaPerfil> {
   final String name = 'Nome do usuário';
-
-  void _alterarTela(rota) {
-    Navigator.of(context).pushNamed(rota);
-  }
-
-  void _logout(){
-    Navigator.of(context).pushReplacementNamed(
-      Rotas.login,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +57,6 @@ class _TelaPerfilState extends State<TelaPerfil> {
             endIndent: 5,
             color: Colors.grey,
           ),
-
           Padding(
             padding: const EdgeInsets.only(
               left: 25.0,
@@ -80,27 +68,42 @@ class _TelaPerfilState extends State<TelaPerfil> {
                 BotaoTransparente(
                   text: 'Meus Pedidos',
                   icon: Icons.shopping_cart_outlined,
-                  onTap: () => _alterarTela(Rotas.meusPedidos),
+                  onTap: () => Rotas.nvgComRetorno(
+                    context: context,
+                    rota: Rotas.meusPedidos,
+                  ),
                 ),
                 BotaoTransparente(
                   text: 'Minhas Localizações',
                   icon: Icons.location_on_outlined,
-                  onTap: () => _alterarTela(Rotas.minhasLocalizacoes),
+                  onTap: () => Rotas.nvgComRetorno(
+                    context: context,
+                    rota: Rotas.minhasLocalizacoes,
+                  ),
                 ),
                 BotaoTransparente(
                   text: 'Meus Cartões',
                   icon: Icons.credit_card_outlined,
-                  onTap: () => _alterarTela(Rotas.meusCartoes),
+                  onTap: () => Rotas.nvgComRetorno(
+                    context: context,
+                    rota: Rotas.meusCartoes,
+                  ),
                 ),
                 BotaoTransparente(
                   text: 'Configurações',
                   icon: Icons.settings,
-                  onTap: () => _alterarTela(Rotas.configuracoes),
+                  onTap: () => Rotas.nvgComRetorno(
+                    context: context,
+                    rota: Rotas.configuracoes,
+                  ),
                 ),
                 BotaoTransparente(
                   text: 'Sair',
                   icon: Icons.exit_to_app,
-                  onTap: _logout,
+                  onTap: () => Rotas.nvgSemRetorno(
+                    context: context,
+                    rota: Rotas.abertura,
+                  ),
                 ),
               ],
             ),

@@ -2,10 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/controllers/novo_usuario.dart';
+import 'package:garagem_burger/rotas.dart';
 import 'package:garagem_burger/screens/components/botao_preto.dart';
 import 'package:garagem_burger/screens/components/campo_texto.dart';
-import 'package:garagem_burger/screens/tela_login.dart';
-import 'package:garagem_burger/screens/tela_principal.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
@@ -67,9 +66,10 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
             duration: Duration(seconds: 2),
           ));
 
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => TelaPrincipal(),
-          ));
+          Rotas.nvgSemRetorno(
+            context: context,
+            rota: Rotas.menu,
+          );
           break;
         case EstadoNovoUsuario.FALHA:
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -370,14 +370,10 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
                         ),
 
                         // Ação executada pelo botão.
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => TelaLogin(),
-                            ),
-                          );
-                        },
+                        onPressed: () => Rotas.nvgComRetorno(
+                          context: context,
+                          rota: Rotas.login,
+                        ),
                       ),
                     ],
                   ),
