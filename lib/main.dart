@@ -8,6 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:garagem_burger/screens/tela_cadastroUsuario.dart';
 import 'package:garagem_burger/screens/tela_login.dart';
 import 'package:garagem_burger/screens/tela_principal.dart';
+import 'package:garagem_burger/screens/tela_produto.dart';
 import 'package:garagem_burger/screens/telas_perfil/tela_configuracoes.dart';
 import 'package:garagem_burger/screens/telas_perfil/tela_meus_cartoes.dart';
 import 'package:garagem_burger/screens/telas_perfil/tela_meus_pedidos.dart';
@@ -55,6 +56,7 @@ class MyApp extends StatelessWidget {
         Rotas.configuracoes: (context) => TelaConfiguracoes(),
         Rotas.login: (context) => TelaLogin(),
         Rotas.cadastro: (context) => TelaCadastroUsuario(),
+        Rotas.produto: (context) => TelaProduto(),
       },
     );
   }

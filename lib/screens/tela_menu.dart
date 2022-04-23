@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/models/produto.dart';
 import 'package:garagem_burger/rotas.dart';
 import 'package:garagem_burger/screens/components/card_produto.dart';
 import 'package:garagem_burger/screens/components/card_produto_simples.dart';
@@ -12,6 +13,29 @@ class TelaMenu extends StatefulWidget {
 }
 
 class _TelaMenuState extends State<TelaMenu> {
+  final _produtos = [
+    Produto(
+      nome: 'X-Infarto de Sara',
+      preco: 24.90,
+      tipo: Tipo.hamburguer,
+    ),
+    Produto(
+      nome: 'Morgana de Will',
+      preco: 21.90,
+      tipo: Tipo.hamburguer,
+    ),
+    Produto(
+      nome: 'Gulodice de João',
+      preco: 24.90,
+      tipo: Tipo.hamburguer,
+    ),
+    Produto(
+      nome: 'Big Tentação de Lara',
+      preco: 32.90,
+      tipo: Tipo.hamburguer,
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -55,7 +79,7 @@ class _TelaMenuState extends State<TelaMenu> {
           ),
         ),
 
-        // Monte seu proprio hamburguer
+        // Botao Monte seu proprio hamburguer
         GestureDetector(
           onTap: () => Rotas.nvgComRetorno(
             context: context,
@@ -87,7 +111,7 @@ class _TelaMenuState extends State<TelaMenu> {
           ),
         ),
 
-        // Ofertas Especiais
+        // Titulo Ofertas Especiais
         Padding(
           padding: const EdgeInsets.only(
             top: 10.0,
@@ -102,6 +126,7 @@ class _TelaMenuState extends State<TelaMenu> {
           ),
         ),
 
+        // Ofertas especiais
         Container(
           width: double.infinity,
           height: 100,
@@ -119,7 +144,7 @@ class _TelaMenuState extends State<TelaMenu> {
           ),
         ),
 
-        // Hamburgueres da casa
+        // Titulo Hamburgueres da casa
         Padding(
           padding: const EdgeInsets.only(
             top: 10.0,
@@ -134,14 +159,14 @@ class _TelaMenuState extends State<TelaMenu> {
           ),
         ),
 
-        const CardProduto(),
-        const CardProduto(),
-        const CardProduto(),
-        const CardProduto(),
-        const CardProduto(),
-        const CardProduto(),
-        const CardProduto(),
-        const CardProduto(),
+        // Hamburgueres da casa
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: _produtos
+              .map((produto) => CardProduto(produto: produto))
+              .toList(),
+        ),
+
       ],
     );
   }
