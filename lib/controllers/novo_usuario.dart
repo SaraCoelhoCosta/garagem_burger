@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_void_to_null, override_on_non_overriding_member
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:garagem_burger/controllers/firebase.dart';
 import 'package:garagem_burger/controllers/validacoes_usuario.dart';
 import 'package:garagem_burger/models/usuario.dart';

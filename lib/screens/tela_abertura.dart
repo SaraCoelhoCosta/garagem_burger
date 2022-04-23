@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:garagem_burger/rotas.dart';
-import 'package:garagem_burger/screens/tela_login.dart';
 
 class TelaAbertura extends StatefulWidget {
   @override
