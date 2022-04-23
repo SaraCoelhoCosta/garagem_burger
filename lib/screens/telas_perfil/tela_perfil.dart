@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/rotas.dart';
 import 'package:garagem_burger/screens/components/botao_transparente.dart';
-import 'package:garagem_burger/screens/tela_configuracoes.dart';
 
 // ignore: camel_case_types
 class TelaPerfil extends StatefulWidget {
@@ -15,48 +15,13 @@ class TelaPerfil extends StatefulWidget {
 class _TelaPerfilState extends State<TelaPerfil> {
   final String name = 'Nome do usuário';
 
-/*
-  void testeMeusPedidos() {
-    // ignore: avoid_print
-    print("Meus pedidos");
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const MeusPedidos()),
-    );
+  void _alterarTela(rota) {
+    Navigator.of(context).pushNamed(rota);
   }
 
-  void enderecosCadastrados() {
-    // ignore: avoid_print
-    print("Endereços cadastrados");
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const EnderecosCadastrados()),
-    );
-  }
-
-  void meusCartoes() {
-    // ignore: avoid_print
-    print("Meus Cartões");
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const MeusCartoes()),
-    );
-  }
-
-  void sair() {
-    // ignore: avoid_print
-    print("Sair");
-    //Só desloga da conta (e volta pra Login) ou sai do app?
-    //exit(0);
-  }
-*/
-
-  void configuracoes() {
-    // ignore: avoid_print
-    print("Configurações");
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const TelaConfiguracoes()),
+  void _logout(){
+    Navigator.of(context).pushReplacementNamed(
+      Rotas.login,
     );
   }
 
@@ -112,26 +77,30 @@ class _TelaPerfilState extends State<TelaPerfil> {
             ),
             child: Column(
               children: [
-                const BotaoTransparente(
+                BotaoTransparente(
                   text: 'Meus Pedidos',
                   icon: Icons.shopping_cart_outlined,
+                  onTap: () => _alterarTela(Rotas.meusPedidos),
                 ),
-                const BotaoTransparente(
+                BotaoTransparente(
                   text: 'Minhas Localizações',
                   icon: Icons.location_on_outlined,
+                  onTap: () => _alterarTela(Rotas.minhasLocalizacoes),
                 ),
-                const BotaoTransparente(
+                BotaoTransparente(
                   text: 'Meus Cartões',
                   icon: Icons.credit_card_outlined,
+                  onTap: () => _alterarTela(Rotas.meusCartoes),
                 ),
                 BotaoTransparente(
                   text: 'Configurações',
                   icon: Icons.settings,
-                  onTap: configuracoes,
+                  onTap: () => _alterarTela(Rotas.configuracoes),
                 ),
-                const BotaoTransparente(
+                BotaoTransparente(
                   text: 'Sair',
                   icon: Icons.exit_to_app,
+                  onTap: _logout,
                 ),
               ],
             ),

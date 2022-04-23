@@ -1,9 +1,16 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/rotas.dart';
 import 'package:garagem_burger/screens/tela_abertura.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:garagem_burger/screens/tela_login.dart';
+import 'package:garagem_burger/screens/tela_principal.dart';
+import 'package:garagem_burger/screens/telas_perfil/tela_configuracoes.dart';
+import 'package:garagem_burger/screens/telas_perfil/tela_meus_cartoes.dart';
+import 'package:garagem_burger/screens/telas_perfil/tela_meus_pedidos.dart';
+import 'package:garagem_burger/screens/telas_perfil/tela_minhas_localizacoes.dart';
 import 'firebase_options.dart';
 
 // Funcao principal.
@@ -31,28 +38,22 @@ class MyApp extends StatelessWidget {
 
       title: 'Garagem Burger',
 
-      // Tira simbolo de debug. nknn
+      // Tira simbolo de debug.
       debugShowCheckedModeBanner: false,
 
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: TelaAbertura(),
+
+      routes: {
+        Rotas.home: (context) => TelaAbertura(),
+        Rotas.menu: (context) => TelaPrincipal(),
+        Rotas.meusPedidos: (context) => TelaMeusPedidos(),
+        Rotas.minhasLocalizacoes: (context) => TelaMinhasLocalizacoes(),
+        Rotas.meusCartoes: (context) => TelaMeusCartoes(),
+        Rotas.configuracoes: (context) => TelaConfiguracoes(),
+        Rotas.login: (context) => TelaLogin(),
+      },
     );
   }
 }
-
-/* class MyHomePage extends StatefulWidget {
- *  const MyHomePage({Key? key}) : super(key: key);
- *
- *   @override
- *   State<MyHomePage> createState() => _MyHomePageState();
- * }
- *
- * class _MyHomePageState extends State<MyHomePage> {
- *  @override
- *   Widget build(BuildContext context) {
- *    return TelaAbertura();
- *   }
- * }
- */

@@ -2,8 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/controllers/login_usuario.dart';
+import 'package:garagem_burger/rotas.dart';
 import 'package:garagem_burger/screens/components/botao_preto.dart';
 import 'package:garagem_burger/screens/components/campo_texto.dart';
+import 'package:garagem_burger/screens/tela_menu.dart';
 import 'package:garagem_burger/screens/tela_principal.dart';
 import 'package:garagem_burger/screens/teste.dart';
 import 'package:garagem_burger/screens/tela_cadastroUsuario.dart';
@@ -42,8 +44,7 @@ class _TelaLoginState extends State<TelaLogin> {
     _loginUsuario.outState.listen((estado) {
       switch (estado) {
         case EstadoLogin.SUCESSO:
-          Navigator.of(context)
-              .pushReplacement(MaterialPageRoute(builder: (context) => Tela()));
+          _trocarTela(context);
           break;
         case EstadoLogin.FALHA:
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -61,6 +62,15 @@ class _TelaLoginState extends State<TelaLogin> {
         case EstadoLogin.PARADO:
       }
     });
+  }
+
+  void _trocarTela(BuildContext context){
+    Navigator.of(context).pushReplacementNamed(
+      Rotas.menu,
+      arguments: null,
+      // posteriormente, passar o Usuario no 'arguments'
+      // pra acessar as informações dele dentro do app
+    );
   }
 
   @override
@@ -147,8 +157,10 @@ class _TelaLoginState extends State<TelaLogin> {
 
                             // Icone sufixo (exibir senha)
                             suffixIcon: GestureDetector(
-                              child: Icon(exibirSenha ? Icons.visibility : Icons.visibility_off),
-                              onTap: (){
+                              child: Icon(exibirSenha
+                                  ? Icons.visibility
+                                  : Icons.visibility_off),
+                              onTap: () {
                                 setState(() {
                                   exibirSenha = !exibirSenha;
                                 });
@@ -252,14 +264,7 @@ class _TelaLoginState extends State<TelaLogin> {
 
                   BotaoPreto(
                     labelText: "Entrar como visitante",
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TelaPrincipal(),
-                        ),
-                      );
-                    },
+                    onPressed: () => _trocarTela(context),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

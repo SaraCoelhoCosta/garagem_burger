@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:garagem_burger/rotas.dart';
 import 'package:garagem_burger/screens/tela_login.dart';
 
 class TelaAbertura extends StatefulWidget {
@@ -37,11 +38,8 @@ class _TelaAberturaState extends State<TelaAbertura> {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: SystemUiOverlay.values);
     Future.delayed(Duration(seconds: 2)).then((_) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => TelaLogin(),
-        ),
+      Navigator.of(context).pushReplacementNamed(
+        Rotas.login,
       );
     });
   }
