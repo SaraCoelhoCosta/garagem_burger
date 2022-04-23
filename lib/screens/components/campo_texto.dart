@@ -41,6 +41,7 @@ class CampoTexto extends StatelessWidget {
               prefixIcon: prefixIcon,
               suffixIcon: suffixIcon,
               labelText: labelText,
+              errorText: snapshot.hasError ? snapshot.error.toString() : null,
             ),
             keyboardType: keyboardType,
             focusNode: focusNode,
