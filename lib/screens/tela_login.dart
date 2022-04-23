@@ -5,9 +5,6 @@ import 'package:garagem_burger/controllers/login_usuario.dart';
 import 'package:garagem_burger/rotas.dart';
 import 'package:garagem_burger/screens/components/botao_preto.dart';
 import 'package:garagem_burger/screens/components/campo_texto.dart';
-import 'package:garagem_burger/screens/tela_menu.dart';
-import 'package:garagem_burger/screens/tela_principal.dart';
-import 'package:garagem_burger/screens/teste.dart';
 import 'package:garagem_burger/screens/tela_cadastroUsuario.dart';
 //import 'package:garagem_burger/screens/tela_esqueceuSenha.dart';
 import 'package:sign_button/sign_button.dart';
@@ -64,7 +61,7 @@ class _TelaLoginState extends State<TelaLogin> {
     });
   }
 
-  void _trocarTela(BuildContext context){
+  void _trocarTela(BuildContext context) {
     Navigator.of(context).pushReplacementNamed(
       Rotas.menu,
       arguments: null,
