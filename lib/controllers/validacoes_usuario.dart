@@ -50,7 +50,7 @@ class ValidacoesUsuario {
   final validacaoConfirmarSenha =
       StreamTransformer<String, String>.fromHandlers(
           handleData: (confirmarSenha, sink) {
-    if (_senha == confirmarSenha && _senha.isNotEmpty) {
+    if (confirmarSenha == _senha && _senha.isNotEmpty) {
       sink.add(confirmarSenha);
     } else {
       sink.addError("Senha diferente");

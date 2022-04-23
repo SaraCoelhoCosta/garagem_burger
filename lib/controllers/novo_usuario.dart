@@ -61,7 +61,7 @@ class NovoUsuario extends ValidacoesUsuario {
         !_senhaController.hasValue ||
         !_confirmarSenhaController.hasValue ||
         !_nomeController.hasValue ||
-        _telefoneController.hasValue) {
+        !_telefoneController.hasValue) {
       _estadoController.add(EstadoNovoUsuario.FALHA);
     } else {
       usuario.nome = _nomeController.value;
@@ -93,6 +93,7 @@ class NovoUsuario extends ValidacoesUsuario {
         .collection("usuarios")
         .doc(firebase.firebaseUser.uid)
         .set(dadosUsuario);
+
     _estadoController.add(EstadoNovoUsuario.SUCESSO);
   }
 }
