@@ -5,7 +5,6 @@ import 'package:garagem_burger/controllers/login_usuario.dart';
 import 'package:garagem_burger/rotas.dart';
 import 'package:garagem_burger/screens/components/botao_preto.dart';
 import 'package:garagem_burger/screens/components/campo_texto.dart';
-import 'package:garagem_burger/screens/tela_cadastroUsuario.dart';
 import 'package:sign_button/sign_button.dart';
 import 'package:google_fonts/google_fonts.dart';
 
