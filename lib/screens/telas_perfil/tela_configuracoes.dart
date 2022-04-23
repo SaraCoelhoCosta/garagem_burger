@@ -53,8 +53,8 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                       child: TextButton(
                         onPressed: editarFoto,
                         child: Container(
-                          width: 46,
-                          height: 46,
+                          width: 40,
+                          height: 40,
                           decoration: const BoxDecoration(
                             color: Colors.white,
                             shape: BoxShape.circle,
