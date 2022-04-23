@@ -5,6 +5,7 @@ import 'package:garagem_burger/controllers/novo_usuario.dart';
 import 'package:garagem_burger/screens/components/botao_preto.dart';
 import 'package:garagem_burger/screens/components/campo_texto.dart';
 import 'package:garagem_burger/screens/tela_login.dart';
+import 'package:garagem_burger/screens/tela_principal.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
@@ -50,6 +51,45 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _novoUsuario.outState.listen((estado) {
+      switch (estado) {
+        case EstadoNovoUsuario.SUCESSO:
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+              "Cadastro realizado com sucesso!",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            elevation: 6.0,
+            backgroundColor: Colors.green,
+            duration: Duration(seconds: 2),
+          ));
+
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => TelaPrincipal(),
+          ));
+          break;
+        case EstadoNovoUsuario.FALHA:
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+              "Cadastro falhou!",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            elevation: 6.0,
+            backgroundColor: Colors.red,
+            duration: Duration(seconds: 2),
+          ));
+          break;
+        case EstadoNovoUsuario.CARREGANDO:
+        case EstadoNovoUsuario.PARADO:
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     // Pega tamanho da tela.
     Size tamanho = MediaQuery.of(context).size;
@@ -65,8 +105,8 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
               return Center(
                 child: CircularProgressIndicator(),
               );
-            case EstadoNovoUsuario.SUCESSO:
             case EstadoNovoUsuario.FALHA:
+            case EstadoNovoUsuario.SUCESSO:
             case EstadoNovoUsuario.PARADO:
             default:
               return ListView(
@@ -218,8 +258,10 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
 
                             // Icone sufixo (exibir senha)
                             suffixIcon: GestureDetector(
-                              child: Icon(exibirSenha ? Icons.visibility : Icons.visibility_off),
-                              onTap: (){
+                              child: Icon(exibirSenha
+                                  ? Icons.visibility
+                                  : Icons.visibility_off),
+                              onTap: () {
                                 setState(() {
                                   exibirSenha = !exibirSenha;
                                 });
@@ -257,8 +299,10 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
 
                             // Icone sufixo (exibir senha)
                             suffixIcon: GestureDetector(
-                              child: Icon(exibirSenha ? Icons.visibility : Icons.visibility_off),
-                              onTap: (){
+                              child: Icon(exibirSenha
+                                  ? Icons.visibility
+                                  : Icons.visibility_off),
+                              onTap: () {
                                 setState(() {
                                   exibirSenha = !exibirSenha;
                                 });

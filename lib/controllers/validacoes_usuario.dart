@@ -1,7 +1,9 @@
+// ignore_for_file: prefer_final_fields
+
 import 'dart:async';
 
 class ValidacoesUsuario {
-  static late String _senha;
+  static String _senha = "";
 
   final validacaoEmail =
       StreamTransformer<String, String>.fromHandlers(handleData: (email, sink) {
@@ -39,7 +41,7 @@ class ValidacoesUsuario {
       StreamTransformer<String, String>.fromHandlers(handleData: (senha, sink) {
     if (senha.length >= 6) {
       sink.add(senha);
-      senha = _senha;
+      _senha = senha;
     } else {
       sink.addError("A senha deve conter 6 ou mais caracteres");
     }
@@ -48,7 +50,7 @@ class ValidacoesUsuario {
   final validacaoConfirmarSenha =
       StreamTransformer<String, String>.fromHandlers(
           handleData: (confirmarSenha, sink) {
-    if (confirmarSenha == _senha && _senha.isNotEmpty) {
+    if (_senha == confirmarSenha && _senha.isNotEmpty) {
       sink.add(confirmarSenha);
     } else {
       sink.addError("Senha diferente");

@@ -80,8 +80,8 @@ class NovoUsuario extends ValidacoesUsuario {
         password: usuario.senha,
       )
           .then((usuarioAtual) async {
-        firebase.firebaseUser = usuarioAtual as User;
-        // firebase.firebaseUser = usuarioAtual.user!;
+        //firebase.firebaseUser = usuarioAtual as User;
+        firebase.firebaseUser = usuarioAtual.user!;
         await _salvarDados(dadosUsuario);
       }).catchError((erro) {
         _estadoController.add(EstadoNovoUsuario.FALHA);
