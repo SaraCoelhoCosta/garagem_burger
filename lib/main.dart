@@ -13,14 +13,14 @@ import 'package:garagem_burger/screens/telas_perfil/tela_configuracoes.dart';
 import 'package:garagem_burger/screens/telas_perfil/tela_meus_cartoes.dart';
 import 'package:garagem_burger/screens/telas_perfil/tela_meus_pedidos.dart';
 import 'package:garagem_burger/screens/telas_perfil/tela_minhas_localizacoes.dart';
-import 'firebase_options.dart';
+//import 'firebase_options.dart';
 
 // Funcao principal.
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    //options: DefaultFirebaseOptions.currentPlatform,
-  );
+      //options: DefaultFirebaseOptions.currentPlatform,
+      );
   runApp(MyApp());
 }
 
@@ -46,6 +46,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+
+      initialRoute: Rotas.abertura,
 
       routes: {
         Rotas.abertura: (context) => TelaAbertura(),
