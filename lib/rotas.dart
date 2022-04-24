@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class Rotas {
-  
   static const abertura = '/';
   static const menu = '/menu';
   static const configuracoes = '/configuracoes';

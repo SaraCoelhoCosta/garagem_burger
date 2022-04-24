@@ -57,13 +57,36 @@ class _TelaMenuState extends State<TelaMenu> {
 
         // Monte seu proprio hamburguer
         GestureDetector(
-          onTap: () => Rotas.nvgComRetorno(
-            context: context,
-            rota: Rotas.meusPedidos,
-          ),
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+            onTap: () => Rotas.nvgComRetorno(
+                  context: context,
+                  rota: Rotas.meusPedidos,
+                ),
+            child: Stack(
+              children: [
+                const Center(
+                  child:
+                      Image(image: AssetImage('images/montar-hamburguer.jpeg')),
+                ),
+                // Container(
+                //   height: 200,
+                //   decoration: BoxDecoration(
+                //     borderRadius: BorderRadius.circular(15.0),
+                //     image: const DecorationImage(
+                //       image: AssetImage('images/montar-hamburguer.jpeg'),
+                //     ),
+                //   ),
+                // ),
+                Positioned(
+                  right: 170,
+                  top: 60,
+                  child: Text('Monte seu\npróprio\nhambúrguer',
+                      style: GoogleFonts.keaniaOne(
+                          fontSize: 26.0, color: Colors.white)),
+                )
+              ],
+            )
+
+            /*
             child: Container(
               height: 200,
               decoration: BoxDecoration(
@@ -84,8 +107,9 @@ class _TelaMenuState extends State<TelaMenu> {
                 ),
               ),
             ),
-          ),
-        ),
+            */
+
+            ),
 
         // Ofertas Especiais
         Padding(
