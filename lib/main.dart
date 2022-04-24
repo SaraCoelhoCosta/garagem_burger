@@ -8,6 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:garagem_burger/screens/tela_cadastroUsuario.dart';
 import 'package:garagem_burger/screens/tela_login.dart';
 import 'package:garagem_burger/screens/tela_principal.dart';
+import 'package:garagem_burger/screens/tela_produto.dart';
 import 'package:garagem_burger/screens/telas_perfil/tela_configuracoes.dart';
 import 'package:garagem_burger/screens/telas_perfil/tela_meus_cartoes.dart';
 import 'package:garagem_burger/screens/telas_perfil/tela_meus_pedidos.dart';
@@ -18,8 +19,8 @@ import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+      //options: DefaultFirebaseOptions.currentPlatform,
+      );
   runApp(MyApp());
 }
 
@@ -46,6 +47,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
 
+      initialRoute: Rotas.abertura,
+
       routes: {
         Rotas.abertura: (context) => TelaAbertura(),
         Rotas.menu: (context) => TelaPrincipal(),
@@ -55,6 +58,7 @@ class MyApp extends StatelessWidget {
         Rotas.configuracoes: (context) => TelaConfiguracoes(),
         Rotas.login: (context) => TelaLogin(),
         Rotas.cadastro: (context) => TelaCadastroUsuario(),
+        Rotas.produto: (context) => TelaProduto(),
       },
     );
   }

@@ -5,17 +5,6 @@ import 'dart:async';
 class ValidacoesUsuario {
   static String _senha = "";
 
-  final validacaoEmail =
-      StreamTransformer<String, String>.fromHandlers(handleData: (email, sink) {
-    if (email.length >= 6 && email.contains("@") && email.endsWith(".com")) {
-      sink.add(email);
-    } else if (email.isEmpty) {
-      sink.addError("E-mail obrigatório");
-    } else {
-      sink.addError("E-mail inválido");
-    }
-  });
-
   final validacaoNome =
       StreamTransformer<String, String>.fromHandlers(handleData: (nome, sink) {
     if (nome.contains(RegExp(r'[0-9]'))) {
@@ -25,6 +14,17 @@ class ValidacoesUsuario {
       sink.addError('Nome obrigatório');
     } else {
       sink.add(nome);
+    }
+  });
+
+  final validacaoEmail =
+      StreamTransformer<String, String>.fromHandlers(handleData: (email, sink) {
+    if (email.contains("@")) {
+      sink.add(email);
+    } else if (email.isEmpty) {
+      sink.addError("E-mail obrigatório");
+    } else {
+      sink.addError("E-mail inválido");
     }
   });
 

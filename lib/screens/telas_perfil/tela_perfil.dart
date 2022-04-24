@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/rotas.dart';
 import 'package:garagem_burger/screens/components/botao_transparente.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 // ignore: camel_case_types
 class TelaPerfil extends StatefulWidget {
@@ -40,10 +41,10 @@ class _TelaPerfilState extends State<TelaPerfil> {
               const SizedBox(width: 60),
               Text(
                 name,
-                style: const TextStyle(
+                style: GoogleFonts.oxygen(
                   color: Colors.black,
                   fontSize: 18,
-                  fontWeight: FontWeight.w300,
+                  fontWeight: FontWeight.bold,
                   decoration: TextDecoration.none,
                 ),
               ),
@@ -59,8 +60,8 @@ class _TelaPerfilState extends State<TelaPerfil> {
           ),
           Padding(
             padding: const EdgeInsets.only(
-              left: 25.0,
-              right: 25.0,
+              left: 15.0,
+              right: 15.0,
               top: 10.0,
             ),
             child: Column(

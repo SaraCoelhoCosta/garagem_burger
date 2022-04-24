@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/models/produto.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CardProduto extends StatelessWidget {
+  final Produto produto;
+  final Function()? onTap;
 
-  const CardProduto({ Key? key }) : super(key: key);
+  const CardProduto({
+    Key? key,
+    required this.produto,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,18 +28,19 @@ class CardProduto extends StatelessWidget {
             child: Image.asset('images/hamburguer.jpg'),
           ),
           title: Text(
-            'Hambúrguer',
+            produto.nome,
             style: GoogleFonts.oxygen(
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
             ),
           ),
           subtitle: Text(
-            'R\$ 20.00',
+            'R\$ ${produto.preco}',
             style: GoogleFonts.oxygen(
               fontSize: 20.0,
             ),
           ),
+          onTap: onTap,
         ),
       ),
     );

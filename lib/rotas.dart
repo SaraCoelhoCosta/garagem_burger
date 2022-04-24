@@ -9,6 +9,7 @@ class Rotas {
   static const minhasLocalizacoes = '/minhas-localizacoes';
   static const login = '/login';
   static const cadastro = '/cadastro';
+  static const produto = '/produto';
 
   static void nvgComRetorno({
     required BuildContext context,
