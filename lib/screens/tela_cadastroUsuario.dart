@@ -359,7 +359,7 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
                         ),
 
                         // Ação executada pelo botão.
-                        onPressed: () => Rotas.nvgComRetorno(
+                        onPressed: () => Rotas.nvgSemRetorno(
                           context: context,
                           rota: Rotas.login,
                         ),

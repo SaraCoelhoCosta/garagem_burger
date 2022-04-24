@@ -42,7 +42,12 @@ class BotaoTransparente extends StatelessWidget {
             Icons.keyboard_arrow_right,
             color: Colors.black,
           ),
-          contentPadding: const EdgeInsets.all(6),
+          contentPadding: const EdgeInsets.only(
+            bottom: 6,
+            left: 15,
+            right: 6,
+            top: 6,
+          ),
           tileColor: const Color.fromARGB(255, 244, 244, 245),
           onTap: onTap,
         ),

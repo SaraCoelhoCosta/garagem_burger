@@ -163,10 +163,16 @@ class _TelaMenuState extends State<TelaMenu> {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: _produtos
-              .map((produto) => CardProduto(produto: produto))
+              .map((produto) => CardProduto(
+                    produto: produto,
+                    onTap: () => Rotas.nvgComRetorno(
+                      context: context,
+                      rota: Rotas.produto,
+                      argumentos: produto,
+                    ),
+                  ))
               .toList(),
         ),
-
       ],
     );
   }
