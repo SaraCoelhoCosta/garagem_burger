@@ -7,6 +7,9 @@ class TelaMeusLanches extends StatelessWidget {
 
   const TelaMeusLanches({Key? key, this.telaVazia = false}) : super(key: key);
 
+  @override
+  String toStringShort() => 'Meus Lanches';
+
   Future excluirLanche(context) {
     return showDialog(
       context: context,

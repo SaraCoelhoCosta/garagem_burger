@@ -6,7 +6,11 @@ import 'package:garagem_burger/screens/components/card_produto_simples.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TelaMenu extends StatefulWidget {
+
   const TelaMenu({Key? key}) : super(key: key);
+
+  @override
+  String toStringShort() => 'Menu';
 
   @override
   State<TelaMenu> createState() => _TelaMenuState();
@@ -81,59 +85,59 @@ class _TelaMenuState extends State<TelaMenu> {
 
         // Botao Monte seu proprio hamburguer
         GestureDetector(
-            onTap: () => Rotas.nvgComRetorno(
-                  context: context,
-                  rota: Rotas.meusPedidos,
-                ),
-            child: Stack(
-              children: [
-                const Center(
-                  child:
-                      Image(image: AssetImage('images/montar-hamburguer.jpeg')),
-                ),
-                // Container(
-                //   height: 200,
-                //   decoration: BoxDecoration(
-                //     borderRadius: BorderRadius.circular(15.0),
-                //     image: const DecorationImage(
-                //       image: AssetImage('images/montar-hamburguer.jpeg'),
-                //     ),
-                //   ),
-                // ),
-                Positioned(
-                  right: 170,
-                  top: 60,
-                  child: Text('Monte seu\npróprio\nhambúrguer',
-                      style: GoogleFonts.keaniaOne(
-                          fontSize: 26.0, color: Colors.white)),
-                )
-              ],
-            )
-
-            /*
-            child: Container(
-              height: 200,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15.0),
-                image: const DecorationImage(
-                  image: AssetImage('images/montar-hamburguer.jpeg'),
-                ),
+          onTap: () => Rotas.nvgComRetorno(
+            context: context,
+            rota: Rotas.meusPedidos,
+          ),
+          child: Stack(
+            children: [
+              const Center(
+                child:
+                    Image(image: AssetImage('images/montar-hamburguer.jpeg')),
               ),
-              child: Padding(
-                padding: const EdgeInsets.only(top: 40, right: 150),
-                child: Text(
-                  'Monte seu\npróprio\nhambúrguer',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.keaniaOne(
-                    fontSize: 26.0,
-                    color: Colors.white,
-                  ),
+              // Container(
+              //   height: 200,
+              //   decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(15.0),
+              //     image: const DecorationImage(
+              //       image: AssetImage('images/montar-hamburguer.jpeg'),
+              //     ),
+              //   ),
+              // ),
+              Positioned(
+                right: 170,
+                top: 60,
+                child: Text('Monte seu\npróprio\nhambúrguer',
+                    style: GoogleFonts.keaniaOne(
+                        fontSize: 26.0, color: Colors.white)),
+              )
+            ],
+          )
+
+          /*
+          child: Container(
+            height: 200,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15.0),
+              image: const DecorationImage(
+                image: AssetImage('images/montar-hamburguer.jpeg'),
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 40, right: 150),
+              child: Text(
+                'Monte seu\npróprio\nhambúrguer',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.keaniaOne(
+                  fontSize: 26.0,
+                  color: Colors.white,
                 ),
               ),
             ),
-            */
+          ),
+          */
 
-            ),
+        ),
 
         // Titulo Ofertas Especiais
         Padding(

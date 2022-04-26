@@ -54,16 +54,18 @@ class MyApp extends StatelessWidget {
 
       routes: {
         Rotas.abertura: (context) => TelaAbertura(),
+        Rotas.login: (context) => TelaLogin(),
+        Rotas.cadastro: (context) => TelaCadastroUsuario(),
+
         Rotas.menu: (context) => TelaPrincipal(),
         Rotas.meusLanches: (context) => TelaMeusLanches(),
         Rotas.carrinho: (context) => TelaCarrinho(),
         Rotas.perfil: (context) => TelaPerfil(),
+        
         Rotas.meusPedidos: (context) => TelaMeusPedidos(),
         Rotas.minhasLocalizacoes: (context) => TelaMinhasLocalizacoes(),
         Rotas.meusCartoes: (context) => TelaMeusCartoes(),
         Rotas.configuracoes: (context) => TelaConfiguracoes(),
-        Rotas.login: (context) => TelaLogin(),
-        Rotas.cadastro: (context) => TelaCadastroUsuario(),
         Rotas.produto: (context) => TelaProduto(),
       },
     );

@@ -5,6 +5,9 @@ class TelaMinhasLocalizacoes extends StatelessWidget {
   const TelaMinhasLocalizacoes({ Key? key }) : super(key: key);
 
   @override
+  String toStringShort() => 'Minhas Localizações';
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

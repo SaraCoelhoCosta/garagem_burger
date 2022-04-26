@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/rotas.dart';
 import 'package:garagem_burger/screens/components/barra_inferior.dart';
 import 'package:garagem_burger/screens/tela_carrinho.dart';
 import 'package:garagem_burger/screens/tela_menu.dart';
 import 'package:garagem_burger/screens/tela_meus_lanches.dart';
+import 'package:garagem_burger/screens/tela_produto.dart';
+import 'package:garagem_burger/screens/telas_perfil/tela_configuracoes.dart';
+import 'package:garagem_burger/screens/telas_perfil/tela_meus_cartoes.dart';
+import 'package:garagem_burger/screens/telas_perfil/tela_meus_pedidos.dart';
+import 'package:garagem_burger/screens/telas_perfil/tela_minhas_localizacoes.dart';
 import 'package:garagem_burger/screens/telas_perfil/tela_perfil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -16,41 +22,67 @@ class TelaPrincipal extends StatefulWidget {
 
 class _TelaPrincipalState extends State<TelaPrincipal> {
 
-  int indexWidget = 0;
+  int currentIndex = 0;
+  Widget currentPage = const TelaMenu();
 
   static const _widgets = [
-    {'titulo': 'Menu', 'tela': TelaMenu()},
-    {'titulo': 'Meus Lanches', 'tela': TelaMeusLanches()},
-    {'titulo': 'Carrinho', 'tela': TelaCarrinho()},
-    {'titulo': 'Perfil', 'tela': TelaPerfil()},
+    TelaMenu(),
+    TelaMeusLanches(),
+    TelaCarrinho(),
+    TelaPerfil(),
   ];
 
-  _alterarAba(int index){
+  _switchTab(int index){
     setState(() {
-      indexWidget = index;
+      currentIndex = index;
+      currentPage = _widgets.elementAt(currentIndex);
     });
   }
 
+  // _switchBody(Widget page){
+  //   setState(() {
+  //     currentPage = page;
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xfffed80b),
         foregroundColor: Colors.black,
         centerTitle: true,
         title: Text(
-         _widgets.elementAt(indexWidget)['titulo'].toString(),
+          currentPage.toStringShort(),
           style: GoogleFonts.keaniaOne(
             fontSize: 26.0,
           ),
         ),
       ),
 
-      body: _widgets.elementAt(indexWidget)['tela'] as Widget,
+      body: currentPage,
+
+      // body: Navigator(
+      //   onGenerateRoute: (settings) {
+      //     if (settings.name == Rotas.meusPedidos) {
+      //       _switchBody(const TelaMeusPedidos());
+      //     } else if (settings.name == Rotas.minhasLocalizacoes) {
+      //       _switchBody(const TelaMinhasLocalizacoes());
+      //     } else if (settings.name == Rotas.meusCartoes) {
+      //       _switchBody(const TelaMeusCartoes());
+      //     } else if (settings.name == Rotas.configuracoes) {
+      //       _switchBody(const TelaConfiguracoes());
+      //     } else if (settings.name == Rotas.produto) {
+      //       _switchBody(const TelaProduto());
+      //     }
+      //     return MaterialPageRoute(builder: (_) => currentPage);
+      //   },
+      // ),
 
       bottomNavigationBar: BarraInferior(
-        currentIndex: indexWidget,
-        onTap: _alterarAba,
+        currentIndex: currentIndex,
+        onTap: _switchTab,
       ),
     );
   }

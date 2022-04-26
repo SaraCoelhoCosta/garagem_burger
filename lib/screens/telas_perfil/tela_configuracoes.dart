@@ -5,6 +5,9 @@ class TelaConfiguracoes extends StatefulWidget {
   const TelaConfiguracoes({Key? key}) : super(key: key);
 
   @override
+  String toStringShort() => 'Configurações';
+
+  @override
   State<TelaConfiguracoes> createState() => TelaConfiguracoesState();
 }
 
@@ -19,12 +22,12 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+       appBar: AppBar(
         backgroundColor: const Color(0xfffed80b),
         foregroundColor: Colors.black,
         centerTitle: true,
         title: Text(
-          'Configurações',
+          widget.toStringShort(),
           style: GoogleFonts.keaniaOne(
             fontSize: 26.0,
           ),

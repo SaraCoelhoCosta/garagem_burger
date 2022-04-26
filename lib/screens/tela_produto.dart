@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/models/produto.dart';
-import 'package:garagem_burger/rotas.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TelaProduto extends StatelessWidget {
+
   const TelaProduto({Key? key}) : super(key: key);
 
   @override
+  String toStringShort() => 'Produto';
+
+  @override
   Widget build(BuildContext context) {
-    final produto = ModalRoute.of(context)!.settings.arguments as Produto;
+
+    Produto produto = ModalRoute.of(context)?.settings.arguments as Produto;
 
     return Scaffold(
       body: Container(
@@ -24,15 +28,17 @@ class TelaProduto extends StatelessWidget {
             const SizedBox(height: 30),
 
             // Botao voltar
-            IconButton(
-              onPressed: () => Rotas.nvgComRetorno(
-                context: context,
-                rota: Rotas.menu,
-              ),
-              icon: const Icon(
-                Icons.arrow_back_ios_outlined,
-                color: Colors.white,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                IconButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: const Icon(
+                    Icons.arrow_back_ios_outlined,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
             ),
 
             const SizedBox(height: 30),

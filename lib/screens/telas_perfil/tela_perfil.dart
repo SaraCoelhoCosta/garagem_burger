@@ -5,7 +5,11 @@ import 'package:google_fonts/google_fonts.dart';
 
 // ignore: camel_case_types
 class TelaPerfil extends StatefulWidget {
+  
   const TelaPerfil({Key? key}) : super(key: key);
+
+  @override
+  String toStringShort() => 'Perfil';
 
   @override
   State<TelaPerfil> createState() => _TelaPerfilState();

@@ -5,6 +5,9 @@ class TelaMeusCartoes extends StatelessWidget {
   const TelaMeusCartoes({ Key? key }) : super(key: key);
 
   @override
+  String toStringShort() => 'Meus Cartões';
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
