@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 class Rotas {
   static const abertura = '/';
   static const menu = '/menu';
+  static const meusLanches = '/meus-lanches';
+  static const perfil = '/perfil';
+  static const carrinho = '/carrinho';
   static const configuracoes = '/configuracoes';
   static const meusCartoes = '/meus-cartoes';
   static const meusPedidos = '/meus-pedidos';

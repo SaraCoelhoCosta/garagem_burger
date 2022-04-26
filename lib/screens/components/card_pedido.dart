@@ -30,7 +30,7 @@ class CardPedido extends StatelessWidget {
         child: ListTile(
           leading: ClipRRect(
             borderRadius: BorderRadius.circular(15.0),
-            child: Image.asset('images/hamburguer.jpg'),
+            child: Image.asset('images/pedido.jpg'),
           ),
           title: Text(
             text,

@@ -111,19 +111,6 @@ class TelaMeusPedidos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xfffed80b),
-        foregroundColor: Colors.black,
-        centerTitle: true,
-        title: Text(
-          'Meus Pedidos',
-          style: GoogleFonts.keaniaOne(
-            fontSize: 26.0,
-          ),
-        ),
-      ),
-      body: (telaVazia) ? telaMeusPedidosVazia() : telaMeusPedidos(),
-    );
+    return (telaVazia) ? telaMeusPedidosVazia() : telaMeusPedidos();
   }
 }

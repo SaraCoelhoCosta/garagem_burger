@@ -5,15 +5,18 @@ import 'package:garagem_burger/rotas.dart';
 import 'package:garagem_burger/screens/tela_abertura.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:garagem_burger/screens/tela_cadastroUsuario.dart';
+import 'package:garagem_burger/screens/tela_cadastro_usuario.dart';
+import 'package:garagem_burger/screens/tela_carrinho.dart';
 import 'package:garagem_burger/screens/tela_login.dart';
+import 'package:garagem_burger/screens/tela_meus_lanches.dart';
 import 'package:garagem_burger/screens/tela_principal.dart';
 import 'package:garagem_burger/screens/tela_produto.dart';
 import 'package:garagem_burger/screens/telas_perfil/tela_configuracoes.dart';
 import 'package:garagem_burger/screens/telas_perfil/tela_meus_cartoes.dart';
 import 'package:garagem_burger/screens/telas_perfil/tela_meus_pedidos.dart';
 import 'package:garagem_burger/screens/telas_perfil/tela_minhas_localizacoes.dart';
-import 'firebase_options.dart';
+import 'package:garagem_burger/screens/telas_perfil/tela_perfil.dart';
+// import 'firebase_options.dart';
 
 // Funcao principal.
 void main() async {
@@ -52,6 +55,9 @@ class MyApp extends StatelessWidget {
       routes: {
         Rotas.abertura: (context) => TelaAbertura(),
         Rotas.menu: (context) => TelaPrincipal(),
+        Rotas.meusLanches: (context) => TelaMeusLanches(),
+        Rotas.carrinho: (context) => TelaCarrinho(),
+        Rotas.perfil: (context) => TelaPerfil(),
         Rotas.meusPedidos: (context) => TelaMeusPedidos(),
         Rotas.minhasLocalizacoes: (context) => TelaMinhasLocalizacoes(),
         Rotas.meusCartoes: (context) => TelaMeusCartoes(),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/screens/components/barra_inferior.dart';
 import 'package:garagem_burger/screens/tela_carrinho.dart';
 import 'package:garagem_burger/screens/tela_menu.dart';
 import 'package:garagem_burger/screens/tela_meus_lanches.dart';
@@ -24,6 +25,12 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
     {'titulo': 'Perfil', 'tela': TelaPerfil()},
   ];
 
+  _alterarAba(int index){
+    setState(() {
+      indexWidget = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +39,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
         foregroundColor: Colors.black,
         centerTitle: true,
         title: Text(
-          _widgets.elementAt(indexWidget)['titulo'].toString(),
+         _widgets.elementAt(indexWidget)['titulo'].toString(),
           style: GoogleFonts.keaniaOne(
             fontSize: 26.0,
           ),
@@ -41,37 +48,9 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
 
       body: _widgets.elementAt(indexWidget)['tela'] as Widget,
 
-      bottomNavigationBar: BottomNavigationBar(
-
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.content_paste),
-            label: 'Menu',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.fastfood),
-            label: 'Meus Lanches',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart_outlined),
-            label: 'Carrinho',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline_sharp),
-            label: 'Perfil',
-          ),
-        ],
-        
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.black,
+      bottomNavigationBar: BarraInferior(
         currentIndex: indexWidget,
-        selectedItemColor: const Color(0xfffed80b),
-        unselectedItemColor: Colors.white,
-        onTap: (index) {
-          setState(() {
-            indexWidget = index;
-          });
-        },
+        onTap: _alterarAba,
       ),
     );
   }
