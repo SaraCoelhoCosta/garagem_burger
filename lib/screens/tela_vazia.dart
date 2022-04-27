@@ -9,6 +9,7 @@ class TelaVazia extends StatelessWidget {
   final String titulo;
   final String subtitulo;
   final String rodape;
+  final Object? argumentos;
 
   const TelaVazia({
     Key? key,
@@ -18,6 +19,7 @@ class TelaVazia extends StatelessWidget {
     required this.titulo,
     required this.subtitulo,
     required this.rodape,
+    this.argumentos,
   }) : super(key: key);
 
   @override
@@ -44,6 +46,7 @@ class TelaVazia extends StatelessWidget {
                     onPressed: () => Rotas.nvgComRetorno(
                       context: context,
                       rota: rota,
+                      argumentos: argumentos,
                     ),
                     child: Text(
                       titulo,

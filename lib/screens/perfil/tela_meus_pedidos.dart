@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/data/rotas.dart';
 import 'package:garagem_burger/screens/components/card_pedido.dart';
+import 'package:garagem_burger/screens/tela_menu.dart';
 import 'package:garagem_burger/screens/tela_vazia.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -25,7 +26,7 @@ class _TelaMeusPedidosState extends State<TelaMeusPedidos> {
     });
   }
 
-  Widget _buildTela(BuildContext context){
+  Widget _buildTela(){
     return ListView(
       children: [
         const SizedBox(height: 10),
@@ -76,12 +77,13 @@ class _TelaMeusPedidosState extends State<TelaMeusPedidos> {
       titulo: 'IR PARA O MENU',
       subtitulo: 'Você ainda não fez nenhum pedido.',
       rodape: 'Encontre o produto que deseja no Menu.',
+      argumentos: [0, TelaMenu()],
     );
   }
 
   @override
   Widget build(BuildContext context) {
 
-    return (emptyPage) ? _buildTelaVazia() : _buildTela(context);
+    return (emptyPage) ? _buildTelaVazia() : _buildTela();
   }
 }
