@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/rotas.dart';
+import 'package:garagem_burger/screens/montar_hamburguer/tela_montar_hamburguer.dart';
 import 'package:garagem_burger/screens/tela_abertura.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -11,11 +12,12 @@ import 'package:garagem_burger/screens/tela_login.dart';
 import 'package:garagem_burger/screens/tela_meus_lanches.dart';
 import 'package:garagem_burger/screens/tela_principal.dart';
 import 'package:garagem_burger/screens/tela_produto.dart';
-import 'package:garagem_burger/screens/telas_perfil/tela_configuracoes.dart';
-import 'package:garagem_burger/screens/telas_perfil/tela_meus_cartoes.dart';
-import 'package:garagem_burger/screens/telas_perfil/tela_meus_pedidos.dart';
-import 'package:garagem_burger/screens/telas_perfil/tela_minhas_localizacoes.dart';
-import 'package:garagem_burger/screens/telas_perfil/tela_perfil.dart';
+import 'package:garagem_burger/screens/perfil/tela_configuracoes.dart';
+import 'package:garagem_burger/screens/perfil/tela_meus_cartoes.dart';
+import 'package:garagem_burger/screens/perfil/tela_meus_pedidos.dart';
+import 'package:garagem_burger/screens/perfil/tela_minhas_localizacoes.dart';
+import 'package:garagem_burger/screens/perfil/tela_perfil.dart';
+import 'package:garagem_burger/screens/tela_vazia.dart';
 // import 'firebase_options.dart';
 
 // Funcao principal.
@@ -66,7 +68,10 @@ class MyApp extends StatelessWidget {
         Rotas.minhasLocalizacoes: (context) => TelaMinhasLocalizacoes(),
         Rotas.meusCartoes: (context) => TelaMeusCartoes(),
         Rotas.configuracoes: (context) => TelaConfiguracoes(),
+        
         Rotas.produto: (context) => TelaProduto(),
+        Rotas.montarHamburguer: (context) => TelaMontarHamburguer(),
+        Rotas.telaVazia: (context) => TelaVazia(),
       },
     );
   }

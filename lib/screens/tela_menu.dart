@@ -87,7 +87,7 @@ class _TelaMenuState extends State<TelaMenu> {
         GestureDetector(
           onTap: () => Rotas.nvgComRetorno(
             context: context,
-            rota: Rotas.meusPedidos,
+            rota: Rotas.montarHamburguer,
           ),
           child: Stack(
             children: [

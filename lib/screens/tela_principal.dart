@@ -3,7 +3,7 @@ import 'package:garagem_burger/screens/components/barra_inferior.dart';
 import 'package:garagem_burger/screens/tela_carrinho.dart';
 import 'package:garagem_burger/screens/tela_menu.dart';
 import 'package:garagem_burger/screens/tela_meus_lanches.dart';
-import 'package:garagem_burger/screens/telas_perfil/tela_perfil.dart';
+import 'package:garagem_burger/screens/perfil/tela_perfil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TelaPrincipal extends StatefulWidget {
