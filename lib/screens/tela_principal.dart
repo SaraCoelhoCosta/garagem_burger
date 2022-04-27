@@ -18,6 +18,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
 
   int currentIndex = 0;
   Widget currentPage = const TelaMenu();
+  bool attPage = false;
 
   static const _widgets = [
     TelaMenu(),
@@ -33,14 +34,15 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
     });
   }
 
-  // _switchBody(Widget page){
-  //   setState(() {
-  //     currentPage = page;
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
+
+    if(!attPage){
+      List propriedades = ModalRoute.of(context)?.settings.arguments as List;
+      currentIndex = propriedades.elementAt(0) as int;
+      currentPage = propriedades.elementAt(1) as Widget;
+      attPage = true;
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -56,23 +58,6 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
       ),
 
       body: currentPage,
-
-      // body: Navigator(
-      //   onGenerateRoute: (settings) {
-      //     if (settings.name == Rotas.meusPedidos) {
-      //       _switchBody(const TelaMeusPedidos());
-      //     } else if (settings.name == Rotas.minhasLocalizacoes) {
-      //       _switchBody(const TelaMinhasLocalizacoes());
-      //     } else if (settings.name == Rotas.meusCartoes) {
-      //       _switchBody(const TelaMeusCartoes());
-      //     } else if (settings.name == Rotas.configuracoes) {
-      //       _switchBody(const TelaConfiguracoes());
-      //     } else if (settings.name == Rotas.produto) {
-      //       _switchBody(const TelaProduto());
-      //     }
-      //     return MaterialPageRoute(builder: (_) => currentPage);
-      //   },
-      // ),
 
       bottomNavigationBar: BarraInferior(
         currentIndex: currentIndex,

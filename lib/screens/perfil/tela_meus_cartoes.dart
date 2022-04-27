@@ -9,25 +9,12 @@ class TelaMeusCartoes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xfffed80b),
-        foregroundColor: Colors.black,
-        centerTitle: true,
-        title: Text(
-          'Meus Cartões',
-          style: GoogleFonts.keaniaOne(
-            fontSize: 26.0,
-          ),
-        ),
-      ),
-      body: Center(
-        child: Text(
-          'Meus Cartões',
-          style: GoogleFonts.oxygen(
-            fontSize: 26,
-            fontWeight: FontWeight.bold,
-          ),
+    return Center(
+      child: Text(
+        'Meus Cartões',
+        style: GoogleFonts.oxygen(
+          fontSize: 26,
+          fontWeight: FontWeight.bold,
         ),
       ),
     );

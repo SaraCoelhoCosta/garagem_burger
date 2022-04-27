@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/models/produto.dart';
-import 'package:garagem_burger/rotas.dart';
+import 'package:garagem_burger/data/rotas.dart';
 import 'package:garagem_burger/screens/components/card_produto.dart';
 import 'package:garagem_burger/screens/components/card_produto_simples.dart';
 import 'package:google_fonts/google_fonts.dart';

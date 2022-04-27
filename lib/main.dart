@@ -1,23 +1,15 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:garagem_burger/rotas.dart';
+import 'package:garagem_burger/data/rotas.dart';
 import 'package:garagem_burger/screens/montar_hamburguer/tela_montar_hamburguer.dart';
 import 'package:garagem_burger/screens/tela_abertura.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:garagem_burger/screens/tela_cadastro_usuario.dart';
-import 'package:garagem_burger/screens/tela_carrinho.dart';
 import 'package:garagem_burger/screens/tela_login.dart';
-import 'package:garagem_burger/screens/tela_meus_lanches.dart';
 import 'package:garagem_burger/screens/tela_principal.dart';
 import 'package:garagem_burger/screens/tela_produto.dart';
-import 'package:garagem_burger/screens/perfil/tela_configuracoes.dart';
-import 'package:garagem_burger/screens/perfil/tela_meus_cartoes.dart';
-import 'package:garagem_burger/screens/perfil/tela_meus_pedidos.dart';
-import 'package:garagem_burger/screens/perfil/tela_minhas_localizacoes.dart';
-import 'package:garagem_burger/screens/perfil/tela_perfil.dart';
-import 'package:garagem_burger/screens/tela_vazia.dart';
 // import 'firebase_options.dart';
 
 // Funcao principal.
@@ -52,26 +44,17 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
 
-      initialRoute: Rotas.abertura,
+      initialRoute: Rotas.home,
 
       routes: {
-        Rotas.abertura: (context) => TelaAbertura(),
+        Rotas.home: (context) => TelaAbertura(),
         Rotas.login: (context) => TelaLogin(),
         Rotas.cadastro: (context) => TelaCadastroUsuario(),
 
-        Rotas.menu: (context) => TelaPrincipal(),
-        Rotas.meusLanches: (context) => TelaMeusLanches(),
-        Rotas.carrinho: (context) => TelaCarrinho(),
-        Rotas.perfil: (context) => TelaPerfil(),
-        
-        Rotas.meusPedidos: (context) => TelaMeusPedidos(),
-        Rotas.minhasLocalizacoes: (context) => TelaMinhasLocalizacoes(),
-        Rotas.meusCartoes: (context) => TelaMeusCartoes(),
-        Rotas.configuracoes: (context) => TelaConfiguracoes(),
+        Rotas.main: (context) => TelaPrincipal(),
         
         Rotas.produto: (context) => TelaProduto(),
         Rotas.montarHamburguer: (context) => TelaMontarHamburguer(),
-        Rotas.telaVazia: (context) => TelaVazia(),
       },
     );
   }

@@ -1,8 +1,7 @@
 // ignore_for_file: file_names, prefer_const_constructors, unnecessary_new, sized_box_for_whitespace, avoid_print, prefer_collection_literals, override_on_non_overriding_member
-
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/controllers/novo_usuario.dart';
-import 'package:garagem_burger/rotas.dart';
+import 'package:garagem_burger/data/rotas.dart';
 import 'package:garagem_burger/screens/components/botao_preto.dart';
 import 'package:garagem_burger/screens/components/campo_texto.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -57,7 +56,7 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
         case EstadoNovoUsuario.SUCESSO:
           Rotas.nvgSemRetorno(
             context: context,
-            rota: Rotas.menu,
+            rota: Rotas.main,
           );
           break;
         case EstadoNovoUsuario.FALHA:

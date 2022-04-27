@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:garagem_burger/rotas.dart';
+import 'package:garagem_burger/data/rotas.dart';
 import 'package:garagem_burger/screens/components/botao_transparente.dart';
+import 'package:garagem_burger/screens/perfil/tela_configuracoes.dart';
+import 'package:garagem_burger/screens/perfil/tela_meus_cartoes.dart';
+import 'package:garagem_burger/screens/perfil/tela_meus_pedidos.dart';
+import 'package:garagem_burger/screens/perfil/tela_minhas_localizacoes.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // ignore: camel_case_types
 class TelaPerfil extends StatefulWidget {
-  
   const TelaPerfil({Key? key}) : super(key: key);
 
   @override
@@ -17,7 +20,7 @@ class TelaPerfil extends StatefulWidget {
 
 // ignore: camel_case_types
 class _TelaPerfilState extends State<TelaPerfil> {
-  final String name = 'Nome do usuário';
+  final String name = 'Miyamura Tanaki';
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +29,25 @@ class _TelaPerfilState extends State<TelaPerfil> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const SizedBox(height: 30),
+
+          // ListTile(
+          //   leading: const CircleAvatar(
+          //     backgroundColor: Colors.grey,
+          //     backgroundImage: AssetImage("images/profile.png"),
+          //   ),
+          //   title: Text(
+          //     name,
+          //     style: GoogleFonts.oxygen(
+          //       color: Colors.black,
+          //       fontSize: 18,
+          //       fontWeight: FontWeight.bold,
+          //       decoration: TextDecoration.none,
+          //     ),
+          //   ),
+          // ),
+
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               SizedBox(
                 height: 115,
@@ -42,7 +62,6 @@ class _TelaPerfilState extends State<TelaPerfil> {
                   ],
                 ),
               ),
-              const SizedBox(width: 60),
               Text(
                 name,
                 style: GoogleFonts.oxygen(
@@ -54,7 +73,9 @@ class _TelaPerfilState extends State<TelaPerfil> {
               ),
             ],
           ),
+
           const SizedBox(height: 20),
+
           const Divider(
             height: 20,
             thickness: 1,
@@ -75,7 +96,8 @@ class _TelaPerfilState extends State<TelaPerfil> {
                   icon: Icons.shopping_cart_outlined,
                   onTap: () => Rotas.nvgComRetorno(
                     context: context,
-                    rota: Rotas.meusPedidos,
+                    rota: Rotas.main,
+                    argumentos: [3, const TelaMeusPedidos()],
                   ),
                 ),
                 BotaoTransparente(
@@ -83,7 +105,8 @@ class _TelaPerfilState extends State<TelaPerfil> {
                   icon: Icons.location_on_outlined,
                   onTap: () => Rotas.nvgComRetorno(
                     context: context,
-                    rota: Rotas.minhasLocalizacoes,
+                    rota: Rotas.main,
+                    argumentos: [3, const TelaMinhasLocalizacoes()],
                   ),
                 ),
                 BotaoTransparente(
@@ -91,7 +114,8 @@ class _TelaPerfilState extends State<TelaPerfil> {
                   icon: Icons.credit_card_outlined,
                   onTap: () => Rotas.nvgComRetorno(
                     context: context,
-                    rota: Rotas.meusCartoes,
+                    rota: Rotas.main,
+                    argumentos: [3, const TelaMeusCartoes()],
                   ),
                 ),
                 BotaoTransparente(
@@ -99,7 +123,8 @@ class _TelaPerfilState extends State<TelaPerfil> {
                   icon: Icons.settings,
                   onTap: () => Rotas.nvgComRetorno(
                     context: context,
-                    rota: Rotas.configuracoes,
+                    rota: Rotas.main,
+                    argumentos: [3, const TelaConfiguracoes()],
                   ),
                 ),
                 BotaoTransparente(
@@ -107,7 +132,7 @@ class _TelaPerfilState extends State<TelaPerfil> {
                   icon: Icons.exit_to_app,
                   onTap: () => Rotas.nvgSemRetorno(
                     context: context,
-                    rota: Rotas.abertura,
+                    rota: Rotas.home,
                   ),
                 ),
               ],

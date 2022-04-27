@@ -101,7 +101,10 @@ class TelaProduto extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xfffed80b),
         foregroundColor: Colors.black,
-        child: const Icon(Icons.add),
+        child: const Icon(
+          Icons.keyboard_arrow_up_outlined,
+          size: 35,
+        ),
         onPressed: () => _openModal(context),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

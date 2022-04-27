@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class TelaConfiguracoes extends StatefulWidget {
   const TelaConfiguracoes({Key? key}) : super(key: key);
@@ -21,19 +20,7 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-       appBar: AppBar(
-        backgroundColor: const Color(0xfffed80b),
-        foregroundColor: Colors.black,
-        centerTitle: true,
-        title: Text(
-          widget.toStringShort(),
-          style: GoogleFonts.keaniaOne(
-            fontSize: 26.0,
-          ),
-        ),
-      ),
-      body: ListView(
+    return ListView(
         children: [
           const SizedBox(height: 30),
           Row(
@@ -86,7 +73,6 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
             ],
           ),
         ],
-      ),
-    );
+      );
   }
 }

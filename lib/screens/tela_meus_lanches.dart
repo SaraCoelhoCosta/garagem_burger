@@ -1,43 +1,52 @@
 import 'package:flutter/material.dart';
-import 'package:garagem_burger/rotas.dart';
+import 'package:garagem_burger/data/rotas.dart';
 import 'package:garagem_burger/screens/components/card_lanche.dart';
+import 'package:garagem_burger/screens/tela_vazia.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class TelaMeusLanches extends StatelessWidget {
+class TelaMeusLanches extends StatefulWidget {
   const TelaMeusLanches({Key? key}) : super(key: key);
 
   @override
   String toStringShort() => 'Meus Lanches';
 
+  @override
+  State<TelaMeusLanches> createState() => _TelaMeusLanchesState();
+}
+
+class _TelaMeusLanchesState extends State<TelaMeusLanches> {
+  bool emptyPage = false;
+
+  void _switchBody(bool pageState) {
+    setState(() {
+      emptyPage = pageState;
+    });
+  }
+
   Future excluirLanche(context) {
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title:
-            const Text('Excluir lanche', style: TextStyle(color: Colors.red)),
+        title: const Text(
+          'Excluir lanche',
+          style: TextStyle(color: Colors.red),
+        ),
         content: const Text('Deseja excluir todos os seus lanches?'),
         actions: <Widget>[
           MaterialButton(
             elevation: 5.0,
             child: const Text('Sim'),
             onPressed: () {
-              Rotas.nvgSemRetorno(
-                context: context,
-                rota: Rotas.telaVazia,
-                argumentos: {
-                  'page': 'Meus Lanches',
-                  'rota': Rotas.montarHamburguer,
-                  'icon': Icons.fastfood,
-                  'titulo': 'MONTE SEU PRÓPRIO HAMBÚRGUER',
-                  'subtitulo': 'Você ainda não montou nenhum lanche.',
-                  'rodape': 'Dê um nome as suas criações, e elas aparecerão aqui.',
-                },
-              );
+              Navigator.of(context).pop();
+              _switchBody(true);
             },
           ),
           MaterialButton(
             elevation: 5.0,
-            child: const Text('Não', style: TextStyle(color: Colors.red)),
+            child: const Text(
+              'Não',
+              style: TextStyle(color: Colors.red),
+            ),
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -47,8 +56,7 @@ class TelaMeusLanches extends StatelessWidget {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildTela(BuildContext context) {
     return ListView(
       children: [
         const SizedBox(height: 10),
@@ -85,5 +93,22 @@ class TelaMeusLanches extends StatelessWidget {
         const CardLanche(text: 'Big Tentação de Lara'),
       ],
     );
+  }
+ 
+  Widget _buildTelaVazia() {
+    return const TelaVazia(
+      pageName: 'Meus Lanches',
+      icon: Icons.fastfood,
+      rota: Rotas.montarHamburguer,
+      titulo: 'MONTE SEU PRÓPRIO HAMBÚRGUER',
+      subtitulo: 'Você ainda não montou nenhum lanche.',
+      rodape: 'Dê um nome as suas criações, e elas aparecerão aqui.',
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    return (emptyPage) ? _buildTelaVazia() : _buildTela(context);
   }
 }

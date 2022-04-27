@@ -1,10 +1,10 @@
 // ignore_for_file: file_names, prefer_const_constructors, unnecessary_new, sized_box_for_whitespace
-
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/controllers/login_usuario.dart';
-import 'package:garagem_burger/rotas.dart';
+import 'package:garagem_burger/data/rotas.dart';
 import 'package:garagem_burger/screens/components/botao_preto.dart';
 import 'package:garagem_burger/screens/components/campo_texto.dart';
+import 'package:garagem_burger/screens/tela_menu.dart';
 import 'package:sign_button/sign_button.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -39,7 +39,7 @@ class _TelaLoginState extends State<TelaLogin> {
     _loginUsuario.outState.listen((estado) {
       switch (estado) {
         case EstadoLogin.SUCESSO:
-          Rotas.nvgSemRetorno(context: context, rota: Rotas.menu);
+          Rotas.nvgSemRetorno(context: context, rota: Rotas.main);
           break;
         case EstadoLogin.FALHA:
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -252,7 +252,8 @@ class _TelaLoginState extends State<TelaLogin> {
                     labelText: "Entrar como visitante",
                     onPressed: () => Rotas.nvgSemRetorno(
                       context: context,
-                      rota: Rotas.menu,
+                      rota: Rotas.main,
+                      argumentos: [0, TelaMenu()],
                     ),
                   ),
                   Row(
