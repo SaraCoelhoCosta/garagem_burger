@@ -1,17 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/models/produto.dart';
+import 'package:garagem_burger/screens/components/modal_produto.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TelaProduto extends StatelessWidget {
-
   const TelaProduto({Key? key}) : super(key: key);
 
   @override
   String toStringShort() => 'Produto';
 
+  void _addCarrinho(BuildContext context, int qnt) {
+    Navigator.of(context).pop(); // Fecha o modal
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          '$qnt produto(s) adicionado(s) no carrinho',
+          textAlign: TextAlign.center,
+          style: GoogleFonts.oxygen(
+            fontSize: 16.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        elevation: 6.0,
+        backgroundColor: Colors.blue,
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
+  _openModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (_) {
+        return ModalProduto(
+          addCarrinho: _addCarrinho,
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-
     Produto produto = ModalRoute.of(context)?.settings.arguments as Produto;
 
     return Scaffold(
@@ -68,6 +98,13 @@ class TelaProduto extends StatelessWidget {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xfffed80b),
+        foregroundColor: Colors.black,
+        child: const Icon(Icons.add),
+        onPressed: () => _openModal(context),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

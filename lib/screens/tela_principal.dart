@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:garagem_burger/rotas.dart';
 import 'package:garagem_burger/screens/components/barra_inferior.dart';
 import 'package:garagem_burger/screens/tela_carrinho.dart';
 import 'package:garagem_burger/screens/tela_menu.dart';
 import 'package:garagem_burger/screens/tela_meus_lanches.dart';
-import 'package:garagem_burger/screens/tela_produto.dart';
-import 'package:garagem_burger/screens/telas_perfil/tela_configuracoes.dart';
-import 'package:garagem_burger/screens/telas_perfil/tela_meus_cartoes.dart';
-import 'package:garagem_burger/screens/telas_perfil/tela_meus_pedidos.dart';
-import 'package:garagem_burger/screens/telas_perfil/tela_minhas_localizacoes.dart';
 import 'package:garagem_burger/screens/telas_perfil/tela_perfil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
