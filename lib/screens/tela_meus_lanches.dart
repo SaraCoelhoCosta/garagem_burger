@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/data/rotas.dart';
 import 'package:garagem_burger/screens/components/card_lanche.dart';
+import 'package:garagem_burger/screens/components/popup_dialog.dart';
 import 'package:garagem_burger/screens/tela_vazia.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -17,6 +18,15 @@ class TelaMeusLanches extends StatefulWidget {
 class _TelaMeusLanchesState extends State<TelaMeusLanches> {
   bool emptyPage = false;
 
+  List<CardLanche> lanchesList = [
+    const CardLanche(text: 'X-Infarto de Sara'),
+    const CardLanche(text: 'Morgana de Will'),
+    const CardLanche(text: 'Big Tentação de Lara'),
+    const CardLanche(text: 'X-Infarto de Sara'),
+    const CardLanche(text: 'Morgana de Will'),
+    const CardLanche(text: 'Big Tentação de Lara'),
+  ];
+
   void _switchBody(bool pageState) {
     setState(() {
       emptyPage = pageState;
@@ -26,33 +36,19 @@ class _TelaMeusLanchesState extends State<TelaMeusLanches> {
   Future excluirLanche(context) {
     return showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text(
-          'Excluir lanche',
-          style: TextStyle(color: Colors.red),
-        ),
-        content: const Text('Deseja excluir todos os seus lanches?'),
-        actions: <Widget>[
-          MaterialButton(
-            elevation: 5.0,
-            child: const Text('Sim'),
-            onPressed: () {
-              Navigator.of(context).pop();
-              _switchBody(true);
-            },
-          ),
-          MaterialButton(
-            elevation: 5.0,
-            child: const Text(
-              'Não',
-              style: TextStyle(color: Colors.red),
-            ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      ),
+      builder: (context) {
+        return PopupDialog(
+          titulo: 'Excluir lanche',
+          descricao: 'Deseja excluir todos os seus lanches?',
+          onPressedYesOption: () {
+            Navigator.of(context).pop();
+            _switchBody(true);
+          },
+          onPressedNoOption: () {
+            Navigator.of(context).pop();
+          },
+        );
+      },
     );
   }
 
@@ -85,16 +81,13 @@ class _TelaMeusLanchesState extends State<TelaMeusLanches> {
           ],
         ),
         const SizedBox(height: 20),
-        const CardLanche(text: 'X-Infarto de Sara'),
-        const CardLanche(text: 'Morgana de Will'),
-        const CardLanche(text: 'Big Tentação de Lara'),
-        const CardLanche(text: 'X-Infarto de Sara'),
-        const CardLanche(text: 'Morgana de Will'),
-        const CardLanche(text: 'Big Tentação de Lara'),
+        Column(
+          children: lanchesList,
+        ),
       ],
     );
   }
- 
+
   Widget _buildTelaVazia() {
     return const TelaVazia(
       pageName: 'Meus Lanches',
@@ -108,7 +101,6 @@ class _TelaMeusLanchesState extends State<TelaMeusLanches> {
 
   @override
   Widget build(BuildContext context) {
-
     return (emptyPage) ? _buildTelaVazia() : _buildTela(context);
   }
 }

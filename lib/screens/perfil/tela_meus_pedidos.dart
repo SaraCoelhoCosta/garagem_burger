@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/data/rotas.dart';
 import 'package:garagem_burger/screens/components/card_pedido.dart';
+import 'package:garagem_burger/screens/components/popup_dialog.dart';
 import 'package:garagem_burger/screens/tela_menu.dart';
 import 'package:garagem_burger/screens/tela_vazia.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,6 +27,25 @@ class _TelaMeusPedidosState extends State<TelaMeusPedidos> {
     });
   }
 
+  Future _excluirPedido(context) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return PopupDialog(
+          titulo: 'Excluir pedido',
+          descricao: 'Deseja excluir o histórico de pedidos?',
+          onPressedYesOption: () {
+            Navigator.of(context).pop();
+            _switchBody(true);
+          },
+          onPressedNoOption: () {
+            Navigator.of(context).pop();
+          },
+        );
+      },
+    );
+  }
+
   Widget _buildTela(){
     return ListView(
       children: [
@@ -34,7 +54,12 @@ class _TelaMeusPedidosState extends State<TelaMeusPedidos> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             TextButton.icon(
-              onPressed: () => _switchBody(true),
+              onPressed: () {
+                Future.delayed(
+                  const Duration(seconds: 0),
+                  () => _excluirPedido(context),
+                );
+              },
               label: Text('Apagar histórico de pedidos',
                   style: GoogleFonts.oxygen(
                     fontSize: 15,
