@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:garagem_burger/models/localizacao.dart';
 import 'package:garagem_burger/models/pedido.dart';
 import 'package:garagem_burger/models/produto.dart';
 
@@ -75,5 +76,26 @@ final pedidos = [
     data: "26/04/2022",
     hora: "21:00",
     status: Status.entregue,
+  ),
+];
+
+final localizacoes = [
+  Localizacao(
+    id: Random().nextDouble().toString(),
+    rua: 'Rua ABC',
+    numero: 150,
+    bairro: 'Jequiézinho',
+    cidade: 'Jequié',
+    estado: 'Bahia',
+    descricao: 'Minha casa',
+  ),
+  Localizacao(
+    id: Random().nextDouble().toString(),
+    rua: 'Rua Bruno Neto',
+    numero: 1587,
+    bairro: 'Mandacaru',
+    cidade: 'Jequié',
+    estado: 'Bahia',
+    descricao: 'Casa de Tia Mony',
   ),
 ];

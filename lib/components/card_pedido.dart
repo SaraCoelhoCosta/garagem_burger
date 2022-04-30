@@ -13,22 +13,22 @@ class CardPedido extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color color;
-  IconData icon;
+    IconData icon;
 
-  switch (pedido.status) {
-    case Status.entregue:
-      color = Colors.green;
-      icon = Icons.check_circle_outline;
-      break;
-    case Status.pendente:
-      color = const Color(0xfffed80b);
-      icon = Icons.error_outline;
-      break;
-    case Status.cancelado:
-      color = Colors.red;
-      icon = Icons.cancel_outlined;
-      break;
-  }
+    switch (pedido.status) {
+      case Status.entregue:
+        color = Colors.green;
+        icon = Icons.check_circle_outline;
+        break;
+      case Status.pendente:
+        color = const Color(0xfffed80b);
+        icon = Icons.error_outline;
+        break;
+      case Status.cancelado:
+        color = Colors.red;
+        icon = Icons.cancel_outlined;
+        break;
+    }
 
     return Padding(
       padding: const EdgeInsets.symmetric(

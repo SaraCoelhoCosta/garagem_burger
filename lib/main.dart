@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/pages/meus_lanches/tela_montar_hamburguer.dart';
+import 'package:garagem_burger/pages/localizacao/tela_nova_localizacao.dart';
+import 'package:garagem_burger/providers/provider_localizacoes.dart';
 import 'package:garagem_burger/providers/provider_pedidos.dart';
 import 'package:garagem_burger/providers/provider_produtos.dart';
 import 'package:garagem_burger/providers/provider_lanches.dart';
@@ -16,7 +18,6 @@ import 'package:garagem_burger/pages/menu/tela_produto.dart';
 import 'package:provider/provider.dart';
 // import 'firebase_options.dart';
 
-// Funcao principal.
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ProviderProdutos()),
         ChangeNotifierProvider(create: (_) => ProviderLanches()),
         ChangeNotifierProvider(create: (_) => ProviderPedidos()),
+        ChangeNotifierProvider(create: (_) => ProviderLocalizacoes()),
       ],
       child: MaterialApp(
         localizationsDelegates: [
@@ -51,9 +53,9 @@ class MyApp extends StatelessWidget {
       
         theme: ThemeData(
           primarySwatch: Colors.blue,
-          colorScheme: ColorScheme.light(
-            secondary: const Color(0xfffed80b),
-          ),
+          // colorScheme: ColorScheme.light(
+          //   secondary: const Color(0xfffed80b),
+          // ),
         ),
       
         initialRoute: Rotas.home,
@@ -67,6 +69,7 @@ class MyApp extends StatelessWidget {
           
           Rotas.produto: (context) => TelaProduto(),
           Rotas.montarHamburguer: (context) => TelaMontarHamburguer(),
+          Rotas.localizacoes: (context) => TelaNovaLocalizacao(),
         },
       ),
     );

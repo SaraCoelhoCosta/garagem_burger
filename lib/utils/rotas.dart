@@ -10,6 +10,8 @@ class Rotas {
   static const montarHamburguer = '/montar-hamburguer';
   static const produto = '/produto';
 
+  static const localizacoes = '/localizacoes';
+
   static void nvgComRetorno({
     required BuildContext context,
     required String rota,

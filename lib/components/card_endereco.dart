@@ -1,39 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:garagem_burger/providers/provider_lanches.dart';
-import 'package:garagem_burger/models/produto.dart';
+import 'package:garagem_burger/models/localizacao.dart';
+import 'package:garagem_burger/providers/provider_localizacoes.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class CardLanche extends StatelessWidget {
-  final Produto lanche;
+class CardEndereco extends StatelessWidget {
+  final Localizacao localizacao;
 
-  const CardLanche({
+  const CardEndereco({
     Key? key,
-    required this.lanche,
+    required this.localizacao,
   }) : super(key: key);
 
-  Future comprarLanche(context) {
-    return showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Adicionar ao carrinho',
-            style: TextStyle(color: Colors.green)),
-        content: const Text('Lanche adicionado ao carrinho'),
-        actions: <Widget>[
-          MaterialButton(
-            elevation: 5.0,
-            child: const Text('OK'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
   Future excluirLanche(context) {
-    final provider = Provider.of<ProviderLanches>(
+    final provider = Provider.of<ProviderLocalizacoes>(
       context,
       listen: false,
     );
@@ -41,22 +21,25 @@ class CardLanche extends StatelessWidget {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text(
-          'Excluir lanche',
+          'Excluir endereço',
           style: TextStyle(color: Colors.red),
         ),
-        content: Text('Deseja excluir o lanche ${lanche.nome}?'),
+        content: const Text('Deseja excluir o endereço?'),
         actions: <Widget>[
           MaterialButton(
             elevation: 5.0,
             child: const Text('Sim'),
             onPressed: () {
-              provider.removeLanche(lanche.id);
+              provider.removeLocalizacao(localizacao.id);
               Navigator.of(context).pop();
             },
           ),
           MaterialButton(
             elevation: 5.0,
-            child: const Text('Não', style: TextStyle(color: Colors.red)),
+            child: const Text(
+              'Não',
+              style: TextStyle(color: Colors.red),
+            ),
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -77,19 +60,16 @@ class CardLanche extends StatelessWidget {
       child: Card(
         elevation: 6.0,
         child: ListTile(
-          leading: ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(15.0)),
-            child: Image.asset('images/hamburguer.jpg'),
-          ),
           title: Text(
-            lanche.nome,
+            '${localizacao.rua}, ${localizacao.numero.toString()} - '
+            '${localizacao.bairro}\n${localizacao.cidade}, ${localizacao.estado}',
             style: GoogleFonts.oxygen(
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
             ),
           ),
           subtitle: Text(
-            'R\$ ${lanche.preco.toStringAsFixed(2)}',
+            localizacao.descricao!,
             style: GoogleFonts.oxygen(
               fontSize: 20.0,
             ),
@@ -99,15 +79,13 @@ class CardLanche extends StatelessWidget {
             itemBuilder: (BuildContext context) => [
               PopupMenuItem(
                 child: const ListTile(
-                  leading: Icon(Icons.add),
-                  title: Text('Carrinho'),
+                  leading: Icon(
+                    Icons.star,
+                    color: Colors.yellow,
+                  ),
+                  title: Text('Preferencial'),
                 ),
-                onTap: () {
-                  Future.delayed(
-                    const Duration(seconds: 0),
-                    () => comprarLanche(context),
-                  );
-                },
+                onTap: () {},
               ),
               PopupMenuItem(
                   child: const ListTile(

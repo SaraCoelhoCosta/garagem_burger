@@ -14,28 +14,28 @@ class BarraInferior extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      items: <BottomNavigationBarItem>[
-        const BottomNavigationBarItem(
+      items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
           icon: Icon(Icons.content_paste),
           label: 'Menu',
         ),
-        const BottomNavigationBarItem(
+        BottomNavigationBarItem(
           icon: Icon(Icons.fastfood),
           label: 'Meus Lanches',
         ),
         BottomNavigationBarItem(
           activeIcon: IconeCarrinho(
             value: '2',
-            child: const Icon(Icons.shopping_cart_outlined),
-            color: Theme.of(context).colorScheme.secondary,
+            child: Icon(Icons.shopping_cart_outlined),
+            color: Color(0xfffed80b),
           ),
-          icon: const IconeCarrinho(
+          icon: IconeCarrinho(
             value: '2',
             child: Icon(Icons.shopping_cart_outlined),
           ),
           label: 'Carrinho',
         ),
-        const BottomNavigationBarItem(
+        BottomNavigationBarItem(
           icon: Icon(Icons.person_outline_sharp),
           label: 'Perfil',
         ),

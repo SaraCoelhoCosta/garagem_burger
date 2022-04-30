@@ -40,7 +40,6 @@ class TelaMeusLanches extends StatelessWidget {
     final meusLanches = Provider.of<ProviderLanches>(context).listaLanches;
     return ListView(
       children: [
-        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -65,7 +64,6 @@ class TelaMeusLanches extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 20),
         Column(
           children: meusLanches.map((lanche) {
             return CardLanche(lanche: lanche);

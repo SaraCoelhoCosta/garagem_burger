@@ -3,26 +3,26 @@
 import 'package:flutter/material.dart';
 
 class CampoTexto extends StatelessWidget {
-  final Icon prefixIcon;
+  final Icon? prefixIcon;
   final Widget? suffixIcon;
   final String labelText;
   final bool obscureText;
   final TextInputType? keyboardType;
-  final TextInputAction textInputAction;
+  final TextInputAction? textInputAction;
   final FocusNode? focusNode;
-  final Function(String) onFieldSubmitted;
+  final Function(String)? onFieldSubmitted;
   dynamic inputFormatters;
-  final Stream<String> stream;
-  final Function(String) onChanged;
+  final Stream<String>? stream;
+  final Function(String)? onChanged;
 
   CampoTexto({
     required this.obscureText,
     required this.labelText,
-    required this.stream,
-    required this.onChanged,
-    required this.prefixIcon,
-    required this.textInputAction,
-    required this.onFieldSubmitted,
+    this.stream,
+    this.onChanged,
+    this.prefixIcon,
+    this.textInputAction,
+    this.onFieldSubmitted,
     this.keyboardType,
     this.focusNode,
     this.inputFormatters,

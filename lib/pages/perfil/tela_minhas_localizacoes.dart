@@ -1,22 +1,72 @@
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/components/card_endereco.dart';
+import 'package:garagem_burger/pages/localizacao/tela_nova_localizacao.dart';
+import 'package:garagem_burger/pages/tela_vazia.dart';
+import 'package:garagem_burger/providers/provider_localizacoes.dart';
+import 'package:garagem_burger/utils/rotas.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class TelaMinhasLocalizacoes extends StatelessWidget {
-  const TelaMinhasLocalizacoes({ Key? key }) : super(key: key);
+  const TelaMinhasLocalizacoes({Key? key}) : super(key: key);
 
   @override
   String toStringShort() => 'Minhas Localizações';
 
+  Widget _buildTela(BuildContext context) {
+    final provider = Provider.of<ProviderLocalizacoes>(
+      context,
+      listen: false,
+    );
+    return ListView(
+      children: [
+        const SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            TextButton.icon(
+              onPressed: () =>
+                  Navigator.of(context).pushNamed(Rotas.localizacoes),
+              label: Text('Adicionar novo endereço',
+                  style: GoogleFonts.oxygen(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
+                  ),
+                  textAlign: TextAlign.left),
+              icon: const Icon(
+                Icons.add_location_alt_outlined,
+                color: Colors.black,
+              ),
+            ),
+          ],
+        ),
+        Column(
+          children: provider.listaLocalizacoes
+              .map((localizacao) => CardEndereco(localizacao: localizacao))
+              .toList(),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTelaVazia() {
+    return const TelaVazia(
+      pageName: 'Minha Localizações',
+      icon: Icons.location_on_outlined,
+      rota: Rotas.main,
+      titulo: 'Adicionar novo endereço',
+      subtitulo: 'Você ainda não possui endereço cadastrado.',
+      rodape: 'Decida onde quer matar sua fome.',
+      argumentos: [3, TelaNovaLocalizacao()],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Minhas Localizações',
-        style: GoogleFonts.oxygen(
-          fontSize: 26,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
+    final provider = Provider.of<ProviderLocalizacoes>(context);
+    return (provider.qntLocalizacoes == 0)
+        ? _buildTelaVazia()
+        : _buildTela(context);
   }
 }
