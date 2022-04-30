@@ -1,39 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:garagem_burger/data/rotas.dart';
-import 'package:garagem_burger/screens/components/card_lanche.dart';
-import 'package:garagem_burger/screens/components/popup_dialog.dart';
-import 'package:garagem_burger/screens/tela_vazia.dart';
+import 'package:garagem_burger/providers/provider_lanches.dart';
+import 'package:garagem_burger/utils/rotas.dart';
+import 'package:garagem_burger/components/card_lanche.dart';
+import 'package:garagem_burger/components/popup_dialog.dart';
+import 'package:garagem_burger/pages/tela_vazia.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
-class TelaMeusLanches extends StatefulWidget {
+class TelaMeusLanches extends StatelessWidget {
   const TelaMeusLanches({Key? key}) : super(key: key);
 
   @override
   String toStringShort() => 'Meus Lanches';
 
-  @override
-  State<TelaMeusLanches> createState() => _TelaMeusLanchesState();
-}
-
-class _TelaMeusLanchesState extends State<TelaMeusLanches> {
-  bool emptyPage = false;
-
-  List<CardLanche> lanchesList = [
-    const CardLanche(text: 'X-Infarto de Sara'),
-    const CardLanche(text: 'Morgana de Will'),
-    const CardLanche(text: 'Big Tentação de Lara'),
-    const CardLanche(text: 'X-Infarto de Sara'),
-    const CardLanche(text: 'Morgana de Will'),
-    const CardLanche(text: 'Big Tentação de Lara'),
-  ];
-
-  void _switchBody(bool pageState) {
-    setState(() {
-      emptyPage = pageState;
-    });
-  }
-
   Future excluirLanche(context) {
+    final provider = Provider.of<ProviderLanches>(
+      context,
+      listen: false,
+    );
     return showDialog(
       context: context,
       builder: (context) {
@@ -42,7 +26,7 @@ class _TelaMeusLanchesState extends State<TelaMeusLanches> {
           descricao: 'Deseja excluir todos os seus lanches?',
           onPressedYesOption: () {
             Navigator.of(context).pop();
-            _switchBody(true);
+            provider.clearAll();
           },
           onPressedNoOption: () {
             Navigator.of(context).pop();
@@ -53,6 +37,7 @@ class _TelaMeusLanchesState extends State<TelaMeusLanches> {
   }
 
   Widget _buildTela(BuildContext context) {
+    final meusLanches = Provider.of<ProviderLanches>(context).listaLanches;
     return ListView(
       children: [
         const SizedBox(height: 10),
@@ -82,7 +67,9 @@ class _TelaMeusLanchesState extends State<TelaMeusLanches> {
         ),
         const SizedBox(height: 20),
         Column(
-          children: lanchesList,
+          children: meusLanches.map((lanche) {
+            return CardLanche(lanche: lanche);
+          }).toList(),
         ),
       ],
     );
@@ -101,6 +88,7 @@ class _TelaMeusLanchesState extends State<TelaMeusLanches> {
 
   @override
   Widget build(BuildContext context) {
-    return (emptyPage) ? _buildTelaVazia() : _buildTela(context);
+    final provider = Provider.of<ProviderLanches>(context);
+    return (provider.qntLanches == 0) ? _buildTelaVazia() : _buildTela(context);
   }
 }

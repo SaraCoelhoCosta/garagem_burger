@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/components/icone_carrinho.dart';
 
 class BarraInferior extends StatelessWidget {
   final int currentIndex;
@@ -13,20 +14,28 @@ class BarraInferior extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
+      items: <BottomNavigationBarItem>[
+        const BottomNavigationBarItem(
           icon: Icon(Icons.content_paste),
           label: 'Menu',
         ),
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
           icon: Icon(Icons.fastfood),
           label: 'Meus Lanches',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.shopping_cart_outlined),
+          activeIcon: IconeCarrinho(
+            value: '2',
+            child: const Icon(Icons.shopping_cart_outlined),
+            color: Theme.of(context).colorScheme.secondary,
+          ),
+          icon: const IconeCarrinho(
+            value: '2',
+            child: Icon(Icons.shopping_cart_outlined),
+          ),
           label: 'Carrinho',
         ),
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
           icon: Icon(Icons.person_outline_sharp),
           label: 'Perfil',
         ),

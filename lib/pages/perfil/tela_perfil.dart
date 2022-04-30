@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:garagem_burger/data/rotas.dart';
-import 'package:garagem_burger/screens/components/botao_transparente.dart';
-import 'package:garagem_burger/screens/perfil/tela_configuracoes.dart';
-import 'package:garagem_burger/screens/perfil/tela_meus_cartoes.dart';
-import 'package:garagem_burger/screens/perfil/tela_meus_pedidos.dart';
-import 'package:garagem_burger/screens/perfil/tela_minhas_localizacoes.dart';
+import 'package:garagem_burger/utils/rotas.dart';
+import 'package:garagem_burger/components/botao_branco.dart';
+import 'package:garagem_burger/pages/perfil/tela_configuracoes.dart';
+import 'package:garagem_burger/pages/perfil/tela_meus_cartoes.dart';
+import 'package:garagem_burger/pages/perfil/tela_meus_pedidos.dart';
+import 'package:garagem_burger/pages/perfil/tela_minhas_localizacoes.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // ignore: camel_case_types
@@ -91,7 +91,7 @@ class _TelaPerfilState extends State<TelaPerfil> {
             ),
             child: Column(
               children: [
-                BotaoTransparente(
+                BotaoBranco(
                   text: 'Meus Pedidos',
                   icon: Icons.shopping_cart_outlined,
                   onTap: () => Rotas.nvgComRetorno(
@@ -100,7 +100,7 @@ class _TelaPerfilState extends State<TelaPerfil> {
                     argumentos: [3, const TelaMeusPedidos()],
                   ),
                 ),
-                BotaoTransparente(
+                BotaoBranco(
                   text: 'Minhas Localizações',
                   icon: Icons.location_on_outlined,
                   onTap: () => Rotas.nvgComRetorno(
@@ -109,7 +109,7 @@ class _TelaPerfilState extends State<TelaPerfil> {
                     argumentos: [3, const TelaMinhasLocalizacoes()],
                   ),
                 ),
-                BotaoTransparente(
+                BotaoBranco(
                   text: 'Meus Cartões',
                   icon: Icons.credit_card_outlined,
                   onTap: () => Rotas.nvgComRetorno(
@@ -118,7 +118,7 @@ class _TelaPerfilState extends State<TelaPerfil> {
                     argumentos: [3, const TelaMeusCartoes()],
                   ),
                 ),
-                BotaoTransparente(
+                BotaoBranco(
                   text: 'Configurações',
                   icon: Icons.settings,
                   onTap: () => Rotas.nvgComRetorno(
@@ -127,7 +127,7 @@ class _TelaPerfilState extends State<TelaPerfil> {
                     argumentos: [3, const TelaConfiguracoes()],
                   ),
                 ),
-                BotaoTransparente(
+                BotaoBranco(
                   text: 'Sair',
                   icon: Icons.exit_to_app,
                   onTap: () => Rotas.nvgSemRetorno(

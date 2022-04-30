@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:garagem_burger/models/produto.dart';
-import 'package:garagem_burger/data/rotas.dart';
-import 'package:garagem_burger/screens/components/card_produto.dart';
-import 'package:garagem_burger/screens/components/card_produto_simples.dart';
+import 'package:garagem_burger/providers/provider_produtos.dart';
+import 'package:garagem_burger/components/card_produto.dart';
+import 'package:garagem_burger/utils/rotas.dart';
+import 'package:garagem_burger/components/card_produto_simples.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class TelaMenu extends StatefulWidget {
 
@@ -17,31 +18,9 @@ class TelaMenu extends StatefulWidget {
 }
 
 class _TelaMenuState extends State<TelaMenu> {
-  final _produtos = [
-    Produto(
-      nome: 'X-Infarto de Sara',
-      preco: 24.90,
-      tipo: Tipo.hamburguer,
-    ),
-    Produto(
-      nome: 'Morgana de Will',
-      preco: 21.90,
-      tipo: Tipo.hamburguer,
-    ),
-    Produto(
-      nome: 'Gulodice de João',
-      preco: 24.90,
-      tipo: Tipo.hamburguer,
-    ),
-    Produto(
-      nome: 'Big Tentação de Lara',
-      preco: 32.90,
-      tipo: Tipo.hamburguer,
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final produtos = Provider.of<ProviderProdutos>(context).listaProdutos;
     return ListView(
       children: [
         // Opcoes da aba superior (filtros e icone do usuario)
@@ -190,7 +169,7 @@ class _TelaMenuState extends State<TelaMenu> {
         // Hamburgueres da casa
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: _produtos
+          children: produtos
               .map((produto) => CardProduto(
                     produto: produto,
                     onTap: () => Rotas.nvgComRetorno(

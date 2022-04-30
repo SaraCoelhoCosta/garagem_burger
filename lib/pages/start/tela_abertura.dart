@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:garagem_burger/data/rotas.dart';
+import 'package:garagem_burger/utils/rotas.dart';
 
 class TelaAbertura extends StatefulWidget {
   @override

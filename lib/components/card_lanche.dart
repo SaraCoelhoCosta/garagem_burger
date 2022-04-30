@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/providers/provider_lanches.dart';
+import 'package:garagem_burger/models/produto.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class CardLanche extends StatelessWidget {
-  final String text;
+  final Produto lanche;
 
   const CardLanche({
     Key? key,
-    required this.text,
+    required this.lanche,
   }) : super(key: key);
 
   Future comprarLanche(context) {
@@ -30,6 +33,10 @@ class CardLanche extends StatelessWidget {
   }
 
   Future excluirLanche(context) {
+    final provider = Provider.of<ProviderLanches>(
+      context,
+      listen: false,
+    );
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -41,6 +48,7 @@ class CardLanche extends StatelessWidget {
             elevation: 5.0,
             child: const Text('Sim'),
             onPressed: () {
+              provider.removeLanche(lanche.id);
               Navigator.of(context).pop();
             },
           ),
@@ -72,14 +80,14 @@ class CardLanche extends StatelessWidget {
             child: Image.asset('images/hamburguer.jpg'),
           ),
           title: Text(
-            text,
+            lanche.nome,
             style: GoogleFonts.oxygen(
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
             ),
           ),
           subtitle: Text(
-            'R\$ 20.00',
+            'R\$ ${lanche.preco.toStringAsFixed(2)}',
             style: GoogleFonts.oxygen(
               fontSize: 20.0,
             ),

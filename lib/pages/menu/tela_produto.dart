@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/models/produto.dart';
-import 'package:garagem_burger/screens/components/modal_produto.dart';
+import 'package:garagem_burger/components/modal_produto.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TelaProduto extends StatelessWidget {
@@ -86,7 +86,7 @@ class TelaProduto extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'R\$ ${produto.preco}',
+                  'R\$ ${produto.preco.toStringAsFixed(2)}',
                   style: GoogleFonts.oxygen(
                     color: Colors.white,
                     fontSize: 22.0,

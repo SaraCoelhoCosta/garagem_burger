@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:garagem_burger/data/rotas.dart';
+import 'package:garagem_burger/utils/rotas.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TelaVazia extends StatelessWidget {
@@ -53,6 +53,8 @@ class TelaVazia extends StatelessWidget {
                       style: GoogleFonts.oxygen(
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
                       ),
                       textAlign: TextAlign.center,
                     ),

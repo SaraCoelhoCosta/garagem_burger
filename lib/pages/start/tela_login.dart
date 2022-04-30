@@ -1,10 +1,10 @@
 // ignore_for_file: file_names, prefer_const_constructors, unnecessary_new, sized_box_for_whitespace
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/controllers/login_usuario.dart';
-import 'package:garagem_burger/data/rotas.dart';
-import 'package:garagem_burger/screens/components/botao_preto.dart';
-import 'package:garagem_burger/screens/components/campo_texto.dart';
-import 'package:garagem_burger/screens/tela_menu.dart';
+import 'package:garagem_burger/utils/rotas.dart';
+import 'package:garagem_burger/components/botao_preto.dart';
+import 'package:garagem_burger/components/campo_texto.dart';
+import 'package:garagem_burger/pages/menu/tela_menu.dart';
 import 'package:sign_button/sign_button.dart';
 import 'package:google_fonts/google_fonts.dart';
 

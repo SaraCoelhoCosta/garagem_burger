@@ -1,23 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/models/pedido.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CardPedido extends StatelessWidget {
-  
-  final String text;
-  final IconData icon;
-  final Color color;
+  final Pedido pedido;
 
   const CardPedido({
     Key? key,
-    required this.text,
-    required this.icon,
-    required this.color,
+    required this.pedido,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Color color;
+  IconData icon;
+
+  switch (pedido.status) {
+    case Status.entregue:
+      color = Colors.green;
+      icon = Icons.check_circle_outline;
+      break;
+    case Status.pendente:
+      color = const Color(0xfffed80b);
+      icon = Icons.error_outline;
+      break;
+    case Status.cancelado:
+      color = Colors.red;
+      icon = Icons.cancel_outlined;
+      break;
+  }
+
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 10,
+        vertical: 4,
+      ),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
@@ -33,14 +50,14 @@ class CardPedido extends StatelessWidget {
             child: Image.asset('images/pedido.jpg'),
           ),
           title: Text(
-            text,
+            'Pedido ${pedido.status.name} em ${pedido.data}',
             style: GoogleFonts.oxygen(
               fontSize: 16.0,
               fontWeight: FontWeight.bold,
             ),
           ),
           subtitle: Text(
-            'às 21:00',
+            'às ${pedido.hora}',
             style: GoogleFonts.oxygen(
               fontSize: 16.0,
             ),

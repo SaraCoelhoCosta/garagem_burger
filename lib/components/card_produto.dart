@@ -35,7 +35,7 @@ class CardProduto extends StatelessWidget {
             ),
           ),
           subtitle: Text(
-            'R\$ ${produto.preco}',
+            'R\$ ${produto.preco.toStringAsFixed(2)}',
             style: GoogleFonts.oxygen(
               fontSize: 20.0,
             ),

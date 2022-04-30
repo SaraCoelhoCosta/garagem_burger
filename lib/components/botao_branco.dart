@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class BotaoTransparente extends StatelessWidget {
+class BotaoBranco extends StatelessWidget {
   final String text;
   final IconData icon;
   final Function()? onTap;
 
-  const BotaoTransparente({
+  const BotaoBranco({
     Key? key,
     required this.text,
     required this.icon,
