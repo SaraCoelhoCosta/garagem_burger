@@ -1,40 +1,68 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/models/produto.dart';
 import 'package:garagem_burger/components/modal_produto.dart';
+import 'package:garagem_burger/providers/provider_carrinho.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class TelaProduto extends StatelessWidget {
   const TelaProduto({Key? key}) : super(key: key);
 
-  @override
-  String toStringShort() => 'Produto';
+  // void _addCarrinho(BuildContext context, int qnt) {
+  //   Navigator.of(context).pop(); // Fecha o modal
 
-  void _addCarrinho(BuildContext context, int qnt) {
-    Navigator.of(context).pop(); // Fecha o modal
+  //   // Provider.of<ProviderCarrinho>(
+  //   //   context,
+  //   //   listen: false,
+  //   // ).addItemCarrinho(produto, qnt);
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          '$qnt produto(s) adicionado(s) no carrinho',
-          textAlign: TextAlign.center,
-          style: GoogleFonts.oxygen(
-            fontSize: 16.0,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        elevation: 6.0,
-        backgroundColor: Colors.blue,
-        duration: const Duration(seconds: 2),
-      ),
-    );
-  }
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(
+  //       content: Text(
+  //         '$qnt produto(s) adicionado(s) no carrinho',
+  //         textAlign: TextAlign.center,
+  //         style: GoogleFonts.oxygen(
+  //           fontSize: 16.0,
+  //           fontWeight: FontWeight.bold,
+  //         ),
+  //       ),
+  //       elevation: 6.0,
+  //       backgroundColor: Colors.blue,
+  //       duration: const Duration(seconds: 2),
+  //     ),
+  //   );
+  // }
 
-  _openModal(BuildContext context) {
+  _openModal(BuildContext context, Produto produto) {
     showModalBottomSheet(
       context: context,
       builder: (_) {
         return ModalProduto(
-          addCarrinho: _addCarrinho,
+          // addCarrinho: _addCarrinho,
+          addCarrinho: (context, qnt) {
+            Navigator.of(context).pop(); // Fecha o modal
+
+            Provider.of<ProviderCarrinho>(
+              context,
+              listen: false,
+            ).addItemCarrinho(produto, qnt);
+
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  '$qnt produto(s) adicionado(s) no carrinho',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.oxygen(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                elevation: 6.0,
+                backgroundColor: Colors.blue,
+                duration: const Duration(seconds: 2),
+              ),
+            );
+          },
         );
       },
     );
@@ -105,7 +133,7 @@ class TelaProduto extends StatelessWidget {
           Icons.keyboard_arrow_up_outlined,
           size: 35,
         ),
-        onPressed: () => _openModal(context),
+        onPressed: () => _openModal(context, produto),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );

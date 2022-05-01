@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/models/item_carrinho.dart';
+import 'package:garagem_burger/providers/provider_carrinho.dart';
+import 'package:provider/provider.dart';
 
 class CardProdutoCar extends StatelessWidget {
-  const CardProdutoCar({
+  final ItemCarrinho itemCarrinho;
+
+  const CardProdutoCar(
+    this.itemCarrinho, {
     Key? key,
   }) : super(key: key);
 
@@ -20,6 +26,10 @@ class CardProdutoCar extends StatelessWidget {
             child: const Text('Sim'),
             onPressed: () {
               Navigator.of(context).pop();
+              Provider.of<ProviderCarrinho>(
+                context,
+                listen: false,
+              ).removeItemCarrinho(itemCarrinho.produto.id);
             },
           ),
           MaterialButton(
@@ -51,82 +61,96 @@ class CardProdutoCar extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 3,
-            horizontal: 2,
-          ),
+          padding: const EdgeInsets.all(3),
           child: Row(
-            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            // mainAxisSize: MainAxisSize.min,
             children: [
+              // Leading (Image)
               Container(
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(
-                    Radius.circular(10),
+                    Radius.circular(15),
                   ),
                   image: DecorationImage(
-                      image: AssetImage('images/hamburguer.jpg'),
-                      fit: BoxFit.cover),
+                    image: AssetImage('images/hamburguer.jpg'),
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                width: 120,
-                height: 120,
+                // width: 120,
+                // height: 120,
+                width: MediaQuery.of(context).size.height * 0.15,
+                height: MediaQuery.of(context).size.height * 0.15,
                 // child: Image.asset('images/hamburguer.jpg'),
               ),
-              const SizedBox(
-                width: 20,
-              ),
+
+              const SizedBox(width: 20),
+
+              // Title e subtitle
               Column(
-                mainAxisSize: MainAxisSize.min,
-                children: const [
+                crossAxisAlignment: CrossAxisAlignment.start,
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Title
                   Text(
-                    'Combo fofo \n\nR\$ 34,00',
-                    style: TextStyle(
+                    itemCarrinho.produto.nome,
+                    softWrap: true,
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
-                    textAlign: TextAlign.left,
+                  ),
+              
+                  // Subtitle
+                  Text(
+                    'R\$ ${itemCarrinho.produto.preco.toStringAsFixed(2)}',
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey,
+                    ),
                   ),
                 ],
               ),
-              const SizedBox(
-                width: 40,
-              ),
-              const Padding(
-                padding: EdgeInsets.only(bottom: 50),
+
+              const Spacer(),
+
+              // Quantidade de produtos
+              Padding(
+                padding: const EdgeInsets.only(top: 12),
                 child: Text(
-                  '1x',
-                  style: TextStyle(
-                    fontSize: 20,
+                  '${itemCarrinho.quantidade}x',
+                  style: const TextStyle(
+                    fontSize: 18,
                     fontWeight: FontWeight.normal,
                     color: Colors.black,
                   ),
                 ),
               ),
-              const Spacer(),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 60),
-                child: PopupMenuButton(
-                  itemBuilder: (BuildContext context) => [
-                    PopupMenuItem(
-                        child: const ListTile(
-                          leading: Icon(Icons.create),
-                          title: Text('Editar'),
-                        ),
-                        onTap: () {}),
-                    PopupMenuItem(
+
+              // Os 3 pontinhos
+              PopupMenuButton(
+                itemBuilder: (BuildContext context) => [
+                  PopupMenuItem(
                       child: const ListTile(
-                        leading: Icon(Icons.delete),
-                        title: Text('Excluir'),
+                        leading: Icon(Icons.create),
+                        title: Text('Editar'),
                       ),
-                      onTap: () {
-                        Future.delayed(
-                          const Duration(seconds: 0),
-                          () => removerProduto(context),
-                        );
-                      },
+                      onTap: () {}),
+                  PopupMenuItem(
+                    child: const ListTile(
+                      leading: Icon(Icons.delete),
+                      title: Text('Excluir'),
                     ),
-                  ],
-                ),
+                    onTap: () {
+                      Future.delayed(
+                        const Duration(seconds: 0),
+                        () => removerProduto(context),
+                      );
+                    },
+                  ),
+                ],
               ),
             ],
           ),
@@ -135,59 +159,3 @@ class CardProdutoCar extends StatelessWidget {
     );
   }
 }
-
-/*
-ListTile(
-          leading: ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(15.0)),
-            child: Image.asset('images/hamburguer.jpg'),
-          ),
-          title: Text('',
-            style: GoogleFonts.oxygen(
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          subtitle: Text('',
-            style: GoogleFonts.oxygen(
-              fontSize: 20.0,
-            ),
-          ),
-          contentPadding: const EdgeInsets.all(6),
-          trailing: PopupMenuButton(
-            itemBuilder: (BuildContext context) => [
-              PopupMenuItem(
-                child: const ListTile(
-                  leading: Icon(Icons.add),
-                  title: Text('Carrinho'),
-                ),
-                onTap: () {
-                  Future.delayed(
-                    const Duration(seconds: 0),
-                    () => removerProduto(context),
-                  );
-                },
-              ),
-              PopupMenuItem(
-                  child: const ListTile(
-                    leading: Icon(Icons.create),
-                    title: Text('Editar'),
-                  ),
-                  onTap: () {
-                  }),
-              PopupMenuItem(
-                child: const ListTile(
-                  leading: Icon(Icons.delete),
-                  title: Text('Excluir'),
-                ),
-                onTap: () {
-                  Future.delayed(
-                    const Duration(seconds: 0),
-                    () => removerProduto(context),
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
-*/

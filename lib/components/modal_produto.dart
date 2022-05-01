@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/components/botao_amarelo.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ModalProduto extends StatefulWidget {
@@ -15,14 +16,6 @@ class ModalProduto extends StatefulWidget {
 
 class _ModalProdutoState extends State<ModalProduto> {
   int _qnt = 1;
-
-  _addItem() {
-    setState(() => _qnt++);
-  }
-
-  _remItem() {
-    setState(() => _qnt--);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,65 +44,37 @@ class _ModalProdutoState extends State<ModalProduto> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(
-                child: const Icon(Icons.remove),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                      (_qnt == 1) ? Colors.grey : const Color(0xfffed80b)),
-                  foregroundColor: MaterialStateProperty.all(Colors.black),
-                  overlayColor: MaterialStateProperty.all(Colors.grey),
-                ),
-                onPressed: (_qnt == 1) ? null : _remItem,
+              BotaoAmarelo(
+                onPressed: (_qnt == 1)
+                    ? null
+                    : () {
+                        setState(() => _qnt--);
+                      },
+                icon: Icons.remove,
               ),
               Padding(
                 padding: const EdgeInsets.only(
                   left: 15,
                   right: 15,
                 ),
-                child: ElevatedButton(
-                  child: Text(
-                    '$_qnt',
-                    style: GoogleFonts.oxygen(
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(const Color(0xfffed80b)),
-                    foregroundColor: MaterialStateProperty.all(Colors.black),
-                  ),
+                child: BotaoAmarelo(
                   onPressed: () {},
+                  labelText: '$_qnt',
                 ),
               ),
-              ElevatedButton(
-                child: const Icon(Icons.add),
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(const Color(0xfffed80b)),
-                  foregroundColor: MaterialStateProperty.all(Colors.black),
-                ),
-                onPressed: _addItem,
+              BotaoAmarelo(
+                onPressed: () {
+                  setState(() => _qnt++);
+                },
+                icon: Icons.add,
               ),
             ],
           ),
 
           const SizedBox(height: 15),
 
-          // Botao de adicionar no carrinho
-          ElevatedButton(
-            child: Text(
-              'Adicionar no carrinho',
-              style: GoogleFonts.oxygen(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            style: ButtonStyle(
-              backgroundColor:
-                  MaterialStateProperty.all(const Color(0xfffed80b)),
-              foregroundColor: MaterialStateProperty.all(Colors.black),
-            ),
+          BotaoAmarelo(
+            labelText: 'Adicionar no carrinho',
             onPressed: () => widget.addCarrinho(
               context,
               _qnt,

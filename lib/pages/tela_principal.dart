@@ -56,9 +56,9 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
           ),
         ),
       ),
-
+    
       body: currentPage,
-
+    
       bottomNavigationBar: BarraInferior(
         currentIndex: currentIndex,
         onTap: _switchTab,

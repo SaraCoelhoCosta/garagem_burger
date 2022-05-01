@@ -1,30 +1,71 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/botao_amarelo.dart';
 import 'package:garagem_burger/components/card_produto_car.dart';
+import 'package:garagem_burger/components/popup_dialog.dart';
+import 'package:garagem_burger/pages/localizacao/tela_adicionar_localizacao.dart';
+import 'package:garagem_burger/pages/menu/tela_menu.dart';
+import 'package:garagem_burger/pages/tela_vazia.dart';
+import 'package:garagem_burger/providers/provider_carrinho.dart';
+import 'package:garagem_burger/utils/rotas.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class TelaCarrinho extends StatelessWidget {
   const TelaCarrinho({Key? key}) : super(key: key);
 
   @override
-  String toStringShort() => 'Endereço';
+  String toStringShort() => 'Carrinho';
 
-  @override
-  Widget build(BuildContext context) {
+  Future _limparCarrinho(context) {
+    final provider = Provider.of<ProviderCarrinho>(
+      context,
+      listen: false,
+    );
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return PopupDialog(
+          titulo: 'Limpar carrinho',
+          descricao: 'Deseja excluir todos os iens do carrinho?',
+          onPressedYesOption: () {
+            Navigator.of(context).pop();
+            provider.limparCarrinho();
+          },
+          onPressedNoOption: () {
+            Navigator.of(context).pop();
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildTela(BuildContext context) {
+    final provider = Provider.of<ProviderCarrinho>(
+      context,
+      listen: false,
+    );
+
     return ListView(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             TextButton.icon(
-              onPressed: () {},
-              label: Text('Limpar carrinho',
-                  style: GoogleFonts.oxygen(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red,
-                  ),
-                  textAlign: TextAlign.left),
+              onPressed: () {
+                Future.delayed(
+                  const Duration(seconds: 0),
+                  () => _limparCarrinho(context),
+                );
+              },
+              label: Text(
+                'Limpar carrinho',
+                style: GoogleFonts.oxygen(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.red,
+                ),
+                textAlign: TextAlign.left,
+              ),
               icon: const Icon(
                 Icons.delete,
                 color: Colors.black,
@@ -32,8 +73,15 @@ class TelaCarrinho extends StatelessWidget {
             ),
           ],
         ),
-        const CardProdutoCar(),
-        const CardProdutoCar(),
+        // Itens do carrinho
+        Column(
+          children: provider.itensCarrinho.values
+              .map((itemCarrinho) => CardProdutoCar(
+                    itemCarrinho,
+                  ))
+              .toList(),
+        ),
+
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Card(
@@ -45,48 +93,66 @@ class TelaCarrinho extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  '\nTotal ------------------------------ R\$ 88,00\n',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black,
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Total',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.black,
+                        ),
+                      ),
+                      Text(
+                        'R\$ ${provider.precoTotal.toStringAsFixed(2)}',
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Text(
                       'Dica: Clicando no ícone ',
                       style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.black,
+                        fontSize: 16,
+                        color: Colors.grey[700],
                       ),
                     ),
-                    Icon(Icons.create),
+                    const Icon(Icons.create),
                     Text(
                       ' você pode editar a',
                       style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.black,
+                        fontSize: 16,
+                        color: Colors.grey[700],
                       ),
                     ),
                   ],
                 ),
-                const Text(
-                  'quantidade ou configurar seu produto\n',
+                Text(
+                  'quantidade ou configurar seu produto',
                   style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black,
+                    fontSize: 16,
+                    color: Colors.grey[700],
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(15),
                   child: BotaoAmarelo(
-                      labelText: 'Efetuar pedido', onPressed: () {}),
+                    labelText: 'Efetuar pedido',
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(Rotas.main,
+                          arguments: [2, const TelaAdicionarLocalizacao()]);
+                    },
+                  ),
                 )
               ],
             ),
@@ -94,5 +160,23 @@ class TelaCarrinho extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Widget _buildTelaVazia() {
+    return const TelaVazia(
+      pageName: 'Meus Lanches',
+      icon: Icons.shopping_cart_outlined,
+      rota: Rotas.main,
+      titulo: 'IR PARA O MENU',
+      subtitulo: 'Carrinho vazio!\nFaça seu pedido.',
+      rodape: 'Selecione o produto que deseja e adicione ao carrinho.',
+      argumentos: [0, TelaMenu()],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final provider = Provider.of<ProviderCarrinho>(context);
+    return (provider.qntItens == 0) ? _buildTelaVazia() : _buildTela(context);
   }
 }

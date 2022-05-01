@@ -6,7 +6,7 @@ class TelaAdicionarLocalizacao extends StatefulWidget {
   const TelaAdicionarLocalizacao({Key? key}) : super(key: key);
 
   @override
-  String toStringShort() => 'Alterar localização';
+  String toStringShort() => 'Endereço de entrega';
 
   @override
   State<TelaAdicionarLocalizacao> createState() =>

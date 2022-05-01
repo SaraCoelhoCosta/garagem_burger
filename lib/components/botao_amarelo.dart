@@ -2,14 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class BotaoAmarelo extends StatelessWidget {
-  final String labelText;
-  final Function() onPressed;
+  final String? labelText;
+  final IconData? icon;
+  final Function()? onPressed;
 
   const BotaoAmarelo({
-    Key? key, 
-    required this.labelText,
+    Key? key,
+    this.labelText,
+    this.icon,
     required this.onPressed,
   }) : super(key: key);
+
+  _buildText() {
+    return Text(
+      labelText!,
+      style: GoogleFonts.oxygen(
+        color: Colors.black,
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
+  _buildIcon() {
+    return Icon(
+      icon!,
+      color: Colors.black,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +38,7 @@ class BotaoAmarelo extends StatelessWidget {
         padding: const EdgeInsets.symmetric(
           vertical: 12,
         ),
-        child: Text(
-          labelText,
-          style: GoogleFonts.oxygen(
-            color: Colors.black,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        child: (labelText != null) ? _buildText() : _buildIcon(),
       ),
       style: ElevatedButton.styleFrom(
         primary: const Color(0xfffed80b),
