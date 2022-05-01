@@ -1,25 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:garagem_burger/utils/rotas.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TelaVazia extends StatelessWidget {
   final String pageName;
   final IconData icon;
-  final String rota;
   final String titulo;
   final String subtitulo;
   final String rodape;
-  final Object? argumentos;
+  final Function() navigator;
 
   const TelaVazia({
     Key? key,
     required this.pageName,
     required this.icon,
-    required this.rota,
     required this.titulo,
     required this.subtitulo,
     required this.rodape,
-    this.argumentos,
+    required this.navigator,
   }) : super(key: key);
 
   @override
@@ -43,11 +40,7 @@ class TelaVazia extends StatelessWidget {
                   height: 150,
                   width: 300,
                   child: TextButton(
-                    onPressed: () => Rotas.nvgComRetorno(
-                      context: context,
-                      rota: rota,
-                      argumentos: argumentos,
-                    ),
+                    onPressed: navigator,
                     child: Text(
                       titulo,
                       style: GoogleFonts.oxygen(

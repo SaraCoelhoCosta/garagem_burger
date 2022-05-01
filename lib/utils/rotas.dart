@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class Rotas {
   static const home = '/';
   static const login = '/login';
@@ -9,28 +7,4 @@ class Rotas {
 
   static const montarHamburguer = '/montar-hamburguer';
   static const produto = '/produto';
-
-  static const localizacoes = '/localizacoes';
-
-  static void nvgComRetorno({
-    required BuildContext context,
-    required String rota,
-    Object? argumentos,
-  }) {
-    Navigator.of(context).pushNamed(
-      rota,
-      arguments: argumentos,
-    );
-  }
-
-  static void nvgSemRetorno({
-    required BuildContext context,
-    required String rota,
-    Object? argumentos,
-  }) {
-    Navigator.of(context).pushReplacementNamed(
-      rota,
-      arguments: argumentos,
-    );
-  }
 }

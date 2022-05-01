@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/icone_carrinho.dart';
+import 'package:garagem_burger/providers/provider_carrinho.dart';
+import 'package:provider/provider.dart';
 
 class BarraInferior extends StatelessWidget {
   final int currentIndex;
@@ -13,29 +15,30 @@ class BarraInferior extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ProviderCarrinho>(context);
     return BottomNavigationBar(
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
+      items: <BottomNavigationBarItem>[
+        const BottomNavigationBarItem(
           icon: Icon(Icons.content_paste),
           label: 'Menu',
         ),
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
           icon: Icon(Icons.fastfood),
           label: 'Meus Lanches',
         ),
         BottomNavigationBarItem(
           activeIcon: IconeCarrinho(
-            value: '2',
-            child: Icon(Icons.shopping_cart_outlined),
-            color: Color(0xfffed80b),
+            value: provider.qntItens.toString(),
+            child: const Icon(Icons.shopping_cart_outlined),
+            color: const Color(0xfffed80b),
           ),
           icon: IconeCarrinho(
-            value: '2',
-            child: Icon(Icons.shopping_cart_outlined),
+            value: provider.qntItens.toString(),
+            child: const Icon(Icons.shopping_cart_outlined),
           ),
           label: 'Carrinho',
         ),
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
           icon: Icon(Icons.person_outline_sharp),
           label: 'Perfil',
         ),

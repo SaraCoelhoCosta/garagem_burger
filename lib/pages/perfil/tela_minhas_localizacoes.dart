@@ -25,8 +25,10 @@ class TelaMinhasLocalizacoes extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             TextButton.icon(
-              onPressed: () =>
-                  Navigator.of(context).pushNamed(Rotas.localizacoes),
+              onPressed: () => Navigator.of(context).pushNamed(
+                Rotas.main,
+                arguments: [3, const TelaNovaLocalizacao()],
+              ),
               label: Text('Adicionar novo endereço',
                   style: GoogleFonts.oxygen(
                     fontSize: 15,
@@ -50,15 +52,17 @@ class TelaMinhasLocalizacoes extends StatelessWidget {
     );
   }
 
-  Widget _buildTelaVazia() {
-    return const TelaVazia(
+  Widget _buildTelaVazia(BuildContext context) {
+    return TelaVazia(
       pageName: 'Minha Localizações',
       icon: Icons.location_on_outlined,
-      rota: Rotas.main,
       titulo: 'Adicionar novo endereço',
       subtitulo: 'Você ainda não possui endereço cadastrado.',
       rodape: 'Decida onde quer matar sua fome.',
-      argumentos: [3, TelaNovaLocalizacao()],
+      navigator: () => Navigator.of(context).pushNamed(
+        Rotas.main,
+        arguments: [3, const TelaNovaLocalizacao()],
+      ),
     );
   }
 
@@ -66,7 +70,7 @@ class TelaMinhasLocalizacoes extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<ProviderLocalizacoes>(context);
     return (provider.qntLocalizacoes == 0)
-        ? _buildTelaVazia()
+        ? _buildTelaVazia(context)
         : _buildTela(context);
   }
 }

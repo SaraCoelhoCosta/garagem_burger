@@ -147,7 +147,7 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
                           onPressed: () => {},
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () => Navigator.of(context).pop(),
                           child: Text(
                             "Cancelar",
                             // Fonte do Google.

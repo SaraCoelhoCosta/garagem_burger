@@ -54,9 +54,8 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
     _novoUsuario.outState.listen((estado) {
       switch (estado) {
         case EstadoNovoUsuario.SUCESSO:
-          Rotas.nvgSemRetorno(
-            context: context,
-            rota: Rotas.main,
+          Navigator.of(context).pushReplacementNamed(
+            Rotas.main,
           );
           break;
         case EstadoNovoUsuario.FALHA:
@@ -358,9 +357,8 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
                         ),
 
                         // Ação executada pelo botão.
-                        onPressed: () => Rotas.nvgSemRetorno(
-                          context: context,
-                          rota: Rotas.login,
+                        onPressed: () => Navigator.of(context).pushReplacementNamed(
+                          Rotas.login,
                         ),
                       ),
                     ],

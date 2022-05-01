@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/models/item_carrinho.dart';
 import 'package:garagem_burger/providers/provider_carrinho.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class CardProdutoCar extends StatelessWidget {
@@ -64,7 +65,6 @@ class CardProdutoCar extends StatelessWidget {
           padding: const EdgeInsets.all(3),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            // mainAxisSize: MainAxisSize.min,
             children: [
               // Leading (Image)
               Container(
@@ -77,37 +77,26 @@ class CardProdutoCar extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
-                // width: 120,
-                // height: 120,
                 width: MediaQuery.of(context).size.height * 0.15,
                 height: MediaQuery.of(context).size.height * 0.15,
-                // child: Image.asset('images/hamburguer.jpg'),
               ),
 
-              const SizedBox(width: 20),
-
               // Title e subtitle
-              Padding(
-                padding: const EdgeInsets.only(top: 30, bottom: 0),
+              Container(
+                padding: const EdgeInsets.all(12),
+                height: MediaQuery.of(context).size.height * 0.15,
+                width: MediaQuery.of(context).size.height * 0.20,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     // Title
-                    SizedBox(
-                      height: 50,
-                      width: 100,
-                      child: Expanded(
-                        child: Text(
-                          itemCarrinho.produto.nome,
-                          softWrap: true,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
+                    Text(
+                      itemCarrinho.produto.nome, // max: 27 caracteres
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
                       ),
                     ),
                     // Subtitle
@@ -125,39 +114,61 @@ class CardProdutoCar extends StatelessWidget {
 
               const Spacer(),
 
-              // Quantidade de produtos
-              Padding(
-                padding: const EdgeInsets.only(top: 30, right: 70, bottom: 30),
-                child: Text(
-                  '${itemCarrinho.quantidade}x',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-
-              // Os 3 pontinhos
-              PopupMenuButton(
-                itemBuilder: (BuildContext context) => [
-                  PopupMenuItem(
-                      child: const ListTile(
-                        leading: Icon(Icons.create),
-                        title: Text('Editar'),
-                      ),
-                      onTap: () {}),
-                  PopupMenuItem(
-                    child: const ListTile(
-                      leading: Icon(Icons.delete),
-                      title: Text('Excluir'),
+              Row(
+                children: [
+                  // Quantidade de produtos
+                  Container(
+                    padding: const EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Theme.of(context).backgroundColor,
                     ),
-                    onTap: () {
-                      Future.delayed(
-                        const Duration(seconds: 0),
-                        () => removerProduto(context),
-                      );
-                    },
+                    constraints: const BoxConstraints(
+                      minHeight: 25,
+                      minWidth: 25,
+                    ),
+                    child: Text(
+                      '${itemCarrinho.quantidade}x',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.oxygen(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  // Text(
+                  //   '${itemCarrinho.quantidade}x',
+                  //   style: const TextStyle(
+                  //     fontSize: 18,
+                  //     fontWeight: FontWeight.normal,
+                  //     color: Colors.black,
+                  //   ),
+                  // ),
+
+                  // const Spacer(),
+
+                  // Os 3 pontinhos
+                  PopupMenuButton(
+                    itemBuilder: (BuildContext context) => [
+                      PopupMenuItem(
+                          child: const ListTile(
+                            leading: Icon(Icons.create),
+                            title: Text('Editar'),
+                          ),
+                          onTap: () {}),
+                      PopupMenuItem(
+                        child: const ListTile(
+                          leading: Icon(Icons.delete),
+                          title: Text('Excluir'),
+                        ),
+                        onTap: () {
+                          Future.delayed(
+                            const Duration(seconds: 0),
+                            () => removerProduto(context),
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 ],
               ),

@@ -4,10 +4,10 @@ import 'package:garagem_burger/pages/carrinho/tela_carrinho.dart';
 import 'package:garagem_burger/pages/menu/tela_menu.dart';
 import 'package:garagem_burger/pages/meus_lanches/tela_meus_lanches.dart';
 import 'package:garagem_burger/pages/perfil/tela_perfil.dart';
+import 'package:garagem_burger/utils/rotas.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TelaPrincipal extends StatefulWidget {
-
   const TelaPrincipal({Key? key}) : super(key: key);
 
   @override
@@ -15,7 +15,6 @@ class TelaPrincipal extends StatefulWidget {
 }
 
 class _TelaPrincipalState extends State<TelaPrincipal> {
-
   int currentIndex = 0;
   Widget currentPage = const TelaMenu();
   bool updatedPage = false;
@@ -27,17 +26,25 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
     TelaPerfil(),
   ];
 
-  _switchTab(int index){
+  _switchTab(int index) {
     setState(() {
       currentIndex = index;
       currentPage = _widgets.elementAt(currentIndex);
+
+      // Limpar as rotas anteriores
+      if (Navigator.of(context).canPop()) {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          Rotas.main,
+          (_) => false,
+          arguments: [currentIndex, currentPage],
+        );
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-
-    if(!updatedPage){
+    if (!updatedPage) {
       List propriedades = ModalRoute.of(context)?.settings.arguments as List;
       currentIndex = propriedades.elementAt(0) as int;
       currentPage = propriedades.elementAt(1) as Widget;
@@ -56,9 +63,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
           ),
         ),
       ),
-    
       body: currentPage,
-    
       bottomNavigationBar: BarraInferior(
         currentIndex: currentIndex,
         onTap: _switchTab,

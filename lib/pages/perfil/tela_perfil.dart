@@ -94,45 +94,40 @@ class _TelaPerfilState extends State<TelaPerfil> {
                 BotaoBranco(
                   text: 'Meus Pedidos',
                   icon: Icons.shopping_cart_outlined,
-                  onTap: () => Rotas.nvgComRetorno(
-                    context: context,
-                    rota: Rotas.main,
-                    argumentos: [3, const TelaMeusPedidos()],
+                  onTap: () => Navigator.of(context).pushNamed(
+                    Rotas.main,
+                    arguments: [3, const TelaMeusPedidos()],
                   ),
                 ),
                 BotaoBranco(
                   text: 'Minhas Localizações',
                   icon: Icons.location_on_outlined,
-                  onTap: () => Rotas.nvgComRetorno(
-                    context: context,
-                    rota: Rotas.main,
-                    argumentos: [3, const TelaMinhasLocalizacoes()],
+                  onTap: () => Navigator.of(context).pushNamed(
+                    Rotas.main,
+                    arguments: [3, const TelaMinhasLocalizacoes()],
                   ),
                 ),
                 BotaoBranco(
                   text: 'Meus Cartões',
                   icon: Icons.credit_card_outlined,
-                  onTap: () => Rotas.nvgComRetorno(
-                    context: context,
-                    rota: Rotas.main,
-                    argumentos: [3, const TelaMeusCartoes()],
+                  onTap: () => Navigator.of(context).pushNamed(
+                    Rotas.main,
+                    arguments: [3, const TelaMeusCartoes()],
                   ),
                 ),
                 BotaoBranco(
                   text: 'Configurações',
                   icon: Icons.settings,
-                  onTap: () => Rotas.nvgComRetorno(
-                    context: context,
-                    rota: Rotas.main,
-                    argumentos: [3, const TelaConfiguracoes()],
+                  onTap: () => Navigator.of(context).pushNamed(
+                    Rotas.main,
+                    arguments: [3, const TelaConfiguracoes()],
                   ),
                 ),
                 BotaoBranco(
                   text: 'Sair',
                   icon: Icons.exit_to_app,
-                  onTap: () => Rotas.nvgSemRetorno(
-                    context: context,
-                    rota: Rotas.home,
+                  onTap: () => Navigator.of(context).pushReplacementNamed(
+                    Rotas.home,
                   ),
                 ),
               ],

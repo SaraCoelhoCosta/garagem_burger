@@ -76,21 +76,24 @@ class TelaMeusPedidos extends StatelessWidget {
     );
   }
 
-  Widget _buildTelaVazia() {
-    return const TelaVazia(
+  Widget _buildTelaVazia(BuildContext context) {
+    return TelaVazia(
       pageName: 'Meus Pedidos',
       icon: Icons.content_paste,
-      rota: Rotas.main,
       titulo: 'IR PARA O MENU',
       subtitulo: 'Você ainda não fez nenhum pedido.',
       rodape: 'Encontre o produto que deseja no Menu.',
-      argumentos: [0, TelaMenu()],
+      navigator: () => Navigator.of(context).pushNamedAndRemoveUntil(
+        Rotas.main,
+        (_) => false, // Limpar as rotas anteriores
+        arguments: [0, const TelaMenu()],
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ProviderPedidos>(context);
-    return (provider.qntPedidos == 0) ? _buildTelaVazia() : _buildTela(context);
+    return (provider.qntPedidos == 0) ? _buildTelaVazia(context) : _buildTela(context);
   }
 }

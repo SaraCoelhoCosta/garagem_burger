@@ -150,14 +150,18 @@ class _TelaNovoCartaoState extends State<TelaNovoCartao> {
                         labelText: "Cadastrar cartão",
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
+                            // ignore: avoid_print
                             print('Válido!');
                           } else {
+                            // ignore: avoid_print
                             print('Inválido!');
                           }
                         },
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
                         child: Text(
                           "Cancelar",
                           // Fonte do Google.

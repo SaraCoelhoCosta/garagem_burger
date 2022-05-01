@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/botao_amarelo.dart';
+import 'package:garagem_burger/pages/localizacao/tela_nova_localizacao.dart';
+import 'package:garagem_burger/utils/rotas.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TelaAdicionarLocalizacao extends StatefulWidget {
@@ -78,7 +80,10 @@ class _TelaAdicionarLocalizacaoState extends State<TelaAdicionarLocalizacao> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () => Navigator.of(context).pushNamed(
+                      Rotas.main,
+                      arguments: [2, const TelaNovaLocalizacao()],
+                    ),
                     child: Text('insira outro endereço',
                         style: GoogleFonts.oxygen(
                           fontSize: 15,
@@ -124,8 +129,10 @@ class _TelaAdicionarLocalizacaoState extends State<TelaAdicionarLocalizacao> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child:
-                        BotaoAmarelo(labelText: 'Confirmar', onPressed: () {}),
+                    child: BotaoAmarelo(
+                      labelText: 'Confirmar',
+                      onPressed: () {},
+                    ),
                   )
                 ],
               ),

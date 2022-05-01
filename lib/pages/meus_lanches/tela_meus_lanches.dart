@@ -73,20 +73,22 @@ class TelaMeusLanches extends StatelessWidget {
     );
   }
 
-  Widget _buildTelaVazia() {
-    return const TelaVazia(
+  Widget _buildTelaVazia(BuildContext context) {
+    return TelaVazia(
       pageName: 'Meus Lanches',
       icon: Icons.fastfood,
-      rota: Rotas.montarHamburguer,
       titulo: 'MONTE SEU PRÓPRIO HAMBÚRGUER',
       subtitulo: 'Você ainda não montou nenhum lanche.',
       rodape: 'Dê um nome as suas criações, e elas aparecerão aqui.',
+      navigator: () => Navigator.of(context).pushNamed(
+        Rotas.montarHamburguer,
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ProviderLanches>(context);
-    return (provider.qntLanches == 0) ? _buildTelaVazia() : _buildTela(context);
+    return (provider.qntLanches == 0) ? _buildTelaVazia(context) : _buildTela(context);
   }
 }

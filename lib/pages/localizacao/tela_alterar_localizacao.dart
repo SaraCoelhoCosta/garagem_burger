@@ -137,7 +137,9 @@ class _TelaAlterarLocalizacaoState extends State<TelaAlterarLocalizacao> {
                           onPressed: () => {},
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
                           child: Text(
                             "Cancelar",
                             // Fonte do Google.

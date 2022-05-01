@@ -162,21 +162,23 @@ class TelaCarrinho extends StatelessWidget {
     );
   }
 
-  Widget _buildTelaVazia() {
-    return const TelaVazia(
+  Widget _buildTelaVazia(BuildContext context) {
+    return TelaVazia(
       pageName: 'Meus Lanches',
       icon: Icons.shopping_cart_outlined,
-      rota: Rotas.main,
       titulo: 'IR PARA O MENU',
       subtitulo: 'Carrinho vazio!\nFaça seu pedido.',
       rodape: 'Selecione o produto que deseja e adicione ao carrinho.',
-      argumentos: [0, TelaMenu()],
+      navigator: () => Navigator.of(context).pushReplacementNamed(
+        Rotas.main,
+        arguments: [0, const TelaMenu()],
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ProviderCarrinho>(context);
-    return (provider.qntItens == 0) ? _buildTelaVazia() : _buildTela(context);
+    return (provider.qntItens == 0) ? _buildTelaVazia(context) : _buildTela(context);
   }
 }

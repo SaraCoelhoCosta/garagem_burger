@@ -64,9 +64,8 @@ class _TelaMenuState extends State<TelaMenu> {
 
         // Botao Monte seu proprio hamburguer
         GestureDetector(
-          onTap: () => Rotas.nvgComRetorno(
-            context: context,
-            rota: Rotas.montarHamburguer,
+          onTap: () => Navigator.of(context).pushNamed(
+            Rotas.montarHamburguer,
           ),
           child: Stack(
             children: [
@@ -172,10 +171,9 @@ class _TelaMenuState extends State<TelaMenu> {
           children: produtos
               .map((produto) => CardProduto(
                     produto: produto,
-                    onTap: () => Rotas.nvgComRetorno(
-                      context: context,
-                      rota: Rotas.produto,
-                      argumentos: produto,
+                    onTap: () => Navigator.of(context).pushNamed(
+                      Rotas.produto,
+                      arguments: produto,
                     ),
                   ))
               .toList(),

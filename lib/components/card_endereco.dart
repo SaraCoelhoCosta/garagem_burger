@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/models/localizacao.dart';
+import 'package:garagem_burger/pages/localizacao/tela_alterar_localizacao.dart';
 import 'package:garagem_burger/providers/provider_localizacoes.dart';
+import 'package:garagem_burger/utils/rotas.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -12,7 +14,7 @@ class CardEndereco extends StatelessWidget {
     required this.localizacao,
   }) : super(key: key);
 
-  Future excluirLanche(context) {
+  Future excluirLocalizacao(context) {
     final provider = Provider.of<ProviderLocalizacoes>(
       context,
       listen: false,
@@ -97,13 +99,20 @@ class CardEndereco extends StatelessWidget {
                   onTap: () {},
                 ),
                 PopupMenuItem(
-                    child: const ListTile(
-                      leading: Icon(Icons.create),
-                      title: Text('Editar'),
-                    ),
-                    onTap: () {
-                      //Navigator para a tela de editar lanche
-                    }),
+                  child: const ListTile(
+                    leading: Icon(Icons.create),
+                    title: Text('Editar'),
+                  ),
+                  onTap: () {
+                    Future.delayed(
+                      const Duration(seconds: 0),
+                      () => Navigator.of(context).pushNamed(
+                        Rotas.main,
+                        arguments: [3, const TelaAlterarLocalizacao()],
+                      ),
+                    );
+                  },
+                ),
                 PopupMenuItem(
                   child: const ListTile(
                     leading: Icon(Icons.delete),
@@ -112,7 +121,7 @@ class CardEndereco extends StatelessWidget {
                   onTap: () {
                     Future.delayed(
                       const Duration(seconds: 0),
-                      () => excluirLanche(context),
+                      () => excluirLocalizacao(context),
                     );
                   },
                 ),

@@ -150,8 +150,10 @@ class _TelaAlterarCartaoState extends State<TelaAlterarCartao> {
                         labelText: "Alterar cartão",
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
+                            // ignore: avoid_print
                             print('Válido!');
                           } else {
+                            // ignore: avoid_print
                             print('Inválido!');
                           }
                         },

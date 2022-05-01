@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/pages/meus_lanches/tela_montar_hamburguer.dart';
-import 'package:garagem_burger/pages/localizacao/tela_nova_localizacao.dart';
 import 'package:garagem_burger/providers/provider_carrinho.dart';
+import 'package:garagem_burger/providers/provider_cartao.dart';
 import 'package:garagem_burger/providers/provider_lanches.dart';
 import 'package:garagem_burger/providers/provider_localizacoes.dart';
 import 'package:garagem_burger/providers/provider_pedidos.dart';
@@ -37,6 +37,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ProviderPedidos()),
         ChangeNotifierProvider(create: (_) => ProviderLocalizacoes()),
         ChangeNotifierProvider(create: (_) => ProviderCarrinho()),
+        ChangeNotifierProvider(create: (_) => ProviderCartao()),
       ],
       child: MaterialApp(
         localizationsDelegates: [
@@ -55,6 +56,7 @@ class MyApp extends StatelessWidget {
 
         theme: ThemeData(
           primarySwatch: Colors.blue,
+          backgroundColor: const Color(0xfffed80b),
           // colorScheme: ColorScheme.light(
           //   secondary: const Color(0xfffed80b),
           // ),
@@ -69,7 +71,6 @@ class MyApp extends StatelessWidget {
           Rotas.main: (context) => TelaPrincipal(),
           Rotas.produto: (context) => TelaProduto(),
           Rotas.montarHamburguer: (context) => TelaMontarHamburguer(),
-          Rotas.localizacoes: (context) => TelaNovaLocalizacao(),
         },
       ),
     );

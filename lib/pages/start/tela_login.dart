@@ -39,7 +39,7 @@ class _TelaLoginState extends State<TelaLogin> {
     _loginUsuario.outState.listen((estado) {
       switch (estado) {
         case EstadoLogin.SUCESSO:
-          Rotas.nvgSemRetorno(context: context, rota: Rotas.main);
+          Navigator.of(context).pushReplacementNamed(Rotas.main);
           break;
         case EstadoLogin.FALHA:
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -250,10 +250,9 @@ class _TelaLoginState extends State<TelaLogin> {
 
                   BotaoPreto(
                     labelText: "Entrar como visitante",
-                    onPressed: () => Rotas.nvgSemRetorno(
-                      context: context,
-                      rota: Rotas.main,
-                      argumentos: [0, TelaMenu()],
+                    onPressed: () => Navigator.of(context).pushReplacementNamed(
+                      Rotas.main,
+                      arguments: [0, TelaMenu()],
                     ),
                   ),
                   Row(
@@ -285,9 +284,8 @@ class _TelaLoginState extends State<TelaLogin> {
                         ),
 
                         // Ação executada pelo botão.
-                        onPressed: () => Rotas.nvgComRetorno(
-                          context: context,
-                          rota: Rotas.cadastro,
+                        onPressed: () => Navigator.of(context).pushNamed(
+                          Rotas.cadastro,
                         ),
                       ),
                     ],
