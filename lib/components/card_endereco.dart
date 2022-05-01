@@ -59,55 +59,65 @@ class CardEndereco extends StatelessWidget {
       ),
       child: Card(
         elevation: 6.0,
-        child: ListTile(
-          title: Text(
-            '${localizacao.rua}, ${localizacao.numero.toString()} - '
-            '${localizacao.bairro}\n${localizacao.cidade}, ${localizacao.estado}',
-            style: GoogleFonts.oxygen(
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold,
-            ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: 15.0,
+            right: 5.0,
+            top: 7,
+            bottom: 10,
           ),
-          subtitle: Text(
-            localizacao.descricao!,
-            style: GoogleFonts.oxygen(
-              fontSize: 20.0,
-            ),
-          ),
-          contentPadding: const EdgeInsets.all(6),
-          trailing: PopupMenuButton(
-            itemBuilder: (BuildContext context) => [
-              PopupMenuItem(
-                child: const ListTile(
-                  leading: Icon(
-                    Icons.star,
-                    color: Colors.yellow,
-                  ),
-                  title: Text('Preferencial'),
-                ),
-                onTap: () {},
+          child: ListTile(
+            title: Text(
+              '${localizacao.rua}, ${localizacao.numero.toString()} - '
+              '${localizacao.bairro}\n${localizacao.cidade}, ${localizacao.estado}',
+              style: GoogleFonts.oxygen(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
               ),
-              PopupMenuItem(
+            ),
+            subtitle: Text(
+              '' + localizacao.descricao!,
+              style: GoogleFonts.oxygen(
+                fontSize: 20.0,
+              ),
+            ),
+            trailing: PopupMenuButton(
+              itemBuilder: (BuildContext context) => [
+                PopupMenuItem(
                   child: const ListTile(
-                    leading: Icon(Icons.create),
-                    title: Text('Editar'),
+                    leading: Icon(
+                      Icons.star,
+                      color: Colors.yellow,
+                    ),
+                    title: Text('Preferencial'),
+                  ),
+                  onTap: () {},
+                ),
+                PopupMenuItem(
+                    child: const ListTile(
+                      leading: Icon(Icons.create),
+                      title: Text('Editar'),
+                    ),
+                    onTap: () {
+                      //Navigator para a tela de editar lanche
+                    }),
+                PopupMenuItem(
+                  child: const ListTile(
+                    leading: Icon(Icons.delete),
+                    title: Text('Excluir'),
                   ),
                   onTap: () {
-                    //Navigator para a tela de editar lanche
-                  }),
-              PopupMenuItem(
-                child: const ListTile(
-                  leading: Icon(Icons.delete),
-                  title: Text('Excluir'),
+                    Future.delayed(
+                      const Duration(seconds: 0),
+                      () => excluirLanche(context),
+                    );
+                  },
                 ),
-                onTap: () {
-                  Future.delayed(
-                    const Duration(seconds: 0),
-                    () => excluirLanche(context),
-                  );
-                },
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

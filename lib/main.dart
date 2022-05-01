@@ -16,7 +16,7 @@ import 'package:garagem_burger/pages/start/tela_login.dart';
 import 'package:garagem_burger/pages/tela_principal.dart';
 import 'package:garagem_burger/pages/menu/tela_produto.dart';
 import 'package:provider/provider.dart';
-// import 'firebase_options.dart';
+//import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,28 +45,26 @@ class MyApp extends StatelessWidget {
         supportedLocales: [
           const Locale('pt', 'BR'),
         ],
-      
+
         title: 'Garagem Burger',
-      
+
         // Tira simbolo de debug.
         debugShowCheckedModeBanner: false,
-      
+
         theme: ThemeData(
           primarySwatch: Colors.blue,
           // colorScheme: ColorScheme.light(
           //   secondary: const Color(0xfffed80b),
           // ),
         ),
-      
+
         initialRoute: Rotas.home,
-      
+
         routes: {
           Rotas.home: (context) => TelaAbertura(),
           Rotas.login: (context) => TelaLogin(),
           Rotas.cadastro: (context) => TelaCadastroUsuario(),
-      
           Rotas.main: (context) => TelaPrincipal(),
-          
           Rotas.produto: (context) => TelaProduto(),
           Rotas.montarHamburguer: (context) => TelaMontarHamburguer(),
           Rotas.localizacoes: (context) => TelaNovaLocalizacao(),
