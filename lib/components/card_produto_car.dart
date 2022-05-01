@@ -87,38 +87,47 @@ class CardProdutoCar extends StatelessWidget {
               const SizedBox(width: 20),
 
               // Title e subtitle
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // Title
-                  Text(
-                    itemCarrinho.produto.nome,
-                    softWrap: true,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
+              Padding(
+                padding: const EdgeInsets.only(top: 30, bottom: 0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Title
+                    SizedBox(
+                      height: 50,
+                      width: 100,
+                      child: Expanded(
+                        child: Text(
+                          itemCarrinho.produto.nome,
+                          softWrap: true,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-              
-                  // Subtitle
-                  Text(
-                    'R\$ ${itemCarrinho.produto.preco.toStringAsFixed(2)}',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey,
+                    // Subtitle
+                    Text(
+                      'R\$ ${itemCarrinho.produto.preco.toStringAsFixed(2)}',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
 
               const Spacer(),
 
               // Quantidade de produtos
               Padding(
-                padding: const EdgeInsets.only(top: 12),
+                padding: const EdgeInsets.only(top: 30, right: 70, bottom: 30),
                 child: Text(
                   '${itemCarrinho.quantidade}x',
                   style: const TextStyle(

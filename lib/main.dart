@@ -47,28 +47,26 @@ class MyApp extends StatelessWidget {
         supportedLocales: [
           const Locale('pt', 'BR'),
         ],
-      
+
         title: 'Garagem Burger',
-      
+
         // Tira simbolo de debug.
         debugShowCheckedModeBanner: false,
-      
+
         theme: ThemeData(
           primarySwatch: Colors.blue,
           // colorScheme: ColorScheme.light(
           //   secondary: const Color(0xfffed80b),
           // ),
         ),
-      
+
         initialRoute: Rotas.home,
-      
+
         routes: {
           Rotas.home: (context) => TelaAbertura(),
           Rotas.login: (context) => TelaLogin(),
           Rotas.cadastro: (context) => TelaCadastroUsuario(),
-      
           Rotas.main: (context) => TelaPrincipal(),
-          
           Rotas.produto: (context) => TelaProduto(),
           Rotas.montarHamburguer: (context) => TelaMontarHamburguer(),
           Rotas.localizacoes: (context) => TelaNovaLocalizacao(),
