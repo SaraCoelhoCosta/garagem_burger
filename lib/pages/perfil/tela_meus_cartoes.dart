@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/components/card_cartao.dart';
 import 'package:garagem_burger/pages/cartoes/tela_novo_cartao.dart';
 import 'package:garagem_burger/pages/tela_vazia.dart';
 import 'package:garagem_burger/providers/provider_cartao.dart';
@@ -37,20 +38,15 @@ class TelaMeusCartoes extends StatelessWidget {
                   ),
                   textAlign: TextAlign.left),
               icon: const Icon(
-                Icons.add_location_alt_outlined,
+                Icons.add_card_outlined,
                 color: Colors.black,
               ),
             ),
           ],
         ),
-        // Lista de cartões
         Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: provider.listaCartoes.map((cartao) {
-            return GestureDetector(
-                onTap: () => provider.removeCartao(cartao.cardNumber),
-                child: Text(cartao.cardNumber));
-          }) // Mudar esse Text pra um cardCartao dps
+          children: provider.listaCartoes
+              .map((cartao) => CardCartao(cartao: cartao))
               .toList(),
         ),
       ],
