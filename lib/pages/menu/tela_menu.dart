@@ -173,7 +173,7 @@ class _TelaMenuState extends State<TelaMenu> {
                     produto: produto,
                     onTap: () => Navigator.of(context).pushNamed(
                       Rotas.produto,
-                      arguments: produto,
+                      arguments: [false, produto],
                     ),
                   ))
               .toList(),

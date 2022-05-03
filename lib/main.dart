@@ -17,12 +17,12 @@ import 'package:garagem_burger/pages/start/tela_login.dart';
 import 'package:garagem_burger/pages/tela_principal.dart';
 import 'package:garagem_burger/pages/menu/tela_produto.dart';
 import 'package:provider/provider.dart';
-import 'firebase_options.dart';
+// import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+    // options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(MyApp());
 }

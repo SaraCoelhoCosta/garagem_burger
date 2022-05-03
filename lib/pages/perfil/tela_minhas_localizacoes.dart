@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:garagem_burger/components/card_endereco.dart';
+import 'package:garagem_burger/components/card_personalizado.dart';
 import 'package:garagem_burger/pages/localizacao/tela_nova_localizacao.dart';
 import 'package:garagem_burger/pages/tela_vazia.dart';
 import 'package:garagem_burger/providers/provider_localizacoes.dart';
@@ -43,9 +43,14 @@ class TelaMinhasLocalizacoes extends StatelessWidget {
             ),
           ],
         ),
+        // Column(
+        //   children: provider.listaLocalizacoes
+        //       .map((localizacao) => CardEndereco(localizacao: localizacao))
+        //       .toList(),
+        // ),
         Column(
           children: provider.listaLocalizacoes
-              .map((localizacao) => CardEndereco(localizacao: localizacao))
+              .map((localizacao) => CardPersonalizado(tipoCard: TipoCard.localizacao, item: localizacao))
               .toList(),
         ),
       ],

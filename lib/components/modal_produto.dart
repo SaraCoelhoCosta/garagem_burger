@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/botao_amarelo.dart';
+import 'package:garagem_burger/models/produto.dart';
+import 'package:garagem_burger/providers/provider_carrinho.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class ModalProduto extends StatefulWidget {
-  final void Function(BuildContext, int) addCarrinho;
+  final Produto produto;
+  final bool isEditing;
+  final void Function(BuildContext, int) onTap;
 
   const ModalProduto({
     Key? key,
-    required this.addCarrinho,
+    required this.produto,
+    required this.onTap,
+    required this.isEditing,
   }) : super(key: key);
 
   @override
@@ -16,9 +23,17 @@ class ModalProduto extends StatefulWidget {
 
 class _ModalProdutoState extends State<ModalProduto> {
   int _qnt = 1;
+  bool modalUpdated = false;
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ProviderCarrinho>(context, listen: false);
+
+    if(!modalUpdated && widget.isEditing && provider.itensCarrinho.containsKey(widget.produto.id)){
+      modalUpdated = true;
+      _qnt = provider.itensCarrinho[widget.produto.id]!.quantidade;
+    }
+
     return Padding(
       padding: const EdgeInsets.all(15),
       child: Column(
@@ -74,8 +89,8 @@ class _ModalProdutoState extends State<ModalProduto> {
           const SizedBox(height: 15),
 
           BotaoAmarelo(
-            labelText: 'Adicionar no carrinho',
-            onPressed: () => widget.addCarrinho(
+            labelText: (widget.isEditing) ? 'Salvar Alterações' : 'Adicionar no Carrinho',
+            onPressed: () => widget.onTap(
               context,
               _qnt,
             ),

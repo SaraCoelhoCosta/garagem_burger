@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:garagem_burger/components/card_cartao.dart';
+import 'package:garagem_burger/components/card_personalizado.dart';
 import 'package:garagem_burger/pages/cartoes/tela_novo_cartao.dart';
 import 'package:garagem_burger/pages/tela_vazia.dart';
 import 'package:garagem_burger/providers/provider_cartao.dart';
@@ -44,9 +44,15 @@ class TelaMeusCartoes extends StatelessWidget {
             ),
           ],
         ),
+        // Column(
+        //   children: provider.listaCartoes
+        //       .map((cartao) => CardCartao(cartao: cartao))
+        //       .toList(),
+        // ),
         Column(
           children: provider.listaCartoes
-              .map((cartao) => CardCartao(cartao: cartao))
+              .map((cartao) =>
+                  CardPersonalizado(tipoCard: TipoCard.cartao, item: cartao))
               .toList(),
         ),
       ],

@@ -32,7 +32,7 @@ class CardEndereco extends StatelessWidget {
             elevation: 5.0,
             child: const Text('Sim'),
             onPressed: () {
-              provider.removeLocalizacao(localizacao.id);
+              provider.removeLocalizacao(localizacao);
               Navigator.of(context).pop();
             },
           ),

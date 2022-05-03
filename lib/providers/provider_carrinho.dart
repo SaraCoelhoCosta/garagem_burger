@@ -27,7 +27,7 @@ class ProviderCarrinho with ChangeNotifier {
         (itemCarrinho) => ItemCarrinho(
           id: itemCarrinho.id,
           produto: itemCarrinho.produto,
-          quantidade: itemCarrinho.quantidade += quantidade,
+          quantidade: itemCarrinho.quantidade + quantidade,
         ),
       );
     }
@@ -39,6 +39,21 @@ class ProviderCarrinho with ChangeNotifier {
         () => ItemCarrinho(
           id: Random().nextDouble().toString(),
           produto: produto,
+          quantidade: quantidade,
+        ),
+      );
+    }
+
+    notifyListeners();
+  }
+
+  void editarItemCarrinho(Produto produto, int quantidade) {
+    if (_itens.containsKey(produto.id)) {
+      _itens.update(
+        produto.id,
+        (itemCarrinho) => ItemCarrinho(
+          id: itemCarrinho.id,
+          produto: itemCarrinho.produto,
           quantidade: quantidade,
         ),
       );

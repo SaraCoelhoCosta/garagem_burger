@@ -32,7 +32,7 @@ class CardCartao extends StatelessWidget {
             elevation: 5.0,
             child: const Text('Sim'),
             onPressed: () {
-              provider.removeCartao(cartao.cardNumber);
+              provider.removeCartao(cartao);
               Navigator.of(context).pop();
             },
           ),
@@ -74,7 +74,7 @@ class CardCartao extends StatelessWidget {
           child: ListTile(
             leading: ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-              child: Image.asset('../images/cartao1.jpg'),
+              child: Image.asset('images/cartao1.jpg'),
             ),
             title: Text(
               'Meu cartão 1',

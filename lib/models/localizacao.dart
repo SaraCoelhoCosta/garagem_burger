@@ -5,6 +5,7 @@ class Localizacao {
   final String bairro;
   final String cidade;
   final String estado;
+  bool favorite;
   String? descricao;
 
   Localizacao({
@@ -14,6 +15,7 @@ class Localizacao {
     required this.bairro,
     required this.cidade,
     required this.estado,
+    this.favorite = false,
     this.descricao,
   });
 }

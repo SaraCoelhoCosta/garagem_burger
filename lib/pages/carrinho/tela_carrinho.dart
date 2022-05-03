@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/botao_amarelo.dart';
-import 'package:garagem_burger/components/card_produto_car.dart';
+import 'package:garagem_burger/components/card_personalizado.dart';
 import 'package:garagem_burger/components/popup_dialog.dart';
 import 'package:garagem_burger/pages/localizacao/tela_adicionar_localizacao.dart';
 import 'package:garagem_burger/pages/menu/tela_menu.dart';
@@ -74,10 +74,18 @@ class TelaCarrinho extends StatelessWidget {
           ],
         ),
         // Itens do carrinho
+        // Column(
+        //   children: provider.itensCarrinho.values
+        //       .map((itemCarrinho) => CardProdutoCar(
+        //             itemCarrinho,
+        //           ))
+        //       .toList(),
+        // ),
         Column(
           children: provider.itensCarrinho.values
-              .map((itemCarrinho) => CardProdutoCar(
-                    itemCarrinho,
+              .map((itemCarrinho) => CardPersonalizado(
+                    item: itemCarrinho,
+                    tipoCard: TipoCard.itemCarrinho,
                   ))
               .toList(),
         ),

@@ -88,6 +88,7 @@ final localizacoes = [
     bairro: 'Jequiézinho',
     cidade: 'Jequié',
     estado: 'Bahia',
+    favorite: true,
     descricao: 'Minha casa',
   ),
   Localizacao(
@@ -97,18 +98,31 @@ final localizacoes = [
     bairro: 'Mandacaru',
     cidade: 'Jequié',
     estado: 'Bahia',
+    favorite: false,
     descricao: 'Casa de Tia Mony',
   ),
 ];
 
 final cartoes = [
   Cartao(
+    id: Random().nextDouble().toString(),
+    description: 'Meu cartão 1',
     cardNumber: '123456789',
+    dueDate: '10/22',
+    favorite: true,
   ),
   Cartao(
+    id: Random().nextDouble().toString(),
+    description: 'Meu cartão 2',
     cardNumber: '123450000',
+    dueDate: '10/24',
+    favorite: false,
   ),
   Cartao(
+    id: Random().nextDouble().toString(),
+    description: 'Meu cartão 3',
     cardNumber: '987654321',
+    dueDate: '11/25',
+    favorite: false,
   ),
 ];

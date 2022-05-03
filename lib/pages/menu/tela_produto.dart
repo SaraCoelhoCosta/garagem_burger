@@ -8,49 +8,30 @@ import 'package:provider/provider.dart';
 class TelaProduto extends StatelessWidget {
   const TelaProduto({Key? key}) : super(key: key);
 
-  // void _addCarrinho(BuildContext context, int qnt) {
-  //   Navigator.of(context).pop(); // Fecha o modal
-
-  //   // Provider.of<ProviderCarrinho>(
-  //   //   context,
-  //   //   listen: false,
-  //   // ).addItemCarrinho(produto, qnt);
-
-  //   ScaffoldMessenger.of(context).showSnackBar(
-  //     SnackBar(
-  //       content: Text(
-  //         '$qnt produto(s) adicionado(s) no carrinho',
-  //         textAlign: TextAlign.center,
-  //         style: GoogleFonts.oxygen(
-  //           fontSize: 16.0,
-  //           fontWeight: FontWeight.bold,
-  //         ),
-  //       ),
-  //       elevation: 6.0,
-  //       backgroundColor: Colors.blue,
-  //       duration: const Duration(seconds: 2),
-  //     ),
-  //   );
-  // }
-
   _openModal(BuildContext context, Produto produto) {
+    List arguments = ModalRoute.of(context)?.settings.arguments as List;
+    bool isEditing = arguments[0] as bool;
+    Produto produto = arguments[1] as Produto;
+
+    final provider = Provider.of<ProviderCarrinho>(context, listen: false);
+
     showModalBottomSheet(
       context: context,
       builder: (_) {
         return ModalProduto(
-          // addCarrinho: _addCarrinho,
-          addCarrinho: (context, qnt) {
+          produto: produto,
+          isEditing: isEditing,
+          onTap: (context, qnt) {
             Navigator.of(context).pop(); // Fecha o modal
 
-            Provider.of<ProviderCarrinho>(
-              context,
-              listen: false,
-            ).addItemCarrinho(produto, qnt);
+            (isEditing)
+                ? provider.editarItemCarrinho(produto, qnt)
+                : provider.addItemCarrinho(produto, qnt);
 
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
-                  '$qnt produto(s) adicionado(s) no carrinho',
+                  (isEditing) ? '${produto.nome} atualizado para $qnt' : '$qnt ${produto.nome} adicionado no carrinho',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.oxygen(
                     fontSize: 16.0,
@@ -70,7 +51,8 @@ class TelaProduto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Produto produto = ModalRoute.of(context)?.settings.arguments as Produto;
+    List arguments = ModalRoute.of(context)?.settings.arguments as List;
+    Produto produto = arguments[1] as Produto;
 
     return Scaffold(
       body: Container(
