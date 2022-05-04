@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class BotaoBranco extends StatelessWidget {
+class BotaoComSeta extends StatelessWidget {
   final String text;
   final IconData icon;
   final Function()? onTap;
 
-  const BotaoBranco({
+  const BotaoComSeta({
     Key? key,
     required this.text,
     required this.icon,

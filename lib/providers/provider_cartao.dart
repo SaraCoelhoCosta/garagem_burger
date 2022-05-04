@@ -9,24 +9,26 @@ class ProviderCartao with ChangeNotifier {
 
   int get qntCartoes => _cartoes.length;
 
-  void selectFavorite(Cartao card) {
-    for (Cartao cartao in _cartoes) {
-      cartao.favorite = false;
-    }
+  Cartao get cartaoPreferencial {
+    return _cartoes.singleWhere((cartao) => cartao.favorite);
+  }
 
-    _cartoes[_cartoes.indexOf(card)].favorite = true;
+  void selectFavorite(String idCartao) {
+    for (Cartao cartao in _cartoes) {
+      cartao.favorite = (cartao.id == idCartao);
+    }
 
     notifyListeners();
   }
 
-  void removeCartao(Cartao card) {
+  void removeCartao(String idCartao) {
     bool alterarFavorito = false;
 
-    if (_cartoes[_cartoes.indexOf(card)].favorite && qntCartoes > 1) {
+    if (cartaoPreferencial.id == idCartao && qntCartoes > 1) {
       alterarFavorito = true;
     }
 
-    _cartoes.removeWhere((cartao) => cartao.id == card.id);
+    _cartoes.removeWhere((cartao) => cartao.id == idCartao);
 
     if (alterarFavorito) {
       _cartoes[0].favorite = true;

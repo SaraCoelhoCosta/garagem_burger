@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/models/produto.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class CardProduto extends StatelessWidget {
   final Produto produto;
@@ -16,31 +15,77 @@ class CardProduto extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-        left: 8.0,
-        right: 8.0,
-        top: 10.0,
+        left: 8,
+        right: 8,
+        top: 8,
       ),
-      child: Card(
-        elevation: 6.0,
-        child: ListTile(
-          leading: ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(15.0)),
-            child: Image.asset('images/hamburguer.jpg'),
+      child: GestureDetector(
+        onTap: onTap,
+        child: Card(
+          elevation: 6.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
           ),
-          title: Text(
-            produto.nome,
-            style: GoogleFonts.oxygen(
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold,
+          child: Padding(
+            padding: const EdgeInsets.all(5),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                /*
+                * Leading (Imagem)
+                */
+                Container(
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(15),
+                    ),
+                    image: DecorationImage(
+                      image: AssetImage('images/hamburguer.jpg'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  width: MediaQuery.of(context).size.height * 0.15,
+                  height: MediaQuery.of(context).size.height * 0.15,
+                ),
+                /*
+                * Title e Subtitle
+                */
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  height: MediaQuery.of(context).size.height * 0.15,
+                  width: MediaQuery.of(context).size.width * 0.60,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      /*
+                      * Title
+                      */
+                      Text(
+                        produto.nome, // max: 27 caracteres
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                      /*
+                      * Subtitle
+                      */
+                      Text(
+                        'R\$ ${produto.preco.toStringAsFixed(2)}',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
-          subtitle: Text(
-            'R\$ ${produto.preco.toStringAsFixed(2)}',
-            style: GoogleFonts.oxygen(
-              fontSize: 20.0,
-            ),
-          ),
-          onTap: onTap,
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:garagem_burger/components/card_personalizado.dart';
+import 'package:garagem_burger/components/card_dismissible.dart';
+import 'package:garagem_burger/pages/localizacao/tela_alterar_localizacao.dart';
 import 'package:garagem_burger/pages/localizacao/tela_nova_localizacao.dart';
 import 'package:garagem_burger/pages/tela_vazia.dart';
 import 'package:garagem_burger/providers/provider_localizacoes.dart';
@@ -50,7 +51,16 @@ class TelaMinhasLocalizacoes extends StatelessWidget {
         // ),
         Column(
           children: provider.listaLocalizacoes
-              .map((localizacao) => CardPersonalizado(tipoCard: TipoCard.localizacao, item: localizacao))
+              .map((localizacao) => CardDismissible(
+                    tipoCard: TipoCard.localizacao,
+                    item: localizacao,
+                    editar: () => Navigator.of(context).pushNamed(
+                      Rotas.main,
+                      arguments: [3, const TelaAlterarLocalizacao()],
+                    ),
+                    favoritar: (id) => provider.selectFavorite(id),
+                    remover: (id) => provider.removeLocalizacao(id),
+                  ))
               .toList(),
         ),
       ],

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:garagem_burger/components/botao_amarelo.dart';
+import 'package:garagem_burger/components/botao.dart';
 import 'package:garagem_burger/components/campo_texto.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -132,7 +132,7 @@ class _TelaAlterarLocalizacaoState extends State<TelaAlterarLocalizacao> {
                             ),
                           ],
                         ),
-                        BotaoAmarelo(
+                        Botao(
                           labelText: "Alterar endereço",
                           onPressed: () => {},
                         ),

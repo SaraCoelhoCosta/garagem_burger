@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:garagem_burger/components/botao_amarelo.dart';
-import 'package:garagem_burger/components/card_personalizado.dart';
+import 'package:garagem_burger/components/botao.dart';
+import 'package:garagem_burger/components/card_dismissible.dart';
 import 'package:garagem_burger/components/popup_dialog.dart';
 import 'package:garagem_burger/pages/localizacao/tela_adicionar_localizacao.dart';
 import 'package:garagem_burger/pages/menu/tela_menu.dart';
@@ -73,23 +73,25 @@ class TelaCarrinho extends StatelessWidget {
             ),
           ],
         ),
-        // Itens do carrinho
-        // Column(
-        //   children: provider.itensCarrinho.values
-        //       .map((itemCarrinho) => CardProdutoCar(
-        //             itemCarrinho,
-        //           ))
-        //       .toList(),
-        // ),
+        /*
+        * Itens do carrinho
+        */
         Column(
-          children: provider.itensCarrinho.values
-              .map((itemCarrinho) => CardPersonalizado(
-                    item: itemCarrinho,
-                    tipoCard: TipoCard.itemCarrinho,
-                  ))
-              .toList(),
+          children: provider.itensCarrinho.values.map((itemCarrinho) {
+            return CardDismissible(
+              item: itemCarrinho,
+              tipoCard: TipoCard.itemCarrinho,
+              editar: () => Navigator.of(context).pushNamed(
+                Rotas.produto,
+                arguments: [true, itemCarrinho.produto],
+              ),
+              remover: (id) => provider.removeItemCarrinho(id),
+            );
+          }).toList(),
         ),
-
+        /*
+        * Total e botao de continuar
+        */
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Card(
@@ -154,7 +156,7 @@ class TelaCarrinho extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(15),
-                  child: BotaoAmarelo(
+                  child: Botao(
                     labelText: 'Efetuar pedido',
                     onPressed: () {
                       Navigator.of(context).pushNamed(Rotas.main,
@@ -187,6 +189,8 @@ class TelaCarrinho extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ProviderCarrinho>(context);
-    return (provider.qntItens == 0) ? _buildTelaVazia(context) : _buildTela(context);
+    return (provider.qntItens == 0)
+        ? _buildTelaVazia(context)
+        : _buildTela(context);
   }
 }

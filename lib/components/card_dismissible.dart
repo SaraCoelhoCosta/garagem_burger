@@ -1,27 +1,26 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/components/popup_dialog.dart';
 import 'package:garagem_burger/models/cartao.dart';
 import 'package:garagem_burger/models/item_carrinho.dart';
 import 'package:garagem_burger/models/localizacao.dart';
-import 'package:garagem_burger/pages/cartoes/tela_alterar_cartao.dart';
-import 'package:garagem_burger/pages/localizacao/tela_alterar_localizacao.dart';
-import 'package:garagem_burger/providers/provider_carrinho.dart';
-import 'package:garagem_burger/providers/provider_cartao.dart';
-import 'package:garagem_burger/providers/provider_localizacoes.dart';
-import 'package:garagem_burger/utils/rotas.dart';
+import 'package:garagem_burger/models/produto.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 enum TipoCard {
   cartao,
   localizacao,
   itemCarrinho,
+  lanche,
 }
 
-class CardPersonalizado extends StatelessWidget {
+class CardDismissible extends StatelessWidget {
   final Object item;
   final TipoCard tipoCard;
+  final Function()? editar;
+  final Function(String id) remover;
+  final Function(String id)? favoritar;
   String id = '';
   String title = '';
   String subtitle = '';
@@ -31,8 +30,11 @@ class CardPersonalizado extends StatelessWidget {
   int? qntItens;
   double? width;
 
-  CardPersonalizado({
+  CardDismissible({
     Key? key,
+    this.favoritar,
+    this.editar,
+    required this.remover,
     required this.item,
     required this.tipoCard,
   }) : super(key: key);
@@ -40,91 +42,16 @@ class CardPersonalizado extends StatelessWidget {
   Future<bool?> _confirmRemove(context) {
     return showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text(
-          'Confirmar exclusão',
-          style: TextStyle(color: Colors.red),
-        ),
-        content:
-            const Text('Tem certeza que deseja excluir esse item da lista?'),
-        actions: <Widget>[
-          MaterialButton(
-            elevation: 5.0,
-            child: const Text(
-              'Não',
-            ),
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-          ),
-          MaterialButton(
-            elevation: 5.0,
-            child: const Text(
-              'Sim',
-              style: TextStyle(color: Colors.red),
-            ),
-            onPressed: () {
-              Navigator.of(context).pop(true);
-            },
-          ),
-        ],
+      builder: (context) => PopupDialog(
+        titulo: 'Confirmar exclusão',
+        descricao: 'Tem certeza que deseja excluir esse item da lista?',
+        onPressedYesOption: () => Navigator.of(context).pop(true),
+        onPressedNoOption: () => Navigator.of(context).pop(false),
       ),
     );
   }
 
-  void _removeFunction(BuildContext context) {
-    switch (tipoCard) {
-      case TipoCard.cartao:
-        final tempItem = item as Cartao;
-        Provider.of<ProviderCartao>(
-          context,
-          listen: false,
-        ).removeCartao(tempItem);
-        break;
-
-      case TipoCard.localizacao:
-        final tempItem = item as Localizacao;
-        Provider.of<ProviderLocalizacoes>(
-          context,
-          listen: false,
-        ).removeLocalizacao(tempItem);
-        break;
-
-      case TipoCard.itemCarrinho:
-        final tempItem = item as ItemCarrinho;
-        Provider.of<ProviderCarrinho>(
-          context,
-          listen: false,
-        ).removeItemCarrinho(tempItem.produto.id);
-        break;
-    }
-  }
-
-  void _favoriteFunction(BuildContext context) {
-    switch (tipoCard) {
-      case TipoCard.cartao:
-        final tempItem = item as Cartao;
-        Provider.of<ProviderCartao>(
-          context,
-          listen: false,
-        ).selectFavorite(tempItem);
-        break;
-
-      case TipoCard.localizacao:
-        final tempItem = item as Localizacao;
-        Provider.of<ProviderLocalizacoes>(
-          context,
-          listen: false,
-        ).selectFavorite(tempItem);
-        break;
-
-      case TipoCard.itemCarrinho:
-        // Nao tem
-        break;
-    }
-  }
-
-  void _selectTypeItem(BuildContext context) {
+  void _initItem(BuildContext context) {
     switch (tipoCard) {
       case TipoCard.cartao:
         final tempItem = item as Cartao;
@@ -139,9 +66,10 @@ class CardPersonalizado extends StatelessWidget {
       case TipoCard.localizacao:
         final tempItem = item as Localizacao;
         id = tempItem.id;
-        title = '${tempItem.rua}, ${tempItem.numero.toString()} - ${tempItem.bairro}'
-                '\n${tempItem.cidade}, ${tempItem.estado}';
-        subtitle = tempItem.descricao!;
+        title =
+            '${tempItem.rua}, ${tempItem.numero.toString()} - ${tempItem.bairro}'
+            '\n${tempItem.cidade}, ${tempItem.estado}';
+        subtitle = tempItem.descricao ?? '';
         leadingImage = null;
         isFavorite = tempItem.favorite;
         width = MediaQuery.of(context).size.width * 0.75;
@@ -149,7 +77,7 @@ class CardPersonalizado extends StatelessWidget {
 
       case TipoCard.itemCarrinho:
         final tempItem = item as ItemCarrinho;
-        id = tempItem.id;
+        id = tempItem.produto.id;
         title = tempItem.produto.nome;
         subtitle = 'R\$ ${tempItem.produto.preco.toStringAsFixed(2)}';
         leadingImage = 'images/hamburguer.jpg';
@@ -157,37 +85,22 @@ class CardPersonalizado extends StatelessWidget {
         qntItens = tempItem.quantidade;
         width = MediaQuery.of(context).size.width * 0.50;
         break;
-    }
-  }
 
-  void _editFunction(BuildContext context) {
-    switch (tipoCard) {
-      case TipoCard.cartao:
-        Navigator.of(context).pushNamed(
-          Rotas.main,
-          arguments: [3, const TelaAlterarCartao()],
-        );
-        break;
-
-      case TipoCard.localizacao:
-        Navigator.of(context).pushNamed(
-          Rotas.main,
-          arguments: [3, const TelaAlterarLocalizacao()],
-        );
-        break;
-
-      case TipoCard.itemCarrinho:
-        Navigator.of(context).pushNamed(
-          Rotas.produto,
-          arguments: [true, (item as ItemCarrinho).produto],
-        );
+      case TipoCard.lanche:
+        final tempItem = item as Produto;
+        id = tempItem.id;
+        title = tempItem.nome;
+        subtitle = 'R\$ ${tempItem.preco.toStringAsFixed(2)}';
+        leadingImage = 'images/hamburguer.jpg';
+        fit = BoxFit.cover;
+        width = MediaQuery.of(context).size.width * 0.50;
         break;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    _selectTypeItem(context);
+    _initItem(context);
 
     return Dismissible(
       key: ValueKey(id),
@@ -205,16 +118,16 @@ class CardPersonalizado extends StatelessWidget {
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 10),
       ),
-      onDismissed: (_) => _removeFunction(context),
+      onDismissed: (_) => remover(id),
       confirmDismiss: (_) => _confirmRemove(context),
       child: Padding(
         padding: const EdgeInsets.only(
-          left: 8.0,
-          right: 8.0,
-          top: 10.0,
+          left: 8,
+          right: 8,
+          top: 8,
         ),
         child: GestureDetector(
-          onTap: () => _editFunction(context),
+          onTap: editar,
           child: Card(
             elevation: 6.0,
             shape: RoundedRectangleBorder(
@@ -225,7 +138,9 @@ class CardPersonalizado extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Leading (Image)
+                  /*
+                    * Leading (Imagem)
+                    */
                   if (leadingImage != null)
                     Container(
                       decoration: BoxDecoration(
@@ -240,8 +155,9 @@ class CardPersonalizado extends StatelessWidget {
                       width: MediaQuery.of(context).size.height * 0.15,
                       height: MediaQuery.of(context).size.height * 0.15,
                     ),
-
-                  // Title e subtitle
+                  /*
+                  * Title e Subtitle
+                  */
                   Container(
                     padding: const EdgeInsets.all(12),
                     height: MediaQuery.of(context).size.height * 0.15,
@@ -250,7 +166,9 @@ class CardPersonalizado extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        // Title
+                        /*
+                        * Title
+                        */
                         Text(
                           title, // max: 27 caracteres
                           style: const TextStyle(
@@ -259,7 +177,9 @@ class CardPersonalizado extends StatelessWidget {
                             color: Colors.black,
                           ),
                         ),
-                        // Subtitle
+                        /*
+                        * Subtitle
+                        */
                         Text(
                           subtitle,
                           style: const TextStyle(
@@ -271,24 +191,24 @@ class CardPersonalizado extends StatelessWidget {
                       ],
                     ),
                   ),
-
                   const Spacer(),
-
-                  // Trailing (Marcar preferencial)
-                  if(isFavorite != null)
-                  IconButton(
-                    onPressed: () => _favoriteFunction(context),
-                    icon: (isFavorite!)
-                        ? const Icon(
-                            Icons.star,
-                            color: Colors.amber,
-                          )
-                        : const Icon(Icons.star_border_outlined),
-                  ),
-
-                  // Trailing (quantidade de itens do carrinho)
-                  if(qntItens != null)
-                   // Quantidade de produtos
+                  /*
+                  * Trailing (Marcar preferencial / Favoritar)
+                  */
+                  if (favoritar != null)
+                    IconButton(
+                      onPressed: () => favoritar!(id),
+                      icon: (isFavorite!)
+                          ? Icon(
+                              Icons.star,
+                              color: Theme.of(context).backgroundColor,
+                            )
+                          : const Icon(Icons.star_border_outlined),
+                    ),
+                  /*
+                  * Trailing (quantidade de itens do carrinho)
+                  */
+                  if (qntItens != null)
                     Container(
                       margin: const EdgeInsets.only(top: 10, right: 10),
                       decoration: BoxDecoration(

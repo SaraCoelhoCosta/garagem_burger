@@ -25,16 +25,16 @@ class PopupDialog extends StatelessWidget {
       actions: <Widget>[
         MaterialButton(
           elevation: 5.0,
-          child: const Text('Sim'),
-          onPressed: onPressedYesOption,
+          child: const Text('Não'),
+          onPressed: onPressedNoOption,
         ),
         MaterialButton(
           elevation: 5.0,
           child: const Text(
-            'Não',
+            'Sim',
             style: TextStyle(color: Colors.red),
           ),
-          onPressed: onPressedNoOption,
+          onPressed: onPressedYesOption,
         ),
       ],
     );

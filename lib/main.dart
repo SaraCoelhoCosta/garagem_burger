@@ -57,9 +57,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
           backgroundColor: const Color(0xfffed80b),
-          // colorScheme: ColorScheme.light(
-          //   secondary: const Color(0xfffed80b),
-          // ),
         ),
 
         initialRoute: Rotas.home,

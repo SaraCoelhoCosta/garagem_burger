@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/components/card_dismissible.dart';
 import 'package:garagem_burger/providers/provider_lanches.dart';
 import 'package:garagem_burger/utils/rotas.dart';
-import 'package:garagem_burger/components/card_lanche.dart';
 import 'package:garagem_burger/components/popup_dialog.dart';
 import 'package:garagem_burger/pages/tela_vazia.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -37,7 +37,7 @@ class TelaMeusLanches extends StatelessWidget {
   }
 
   Widget _buildTela(BuildContext context) {
-    final meusLanches = Provider.of<ProviderLanches>(context).listaLanches;
+    final provider = Provider.of<ProviderLanches>(context);
     return ListView(
       children: [
         Row(
@@ -65,8 +65,12 @@ class TelaMeusLanches extends StatelessWidget {
           ],
         ),
         Column(
-          children: meusLanches.map((lanche) {
-            return CardLanche(lanche: lanche);
+          children: provider.listaLanches.map((lanche) {
+            return CardDismissible(
+              tipoCard: TipoCard.lanche,
+              item: lanche,
+              remover: (id) => provider.removeLanche(id),
+            );
           }).toList(),
         ),
       ],

@@ -43,7 +43,6 @@ class ProviderCarrinho with ChangeNotifier {
         ),
       );
     }
-
     notifyListeners();
   }
 
@@ -58,7 +57,7 @@ class ProviderCarrinho with ChangeNotifier {
         ),
       );
     }
-
+    
     notifyListeners();
   }
 

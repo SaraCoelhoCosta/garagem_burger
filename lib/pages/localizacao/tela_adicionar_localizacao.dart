@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:garagem_burger/components/botao_amarelo.dart';
+import 'package:garagem_burger/components/botao.dart';
 import 'package:garagem_burger/pages/localizacao/tela_nova_localizacao.dart';
 import 'package:garagem_burger/utils/rotas.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -129,7 +129,7 @@ class _TelaAdicionarLocalizacaoState extends State<TelaAdicionarLocalizacao> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: BotaoAmarelo(
+                    child: Botao(
                       labelText: 'Confirmar',
                       onPressed: () {},
                     ),

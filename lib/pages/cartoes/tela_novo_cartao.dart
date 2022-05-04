@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
-import 'package:garagem_burger/components/botao_amarelo.dart';
+import 'package:garagem_burger/components/botao.dart';
 import 'package:garagem_burger/components/campo_texto.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -146,7 +146,7 @@ class _TelaNovoCartaoState extends State<TelaNovoCartao> {
                       const SizedBox(
                         height: 10,
                       ),
-                      BotaoAmarelo(
+                      Botao(
                         labelText: "Cadastrar cartão",
                         onPressed: () {
                           if (formKey.currentState!.validate()) {

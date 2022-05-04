@@ -1,7 +1,7 @@
 // ignore_for_file: file_names, prefer_const_constructors, unnecessary_new, sized_box_for_whitespace, avoid_print, prefer_collection_literals, override_on_non_overriding_member
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/components/botao.dart';
 import 'package:garagem_burger/controllers/novo_usuario.dart';
-import 'package:garagem_burger/components/botao_preto.dart';
 import 'package:garagem_burger/utils/rotas.dart';
 import 'package:garagem_burger/components/campo_texto.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -320,9 +320,13 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
                     ),
                   ),
 
-                  BotaoPreto(
+                  Botao(
+                    internalPadding: const EdgeInsets.symmetric(vertical: 15),
+                    externalPadding:
+                        const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+                    backgroundColor: Colors.black,
+                    foregroundColor: Colors.white,
                     labelText: "Cadastrar",
-                    // Ação que o botão realiza ao ser pressionado.
                     onPressed: () => {_novoUsuario.cadastrarUsuario()},
                   ),
 
@@ -357,9 +361,7 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
                         ),
 
                         // Ação executada pelo botão.
-                        onPressed: () => Navigator.of(context).pushReplacementNamed(
-                          Rotas.login,
-                        ),
+                        onPressed: () => Navigator.of(context).pop(),
                       ),
                     ],
                   ),

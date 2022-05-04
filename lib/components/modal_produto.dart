@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:garagem_burger/components/botao_amarelo.dart';
+import 'package:garagem_burger/components/botao.dart';
 import 'package:garagem_burger/models/produto.dart';
 import 'package:garagem_burger/providers/provider_carrinho.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -29,7 +29,9 @@ class _ModalProdutoState extends State<ModalProduto> {
   Widget build(BuildContext context) {
     final provider = Provider.of<ProviderCarrinho>(context, listen: false);
 
-    if(!modalUpdated && widget.isEditing && provider.itensCarrinho.containsKey(widget.produto.id)){
+    if (!modalUpdated &&
+        widget.isEditing &&
+        provider.itensCarrinho.containsKey(widget.produto.id)) {
       modalUpdated = true;
       _qnt = provider.itensCarrinho[widget.produto.id]!.quantidade;
     }
@@ -59,7 +61,7 @@ class _ModalProdutoState extends State<ModalProduto> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              BotaoAmarelo(
+              Botao(
                 onPressed: (_qnt == 1)
                     ? null
                     : () {
@@ -72,12 +74,12 @@ class _ModalProdutoState extends State<ModalProduto> {
                   left: 15,
                   right: 15,
                 ),
-                child: BotaoAmarelo(
+                child: Botao(
                   onPressed: () {},
                   labelText: '$_qnt',
                 ),
               ),
-              BotaoAmarelo(
+              Botao(
                 onPressed: () {
                   setState(() => _qnt++);
                 },
@@ -88,8 +90,10 @@ class _ModalProdutoState extends State<ModalProduto> {
 
           const SizedBox(height: 15),
 
-          BotaoAmarelo(
-            labelText: (widget.isEditing) ? 'Salvar Alterações' : 'Adicionar no Carrinho',
+          Botao(
+            labelText: (widget.isEditing)
+                ? 'Salvar Alterações'
+                : 'Adicionar no Carrinho',
             onPressed: () => widget.onTap(
               context,
               _qnt,

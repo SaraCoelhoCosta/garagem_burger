@@ -1,8 +1,8 @@
 // ignore_for_file: file_names, prefer_const_constructors, unnecessary_new, sized_box_for_whitespace
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/components/botao.dart';
 import 'package:garagem_burger/controllers/login_usuario.dart';
 import 'package:garagem_burger/utils/rotas.dart';
-import 'package:garagem_burger/components/botao_preto.dart';
 import 'package:garagem_burger/components/campo_texto.dart';
 import 'package:garagem_burger/pages/menu/tela_menu.dart';
 import 'package:sign_button/sign_button.dart';
@@ -240,15 +240,24 @@ class _TelaLoginState extends State<TelaLogin> {
                     ),
                   ),
 
-                  BotaoPreto(
-                    // Texto do botão.
+                  Botao(
+                    internalPadding: const EdgeInsets.symmetric(vertical: 15),
+                    externalPadding:
+                        const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+                    backgroundColor: Colors.black,
+                    foregroundColor: Colors.white,
                     labelText: "Entrar",
-
-                    // Ação que o botão realiza ao ser pressionado.
                     onPressed: () => {_loginUsuario.logarUsuario()},
                   ),
 
-                  BotaoPreto(
+                  Botao(
+                    internalPadding: const EdgeInsets.symmetric(vertical: 15),
+                    externalPadding: const EdgeInsets.symmetric(
+                      horizontal: 25,
+                      vertical: 5,
+                    ),
+                    backgroundColor: Colors.black,
+                    foregroundColor: Colors.white,
                     labelText: "Entrar como visitante",
                     onPressed: () => Navigator.of(context).pushReplacementNamed(
                       Rotas.main,

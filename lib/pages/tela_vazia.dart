@@ -24,63 +24,50 @@ class TelaVazia extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        ListView(
-          shrinkWrap: true,
-          children: [
-            Icon(icon, size: 100),
-            const SizedBox(height: 15),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                SizedBox(
-                  height: 150,
-                  width: 300,
-                  child: TextButton(
-                    onPressed: navigator,
-                    child: Text(
-                      titulo,
-                      style: GoogleFonts.oxygen(
-                        fontSize: 35,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue,
-                        decoration: TextDecoration.underline,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 60, bottom: 60, left: 50, right: 50),
-                  child: Text(
-                    subtitulo,
-                    style: GoogleFonts.oxygen(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ],
-            ),
-            Text(
-              rodape,
+    return Padding(
+      padding: EdgeInsets.only(
+        top: MediaQuery.of(context).size.height * 0.15,
+        bottom: 20,
+        left: 20,
+        right: 20,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Icon(icon, size: 120),
+          TextButton(
+            onPressed: navigator,
+            child: Text(
+              titulo,
               style: GoogleFonts.oxygen(
-                fontSize: 20,
+                fontSize: 35,
                 fontWeight: FontWeight.bold,
-                color: Colors.grey,
+                color: Colors.blue,
+                decoration: TextDecoration.underline,
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 20)
-          ],
-        ),
-      ],
+          ),
+          Text(
+            subtitulo,
+            style: GoogleFonts.oxygen(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          Text(
+            rodape,
+            style: GoogleFonts.oxygen(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.grey,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
     );
   }
 }

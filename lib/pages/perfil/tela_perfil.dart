@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/utils/rotas.dart';
-import 'package:garagem_burger/components/botao_branco.dart';
+import 'package:garagem_burger/components/botao_com_seta.dart';
 import 'package:garagem_burger/pages/perfil/tela_configuracoes.dart';
 import 'package:garagem_burger/pages/perfil/tela_meus_cartoes.dart';
 import 'package:garagem_burger/pages/perfil/tela_meus_pedidos.dart';
@@ -29,23 +29,6 @@ class _TelaPerfilState extends State<TelaPerfil> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const SizedBox(height: 30),
-
-          // ListTile(
-          //   leading: const CircleAvatar(
-          //     backgroundColor: Colors.grey,
-          //     backgroundImage: AssetImage("images/profile.png"),
-          //   ),
-          //   title: Text(
-          //     name,
-          //     style: GoogleFonts.oxygen(
-          //       color: Colors.black,
-          //       fontSize: 18,
-          //       fontWeight: FontWeight.bold,
-          //       decoration: TextDecoration.none,
-          //     ),
-          //   ),
-          // ),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -91,7 +74,7 @@ class _TelaPerfilState extends State<TelaPerfil> {
             ),
             child: Column(
               children: [
-                BotaoBranco(
+                BotaoComSeta(
                   text: 'Meus Pedidos',
                   icon: Icons.shopping_cart_outlined,
                   onTap: () => Navigator.of(context).pushNamed(
@@ -99,7 +82,7 @@ class _TelaPerfilState extends State<TelaPerfil> {
                     arguments: [3, const TelaMeusPedidos()],
                   ),
                 ),
-                BotaoBranco(
+                BotaoComSeta(
                   text: 'Minhas Localizações',
                   icon: Icons.location_on_outlined,
                   onTap: () => Navigator.of(context).pushNamed(
@@ -107,7 +90,7 @@ class _TelaPerfilState extends State<TelaPerfil> {
                     arguments: [3, const TelaMinhasLocalizacoes()],
                   ),
                 ),
-                BotaoBranco(
+                BotaoComSeta(
                   text: 'Meus Cartões',
                   icon: Icons.credit_card_outlined,
                   onTap: () => Navigator.of(context).pushNamed(
@@ -115,7 +98,7 @@ class _TelaPerfilState extends State<TelaPerfil> {
                     arguments: [3, const TelaMeusCartoes()],
                   ),
                 ),
-                BotaoBranco(
+                BotaoComSeta(
                   text: 'Configurações',
                   icon: Icons.settings,
                   onTap: () => Navigator.of(context).pushNamed(
@@ -123,7 +106,7 @@ class _TelaPerfilState extends State<TelaPerfil> {
                     arguments: [3, const TelaConfiguracoes()],
                   ),
                 ),
-                BotaoBranco(
+                BotaoComSeta(
                   text: 'Sair',
                   icon: Icons.exit_to_app,
                   onTap: () => Navigator.of(context).pushReplacementNamed(

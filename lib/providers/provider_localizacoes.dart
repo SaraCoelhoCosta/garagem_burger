@@ -9,28 +9,32 @@ class ProviderLocalizacoes with ChangeNotifier {
 
   int get qntLocalizacoes => _localizacoes.length;
 
-  void selectFavorite(Localizacao local) {
-    for (Localizacao localizacao in _localizacoes) {
-      localizacao.favorite = false;
-    }
+  Localizacao get localizacaoPreferencial {
+    return _localizacoes.singleWhere((local) => local.favorite);
+  }
 
-    _localizacoes[_localizacoes.indexOf(local)].favorite = true;
+  void selectFavorite(String idLocal) {
+    for (Localizacao local in _localizacoes) {
+      local.favorite = (local.id == idLocal);
+    }
 
     notifyListeners();
   }
 
-  void removeLocalizacao(Localizacao local) {
+  void removeLocalizacao(String idLocal) {
     bool alterarFavorito = false;
-    if (_localizacoes[_localizacoes.indexOf(local)].favorite &&
-        qntLocalizacoes > 1) {
+
+    if (localizacaoPreferencial.id == idLocal && qntLocalizacoes > 1) {
       alterarFavorito = true;
     }
 
-    _localizacoes.removeWhere((localizacao) => localizacao.id == local.id);
+    _localizacoes.removeWhere((local) => local.id == idLocal);
 
     if (alterarFavorito) {
       _localizacoes[0].favorite = true;
     }
+
     notifyListeners();
   }
+
 }
