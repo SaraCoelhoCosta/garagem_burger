@@ -9,7 +9,6 @@ class TelaAbertura extends StatefulWidget {
 }
 
 class _TelaAberturaState extends State<TelaAbertura> {
-
   // Constroi tela.
   @override
   Widget build(BuildContext context) {

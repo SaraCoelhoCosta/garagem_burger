@@ -1,6 +1,8 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, prefer_const_literals_to_create_immutables, unused_import
 
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/components/auth_check.dart';
+import 'package:garagem_burger/controllers/auth_service.dart';
 import 'package:garagem_burger/pages/meus_lanches/tela_montar_hamburguer.dart';
 import 'package:garagem_burger/providers/provider_carrinho.dart';
 import 'package:garagem_burger/providers/provider_cartao.dart';
@@ -22,8 +24,8 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    // options: DefaultFirebaseOptions.currentPlatform,
-  );
+      // options: DefaultFirebaseOptions.currentPlatform,
+      );
   runApp(MyApp());
 }
 
@@ -32,6 +34,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (context) => AuthService()),
         ChangeNotifierProvider(create: (_) => ProviderProdutos()),
         ChangeNotifierProvider(create: (_) => ProviderLanches()),
         ChangeNotifierProvider(create: (_) => ProviderPedidos()),
@@ -59,10 +62,12 @@ class MyApp extends StatelessWidget {
           backgroundColor: const Color(0xfffed80b),
         ),
 
+        //home: AuthCheck(),
         initialRoute: Rotas.home,
 
         routes: {
-          Rotas.home: (context) => TelaAbertura(),
+          Rotas.home: (context) => AuthCheck(),
+          //Rotas.home: (context) => TelaAbertura(),
           Rotas.login: (context) => TelaLogin(),
           Rotas.cadastro: (context) => TelaCadastroUsuario(),
           Rotas.main: (context) => TelaPrincipal(),

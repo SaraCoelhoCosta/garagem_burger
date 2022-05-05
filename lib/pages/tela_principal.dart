@@ -17,7 +17,7 @@ class TelaPrincipal extends StatefulWidget {
 class _TelaPrincipalState extends State<TelaPrincipal> {
   int currentIndex = 0;
   Widget currentPage = const TelaMenu();
-  bool updatedPage = false;
+  bool updatedPage = true;
 
   static const _widgets = [
     TelaMenu(),

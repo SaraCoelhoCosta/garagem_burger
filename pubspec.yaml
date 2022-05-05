@@ -44,7 +44,7 @@ dependencies:
   firebase_auth: ^3.3.11
 
   # Permite o acesso ao armazenamento de dados do Cloud Firestore.
-  cloud_firestore: ^3.1.10
+  cloud_firestore: ^3.1.13
 
   # É o código comum necessário para todos os plug-ins do Firebase Flutter.
   firebase_core: ^1.14.1

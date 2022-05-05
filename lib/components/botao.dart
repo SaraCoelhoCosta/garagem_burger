@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -9,6 +11,7 @@ class Botao extends StatelessWidget {
   final Color foregroundColor;
   final EdgeInsets internalPadding;
   final EdgeInsets externalPadding;
+  final bool loading;
 
   const Botao({
     Key? key,
@@ -18,17 +21,33 @@ class Botao extends StatelessWidget {
     this.internalPadding = const EdgeInsets.symmetric(vertical: 12),
     this.foregroundColor = Colors.black,
     this.backgroundColor = const Color(0xfffed80b),
+    this.loading = false,
     required this.onPressed,
   }) : super(key: key);
 
   _buildText() {
-    return Text(
-      labelText!,
-      style: GoogleFonts.oxygen(
-        color: foregroundColor,
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: (loading)
+          ? [
+              SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(
+                  color: foregroundColor,
+                ),
+              ),
+            ]
+          : [
+              Text(
+                labelText!,
+                style: GoogleFonts.oxygen(
+                  color: foregroundColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
     );
   }
 
