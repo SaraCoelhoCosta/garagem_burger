@@ -376,7 +376,13 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
                 ),
 
                 // Ação executada pelo botão.
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () {
+                  Provider.of<AuthService>(
+                    context,
+                    listen: false,
+                  ).switchAuthPage();
+                  // Navigator.of(context).pop();
+                },
               ),
             ],
           ),

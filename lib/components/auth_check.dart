@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/controllers/auth_service.dart';
+import 'package:garagem_burger/pages/start/tela_cadastro_usuario.dart';
 import 'package:garagem_burger/pages/start/tela_login.dart';
 import 'package:garagem_burger/pages/tela_principal.dart';
 import 'package:provider/provider.dart';
@@ -25,9 +26,9 @@ class _AuthCheckState extends State<AuthCheck> {
     }
     // Verifica se tem usuário logado.
     else if (auth.usuario == null) {
-      return login();
+      return authPage(auth.isLogin);
     }
-    // Se BD estiver carregado e usário estiver logado.
+    // Se BD estiver carregado e usuário estiver logado.
     else {
       return principal();
     }
@@ -43,9 +44,13 @@ class _AuthCheckState extends State<AuthCheck> {
     );
   }
 
-  // Exibe na tela símbolo de carregamento.
-  login() {
-    return TelaLogin();
+  // Exibe a pagina de login ou de cadastro
+  authPage(bool isLogin) {
+    if(isLogin) {
+      return TelaLogin();
+    } else {
+      return TelaCadastroUsuario();
+    }
   }
 
   principal() {

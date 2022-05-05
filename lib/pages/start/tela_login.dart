@@ -292,9 +292,13 @@ class _TelaLoginState extends State<TelaLogin> {
                 ),
 
                 // Ação executada pelo botão.
-                onPressed: () => Navigator.of(context).pushNamed(
-                  Rotas.cadastro,
-                ),
+                onPressed: () {
+                  Provider.of<AuthService>(
+                    context,
+                    listen: false,
+                  ).switchAuthPage();
+                  // Navigator.of(context).pushNamed(Rotas.cadastro);
+                },
               ),
             ],
           ),

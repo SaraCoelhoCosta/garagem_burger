@@ -13,21 +13,29 @@ class AuthException implements Exception {
 
 // Classe para serviço do usuário (acesso).
 class AuthService extends ChangeNotifier {
-  // Firebade para autenticação e criação de usuário.
+  // Firebase para autenticação e criação de usuário.
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = Firebase.getFirestore();
   User? usuario;
-  bool isLoading = false;
+  bool isLoading = true;
+  bool isLogin = true;
 
   AuthService() {
     logout();
     _authCheck();
   }
 
-  // Checa usuário se tem usuário logado ou não.
+  // Metodo que sera chamado quando o usuario alternar entre as telas de login e cadastro
+  switchAuthPage(){
+    isLogin = !isLogin;
+    notifyListeners();
+  }
+
+  // Checa se tem usuário logado ou não.
   _authCheck() {
     _auth.authStateChanges().listen((User? user) {
-      usuario = (user == null) ? null : user;
+      // usuario = (user == null) ? null : user;
+      usuario = user;
       isLoading = false;
       notifyListeners();
     });

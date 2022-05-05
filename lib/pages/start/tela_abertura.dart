@@ -36,7 +36,7 @@ class _TelaAberturaState extends State<TelaAbertura> {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: SystemUiOverlay.values);
     Future.delayed(Duration(seconds: 2)).then((_) {
-      Navigator.of(context).pushReplacementNamed(Rotas.login);
+      Navigator.of(context).pushReplacementNamed(Rotas.authCheck);
     });
   }
 }

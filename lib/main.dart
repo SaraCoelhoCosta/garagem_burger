@@ -66,8 +66,8 @@ class MyApp extends StatelessWidget {
         initialRoute: Rotas.home,
 
         routes: {
-          Rotas.home: (context) => AuthCheck(),
-          //Rotas.home: (context) => TelaAbertura(),
+          Rotas.home: (context) => TelaAbertura(),
+          Rotas.authCheck: (context) => AuthCheck(),
           Rotas.login: (context) => TelaLogin(),
           Rotas.cadastro: (context) => TelaCadastroUsuario(),
           Rotas.main: (context) => TelaPrincipal(),
