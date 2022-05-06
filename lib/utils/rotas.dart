@@ -1,5 +1,6 @@
 class Rotas {
   static const home = '/';
+  static const authCheck = '/auth-check';
   static const login = '/login';
   static const cadastro = '/cadastro';
 

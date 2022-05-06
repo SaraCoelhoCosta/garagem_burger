@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/controllers/auth_service.dart';
 import 'package:garagem_burger/providers/provider_produtos.dart';
 import 'package:garagem_burger/components/card_produto.dart';
 import 'package:garagem_burger/utils/rotas.dart';
@@ -21,6 +22,10 @@ class _TelaMenuState extends State<TelaMenu> {
   @override
   Widget build(BuildContext context) {
     final produtos = Provider.of<ProviderProdutos>(context).listaProdutos;
+
+    final user = Provider.of<AuthService>(context).usuario;
+    final userName = user?.email ?? 'Convidado';
+
     return ListView(
       children: [
         // Opcoes da aba superior (filtros e icone do usuario)
@@ -47,7 +52,7 @@ class _TelaMenuState extends State<TelaMenu> {
               Row(
                 children: [
                   Text(
-                    'Bem Vindo, João!  ',
+                    'Bem Vindo, $userName!',
                     style: GoogleFonts.oxygen(
                       fontSize: 18,
                     ),

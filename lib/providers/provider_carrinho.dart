@@ -11,6 +11,8 @@ class ProviderCarrinho with ChangeNotifier {
 
   int get qntItens => _itens.length;
 
+  bool get emptyList => _itens.isEmpty;
+
   double get precoTotal {
     double total = 0.0;
     _itens.forEach((_, itemCarrinho) {
@@ -66,7 +68,7 @@ class ProviderCarrinho with ChangeNotifier {
     notifyListeners();
   }
 
-  void limparCarrinho() {
+  void clearAll() {
     _itens.clear();
     notifyListeners();
   }

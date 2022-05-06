@@ -10,6 +10,8 @@ class ProviderLanches with ChangeNotifier {
 
   int get qntLanches => _meusLanches.length;
 
+  bool get emptyList => _meusLanches.isEmpty;
+
   void addLanche(Produto novoLanche){
     _meusLanches.add(novoLanche);
     notifyListeners();

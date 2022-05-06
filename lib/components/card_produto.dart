@@ -53,7 +53,8 @@ class CardProduto extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(12),
                   height: MediaQuery.of(context).size.height * 0.15,
-                  width: MediaQuery.of(context).size.width * 0.60,
+                  // Definir essa propriedade de uma forma melhor...
+                  width: MediaQuery.of(context).size.width * 0.55,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,

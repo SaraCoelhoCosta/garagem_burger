@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:garagem_burger/providers/provider_pedidos.dart';
 import 'package:garagem_burger/utils/rotas.dart';
 import 'package:garagem_burger/components/card_pedido.dart';
-import 'package:garagem_burger/components/popup_dialog.dart';
 import 'package:garagem_burger/pages/menu/tela_menu.dart';
 import 'package:garagem_burger/pages/tela_vazia.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class TelaMeusPedidos extends StatelessWidget {
@@ -14,62 +12,13 @@ class TelaMeusPedidos extends StatelessWidget {
   @override
   String toStringShort() => 'Meus Pedidos';
 
-  Future _excluirPedido(context) {
-    final provider = Provider.of<ProviderPedidos>(
-      context,
-      listen: false,
-    );
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return PopupDialog(
-          titulo: 'Excluir pedido',
-          descricao: 'Deseja excluir o histórico de pedidos?',
-          onPressedYesOption: () {
-            Navigator.of(context).pop();
-            provider.clearAll();
-          },
-          onPressedNoOption: () {
-            Navigator.of(context).pop();
-          },
-        );
-      },
-    );
-  }
-
   Widget _buildTela(BuildContext context) {
     final provider = Provider.of<ProviderPedidos>(context);
     return ListView(
       children: [
-        // const SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            TextButton.icon(
-              onPressed: () {
-                Future.delayed(
-                  const Duration(seconds: 0),
-                  () => _excluirPedido(context),
-                );
-              },
-              label: Text('Apagar histórico de pedidos',
-                  style: GoogleFonts.oxygen(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red,
-                  ),
-                  textAlign: TextAlign.left),
-              icon: const Icon(
-                Icons.delete,
-                color: Colors.black,
-              ),
-            ),
-          ],
-        ),
-        // const SizedBox(height: 10),
         Column(
           children: provider.listaPedidos
-              .map((pedido) => CardPedido(pedido: pedido))
+              .map((pedido) => CardPedido(pedido))
               .toList(),
         ),
       ],
@@ -85,8 +34,12 @@ class TelaMeusPedidos extends StatelessWidget {
       rodape: 'Encontre o produto que deseja no Menu.',
       navigator: () => Navigator.of(context).pushNamedAndRemoveUntil(
         Rotas.main,
-        (_) => false, // Limpar as rotas anteriores
-        arguments: [0, const TelaMenu()],
+        (_) => false,
+        arguments: {
+          'index': 0,
+          'page': const TelaMenu(),
+          'button': null,
+        },
       ),
     );
   }
@@ -94,6 +47,8 @@ class TelaMeusPedidos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ProviderPedidos>(context);
-    return (provider.qntPedidos == 0) ? _buildTelaVazia(context) : _buildTela(context);
+    return (provider.qntPedidos == 0)
+        ? _buildTelaVazia(context)
+        : _buildTela(context);
   }
 }

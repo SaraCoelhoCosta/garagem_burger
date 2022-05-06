@@ -5,9 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 class CardPedido extends StatelessWidget {
   final Pedido pedido;
 
-  const CardPedido({
+  const CardPedido(
+    this.pedido, {
     Key? key,
-    required this.pedido,
   }) : super(key: key);
 
   @override

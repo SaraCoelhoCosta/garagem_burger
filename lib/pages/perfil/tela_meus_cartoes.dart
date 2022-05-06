@@ -5,7 +5,6 @@ import 'package:garagem_burger/pages/cartoes/tela_novo_cartao.dart';
 import 'package:garagem_burger/pages/tela_vazia.dart';
 import 'package:garagem_burger/providers/provider_cartao.dart';
 import 'package:garagem_burger/utils/rotas.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class TelaMeusCartoes extends StatelessWidget {
@@ -21,30 +20,6 @@ class TelaMeusCartoes extends StatelessWidget {
     );
     return ListView(
       children: [
-        const SizedBox(height: 10),
-        // Botão adicionar novo cartão
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            TextButton.icon(
-              onPressed: () => Navigator.of(context).pushNamed(
-                Rotas.main,
-                arguments: [3, const TelaNovoCartao()],
-              ),
-              label: Text('Adicionar novo cartão',
-                  style: GoogleFonts.oxygen(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blue,
-                  ),
-                  textAlign: TextAlign.left),
-              icon: const Icon(
-                Icons.add_card_outlined,
-                color: Colors.black,
-              ),
-            ),
-          ],
-        ),
         Column(
           children: provider.listaCartoes
               .map((cartao) => CardDismissible(
@@ -52,7 +27,11 @@ class TelaMeusCartoes extends StatelessWidget {
                     item: cartao,
                     editar: () => Navigator.of(context).pushNamed(
                       Rotas.main,
-                      arguments: [3, const TelaAlterarCartao()],
+                      arguments: {
+                        'index': 3,
+                        'page': const TelaAlterarCartao(),
+                        'button': null,
+                      },
                     ),
                     favoritar: (id) => provider.selectFavorite(id),
                     remover: (id) => provider.removeCartao(id),
@@ -72,7 +51,11 @@ class TelaMeusCartoes extends StatelessWidget {
       rodape: '',
       navigator: () => Navigator.of(context).pushNamed(
         Rotas.main,
-        arguments: [3, const TelaNovoCartao()],
+        arguments: {
+          'index': 3,
+          'page': const TelaNovoCartao(),
+          'button': null,
+        },
       ),
     );
   }

@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/card_dismissible.dart';
 import 'package:garagem_burger/providers/provider_lanches.dart';
 import 'package:garagem_burger/utils/rotas.dart';
-import 'package:garagem_burger/components/popup_dialog.dart';
 import 'package:garagem_burger/pages/tela_vazia.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class TelaMeusLanches extends StatelessWidget {
@@ -13,57 +11,10 @@ class TelaMeusLanches extends StatelessWidget {
   @override
   String toStringShort() => 'Meus Lanches';
 
-  Future excluirLanche(context) {
-    final provider = Provider.of<ProviderLanches>(
-      context,
-      listen: false,
-    );
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return PopupDialog(
-          titulo: 'Excluir lanche',
-          descricao: 'Deseja excluir todos os seus lanches?',
-          onPressedYesOption: () {
-            Navigator.of(context).pop();
-            provider.clearAll();
-          },
-          onPressedNoOption: () {
-            Navigator.of(context).pop();
-          },
-        );
-      },
-    );
-  }
-
   Widget _buildTela(BuildContext context) {
     final provider = Provider.of<ProviderLanches>(context);
     return ListView(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            TextButton.icon(
-              onPressed: () {
-                Future.delayed(
-                  const Duration(seconds: 0),
-                  () => excluirLanche(context),
-                );
-              },
-              label: Text('Excluir todos os meus lanches',
-                  style: GoogleFonts.oxygen(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red,
-                  ),
-                  textAlign: TextAlign.left),
-              icon: const Icon(
-                Icons.delete,
-                color: Colors.black,
-              ),
-            ),
-          ],
-        ),
         Column(
           children: provider.listaLanches.map((lanche) {
             return CardDismissible(

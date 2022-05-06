@@ -4,14 +4,11 @@ import 'package:garagem_burger/models/pedido.dart';
 
 class ProviderPedidos with ChangeNotifier {
 
-  List<Pedido> _pedidos = pedidos;
+  final List<Pedido> _pedidos = pedidos;
 
   List<Pedido> get listaPedidos => [..._pedidos];
 
   int get qntPedidos => _pedidos.length;
 
-  void clearAll(){
-    _pedidos = [];
-    notifyListeners();
-  }
+  bool get emptyList => _pedidos.isEmpty;
 }

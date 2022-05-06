@@ -11,15 +11,15 @@ class CampoTexto extends StatelessWidget {
   final TextInputAction? textInputAction;
   final FocusNode? focusNode;
   final Function(String)? onFieldSubmitted;
+  final String? Function(String?)? validator;
   dynamic inputFormatters;
-  final Stream<String>? stream;
-  final Function(String)? onChanged;
+  final TextEditingController? controller;
 
   CampoTexto({
     required this.obscureText,
     required this.labelText,
-    this.stream,
-    this.onChanged,
+    this.controller,
+    this.validator,
     this.prefixIcon,
     this.textInputAction,
     this.onFieldSubmitted,
@@ -31,28 +31,23 @@ class CampoTexto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<Object>(
-      stream: stream,
-      builder: (context, snapshot) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: TextFormField(
-            decoration: InputDecoration(
-              prefixIcon: prefixIcon,
-              suffixIcon: suffixIcon,
-              labelText: labelText,
-              errorText: snapshot.hasError ? snapshot.error.toString() : null,
-            ),
-            keyboardType: keyboardType,
-            focusNode: focusNode,
-            onFieldSubmitted: onFieldSubmitted,
-            textInputAction: textInputAction,
-            onChanged: onChanged,
-            inputFormatters: inputFormatters,
-            obscureText: obscureText,
-          ),
-        );
-      },
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: TextFormField(
+        decoration: InputDecoration(
+          prefixIcon: prefixIcon,
+          suffixIcon: suffixIcon,
+          labelText: labelText,
+        ),
+        controller: controller,
+        keyboardType: keyboardType,
+        focusNode: focusNode,
+        onFieldSubmitted: onFieldSubmitted,
+        textInputAction: textInputAction,
+        inputFormatters: inputFormatters,
+        obscureText: obscureText,
+        validator: validator,
+      ),
     );
   }
 }
