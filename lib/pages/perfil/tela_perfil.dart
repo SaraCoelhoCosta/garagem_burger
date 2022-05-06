@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/components/app_bar_button.dart';
 import 'package:garagem_burger/utils/rotas.dart';
 import 'package:garagem_burger/components/botao_com_seta.dart';
 import 'package:garagem_burger/pages/perfil/tela_configuracoes.dart';
@@ -56,9 +57,7 @@ class _TelaPerfilState extends State<TelaPerfil> {
               ),
             ],
           ),
-
           const SizedBox(height: 20),
-
           const Divider(
             height: 20,
             thickness: 1,
@@ -79,7 +78,11 @@ class _TelaPerfilState extends State<TelaPerfil> {
                   icon: Icons.shopping_cart_outlined,
                   onTap: () => Navigator.of(context).pushNamed(
                     Rotas.main,
-                    arguments: [3, const TelaMeusPedidos()],
+                    arguments: {
+                      'index': 3,
+                      'page': const TelaMeusPedidos(),
+                      'button': null,
+                    },
                   ),
                 ),
                 BotaoComSeta(
@@ -87,7 +90,14 @@ class _TelaPerfilState extends State<TelaPerfil> {
                   icon: Icons.location_on_outlined,
                   onTap: () => Navigator.of(context).pushNamed(
                     Rotas.main,
-                    arguments: [3, const TelaMinhasLocalizacoes()],
+                    arguments: {
+                      'index': 3,
+                      'page': const TelaMinhasLocalizacoes(),
+                      'button': const AppBarButton(
+                        icon: Icons.add_location_alt_outlined,
+                        tipoFuncao: TipoFuncao.adicionarLocalizacao,
+                      ),
+                    },
                   ),
                 ),
                 BotaoComSeta(
@@ -95,7 +105,14 @@ class _TelaPerfilState extends State<TelaPerfil> {
                   icon: Icons.credit_card_outlined,
                   onTap: () => Navigator.of(context).pushNamed(
                     Rotas.main,
-                    arguments: [3, const TelaMeusCartoes()],
+                    arguments: {
+                      'index': 3,
+                      'page': const TelaMeusCartoes(),
+                      'button': const AppBarButton(
+                        icon: Icons.add_card,
+                        tipoFuncao: TipoFuncao.adicionarCartao,
+                      ),
+                    },
                   ),
                 ),
                 BotaoComSeta(
@@ -103,7 +120,11 @@ class _TelaPerfilState extends State<TelaPerfil> {
                   icon: Icons.settings,
                   onTap: () => Navigator.of(context).pushNamed(
                     Rotas.main,
-                    arguments: [3, const TelaConfiguracoes()],
+                    arguments: {
+                      'index': 3,
+                      'page': const TelaConfiguracoes(),
+                      'button': null,
+                    },
                   ),
                 ),
                 BotaoComSeta(

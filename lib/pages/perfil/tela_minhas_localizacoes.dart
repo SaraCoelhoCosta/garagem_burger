@@ -5,7 +5,6 @@ import 'package:garagem_burger/pages/localizacao/tela_nova_localizacao.dart';
 import 'package:garagem_burger/pages/tela_vazia.dart';
 import 'package:garagem_burger/providers/provider_localizacoes.dart';
 import 'package:garagem_burger/utils/rotas.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class TelaMinhasLocalizacoes extends StatelessWidget {
@@ -21,34 +20,6 @@ class TelaMinhasLocalizacoes extends StatelessWidget {
     );
     return ListView(
       children: [
-        const SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            TextButton.icon(
-              onPressed: () => Navigator.of(context).pushNamed(
-                Rotas.main,
-                arguments: [3, const TelaNovaLocalizacao()],
-              ),
-              label: Text('Adicionar novo endereço',
-                  style: GoogleFonts.oxygen(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blue,
-                  ),
-                  textAlign: TextAlign.left),
-              icon: const Icon(
-                Icons.add_location_alt_outlined,
-                color: Colors.black,
-              ),
-            ),
-          ],
-        ),
-        // Column(
-        //   children: provider.listaLocalizacoes
-        //       .map((localizacao) => CardEndereco(localizacao: localizacao))
-        //       .toList(),
-        // ),
         Column(
           children: provider.listaLocalizacoes
               .map((localizacao) => CardDismissible(
@@ -56,7 +27,11 @@ class TelaMinhasLocalizacoes extends StatelessWidget {
                     item: localizacao,
                     editar: () => Navigator.of(context).pushNamed(
                       Rotas.main,
-                      arguments: [3, const TelaAlterarLocalizacao()],
+                      arguments: {
+                        'index': 3,
+                        'page': const TelaAlterarLocalizacao(),
+                        'button': null,
+                      },
                     ),
                     favoritar: (id) => provider.selectFavorite(id),
                     remover: (id) => provider.removeLocalizacao(id),
@@ -76,7 +51,11 @@ class TelaMinhasLocalizacoes extends StatelessWidget {
       rodape: 'Decida onde quer matar sua fome.',
       navigator: () => Navigator.of(context).pushNamed(
         Rotas.main,
-        arguments: [3, const TelaNovaLocalizacao()],
+        arguments: {
+          'index': 3,
+          'page': const TelaNovaLocalizacao(),
+          'button': null,
+        },
       ),
     );
   }

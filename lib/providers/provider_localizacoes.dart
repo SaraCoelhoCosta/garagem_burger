@@ -9,6 +9,8 @@ class ProviderLocalizacoes with ChangeNotifier {
 
   int get qntLocalizacoes => _localizacoes.length;
 
+  bool get emptyList => _localizacoes.isEmpty;
+
   Localizacao get localizacaoPreferencial {
     return _localizacoes.singleWhere((local) => local.favorite);
   }

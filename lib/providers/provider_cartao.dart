@@ -9,6 +9,8 @@ class ProviderCartao with ChangeNotifier {
 
   int get qntCartoes => _cartoes.length;
 
+  bool get emptyList => _cartoes.isEmpty;
+
   Cartao get cartaoPreferencial {
     return _cartoes.singleWhere((cartao) => cartao.favorite);
   }

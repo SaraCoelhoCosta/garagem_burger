@@ -260,7 +260,11 @@ class _TelaLoginState extends State<TelaLogin> {
             labelText: "Entrar como visitante",
             onPressed: () => Navigator.of(context).pushReplacementNamed(
               Rotas.main,
-              arguments: [0, TelaMenu()],
+              arguments: {
+                'index': 0,
+                'page': const TelaMenu(),
+                'button': null,
+              },
             ),
           ),
           Row(
