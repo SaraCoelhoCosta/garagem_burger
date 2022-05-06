@@ -8,7 +8,10 @@ import 'package:garagem_burger/utils/rotas.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TelaPrincipal extends StatefulWidget {
-  const TelaPrincipal({Key? key}) : super(key: key);
+
+  final bool loginUpdatedPage;
+
+  const TelaPrincipal({Key? key, this.loginUpdatedPage = false}) : super(key: key);
 
   @override
   State<TelaPrincipal> createState() => _TelaPrincipalState();
@@ -17,7 +20,7 @@ class TelaPrincipal extends StatefulWidget {
 class _TelaPrincipalState extends State<TelaPrincipal> {
   int currentIndex = 0;
   Widget currentPage = const TelaMenu();
-  bool updatedPage = true;
+  bool routeUpdatedPage = false;
 
   static const _widgets = [
     TelaMenu(),
@@ -41,14 +44,14 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
       }
     });
   }
-
+  
   @override
   Widget build(BuildContext context) {
-    if (!updatedPage) {
+    if (!widget.loginUpdatedPage && !routeUpdatedPage) {
       List propriedades = ModalRoute.of(context)?.settings.arguments as List;
       currentIndex = propriedades.elementAt(0) as int;
       currentPage = propriedades.elementAt(1) as Widget;
-      updatedPage = true;
+      routeUpdatedPage = true;
     }
 
     return Scaffold(

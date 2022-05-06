@@ -41,7 +41,7 @@ class _TelaLoginState extends State<TelaLogin> {
     _campoSenha.dispose();
   }
 
-  login() async {
+  efetuarLogin() async {
     setState(() => _loading = true);
     try {
       await context.read<AuthService>().login(_email.text, _senha.text);
@@ -164,7 +164,7 @@ class _TelaLoginState extends State<TelaLogin> {
                     onFieldSubmitted: (_) => {
                       if (_formKey.currentState!.validate())
                         {
-                          login(),
+                          efetuarLogin(),
                         },
                     },
                   ),
@@ -245,7 +245,7 @@ class _TelaLoginState extends State<TelaLogin> {
             loading: (_loading) ? true : false,
             labelText: "Entrar",
             onPressed: () => {
-              _formKey.currentState!.validate() ? login() : null,
+              _formKey.currentState!.validate() ? efetuarLogin() : null,
             },
           ),
 

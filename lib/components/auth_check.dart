@@ -46,14 +46,15 @@ class _AuthCheckState extends State<AuthCheck> {
 
   // Exibe a pagina de login ou de cadastro
   authPage(bool isLogin) {
-    if(isLogin) {
+    if (isLogin) {
       return TelaLogin();
     } else {
       return TelaCadastroUsuario();
     }
   }
 
+  // Exibe a tela após o cadastro ou login ser efetuado
   principal() {
-    return TelaPrincipal();
+    return TelaPrincipal(loginUpdatedPage: true);
   }
 }

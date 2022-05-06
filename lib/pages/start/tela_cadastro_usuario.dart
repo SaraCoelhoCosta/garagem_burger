@@ -56,7 +56,7 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
     _campoConfirmarSenha.dispose();
   }
 
-  registrar() async {
+  efetuarCadastro() async {
     setState(() => _loading = true);
     try {
       await context
@@ -340,7 +340,7 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
                     "email": _email.text,
                     "telefone": _telefone.text,
                   },
-                  registrar(),
+                  efetuarCadastro(),
                 },
             },
           ),

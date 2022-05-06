@@ -169,12 +169,14 @@ class CardDismissible extends StatelessWidget {
                         /*
                         * Title
                         */
-                        Text(
-                          title, // max: 27 caracteres
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                        FittedBox(
+                          child: Text(
+                            title, // max: 27 caracteres
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
                         /*
