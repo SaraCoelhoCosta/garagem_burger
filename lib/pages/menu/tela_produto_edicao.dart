@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:garagem_burger/components/card_flexible_simple.dart';
 import 'package:garagem_burger/models/produto.dart';
 import 'package:garagem_burger/components/modal_produto.dart';
 import 'package:garagem_burger/providers/provider_carrinho.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class TelaProduto extends StatelessWidget {
-  const TelaProduto({Key? key}) : super(key: key);
+class TelaProdutoEdicao extends StatelessWidget {
+  final String urlImage;
+  final String text;
+
+  const TelaProdutoEdicao(
+      {Key? key, required this.urlImage, required this.text})
+      : super(key: key);
 
   _openModal(BuildContext context, Produto produto) {
     List arguments = ModalRoute.of(context)?.settings.arguments as List;
@@ -117,56 +121,15 @@ class TelaProduto extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(
-              height: 20,
-              width: 20,
-            ),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text(
-                  'ComboBox', // max: 27 caracteres
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+            Expanded(
+              child: Card(
+                elevation: 6.0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
                 ),
-                SizedBox(
-                  width: 20,
-                ),
-                Text(
-                  'Insumos', // max: 27 caracteres
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-            //Colocar GestureDectetor
-
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.80,
-              child: Row(
-                children: const [
-                  CardFlexibleSimple(
-                    urlImage: 'images/pao.png',
-                    text: 'Pão',
-                  ),
-                  CardFlexibleSimple(
-                    urlImage: 'images/carne.jpg',
-                    text: 'Carne',
-                  ),
-                ],
+                color: Colors.white,
               ),
             ),
-            const CardFlexibleSimple(
-                urlImage: 'images/ingredientes.png',
-                text: 'Ingredientes do Hambúrguer'),
-
             // DropdownButton<Produto>(
             //           value: currentProduto,
             //           items: pvdProduto.listaProduto.map((produto) {
