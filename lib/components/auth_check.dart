@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/controllers/auth_service.dart';
-import 'package:garagem_burger/pages/start/tela_cadastro_usuario.dart';
-import 'package:garagem_burger/pages/start/tela_login.dart';
+import 'package:garagem_burger/pages/auth/tela_cadastro_usuario.dart';
+import 'package:garagem_burger/pages/auth/tela_login.dart';
 import 'package:garagem_burger/pages/tela_principal.dart';
 import 'package:provider/provider.dart';
 

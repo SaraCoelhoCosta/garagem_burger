@@ -25,39 +25,6 @@ class Botao extends StatelessWidget {
     required this.onPressed,
   }) : super(key: key);
 
-  _buildText() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: (loading)
-          ? [
-              SizedBox(
-                width: 24,
-                height: 24,
-                child: CircularProgressIndicator(
-                  color: foregroundColor,
-                ),
-              ),
-            ]
-          : [
-              Text(
-                labelText!,
-                style: GoogleFonts.oxygen(
-                  color: foregroundColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-    );
-  }
-
-  _buildIcon() {
-    return Icon(
-      icon!,
-      color: foregroundColor,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -65,12 +32,37 @@ class Botao extends StatelessWidget {
       child: ElevatedButton(
         child: Padding(
           padding: internalPadding,
-          child: (labelText != null) ? _buildText() : _buildIcon(),
+          // child: (labelText != null) ? _buildText() : _buildIcon(),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (loading)
+                SizedBox(
+                  width: 22,
+                  height: 22,
+                  child: CircularProgressIndicator(
+                    color: foregroundColor,
+                  ),
+                )
+              else if (icon != null)
+                Icon(
+                  icon!,
+                  color: foregroundColor,
+                )
+              else if (labelText != null)
+                Text(
+                  labelText!,
+                  style: GoogleFonts.oxygen(
+                    color: foregroundColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )
+            ],
+          ),
         ),
         style: ElevatedButton.styleFrom(
           primary: backgroundColor,
-
-          // Arredonda as bordas do botão.
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),

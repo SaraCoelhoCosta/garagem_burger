@@ -3,9 +3,9 @@ import 'package:garagem_burger/components/app_bar_button.dart';
 import 'package:garagem_burger/utils/rotas.dart';
 import 'package:garagem_burger/components/botao_com_seta.dart';
 import 'package:garagem_burger/pages/perfil/tela_configuracoes.dart';
-import 'package:garagem_burger/pages/perfil/tela_meus_cartoes.dart';
+import 'package:garagem_burger/pages/cartoes/tela_meus_cartoes.dart';
 import 'package:garagem_burger/pages/perfil/tela_meus_pedidos.dart';
-import 'package:garagem_burger/pages/perfil/tela_minhas_localizacoes.dart';
+import 'package:garagem_burger/pages/localizacao/tela_minhas_localizacoes.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // ignore: camel_case_types

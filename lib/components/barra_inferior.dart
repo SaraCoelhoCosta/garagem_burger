@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/icone_carrinho.dart';
-import 'package:garagem_burger/providers/provider_carrinho.dart';
+import 'package:garagem_burger/controllers/provider_carrinho.dart';
 import 'package:provider/provider.dart';
 
 class BarraInferior extends StatelessWidget {
@@ -23,6 +23,7 @@ class BarraInferior extends StatelessWidget {
           label: 'Menu',
         ),
         const BottomNavigationBarItem(
+          tooltip: 'João ainda vai pagar um hambúrguer pra nós',
           icon: Icon(Icons.fastfood),
           label: 'Meus Lanches',
         ),

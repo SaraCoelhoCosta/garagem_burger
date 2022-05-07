@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/card_dismissible.dart';
+import 'package:garagem_burger/controllers/provider_cartao.dart';
 import 'package:garagem_burger/pages/cartoes/tela_alterar_cartao.dart';
 import 'package:garagem_burger/pages/cartoes/tela_novo_cartao.dart';
 import 'package:garagem_burger/pages/tela_vazia.dart';
-import 'package:garagem_burger/providers/provider_cartao.dart';
 import 'package:garagem_burger/utils/rotas.dart';
 import 'package:provider/provider.dart';
 

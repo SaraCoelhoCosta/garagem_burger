@@ -125,4 +125,18 @@ final cartoes = [
     dueDate: '11/25',
     favorite: false,
   ),
+  Cartao(
+    id: Random().nextDouble().toString(),
+    description: 'Meu cartão 4',
+    cardNumber: '257849310',
+    dueDate: '07/24',
+    favorite: false,
+  ),
+  Cartao(
+    id: Random().nextDouble().toString(),
+    description: 'Meu cartão 5',
+    cardNumber: '547891647',
+    dueDate: '02/26',
+    favorite: false,
+  ),
 ];

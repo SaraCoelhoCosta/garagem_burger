@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/models/pedido.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class CardPedido extends StatelessWidget {
   final Pedido pedido;
@@ -14,6 +13,11 @@ class CardPedido extends StatelessWidget {
   Widget build(BuildContext context) {
     Color color;
     IconData icon;
+
+    // Altura total da tela, subtraindo as alturas da appBar e bottomBar
+    final availableHeight = MediaQuery.of(context).size.height -
+        Scaffold.of(context).appBarMaxHeight! -
+        kBottomNavigationBarHeight;
 
     switch (pedido.status) {
       case Status.entregue:
@@ -31,48 +35,99 @@ class CardPedido extends StatelessWidget {
     }
 
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 10,
-        vertical: 4,
+      padding: const EdgeInsets.only(
+        left: 8,
+        right: 8,
+        top: 8,
       ),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-          side: BorderSide(
-            width: 2.0,
-            color: color,
-          ),
-        ),
-        elevation: 6.0,
-        child: ListTile(
-          leading: ClipRRect(
-            borderRadius: BorderRadius.circular(15.0),
-            child: Image.asset('images/pedido.jpg'),
-          ),
-          title: Text(
-            'Pedido ${pedido.status.name} em ${pedido.data}',
-            style: GoogleFonts.oxygen(
-              fontSize: 16.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          subtitle: Text(
-            'às ${pedido.hora}',
-            style: GoogleFonts.oxygen(
-              fontSize: 16.0,
-            ),
-          ),
-          contentPadding: const EdgeInsets.only(
-            bottom: 6,
-            left: 15,
-            right: 6,
-            top: 6,
-          ),
-          trailing: Padding(
-            padding: const EdgeInsets.only(top: 37, right: 5),
-            child: Icon(
-              icon,
-              color: Colors.grey[700],
+      child: SizedBox(
+        height: availableHeight * 0.20,
+        /*
+        * Layout Builder
+        */
+        child: LayoutBuilder(
+          builder: (ctx, constraints) => GestureDetector(
+            onTap: () {}, // TODO: Navegar para tela de Visualizar Pedido
+            child: Card(
+              elevation: 6.0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
+                side: BorderSide(
+                  width: 2.0,
+                  color: color,
+                ),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  /*
+                    * Leading (Imagem)
+                    */
+                  Container(
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(15),
+                      ),
+                      image: DecorationImage(
+                        image: AssetImage('images/pedido.jpg'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    width: constraints.maxWidth * 0.30,
+                  ),
+                  /*
+                    * Title e Subtitle
+                    */
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    width: constraints.maxWidth * 0.55,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        /*
+                          * Title
+                          */
+                        Text(
+                          'Pedido ${pedido.status.name} em ${pedido.data}',
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                        /*
+                          * Subtitle
+                          */
+                        Text(
+                          'às ${pedido.hora}',
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  /*
+                  * Trailing (icone de status do pedido)
+                  */
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      SizedBox(
+                        width: constraints.maxWidth * 0.10,
+                        child: Icon(
+                          icon,
+                          color: Colors.grey[700],
+                        ),
+                      ),
+                      SizedBox(height: constraints.maxHeight * 0.15),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

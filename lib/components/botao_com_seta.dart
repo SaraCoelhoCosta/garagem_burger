@@ -48,7 +48,7 @@ class BotaoComSeta extends StatelessWidget {
             right: 6,
             top: 6,
           ),
-          tileColor: const Color.fromARGB(255, 244, 244, 245),
+          tileColor: Colors.grey[100],
           onTap: onTap,
         ),
       ),

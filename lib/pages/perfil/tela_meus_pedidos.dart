@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:garagem_burger/providers/provider_pedidos.dart';
+import 'package:garagem_burger/controllers/provider_pedidos.dart';
 import 'package:garagem_burger/utils/rotas.dart';
 import 'package:garagem_burger/components/card_pedido.dart';
 import 'package:garagem_burger/pages/menu/tela_menu.dart';

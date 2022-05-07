@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/controllers/auth_service.dart';
-import 'package:garagem_burger/providers/provider_produtos.dart';
+import 'package:garagem_burger/controllers/provider_produtos.dart';
 import 'package:garagem_burger/components/card_produto.dart';
 import 'package:garagem_burger/utils/rotas.dart';
 import 'package:garagem_burger/components/card_produto_simples.dart';
@@ -78,15 +78,6 @@ class _TelaMenuState extends State<TelaMenu> {
                 child:
                     Image(image: AssetImage('images/montar-hamburguer.jpeg')),
               ),
-              // Container(
-              //   height: 200,
-              //   decoration: BoxDecoration(
-              //     borderRadius: BorderRadius.circular(15.0),
-              //     image: const DecorationImage(
-              //       image: AssetImage('images/montar-hamburguer.jpeg'),
-              //     ),
-              //   ),
-              // ),
               Positioned(
                 right: 170,
                 top: 60,
@@ -95,31 +86,7 @@ class _TelaMenuState extends State<TelaMenu> {
                         fontSize: 26.0, color: Colors.white)),
               )
             ],
-          )
-
-          /*
-          child: Container(
-            height: 200,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15.0),
-              image: const DecorationImage(
-                image: AssetImage('images/montar-hamburguer.jpeg'),
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(top: 40, right: 150),
-              child: Text(
-                'Monte seu\npróprio\nhambúrguer',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.keaniaOne(
-                  fontSize: 26.0,
-                  color: Colors.white,
-                ),
-              ),
-            ),
           ),
-          */
-
         ),
 
         // Titulo Ofertas Especiais

@@ -24,17 +24,22 @@ class TelaVazia extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Altura total da tela, subtraindo as alturas da appBar e bottomBar
+    final availableHeight = MediaQuery.of(context).size.height -
+        (Scaffold.of(context).appBarMaxHeight ?? 0) -
+        kBottomNavigationBarHeight;
+
     return Padding(
       padding: EdgeInsets.only(
-        top: MediaQuery.of(context).size.height * 0.15,
-        bottom: 20,
+        top: availableHeight * 0.10,
+        bottom: availableHeight * 0.03,
         left: 20,
         right: 20,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Icon(icon, size: 120),
+          Icon(icon, size: availableHeight * 0.30),
           TextButton(
             onPressed: navigator,
             child: Text(

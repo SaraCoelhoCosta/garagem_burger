@@ -28,7 +28,6 @@ class CardDismissible extends StatelessWidget {
   BoxFit? fit;
   bool? isFavorite;
   int? qntItens;
-  double? width;
 
   CardDismissible({
     Key? key,
@@ -51,7 +50,7 @@ class CardDismissible extends StatelessWidget {
     );
   }
 
-  void _initItem(BuildContext context) {
+  void _initItem() {
     switch (tipoCard) {
       case TipoCard.cartao:
         final tempItem = item as Cartao;
@@ -72,7 +71,6 @@ class CardDismissible extends StatelessWidget {
         subtitle = tempItem.descricao ?? '';
         leadingImage = null;
         isFavorite = tempItem.favorite;
-        width = MediaQuery.of(context).size.width * 0.75;
         break;
 
       case TipoCard.itemCarrinho:
@@ -83,7 +81,6 @@ class CardDismissible extends StatelessWidget {
         leadingImage = 'images/hamburguer.jpg';
         fit = BoxFit.cover;
         qntItens = tempItem.quantidade;
-        width = MediaQuery.of(context).size.width * 0.50;
         break;
 
       case TipoCard.lanche:
@@ -93,14 +90,18 @@ class CardDismissible extends StatelessWidget {
         subtitle = 'R\$ ${tempItem.preco.toStringAsFixed(2)}';
         leadingImage = 'images/hamburguer.jpg';
         fit = BoxFit.cover;
-        width = MediaQuery.of(context).size.width * 0.50;
         break;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    _initItem(context);
+    _initItem();
+
+    // Altura total da tela, subtraindo as alturas da appBar e bottomBar
+    final availableHeight = MediaQuery.of(context).size.height -
+        Scaffold.of(context).appBarMaxHeight! -
+        kBottomNavigationBarHeight;
 
     return Dismissible(
       key: ValueKey(id),
@@ -121,118 +122,123 @@ class CardDismissible extends StatelessWidget {
       onDismissed: (_) => remover(id),
       confirmDismiss: (_) => _confirmRemove(context),
       child: Padding(
-        padding: const EdgeInsets.only(
-          left: 8,
-          right: 8,
-          top: 8,
-        ),
-        child: GestureDetector(
-          onTap: editar,
-          child: Card(
-            elevation: 6.0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(5),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  /*
-                    * Leading (Imagem)
-                    */
-                  if (leadingImage != null)
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(15),
+        padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
+        /*
+        * Layout Builder
+        */
+        child: LayoutBuilder(
+          builder: (ctx, constraints) => SizedBox(
+            height: availableHeight * 0.20,
+            child: GestureDetector(
+              onTap: editar,
+              child: Card(
+                elevation: 6.0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      /*
+                      * Leading (Imagem)
+                      */
+                      if (leadingImage != null)
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(15),
+                            ),
+                            image: DecorationImage(
+                              image: AssetImage(leadingImage!),
+                              fit: fit,
+                            ),
+                          ),
+                          width: constraints.maxWidth * 0.30,
                         ),
-                        image: DecorationImage(
-                          image: AssetImage(leadingImage!),
-                          fit: fit,
+                      /*
+                      * Title e Subtitle
+                      */
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        width: constraints.maxWidth *
+                            (leadingImage == null ? 0.85 : 0.55),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            /*
+                            * Title
+                            */
+                            FittedBox(
+                              child: Text(
+                                title, // max: 27 caracteres
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            /*
+                            * Subtitle
+                            */
+                            Text(
+                              subtitle,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      width: MediaQuery.of(context).size.height * 0.15,
-                      height: MediaQuery.of(context).size.height * 0.15,
-                    ),
-                  /*
-                  * Title e Subtitle
-                  */
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    height: MediaQuery.of(context).size.height * 0.15,
-                    width: width,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        /*
-                        * Title
-                        */
-                        FittedBox(
-                          child: Text(
-                            title, // max: 27 caracteres
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
+                      /*
+                      * Trailing (Marcar preferencial / Favoritar)
+                      */
+                      if (favoritar != null)
+                        SizedBox(
+                          width: constraints.maxWidth * 0.10,
+                          child: IconButton(
+                            onPressed: () => favoritar!(id),
+                            icon: (isFavorite!)
+                                ? Icon(
+                                    Icons.star,
+                                    color: Theme.of(context).backgroundColor,
+                                  )
+                                : const Icon(Icons.star_border_outlined),
+                          ),
+                        ),
+                      /*
+                      * Trailing (quantidade de itens do carrinho)
+                      */
+                      if (qntItens != null)
+                        Container(
+                          height: constraints.maxWidth * 0.07,
+                          width: constraints.maxWidth * 0.07,
+                          margin: const EdgeInsets.only(top: 10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Theme.of(context).backgroundColor,
+                          ),
+                          child: Center(
+                            child: FittedBox(
+                              child: Text(
+                                '${qntItens}x',
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.oxygen(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                        /*
-                        * Subtitle
-                        */
-                        Text(
-                          subtitle,
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
-                    ),
+                    ],
                   ),
-                  const Spacer(),
-                  /*
-                  * Trailing (Marcar preferencial / Favoritar)
-                  */
-                  if (favoritar != null)
-                    IconButton(
-                      onPressed: () => favoritar!(id),
-                      icon: (isFavorite!)
-                          ? Icon(
-                              Icons.star,
-                              color: Theme.of(context).backgroundColor,
-                            )
-                          : const Icon(Icons.star_border_outlined),
-                    ),
-                  /*
-                  * Trailing (quantidade de itens do carrinho)
-                  */
-                  if (qntItens != null)
-                    Container(
-                      margin: const EdgeInsets.only(top: 10, right: 10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Theme.of(context).backgroundColor,
-                      ),
-                      constraints: const BoxConstraints(
-                        minHeight: 25,
-                        minWidth: 25,
-                      ),
-                      child: Center(
-                        child: Text(
-                          '${qntItens}x',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.oxygen(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                ],
+                ),
               ),
             ),
           ),

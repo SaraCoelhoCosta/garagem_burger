@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/models/produto.dart';
 import 'package:garagem_burger/components/modal_produto.dart';
-import 'package:garagem_burger/providers/provider_carrinho.dart';
+import 'package:garagem_burger/controllers/provider_carrinho.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 

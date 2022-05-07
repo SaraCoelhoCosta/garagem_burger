@@ -2,13 +2,14 @@ enum Tipo {
   bebida,
   hamburguer,
   sobremesa,
+  acompanhamento,
 }
 
 class Produto {
-  final String id;
-  final String nome;
-  final double preco;
-  final Tipo tipo;
+  late String id;
+  late String nome;
+  late double preco;
+  late Tipo tipo;
 
   Produto({
     required this.id,
@@ -16,4 +17,5 @@ class Produto {
     required this.preco,
     required this.tipo,
   });
+
 }

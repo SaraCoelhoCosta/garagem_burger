@@ -38,10 +38,9 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
                     children: [
                       Text(
                         "Novo endereço",
-                        // Fonte do Google.
                         style: GoogleFonts.oxygen(
-                          fontSize: 20, // Tamanho da fonte.
-                          fontWeight: FontWeight.bold, // Largura da fonte.
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       IconButton(
@@ -76,14 +75,12 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
                         Row(
                           children: [
                             Expanded(
-                              flex: 5,
                               child: CampoTexto(
                                 obscureText: false,
                                 labelText: "Bairro",
                               ),
                             ),
                             Expanded(
-                              flex: 5,
                               child: CampoTexto(
                                 obscureText: false,
                                 labelText: "Número",
@@ -94,14 +91,12 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
                         Row(
                           children: [
                             Expanded(
-                              flex: 5,
                               child: CampoTexto(
                                 obscureText: false,
                                 labelText: "Cidade",
                               ),
                             ),
                             Expanded(
-                              flex: 5,
                               child: CampoTexto(
                                 obscureText: false,
                                 labelText: "Estado",

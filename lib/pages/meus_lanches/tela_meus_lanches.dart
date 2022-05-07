@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/card_dismissible.dart';
-import 'package:garagem_burger/providers/provider_lanches.dart';
+import 'package:garagem_burger/controllers/provider_lanches.dart';
 import 'package:garagem_burger/utils/rotas.dart';
 import 'package:garagem_burger/pages/tela_vazia.dart';
 import 'package:provider/provider.dart';

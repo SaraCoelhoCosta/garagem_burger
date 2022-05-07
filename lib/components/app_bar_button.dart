@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/popup_dialog.dart';
 import 'package:garagem_burger/pages/cartoes/tela_novo_cartao.dart';
 import 'package:garagem_burger/pages/localizacao/tela_nova_localizacao.dart';
-import 'package:garagem_burger/providers/provider_carrinho.dart';
-import 'package:garagem_burger/providers/provider_lanches.dart';
+import 'package:garagem_burger/controllers/provider_carrinho.dart';
+import 'package:garagem_burger/controllers/provider_lanches.dart';
 import 'package:garagem_burger/utils/rotas.dart';
 import 'package:provider/provider.dart';
 

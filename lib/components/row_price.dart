@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class RowPrice extends StatelessWidget {
-
   final double value;
   final String text;
 
@@ -14,7 +13,10 @@ class RowPrice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(
+        vertical: 8,
+        horizontal: 10,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -22,7 +24,6 @@ class RowPrice extends StatelessWidget {
             text,
             style: const TextStyle(
               fontSize: 20,
-              fontWeight: FontWeight.normal,
               color: Colors.black,
             ),
           ),
@@ -30,7 +31,6 @@ class RowPrice extends StatelessWidget {
             'R\$ ${value.toStringAsFixed(2)}',
             style: const TextStyle(
               fontSize: 20,
-              fontWeight: FontWeight.normal,
               color: Colors.black,
             ),
           ),
