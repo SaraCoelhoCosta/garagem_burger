@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:garagem_burger/components/card_flexible_simple.dart';
 import 'package:garagem_burger/models/produto.dart';
 import 'package:garagem_burger/components/modal_produto.dart';
-import 'package:garagem_burger/controllers/provider_carrinho.dart';
+import 'package:garagem_burger/providers/provider_carrinho.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class TelaProduto extends StatelessWidget {
-  const TelaProduto({Key? key}) : super(key: key);
+class TelaProdutoEdicao extends StatelessWidget {
+  final String urlImage;
+  final String text;
+
+  const TelaProdutoEdicao(
+      {Key? key, required this.urlImage, required this.text})
+      : super(key: key);
 
   _openModal(BuildContext context, Produto produto) {
     List arguments = ModalRoute.of(context)?.settings.arguments as List;
@@ -58,19 +62,6 @@ class TelaProduto extends StatelessWidget {
     Produto produto = arguments[1] as Produto;
 
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        foregroundColor: Colors.white,
-        centerTitle: true,
-        elevation: 0,
-        title: Text(
-          produto.nome,
-          style: GoogleFonts.keaniaOne(
-            fontSize: 30,
-          ),
-        ),
-      ),
       body: Container(
         width: double.infinity,
         decoration: const BoxDecoration(
@@ -80,67 +71,63 @@ class TelaProduto extends StatelessWidget {
           ),
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const SizedBox(height: 50),
-            // Preco
-            Text(
-              'R\$ ${produto.preco.toStringAsFixed(2)}',
-              style: GoogleFonts.oxygen(
-                color: Colors.white,
-                fontSize: 22.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            const SizedBox(height: 30),
+
+            // Botao voltar e título
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text(
-                  'ComboBox', // max: 27 caracteres
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const SizedBox(width: 30),
+                IconButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: const Icon(
+                    Icons.arrow_back_ios_outlined,
                     color: Colors.white,
                   ),
                 ),
-                SizedBox(
-                  width: 20,
-                ),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.15),
                 Text(
-                  'Insumos', // max: 27 caracteres
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                  produto.nome,
+                  style: GoogleFonts.keaniaOne(
+                    fontSize: 30.0,
                     color: Colors.white,
                   ),
                 ),
               ],
             ),
-            //Colocar GestureDectetor
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 50),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      CardFlexibleSimple(
-                        urlImage: 'images/pao.png',
-                        text: 'Pão',
-                      ),
-                      SizedBox(width: 5),
-                      CardFlexibleSimple(
-                        urlImage: 'images/carne.jpg',
-                        text: 'Carne',
-                      ),
-                    ],
+
+            const SizedBox(height: 30),
+
+            // Preco
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                // Text(
+                //   produto.nome,
+                //   style: GoogleFonts.oxygen(
+                //     color: Colors.white,
+                //     fontSize: 22.0,
+                //     fontWeight: FontWeight.bold,
+                //   ),
+                // ),
+                Text(
+                  'R\$ ${produto.preco.toStringAsFixed(2)}',
+                  style: GoogleFonts.oxygen(
+                    color: Colors.white,
+                    fontSize: 22.0,
+                    fontWeight: FontWeight.bold,
                   ),
-                  const CardFlexibleSimple(
-                      urlImage: 'images/ingredientes.png',
-                      text: 'Ingredientes do Hambúrguer'),
-                ],
+                ),
+              ],
+            ),
+            Expanded(
+              child: Card(
+                elevation: 6.0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                color: Colors.white,
               ),
             ),
             // DropdownButton<Produto>(
@@ -166,12 +153,12 @@ class TelaProduto extends StatelessWidget {
         backgroundColor: const Color(0xfffed80b),
         foregroundColor: Colors.black,
         child: const Icon(
-          Icons.add,
+          Icons.keyboard_arrow_up_outlined,
           size: 35,
         ),
         onPressed: () => _openModal(context, produto),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

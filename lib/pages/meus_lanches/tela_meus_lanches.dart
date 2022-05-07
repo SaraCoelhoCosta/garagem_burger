@@ -21,6 +21,10 @@ class TelaMeusLanches extends StatelessWidget {
               tipoCard: TipoCard.lanche,
               item: lanche,
               remover: (id) => provider.removeLanche(id),
+              editar: () => Navigator.of(context).pushNamed(
+                Rotas.produto,
+                arguments: [true, lanche],
+              ),
             );
           }).toList(),
         ),
@@ -44,6 +48,8 @@ class TelaMeusLanches extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ProviderLanches>(context);
-    return (provider.qntLanches == 0) ? _buildTelaVazia(context) : _buildTela(context);
+    return (provider.qntLanches == 0)
+        ? _buildTelaVazia(context)
+        : _buildTela(context);
   }
 }
