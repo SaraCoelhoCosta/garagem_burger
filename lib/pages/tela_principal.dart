@@ -68,7 +68,8 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
   @override
   Widget build(BuildContext context) {
     if (!widget.loginUpdatedPage && !routeUpdatedPage) {
-      final properties = ModalRoute.of(context)?.settings.arguments as Map<String, Object?>;
+      final properties =
+          ModalRoute.of(context)?.settings.arguments as Map<String, Object?>;
       currentIndex = properties['index'] as int;
       currentPage = properties['page'] as Widget;
       currentButton = properties['button'] as AppBarButton?;
@@ -86,10 +87,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
             fontSize: 26.0,
           ),
         ),
-        actions: [
-          if (currentButton != null)
-            currentButton as Widget
-        ],
+        actions: [if (currentButton != null) currentButton as Widget],
       ),
       body: currentPage,
       bottomNavigationBar: BarraInferior(

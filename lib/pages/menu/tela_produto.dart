@@ -58,6 +58,19 @@ class TelaProduto extends StatelessWidget {
     Produto produto = arguments[1] as Produto;
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.white,
+        centerTitle: true,
+        elevation: 0,
+        title: Text(
+          produto.nome,
+          style: GoogleFonts.keaniaOne(
+            fontSize: 30,
+          ),
+        ),
+      ),
       body: Container(
         width: double.infinity,
         decoration: const BoxDecoration(
@@ -67,61 +80,18 @@ class TelaProduto extends StatelessWidget {
           ),
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const SizedBox(height: 30),
-
-            // Botao voltar e título
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const SizedBox(width: 30),
-                IconButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(
-                    Icons.arrow_back_ios_outlined,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.15),
-                Text(
-                  produto.nome,
-                  style: GoogleFonts.keaniaOne(
-                    fontSize: 30.0,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 30),
-
+            const SizedBox(height: 50),
             // Preco
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                // Text(
-                //   produto.nome,
-                //   style: GoogleFonts.oxygen(
-                //     color: Colors.white,
-                //     fontSize: 22.0,
-                //     fontWeight: FontWeight.bold,
-                //   ),
-                // ),
-                Text(
-                  'R\$ ${produto.preco.toStringAsFixed(2)}',
-                  style: GoogleFonts.oxygen(
-                    color: Colors.white,
-                    fontSize: 22.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
+            Text(
+              'R\$ ${produto.preco.toStringAsFixed(2)}',
+              style: GoogleFonts.oxygen(
+                color: Colors.white,
+                fontSize: 22.0,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            const SizedBox(
-              height: 20,
-              width: 20,
-            ),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
@@ -147,26 +117,32 @@ class TelaProduto extends StatelessWidget {
               ],
             ),
             //Colocar GestureDectetor
-
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.80,
-              child: Row(
-                children: const [
-                  CardFlexibleSimple(
-                    urlImage: 'images/pao.png',
-                    text: 'Pão',
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 50),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: const [
+                      CardFlexibleSimple(
+                        urlImage: 'images/pao.png',
+                        text: 'Pão',
+                      ),
+                      SizedBox(width: 5),
+                      CardFlexibleSimple(
+                        urlImage: 'images/carne.jpg',
+                        text: 'Carne',
+                      ),
+                    ],
                   ),
-                  CardFlexibleSimple(
-                    urlImage: 'images/carne.jpg',
-                    text: 'Carne',
-                  ),
+                  const CardFlexibleSimple(
+                      urlImage: 'images/ingredientes.png',
+                      text: 'Ingredientes do Hambúrguer'),
                 ],
               ),
             ),
-            const CardFlexibleSimple(
-                urlImage: 'images/ingredientes.png',
-                text: 'Ingredientes do Hambúrguer'),
-
             // DropdownButton<Produto>(
             //           value: currentProduto,
             //           items: pvdProduto.listaProduto.map((produto) {
@@ -190,12 +166,12 @@ class TelaProduto extends StatelessWidget {
         backgroundColor: const Color(0xfffed80b),
         foregroundColor: Colors.black,
         child: const Icon(
-          Icons.keyboard_arrow_up_outlined,
+          Icons.add,
           size: 35,
         ),
         onPressed: () => _openModal(context, produto),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
     );
   }
 }
