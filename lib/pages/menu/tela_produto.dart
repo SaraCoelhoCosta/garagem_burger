@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:garagem_burger/components/card_flexible_simple.dart';
+import 'package:garagem_burger/components/card_ingrediente.dart';
 import 'package:garagem_burger/models/produto.dart';
 import 'package:garagem_burger/components/modal_produto.dart';
 import 'package:garagem_burger/controllers/provider_carrinho.dart';
@@ -23,7 +23,7 @@ class TelaProduto extends StatelessWidget {
           produto: produto,
           isEditing: isEditing,
           onTap: (context, qnt) {
-            Navigator.of(context).pop(); // Fecha o modal
+            Navigator.of(context).pop();
 
             (isEditing)
                 ? provider.editarItemCarrinho(produto, qnt)
@@ -73,6 +73,9 @@ class TelaProduto extends StatelessWidget {
       ),
       body: Container(
         width: double.infinity,
+        /*
+        * Imagem de background da tela
+        */
         decoration: const BoxDecoration(
           image: DecorationImage(
             fit: BoxFit.fill,
@@ -83,7 +86,9 @@ class TelaProduto extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             const SizedBox(height: 50),
-            // Preco
+            /*
+            * Preço
+            */
             Text(
               'R\$ ${produto.preco.toStringAsFixed(2)}',
               style: GoogleFonts.oxygen(
@@ -92,11 +97,17 @@ class TelaProduto extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
+            /*
+            * Detalhes do hamburguer e insumos
+            */
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
+                /*
+                * Detalhes do hamburguer
+                */
                 Text(
-                  'ComboBox', // max: 27 caracteres
+                  'ComboBox',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -106,6 +117,9 @@ class TelaProduto extends StatelessWidget {
                 SizedBox(
                   width: 20,
                 ),
+                /*
+                * Insumos
+                */
                 Text(
                   'Insumos', // max: 27 caracteres
                   style: TextStyle(
@@ -116,32 +130,31 @@ class TelaProduto extends StatelessWidget {
                 ),
               ],
             ),
-            //Colocar GestureDectetor
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 50),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      CardFlexibleSimple(
-                        urlImage: 'images/pao.png',
-                        text: 'Pão',
-                      ),
-                      SizedBox(width: 5),
-                      CardFlexibleSimple(
-                        urlImage: 'images/carne.jpg',
-                        text: 'Carne',
-                      ),
-                    ],
-                  ),
-                  const CardFlexibleSimple(
-                      urlImage: 'images/ingredientes.png',
-                      text: 'Ingredientes do Hambúrguer'),
-                ],
-              ),
+            /*
+            * Botões de editar
+            */
+            Column(
+              // crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    CardIngrediente(
+                      urlImage: 'images/pao.png',
+                      text: 'Pão',
+                    ),
+                    // SizedBox(width: 5),
+                    CardIngrediente(
+                      urlImage: 'images/carne.jpg',
+                      text: 'Carne',
+                    ),
+                  ],
+                ),
+                const CardIngrediente(
+                    urlImage: 'images/ingredientes.png',
+                    text: 'Ingredientes do Hambúrguer'),
+              ],
             ),
             // DropdownButton<Produto>(
             //           value: currentProduto,

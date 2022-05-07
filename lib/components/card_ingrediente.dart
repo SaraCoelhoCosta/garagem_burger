@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class CardFlexibleSimple extends StatelessWidget {
+class CardIngrediente extends StatelessWidget {
   final String urlImage;
   final String text;
 
-  const CardFlexibleSimple({
+  const CardIngrediente({
     Key? key,
     required this.urlImage,
     required this.text,

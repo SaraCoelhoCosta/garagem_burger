@@ -3,12 +3,11 @@ import 'package:garagem_burger/controllers/auth_service.dart';
 import 'package:garagem_burger/controllers/provider_produtos.dart';
 import 'package:garagem_burger/components/card_produto.dart';
 import 'package:garagem_burger/utils/rotas.dart';
-import 'package:garagem_burger/components/card_produto_simples.dart';
+import 'package:garagem_burger/components/mini_card_produto.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class TelaMenu extends StatefulWidget {
-
   const TelaMenu({Key? key}) : super(key: key);
 
   @override
@@ -22,13 +21,18 @@ class _TelaMenuState extends State<TelaMenu> {
   @override
   Widget build(BuildContext context) {
     final produtos = Provider.of<ProviderProdutos>(context).listaProdutos;
-
     final user = Provider.of<AuthService>(context).usuario;
     final userName = user?.email ?? 'Convidado';
+    // Altura total da tela, subtraindo as alturas da appBar e bottomBar
+    final availableHeight = MediaQuery.of(context).size.height -
+        (Scaffold.of(context).appBarMaxHeight ?? 0) -
+        kBottomNavigationBarHeight;
 
     return ListView(
       children: [
-        // Opcoes da aba superior (filtros e icone do usuario)
+        /*
+        * Opções da aba superior (Filtros e perfil de usuário)
+        */
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
@@ -66,30 +70,43 @@ class _TelaMenuState extends State<TelaMenu> {
             ],
           ),
         ),
-
-        // Botao Monte seu proprio hamburguer
+        /*
+        * Botão Monte seu Próprio Hamburguer
+        */
         GestureDetector(
           onTap: () => Navigator.of(context).pushNamed(
             Rotas.montarHamburguer,
           ),
-          child: Stack(
-            children: [
-              const Center(
-                child:
-                    Image(image: AssetImage('images/montar-hamburguer.jpeg')),
+          child: Container(
+            height: availableHeight * 0.40,
+            margin: const EdgeInsets.symmetric(horizontal: 10),
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(
+                Radius.circular(15.0),
               ),
-              Positioned(
-                right: 170,
-                top: 60,
-                child: Text('Monte seu\npróprio\nhambúrguer',
-                    style: GoogleFonts.keaniaOne(
-                        fontSize: 26.0, color: Colors.white)),
-              )
-            ],
+              image: DecorationImage(
+                fit: BoxFit.fill,
+                image: AssetImage('images/montar-hamburguer.jpeg'),
+              ),
+            ),
+            child: Row(
+              children: [
+                const SizedBox(width: 25),
+                Text(
+                  'Monte seu\npróprio\nhambúrguer',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.keaniaOne(
+                    fontSize: 30.0,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-
-        // Titulo Ofertas Especiais
+        /*
+        * Seção Ofertas Especiais
+        */
         Padding(
           padding: const EdgeInsets.only(
             top: 10.0,
@@ -103,26 +120,22 @@ class _TelaMenuState extends State<TelaMenu> {
             ),
           ),
         ),
-
-        // Ofertas especiais
+        /* 
+        * Lista de Ofertas Especiais
+        */
         Container(
           width: double.infinity,
           height: 100,
           padding: const EdgeInsets.all(10.0),
-          child: ListView(
+          child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            children: const [
-              CardProdutoSimples(),
-              CardProdutoSimples(),
-              CardProdutoSimples(),
-              CardProdutoSimples(),
-              CardProdutoSimples(),
-              CardProdutoSimples(),
-            ],
+            itemCount: 10,
+            itemBuilder: (ctx, _) => const MiniCardProduto(),
           ),
         ),
-
-        // Titulo Hamburgueres da casa
+        /*
+        * Seção Hamburgueres da Casa
+        */
         Padding(
           padding: const EdgeInsets.only(
             top: 10.0,
@@ -136,8 +149,9 @@ class _TelaMenuState extends State<TelaMenu> {
             ),
           ),
         ),
-
-        // Hamburgueres da casa
+        /*
+        * Lista de Hamburgueres da Casa
+        */
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: produtos
