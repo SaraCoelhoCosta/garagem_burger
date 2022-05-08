@@ -27,7 +27,7 @@ class IconeCarrinho extends StatelessWidget {
           if (provider.qntItens > 0)
             Positioned(
               left: 16,
-              bottom: 10,
+              bottom: 8,
               child: Container(
                 padding: const EdgeInsets.all(2),
                 decoration: BoxDecoration(

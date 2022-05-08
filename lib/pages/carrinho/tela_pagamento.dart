@@ -48,12 +48,15 @@ class _TelaPagamentoState extends State<TelaPagamento> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
+              /*
+              * Botão PIX
+              */
               Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
                     onPressed: () {
-                      setState(() => isPix = !isPix);
+                      setState(() => isPix = true);
                     },
                     icon: const Icon(Icons.pix),
                     iconSize: 50,
@@ -69,12 +72,15 @@ class _TelaPagamentoState extends State<TelaPagamento> {
                   ),
                 ],
               ),
+              /*
+              * Botão Cartão
+              */
               Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
                     onPressed: () {
-                      setState(() => isPix = !isPix);
+                      setState(() => isPix = false);
                     },
                     icon: const Icon(Icons.credit_card),
                     iconSize: 50,

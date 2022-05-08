@@ -1,61 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/components/app_bar_button.dart';
 import 'package:garagem_burger/components/card_ingrediente.dart';
 import 'package:garagem_burger/models/produto.dart';
 import 'package:garagem_burger/components/modal_produto.dart';
 import 'package:garagem_burger/controllers/provider_carrinho.dart';
+import 'package:garagem_burger/pages/carrinho/tela_carrinho.dart';
+import 'package:garagem_burger/utils/rotas.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class TelaProduto extends StatelessWidget {
   const TelaProduto({Key? key}) : super(key: key);
 
-  _openModal(BuildContext context, Produto produto) {
-    List arguments = ModalRoute.of(context)?.settings.arguments as List;
-    bool isEditing = arguments[0] as bool;
-    Produto produto = arguments[1] as Produto;
-
-    final provider = Provider.of<ProviderCarrinho>(context, listen: false);
-
-    showModalBottomSheet(
-      context: context,
-      builder: (_) {
-        return ModalProduto(
-          produto: produto,
-          isEditing: isEditing,
-          onTap: (context, qnt) {
-            Navigator.of(context).pop();
-
-            (isEditing)
-                ? provider.editarItemCarrinho(produto, qnt)
-                : provider.addItemCarrinho(produto, qnt);
-
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  (isEditing)
-                      ? '${produto.nome} atualizado para $qnt'
-                      : '$qnt ${produto.nome} adicionado no carrinho',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.oxygen(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                elevation: 6.0,
-                backgroundColor: Colors.blue,
-                duration: const Duration(seconds: 2),
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ProviderCarrinho>(context);
     List arguments = ModalRoute.of(context)?.settings.arguments as List;
     Produto produto = arguments[1] as Produto;
+    bool isEditing = arguments[0] as bool;
 
     final appBar = AppBar(
       backgroundColor: Colors.transparent,
@@ -70,123 +32,194 @@ class TelaProduto extends StatelessWidget {
       ),
     );
 
-    final appBarHeight = appBar.preferredSize.height + MediaQuery.of(context).padding.top;
+    final appBarHeight =
+        appBar.preferredSize.height + MediaQuery.of(context).padding.top;
+    final availableHeigth = MediaQuery.of(context).size.height - appBarHeight;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: appBar,
-      body: Container(
-        width: double.infinity,
-        /*
-        * Imagem de background da tela
-        */
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            fit: BoxFit.fill,
-            image: AssetImage('images/fundo-hamburguer.jpeg'),
-          ),
-        ),
-        child: Column(
-          // mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            SizedBox(height: appBarHeight),
-            /*
-            * Preço
-            */
-            Text(
-              'R\$ ${produto.preco.toStringAsFixed(2)}',
-              style: GoogleFonts.oxygen(
-                color: Colors.white,
-                fontSize: 22.0,
-                fontWeight: FontWeight.bold,
+      floatingActionButton: (provider.emptyList)
+          ? null
+          : FloatingActionButton(
+              mini: true,
+              backgroundColor: const Color(0xfffed80b),
+              foregroundColor: Colors.black,
+              child: const Icon(
+                Icons.shopping_cart_outlined,
+              ),
+              onPressed: () => Navigator.of(context).pushNamedAndRemoveUntil(
+                Rotas.main,
+                (_) => false,
+                arguments: {
+                  'index': 2,
+                  'page': const TelaCarrinho(),
+                  'button': const AppBarButton(
+                    icon: Icons.delete,
+                    tipoFuncao: TipoFuncao.limparCarrinho,
+                  ),
+                },
               ),
             ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+      body: Stack(
+        children: [
+          Container(
+            width: double.infinity,
             /*
-            * Detalhes do hamburguer e insumos
+            * Imagem de background da tela
             */
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                /*
-                * Detalhes do hamburguer
-                */
-                Text(
-                  'ComboBox',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(width: 20),
-                /*
-                * Insumos
-                */
-                Text(
-                  'Insumos', // max: 27 caracteres
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.fill,
+                image: AssetImage('images/fundo-hamburguer.jpeg'),
+              ),
             ),
-            /*
-            * Botões de editar
-            */
-            Column(
-              // crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
+            child: Column(
               children: [
+                SizedBox(height: appBarHeight),
+                /*
+                * Preço
+                */
+                Text(
+                  'R\$ ${produto.preco.toStringAsFixed(2)}',
+                  style: GoogleFonts.oxygen(
+                    color: Colors.white,
+                    fontSize: 22.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                /*
+                * Detalhes do hamburguer e insumos
+                */
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
-                    CardIngrediente(
-                      urlImage: 'images/pao.png',
-                      text: 'Pão',
+                    /*
+                    * Detalhes do hamburguer
+                    */
+                    Text(
+                      'ComboBox',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
-                    // SizedBox(width: 5),
-                    CardIngrediente(
-                      urlImage: 'images/carne.jpg',
-                      text: 'Carne',
+                    SizedBox(width: 20),
+                    /*
+                    * Insumos
+                    */
+                    Text(
+                      'Insumos', // max: 27 caracteres
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                   ],
                 ),
-                const CardIngrediente(
-                    urlImage: 'images/ingredientes.png',
-                    text: 'Ingredientes do Hambúrguer'),
+                /*
+                * Botões de editar
+                */
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        CardIngrediente(
+                          urlImage: 'images/pao.png',
+                          text: 'Pão',
+                        ),
+                        CardIngrediente(
+                          urlImage: 'images/carne.jpg',
+                          text: 'Carne',
+                        ),
+                      ],
+                    ),
+                    const CardIngrediente(
+                      urlImage: 'images/ingredientes.png',
+                      text: 'Ingredientes do Hambúrguer',
+                      imageRatioWidth: 0.30,
+                      textRatioWidth: 0.65,
+                      ratioWidth: 0.90,
+                    ),
+                  ],
+                ),
               ],
             ),
-            // DropdownButton<Produto>(
-            //           value: currentProduto,
-            //           items: pvdProduto.listaProduto.map((produto) {
-            //             return DropdownMenuItem<Produto>(
-            //               value: produto,
-            //               child: Text(
-            //                 produto.nome!,
-            //               ),
-            //             );
-            //           }).toList(),
-            //           onChanged: (Produto? selectedProduto) {
-            //             setState(() {
-            //               currentProduto = selectedProduto!;
-            //             });
-            //           },
-            //         ),
-          ],
-        ),
+          ),
+          /*
+          * Modal
+          */
+          DraggableScrollableSheet(
+            minChildSize: 0.07,
+            initialChildSize: 0.07,
+            maxChildSize: 0.40,
+            builder: (ctx, scrollController) {
+              return Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(10),
+                  ),
+                  color: Colors.white,
+                ),
+                child: SingleChildScrollView(
+                  controller: scrollController,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: availableHeigth * 0.07,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              onPressed: () {},
+                              icon: const Icon(
+                                Icons.keyboard_arrow_up_outlined,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      ModalProduto(
+                        produto: produto,
+                        onTap: (ctx, qnt) {
+                          (isEditing)
+                              ? provider.editarItemCarrinho(produto, qnt)
+                              : provider.addItemCarrinho(produto, qnt);
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                (isEditing)
+                                    ? '${produto.nome} atualizado para $qnt'
+                                    : '$qnt ${produto.nome} adicionado no carrinho',
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.oxygen(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              elevation: 6.0,
+                              backgroundColor: Colors.blue,
+                              duration: const Duration(seconds: 2),
+                            ),
+                          );
+                        },
+                        isEditing: isEditing,
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xfffed80b),
-        foregroundColor: Colors.black,
-        child: const Icon(
-          Icons.add,
-          size: 35,
-        ),
-        onPressed: () => _openModal(context, produto),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
     );
   }
 }

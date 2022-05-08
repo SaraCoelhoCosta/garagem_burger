@@ -3,72 +3,74 @@ import 'package:flutter/material.dart';
 class CardIngrediente extends StatelessWidget {
   final String urlImage;
   final String text;
+  final double imageRatioWidth;
+  final double textRatioWidth;
+  final double ratioWidth;
 
   const CardIngrediente({
     Key? key,
     required this.urlImage,
     required this.text,
+    this.imageRatioWidth = 0.50,
+    this.textRatioWidth = 0.45,
+    this.ratioWidth = 0.45,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // Altura total da tela, subtraindo as alturas da appBar e bottomBar
+    final availableHeight = MediaQuery.of(context).size.height -
+        Scaffold.of(context).appBarMaxHeight!;
+
     return Card(
       elevation: 6.0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
-      child: Padding(
+      child: Container(
         padding: const EdgeInsets.all(5),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(15),
+        height: availableHeight * 0.15,
+        width: MediaQuery.of(context).size.width * ratioWidth,
+        child: LayoutBuilder(builder: (ctx, constraints) {
+          return Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              /*
+              * Imagem
+              */
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(15),
+                  ),
+                  image: DecorationImage(
+                    image: AssetImage(urlImage),
+                    fit: BoxFit.contain,
+                  ),
                 ),
-                image: DecorationImage(
-                  image: AssetImage(urlImage),
-                  fit: BoxFit.cover,
-                ),
+                width: constraints.maxWidth * imageRatioWidth,
               ),
-              width: MediaQuery.of(context).size.height * 0.13,
-              height: MediaQuery.of(context).size.height * 0.10,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: FittedBox(
-                child: Text(
-                  text, // max: 27 caracteres
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
+              /*
+              * Texto
+              */
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                width: constraints.maxWidth * textRatioWidth,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    text,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
               ),
-            ),
-            // Container(
-            //   padding: const EdgeInsets.all(12),
-            //   height: 100,
-            //   width: 200,
-            //   child: Column(
-            //     crossAxisAlignment: CrossAxisAlignment.start,
-            //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-            //     children: const [
-            //       Text(
-            //         'Carne', // max: 27 caracteres
-            //         style: TextStyle(
-            //           fontSize: 20,
-            //           fontWeight: FontWeight.bold,
-            //           color: Colors.black,
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-          ],
-        ),
+            ],
+          );
+        }),
       ),
     );
   }

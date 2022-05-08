@@ -39,6 +39,7 @@ class _ModalProdutoState extends State<ModalProduto> {
     return Padding(
       padding: const EdgeInsets.all(15),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // Titulo do modal

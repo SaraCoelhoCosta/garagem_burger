@@ -37,6 +37,7 @@ class TelaVazia extends StatelessWidget {
         right: 20,
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Icon(icon, size: availableHeight * 0.30),
