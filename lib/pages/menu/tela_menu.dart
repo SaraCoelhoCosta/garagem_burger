@@ -20,7 +20,7 @@ class TelaMenu extends StatefulWidget {
 class _TelaMenuState extends State<TelaMenu> {
   @override
   Widget build(BuildContext context) {
-    final produtos = Provider.of<ProviderProdutos>(context).listaProdutos;
+    final provider = Provider.of<ProviderProdutos>(context);
     final user = Provider.of<AuthService>(context).usuario;
     final userName = user?.email ?? 'Convidado';
     // Altura total da tela, subtraindo as alturas da appBar e bottomBar
@@ -154,7 +154,100 @@ class _TelaMenuState extends State<TelaMenu> {
         */
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: produtos
+          children: provider.hamburgueres
+              .map((produto) => CardProduto(
+                    produto: produto,
+                    onTap: () => Navigator.of(context).pushNamed(
+                      Rotas.produto,
+                      arguments: [false, produto],
+                    ),
+                  ))
+              .toList(),
+        ),
+        /*
+        * Seção de Acompanhamentos
+        */
+        Padding(
+          padding: const EdgeInsets.only(
+            top: 10.0,
+            left: 8.0,
+          ),
+          child: Text(
+            'ACOMPANHAMENTOS',
+            style: GoogleFonts.oxygen(
+              fontSize: 22.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        /*
+        * Lista de Acompanhamentos
+        */
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: provider.acompanhamentos
+              .map((produto) => CardProduto(
+                    produto: produto,
+                    onTap: () => Navigator.of(context).pushNamed(
+                      Rotas.produto,
+                      arguments: [false, produto],
+                    ),
+                  ))
+              .toList(),
+        ),
+        /*
+        * Seção de Sobremesas
+        */
+        Padding(
+          padding: const EdgeInsets.only(
+            top: 10.0,
+            left: 8.0,
+          ),
+          child: Text(
+            'SOBREMESAS',
+            style: GoogleFonts.oxygen(
+              fontSize: 22.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        /*
+        * Lista de Sobremesas
+        */
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: provider.sobremesas
+              .map((produto) => CardProduto(
+                    produto: produto,
+                    onTap: () => Navigator.of(context).pushNamed(
+                      Rotas.produto,
+                      arguments: [false, produto],
+                    ),
+                  ))
+              .toList(),
+        ),
+        /*
+        * Seção de Bebidas
+        */
+        Padding(
+          padding: const EdgeInsets.only(
+            top: 10.0,
+            left: 8.0,
+          ),
+          child: Text(
+            'BEBIDAS',
+            style: GoogleFonts.oxygen(
+              fontSize: 22.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        /*
+        * Lista de Bebidas
+        */
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: provider.bebidas
               .map((produto) => CardProduto(
                     produto: produto,
                     onTap: () => Navigator.of(context).pushNamed(

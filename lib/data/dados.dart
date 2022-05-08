@@ -1,61 +1,60 @@
 import 'dart:math';
-
 import 'package:garagem_burger/models/cartao.dart';
 import 'package:garagem_burger/models/localizacao.dart';
 import 'package:garagem_burger/models/pedido.dart';
 import 'package:garagem_burger/models/produto.dart';
 
-final produtos = [
-  Produto(
-    id: Random().nextDouble().toString(),
-    nome: 'Dodge Americano',
-    preco: 25.00,
-    tipo: Tipo.hamburguer,
-  ),
-  Produto(
-    id: Random().nextDouble().toString(),
-    nome: 'Opala',
-    preco: 20.00,
-    tipo: Tipo.hamburguer,
-  ),
-  Produto(
-    id: Random().nextDouble().toString(),
-    nome: 'Ford Maverick',
-    preco: 20.00,
-    tipo: Tipo.hamburguer,
-  ),
-  Produto(
-    id: Random().nextDouble().toString(),
-    nome: 'Petit Gâteau',
-    preco: 12.00,
-    tipo: Tipo.sobremesa,
-  ),
-];
+// final produtos = [
+//   Produto(
+//     id: Random().nextDouble().toString(),
+//     nome: 'Dodge Americano',
+//     preco: 25.00,
+//     tipo: Produto.hamburguerCasa,
+//   ),
+//   Produto(
+//     id: Random().nextDouble().toString(),
+//     nome: 'Opala',
+//     preco: 20.00,
+//     tipo: Produto.hamburguerCasa,
+//   ),
+//   Produto(
+//     id: Random().nextDouble().toString(),
+//     nome: 'Ford Maverick',
+//     preco: 20.00,
+//     tipo: Produto.hamburguerCasa,
+//   ),
+//   Produto(
+//     id: Random().nextDouble().toString(),
+//     nome: 'Petit Gâteau',
+//     preco: 12.00,
+//     tipo: Produto.sobremesa,
+//   ),
+// ];
 
 final meusLanches = [
   Produto(
     id: Random().nextDouble().toString(),
     nome: 'X-Infarto de Sara',
     preco: 24.90,
-    tipo: Tipo.hamburguer,
+    tipo: Produto.hamburguerCasa,
   ),
   Produto(
     id: Random().nextDouble().toString(),
     nome: 'Morgana de Will',
     preco: 21.90,
-    tipo: Tipo.hamburguer,
+    tipo: Produto.hamburguerCasa,
   ),
   Produto(
     id: Random().nextDouble().toString(),
     nome: 'Gulodice de João',
     preco: 24.90,
-    tipo: Tipo.hamburguer,
+    tipo: Produto.hamburguerCasa,
   ),
   Produto(
     id: Random().nextDouble().toString(),
     nome: 'Big Tentação de Lara',
     preco: 32.90,
-    tipo: Tipo.hamburguer,
+    tipo: Produto.hamburguerCasa,
   ),
 ];
 
