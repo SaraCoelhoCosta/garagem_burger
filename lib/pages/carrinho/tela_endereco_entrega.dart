@@ -53,14 +53,6 @@ class _TelaEnderecoEntregaState extends State<TelaEnderecoEntrega> {
               padding: const EdgeInsets.all(10.0),
               child: Column(
                 children: [
-                  // const Text(
-                  //   '\nEndereço de entrega\n',
-                  //   style: TextStyle(
-                  //     fontSize: 20,
-                  //     fontWeight: FontWeight.normal,
-                  //     color: Colors.black,
-                  //   ),
-                  // ),
                   DropdownButton<Localizacao>(
                     borderRadius: BorderRadius.circular(10),
                     icon: const Icon(Icons.keyboard_arrow_down),
@@ -70,7 +62,7 @@ class _TelaEnderecoEntregaState extends State<TelaEnderecoEntrega> {
                       return DropdownMenuItem<Localizacao>(
                         value: local,
                         child: Text(
-                          local.descricao!,
+                          local.description!,
                         ),
                       );
                     }).toList(),

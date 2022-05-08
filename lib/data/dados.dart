@@ -88,7 +88,7 @@ final localizacoes = [
     cidade: 'Jequié',
     estado: 'Bahia',
     favorite: true,
-    descricao: 'Minha casa',
+    description: 'Minha casa',
   ),
   Localizacao(
     id: Random().nextDouble().toString(),
@@ -98,7 +98,7 @@ final localizacoes = [
     cidade: 'Jequié',
     estado: 'Bahia',
     favorite: false,
-    descricao: 'Casa de Tia Mony',
+    description: 'Casa de Tia Mony',
   ),
 ];
 

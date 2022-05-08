@@ -6,7 +6,7 @@ class Localizacao {
   final String cidade;
   final String estado;
   bool favorite;
-  String? descricao;
+  String? description;
 
   Localizacao({
     required this.id,
@@ -16,6 +16,6 @@ class Localizacao {
     required this.cidade,
     required this.estado,
     this.favorite = false,
-    this.descricao,
+    this.description,
   });
 }

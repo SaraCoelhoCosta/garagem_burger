@@ -57,20 +57,24 @@ class TelaProduto extends StatelessWidget {
     List arguments = ModalRoute.of(context)?.settings.arguments as List;
     Produto produto = arguments[1] as Produto;
 
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        foregroundColor: Colors.white,
-        centerTitle: true,
-        elevation: 0,
-        title: Text(
-          produto.nome,
-          style: GoogleFonts.keaniaOne(
-            fontSize: 30,
-          ),
+    final appBar = AppBar(
+      backgroundColor: Colors.transparent,
+      foregroundColor: Colors.white,
+      centerTitle: true,
+      elevation: 0,
+      title: Text(
+        produto.nome,
+        style: GoogleFonts.keaniaOne(
+          fontSize: 30,
         ),
       ),
+    );
+
+    final appBarHeight = appBar.preferredSize.height + MediaQuery.of(context).padding.top;
+
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: appBar,
       body: Container(
         width: double.infinity,
         /*
@@ -83,9 +87,9 @@ class TelaProduto extends StatelessWidget {
           ),
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          // mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const SizedBox(height: 50),
+            SizedBox(height: appBarHeight),
             /*
             * Preço
             */
@@ -114,9 +118,7 @@ class TelaProduto extends StatelessWidget {
                     color: Colors.white,
                   ),
                 ),
-                SizedBox(
-                  width: 20,
-                ),
+                SizedBox(width: 20),
                 /*
                 * Insumos
                 */

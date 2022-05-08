@@ -68,7 +68,7 @@ class CardDismissible extends StatelessWidget {
         title =
             '${tempItem.rua}, ${tempItem.numero.toString()} - ${tempItem.bairro}'
             '\n${tempItem.cidade}, ${tempItem.estado}';
-        subtitle = tempItem.descricao ?? '';
+        subtitle = tempItem.description ?? '';
         leadingImage = null;
         isFavorite = tempItem.favorite;
         break;
