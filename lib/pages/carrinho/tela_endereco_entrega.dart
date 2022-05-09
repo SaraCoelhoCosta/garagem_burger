@@ -52,62 +52,141 @@ class _TelaEnderecoEntregaState extends State<TelaEnderecoEntrega> {
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Column(
-                children: [
-                  DropdownButton<Localizacao>(
-                    borderRadius: BorderRadius.circular(10),
-                    icon: const Icon(Icons.keyboard_arrow_down),
-                    isExpanded: true,
-                    value: currentLocal,
-                    items: pvdLocal.listaLocalizacoes.map((local) {
-                      return DropdownMenuItem<Localizacao>(
-                        value: local,
-                        child: Text(
-                          local.description!,
+                  children: [
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey[100],
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                      );
-                    }).toList(),
-                    onChanged: (Localizacao? selectedLocal) {
-                      setState(() {
-                        currentLocal = selectedLocal!;
-                      });
-                    },
-                  ),
-                  const Text(
-                    '\nSelecione um endereço cadastrado',
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.normal,
-                      color: Colors.black,
-                    ),
-                  ),
-                  const Text(
-                    'ou',
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.normal,
-                      color: Colors.black,
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pushNamed(
-                      Rotas.main,
-                      arguments: {
-                        'index': 2,
-                        'page': const TelaNovaLocalizacao(),
-                        'button': null,
-                      },
-                    ),
-                    child: Text(
-                      'Insira outro endereço',
-                      style: GoogleFonts.oxygen(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue,
+                        padding: const EdgeInsets.only(left: 12, right: 8),
+                        child: DropdownButton<Localizacao>(
+                          menuMaxHeight: kMinInteractiveDimension * 3 + 10,
+                          underline: Container(),
+                          dropdownColor: Colors.grey[100],
+                          borderRadius: BorderRadius.circular(10),
+                          icon: const Icon(Icons.keyboard_arrow_down),
+                          isExpanded: true,
+                          value: currentLocal,
+                          style: GoogleFonts.oxygen(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                          items: pvdLocal.listaLocalizacoes.map((local) {
+                            return DropdownMenuItem<Localizacao>(
+                              value: local,
+                              child: Text(local.description!),
+                            );
+                          }).toList(),
+                          onChanged: (Localizacao? selectedLocal) {
+                            setState(() {
+                              currentLocal = selectedLocal!;
+                            });
+                          },
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
+                    Text(
+                      '\nSelecione um endereço cadastrado',
+                      style: GoogleFonts.oxygen(
+                        fontSize: 17,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Text(
+                      '\nou',
+                      style: GoogleFonts.oxygen(
+                        fontSize: 17,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black,
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pushNamed(
+                        Rotas.main,
+                        arguments: {
+                          'index': 2,
+                          'page': const TelaNovaLocalizacao(),
+                          'button': null,
+                        },
+                      ),
+                      child: Text(
+                        'Insira outro endereço',
+                        style: GoogleFonts.oxygen(
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              // child: Column(
+              //   children: [
+              //     DropdownButton<Localizacao>(
+              //       menuMaxHeight: kMinInteractiveDimension * 3,
+              //       borderRadius: BorderRadius.circular(10),
+              //       icon: const Icon(Icons.keyboard_arrow_down),
+              //       // isExpanded: true,
+              //       value: currentLocal,
+              //       style: GoogleFonts.oxygen(
+              //         fontSize: 17,
+              //         fontWeight: FontWeight.normal,
+              //         color: Colors.black,
+              //       ),
+              //       items: pvdLocal.listaLocalizacoes.map((local) {
+              //         return DropdownMenuItem<Localizacao>(
+              //           value: local,
+              //           child: Text(local.description!),
+              //         );
+              //       }).toList(),
+              //       onChanged: (Localizacao? selectedLocal) {
+              //         setState(() {
+              //           currentLocal = selectedLocal!;
+              //         });
+              //       },
+              //     ),
+              //     Text(
+              //       '\nSelecione um endereço cadastrado',
+              //       style: GoogleFonts.oxygen(
+              //         fontSize: 17,
+              //         fontWeight: FontWeight.normal,
+              //         color: Colors.black,
+              //       ),
+              //     ),
+              //     Text(
+              //       '\nou',
+              //       style: GoogleFonts.oxygen(
+              //         fontSize: 17,
+              //         fontWeight: FontWeight.normal,
+              //         color: Colors.black,
+              //       ),
+              //     ),
+              //     TextButton(
+              //       onPressed: () => Navigator.of(context).pushNamed(
+              //         Rotas.main,
+              //         arguments: {
+              //           'index': 2,
+              //           'page': const TelaNovaLocalizacao(),
+              //           'button': null,
+              //         },
+              //       ),
+              //       child: Text(
+              //         'Insira outro endereço',
+              //         style: GoogleFonts.oxygen(
+              //           fontSize: 17,
+              //           fontWeight: FontWeight.bold,
+              //           color: Colors.blue,
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
             ),
           ),
         ),

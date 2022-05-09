@@ -114,36 +114,54 @@ class _TelaPagamentoState extends State<TelaPagamento> {
                 padding: const EdgeInsets.all(10.0),
                 child: Column(
                   children: [
-                    DropdownButton<Cartao>(
-                      borderRadius: BorderRadius.circular(10),
-                      icon: const Icon(Icons.keyboard_arrow_down),
-                      isExpanded: true,
-                      value: currentCard,
-                      items: pvdCartao.listaCartoes.map((local) {
-                        return DropdownMenuItem<Cartao>(
-                          value: local,
-                          child: Text(
-                            local.description,
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey[100],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: const EdgeInsets.only(left: 12, right: 8),
+                        child: DropdownButton<Cartao>(
+                          menuMaxHeight: kMinInteractiveDimension * 3 + 10,
+                          underline: Container(),
+                          dropdownColor: Colors.grey[100],
+                          borderRadius: BorderRadius.circular(10),
+                          icon: const Icon(Icons.keyboard_arrow_down),
+                          isExpanded: true,
+                          value: currentCard,
+                          style: GoogleFonts.oxygen(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
                           ),
-                        );
-                      }).toList(),
-                      onChanged: (Cartao? selectedCard) {
-                        setState(() {
-                          currentCard = selectedCard!;
-                        });
-                      },
+                          items: pvdCartao.listaCartoes.map((cartao) {
+                            return DropdownMenuItem<Cartao>(
+                              value: cartao,
+                              child: Text(cartao.description),
+                            );
+                          }).toList(),
+                          onChanged: (Cartao? selectedCard) {
+                            setState(() {
+                              currentCard = selectedCard!;
+                            });
+                          },
+                        ),
+                      ),
                     ),
-                    const Text(
+                    Text(
                       '\nSelecione um cartão cadastrado',
-                      style: TextStyle(
+                      style: GoogleFonts.oxygen(
                         fontSize: 17,
                         fontWeight: FontWeight.normal,
                         color: Colors.black,
                       ),
                     ),
-                    const Text(
-                      'ou',
-                      style: TextStyle(
+                    Text(
+                      '\nou',
+                      style: GoogleFonts.oxygen(
                         fontSize: 17,
                         fontWeight: FontWeight.normal,
                         color: Colors.black,
@@ -161,7 +179,7 @@ class _TelaPagamentoState extends State<TelaPagamento> {
                       child: Text(
                         'Insira outro cartão',
                         style: GoogleFonts.oxygen(
-                          fontSize: 15,
+                          fontSize: 17,
                           fontWeight: FontWeight.bold,
                           color: Colors.blue,
                         ),
@@ -169,6 +187,63 @@ class _TelaPagamentoState extends State<TelaPagamento> {
                     ),
                   ],
                 ),
+                // child: Column(
+                //   children: [
+                //     DropdownButton<Cartao>(
+                //       borderRadius: BorderRadius.circular(10),
+                //       icon: const Icon(Icons.keyboard_arrow_down),
+                //       isExpanded: true,
+                //       value: currentCard,
+                //       items: pvdCartao.listaCartoes.map((local) {
+                //         return DropdownMenuItem<Cartao>(
+                //           value: local,
+                //           child: Text(
+                //             local.description,
+                //           ),
+                //         );
+                //       }).toList(),
+                //       onChanged: (Cartao? selectedCard) {
+                //         setState(() {
+                //           currentCard = selectedCard!;
+                //         });
+                //       },
+                //     ),
+                //     const Text(
+                //       '\nSelecione um cartão cadastrado',
+                //       style: TextStyle(
+                //         fontSize: 17,
+                //         fontWeight: FontWeight.normal,
+                //         color: Colors.black,
+                //       ),
+                //     ),
+                //     const Text(
+                //       'ou',
+                //       style: TextStyle(
+                //         fontSize: 17,
+                //         fontWeight: FontWeight.normal,
+                //         color: Colors.black,
+                //       ),
+                //     ),
+                //     TextButton(
+                //       onPressed: () => Navigator.of(context).pushNamed(
+                //         Rotas.main,
+                //         arguments: {
+                //           'index': 2,
+                //           'page': const TelaNovoCartao(),
+                //           'button': null,
+                //         },
+                //       ),
+                //       child: Text(
+                //         'Insira outro cartão',
+                //         style: GoogleFonts.oxygen(
+                //           fontSize: 15,
+                //           fontWeight: FontWeight.bold,
+                //           color: Colors.blue,
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
               ),
             ),
           ),
