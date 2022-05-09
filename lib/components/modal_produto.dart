@@ -9,12 +9,15 @@ class ModalProduto extends StatefulWidget {
   final Produto produto;
   final bool isEditing;
   final void Function(BuildContext, int) onTap;
+  final void Function(BuildContext, int)? onTapEdit;
+  // TODO: Mexe nesse onTapEdit, João
 
   const ModalProduto({
     Key? key,
     required this.produto,
     required this.onTap,
     required this.isEditing,
+    this.onTapEdit,
   }) : super(key: key);
 
   @override
@@ -90,6 +93,13 @@ class _ModalProdutoState extends State<ModalProduto> {
           ),
 
           const SizedBox(height: 15),
+
+          if (widget.isEditing)
+            Botao(
+              labelText: 'Editar Produto',
+              externalPadding: const EdgeInsets.only(bottom: 5),
+              onPressed: () => widget.onTapEdit,
+            ),
 
           Botao(
             labelText: (widget.isEditing)

@@ -6,6 +6,7 @@ class ProviderProdutos with ChangeNotifier {
   final List<Produto> _products = [];
 
   Future<void> loadProducts() async {
+    _products.clear();
     final futureSnapshot = Firebase.getFirestore().collection('produtos').get();
     futureSnapshot.then((snapshot) {
       snapshot.docs.asMap().forEach((_, doc) {

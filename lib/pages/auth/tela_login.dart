@@ -45,6 +45,14 @@ class _TelaLoginState extends State<TelaLogin> {
     setState(() => _loading = true);
     try {
       await context.read<AuthService>().login(_email.text, _senha.text);
+      Navigator.of(context).pushReplacementNamed(
+        Rotas.main,
+        arguments: {
+          'index': 0,
+          'page': const TelaMenu(),
+          'button': null,
+        },
+      );
     } on AuthException catch (e) {
       setState(() => _loading = false);
       ScaffoldMessenger.of(context)
@@ -64,15 +72,13 @@ class _TelaLoginState extends State<TelaLogin> {
           // Espaçamento vertical início da tela e imagem.
           SizedBox(height: tamanho.height * 0.04),
 
-          //Imagem.
-          Container(
-            // Largura e altura.
-            width: 175,
-            height: 175,
-
-            // Imagem.
-            child: Image.asset(
-              "./images/logoHamburgueria.png",
+          // Imagem
+          Hero(
+            tag: 'logo',
+            child: Container(
+              width: 175,
+              height: 175,
+              child: Image.asset("./images/logoHamburgueria.png"),
             ),
           ),
 
@@ -297,11 +303,7 @@ class _TelaLoginState extends State<TelaLogin> {
 
                 // Ação executada pelo botão.
                 onPressed: () {
-                  Provider.of<AuthService>(
-                    context,
-                    listen: false,
-                  ).switchAuthPage();
-                  // Navigator.of(context).pushNamed(Rotas.cadastro);
+                  Navigator.of(context).pushReplacementNamed(Rotas.cadastro);
                 },
               ),
             ],

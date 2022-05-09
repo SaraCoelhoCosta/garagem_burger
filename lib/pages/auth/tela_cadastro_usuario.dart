@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/botao.dart';
 import 'package:garagem_burger/controllers/auth_service.dart';
+import 'package:garagem_burger/pages/menu/tela_menu.dart';
 import 'package:garagem_burger/utils/rotas.dart';
 import 'package:garagem_burger/components/campo_texto.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -62,6 +63,14 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
       await context
           .read<AuthService>()
           .registrar(_email.text, _senha.text, dadosUsuario!);
+      Navigator.of(context).pushReplacementNamed(
+        Rotas.main,
+        arguments: {
+          'index': 0,
+          'page': const TelaMenu(),
+          'button': null,
+        },
+      );
     } on AuthException catch (e) {
       setState(() => _loading = false);
       ScaffoldMessenger.of(context)
@@ -377,11 +386,7 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
 
                 // Ação executada pelo botão.
                 onPressed: () {
-                  Provider.of<AuthService>(
-                    context,
-                    listen: false,
-                  ).switchAuthPage();
-                  // Navigator.of(context).pop();
+                  Navigator.of(context).pushReplacementNamed(Rotas.login);
                 },
               ),
             ],

@@ -9,8 +9,55 @@ import 'package:garagem_burger/utils/rotas.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class TelaProduto extends StatelessWidget {
+class TelaProduto extends StatefulWidget {
   const TelaProduto({Key? key}) : super(key: key);
+
+  @override
+  State<TelaProduto> createState() => _TelaProdutoState();
+}
+
+class _TelaProdutoState extends State<TelaProduto>
+    with SingleTickerProviderStateMixin {
+  bool openedModal = false;
+  AnimationController? _controller;
+  Animation<double>? _opacityAnimation;
+  final _duration = const Duration(milliseconds: 350);
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: _duration,
+    );
+
+    _opacityAnimation = Tween(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _controller!,
+      curve: Curves.linear,
+    ));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller?.dispose();
+  }
+
+  void _swapModal() {
+    setState(() {
+      if (!openedModal) {
+        openedModal = true;
+        _controller?.forward();
+      } else {
+        openedModal = false;
+        _controller?.reverse();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +79,11 @@ class TelaProduto extends StatelessWidget {
       ),
     );
 
+    final totalHeight = MediaQuery.of(context).size.height;
     final appBarHeight =
         appBar.preferredSize.height + MediaQuery.of(context).padding.top;
-    final availableHeigth = MediaQuery.of(context).size.height - appBarHeight;
+    final availableHeigth = totalHeight - appBarHeight;
+    final double maxHeight = (isEditing) ? 0.47 : 0.40;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -63,6 +112,7 @@ class TelaProduto extends StatelessWidget {
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       body: Stack(
+        alignment: Alignment.bottomCenter,
         children: [
           Container(
             width: double.infinity,
@@ -155,39 +205,49 @@ class TelaProduto extends StatelessWidget {
           /*
           * Modal
           */
-          DraggableScrollableSheet(
-            minChildSize: 0.07,
-            initialChildSize: 0.07,
-            maxChildSize: 0.40,
-            builder: (ctx, scrollController) {
-              return Container(
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(10),
-                  ),
-                  color: Colors.white,
-                ),
-                child: SingleChildScrollView(
-                  controller: scrollController,
-                  child: Column(
+          AnimatedContainer(
+            duration: _duration,
+            height: availableHeigth * (openedModal ? maxHeight : 0.07),
+            // height: availableHeigth * maxHeight,
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(10),
+              ),
+              color: Colors.white,
+            ),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: availableHeigth * 0.07,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(
-                        height: availableHeigth * 0.07,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.keyboard_arrow_up_outlined,
-                              ),
-                            ),
-                          ],
+                      IconButton(
+                        onPressed: _swapModal,
+                        icon: Icon(
+                          (openedModal)
+                              ? Icons.keyboard_arrow_down_outlined
+                              : Icons.keyboard_arrow_up_outlined,
                         ),
                       ),
-                      ModalProduto(
+                    ],
+                  ),
+                ),
+                AnimatedContainer(
+                  duration: _duration,
+                  constraints: BoxConstraints(
+                    minHeight: availableHeigth * (openedModal ? 0.07 : 0),
+                    maxHeight:
+                        availableHeigth * (openedModal ? maxHeight - 0.1 : 0),
+                  ),
+                  child: FadeTransition(
+                    opacity: _opacityAnimation!,
+                    child: SingleChildScrollView(
+                      child: ModalProduto(
                         produto: produto,
+                        onTapEdit: null, // TODO: Mexe nesse onTapEdit, João
                         onTap: (ctx, qnt) {
+                          _swapModal();
                           (isEditing)
                               ? provider.editarItemCarrinho(produto, qnt)
                               : provider.addItemCarrinho(produto, qnt);
@@ -204,19 +264,20 @@ class TelaProduto extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
+                              
                               elevation: 6.0,
                               backgroundColor: Colors.blue,
-                              duration: const Duration(seconds: 2),
+                              duration: const Duration(milliseconds: 1500),
                             ),
                           );
                         },
                         isEditing: isEditing,
                       ),
-                    ],
+                    ),
                   ),
                 ),
-              );
-            },
+              ],
+            ),
           ),
         ],
       ),

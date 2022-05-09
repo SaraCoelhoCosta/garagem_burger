@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:garagem_burger/components/auth_check.dart';
 import 'package:garagem_burger/controllers/auth_service.dart';
 import 'package:garagem_burger/pages/auth/tela_abertura.dart';
 import 'package:garagem_burger/pages/auth/tela_cadastro_usuario.dart';
@@ -67,21 +66,15 @@ class MyApp extends StatelessWidget {
         supportedLocales: [
           const Locale('pt', 'BR'),
         ],
-
         title: 'Garagem Burger',
-
         debugShowCheckedModeBanner: false,
-
         theme: ThemeData(
           primarySwatch: Colors.blue,
           backgroundColor: const Color(0xfffed80b),
         ),
-
         initialRoute: Rotas.home,
-
         routes: {
           Rotas.home: (context) => TelaAbertura(),
-          Rotas.authCheck: (context) => AuthCheck(),
           Rotas.login: (context) => TelaLogin(),
           Rotas.cadastro: (context) => TelaCadastroUsuario(),
           Rotas.main: (context) => TelaPrincipal(),

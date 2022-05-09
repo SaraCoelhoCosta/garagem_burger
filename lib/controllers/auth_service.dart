@@ -18,17 +18,10 @@ class AuthService extends ChangeNotifier {
   FirebaseFirestore firestore = Firebase.getFirestore();
   User? usuario;
   bool isLoading = true;
-  bool isLogin = true;
 
   AuthService() {
     logout();
     _authCheck();
-  }
-
-  // Metodo que sera chamado quando o usuario alternar entre as telas de login e cadastro
-  switchAuthPage(){
-    isLogin = !isLogin;
-    notifyListeners();
   }
 
   // Checa se tem usuário logado ou não.
