@@ -17,7 +17,6 @@ class ProviderLocalizacoes with ChangeNotifier {
 
   _startProvider() async {
     await _startFirestore();
-    loadLocalizacoes();
   }
 
   _startFirestore() {
@@ -25,7 +24,8 @@ class ProviderLocalizacoes with ChangeNotifier {
   }
 
   loadLocalizacoes() async {
-    if (usuario != null && _localizacoes.isEmpty) {
+    if (usuario != null) {
+      _localizacoes.clear();
       final futureSnapshot = Firebase.getFirestore()
           .collection('usuarios/${usuario.usuario!.uid}/localizacoes')
           .get();
@@ -63,6 +63,7 @@ class ProviderLocalizacoes with ChangeNotifier {
   addLocalizacao(Map<String, dynamic> dadosLocalizacao) {
     _salvarDados(dadosLocalizacao);
     loadLocalizacoes(); // TODO: não sei se é necessário.
+    //notifyListeners();
   }
 
   // Salva os dados no firestore.
@@ -82,22 +83,12 @@ class ProviderLocalizacoes with ChangeNotifier {
   }
 
   removerLocalizacao(Localizacao localizacao) async {
+    print(localizacao.rua);
     await firestore
         .collection('usuarios/${usuario.usuario!.uid}/localizacoes')
         .doc(localizacao.id)
         .delete();
     _localizacoes.remove(localizacao);
-    notifyListeners();
-  }
-
-  removerTodasLocalizacoes() async {
-    _localizacoes.forEach((localizacao) async {
-      await firestore
-          .collection('usuarios/${usuario.usuario!.uid}/localizacoes')
-          .doc(localizacao.id)
-          .delete();
-      _localizacoes.remove(localizacao);
-    });
     notifyListeners();
   }
 
