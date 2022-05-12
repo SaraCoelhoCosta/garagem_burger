@@ -1,7 +1,7 @@
 // ignore_for_file: file_names, prefer_const_constructors, unnecessary_new, sized_box_for_whitespace, avoid_print, prefer_collection_literals, override_on_non_overriding_member, unused_import
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/botao.dart';
-import 'package:garagem_burger/controllers/auth_service.dart';
+import 'package:garagem_burger/controllers/provider_usuario.dart';
 import 'package:garagem_burger/pages/menu/tela_menu.dart';
 import 'package:garagem_burger/utils/rotas.dart';
 import 'package:garagem_burger/components/campo_texto.dart';
@@ -61,7 +61,7 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
     setState(() => _loading = true);
     try {
       await context
-          .read<AuthService>()
+          .read<ProviderUsuario>()
           .registrar(_email.text, _senha.text, dadosUsuario!);
       Navigator.of(context).pushReplacementNamed(
         Rotas.main,
@@ -309,7 +309,17 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
                     textInputAction: TextInputAction.done,
 
                     // Chama a função para concluir cadastro.
-                    onFieldSubmitted: (_) => {},
+                    onFieldSubmitted: (_) => {
+                      if (_formKey.currentState!.validate())
+                        {
+                          dadosUsuario = {
+                            "nome": _nome.text,
+                            "email": _email.text,
+                            "telefone": _telefone.text,
+                          },
+                          efetuarCadastro(),
+                        },
+                    },
 
                     // Oculta texto.
                     obscureText: !exibirSenha,

@@ -1,42 +1,111 @@
+// ignore_for_file: unnecessary_null_comparison, avoid_function_literals_in_foreach_calls, prefer_void_to_null, unused_element
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:garagem_burger/data/dados.dart';
+import 'package:garagem_burger/controllers/firebase.dart';
+import 'package:garagem_burger/controllers/provider_usuario.dart';
 import 'package:garagem_burger/models/localizacao.dart';
 
 class ProviderLocalizacoes with ChangeNotifier {
-  final List<Localizacao> _localizacoes = localizacoes;
+  final List<Localizacao> _localizacoes = [];
+  late FirebaseFirestore firestore;
+  late ProviderUsuario usuario;
 
-  List<Localizacao> get listaLocalizacoes => [..._localizacoes];
-
-  int get qntLocalizacoes => _localizacoes.length;
-
-  bool get emptyList => _localizacoes.isEmpty;
-
-  Localizacao get localizacaoPreferencial {
-    return _localizacoes.singleWhere((local) => local.favorite);
+  ProviderLocalizacoes({required this.usuario}) {
+    _startProvider();
   }
 
-  void selectFavorite(String idLocal) {
-    for (Localizacao local in _localizacoes) {
-      local.favorite = (local.id == idLocal);
-    }
+  _startProvider() async {
+    await _startFirestore();
+    loadLocalizacoes();
+  }
 
+  _startFirestore() {
+    firestore = Firebase.getFirestore();
+  }
+
+  loadLocalizacoes() async {
+    if (usuario != null && _localizacoes.isEmpty) {
+      final futureSnapshot = Firebase.getFirestore()
+          .collection('usuarios/${usuario.usuario!.uid}/localizacoes')
+          .get();
+
+      futureSnapshot.then(
+        (snapshot) {
+          snapshot.docs.asMap().forEach(
+            (_, doc) {
+              final localizacaoData = doc.data();
+              _localizacoes.add(
+                Localizacao(
+                  id: doc.id,
+                  cep: localizacaoData['cep'],
+                  rua: localizacaoData['rua'],
+                  numero: localizacaoData['numero'],
+                  bairro: localizacaoData['bairro'],
+                  cidade: localizacaoData['cidade'],
+                  estado: localizacaoData['estado'],
+                  descricao: localizacaoData['descricao'],
+                  favorito: localizacaoData['favorito'],
+                ),
+              );
+            },
+          );
+        },
+      );
+      notifyListeners();
+    }
+  }
+
+  addFavorito(List<Localizacao> localizacoes) {
+    // TODO: Fazer
+  }
+
+  addLocalizacao(Map<String, dynamic> dadosLocalizacao) {
+    _salvarDados(dadosLocalizacao);
+    loadLocalizacoes(); // TODO: não sei se é necessário.
+  }
+
+  // Salva os dados no firestore.
+  Future<Null> _salvarDados(Map<String, dynamic> dadosLocalizacao) async {
+    await firestore
+        .collection('usuarios/${usuario.usuario!.uid}/localizacoes')
+        .add(dadosLocalizacao);
+  }
+
+  editarLocalizacao(String id, Map<String, dynamic> dadosLocalizacao) async {
+    await firestore
+        .collection('usuarios/${usuario.usuario!.uid}/localizacoes')
+        .doc(id)
+        .update(dadosLocalizacao);
+    loadLocalizacoes(); // TODO: não sei se é necessário.
     notifyListeners();
   }
 
-  void removeLocalizacao(String idLocal) {
-    bool alterarFavorito = false;
-
-    if (localizacaoPreferencial.id == idLocal && qntLocalizacoes > 1) {
-      alterarFavorito = true;
-    }
-
-    _localizacoes.removeWhere((local) => local.id == idLocal);
-
-    if (alterarFavorito) {
-      _localizacoes[0].favorite = true;
-    }
-
+  removerLocalizacao(Localizacao localizacao) async {
+    await firestore
+        .collection('usuarios/${usuario.usuario!.uid}/localizacoes')
+        .doc(localizacao.id)
+        .delete();
+    _localizacoes.remove(localizacao);
     notifyListeners();
   }
 
+  removerTodasLocalizacoes() async {
+    _localizacoes.forEach((localizacao) async {
+      await firestore
+          .collection('usuarios/${usuario.usuario!.uid}/localizacoes')
+          .doc(localizacao.id)
+          .delete();
+      _localizacoes.remove(localizacao);
+    });
+    notifyListeners();
+  }
+
+  List<Localizacao> get localizacoesList {
+    return [..._localizacoes];
+  }
+
+  bool get listaVazia {
+    return _localizacoes.isEmpty;
+  }
 }

@@ -79,7 +79,7 @@ final pedidos = [
   ),
 ];
 
-final localizacoes = [
+/*final localizacoes = [
   Localizacao(
     id: Random().nextDouble().toString(),
     rua: 'Rua ABC',
@@ -100,7 +100,7 @@ final localizacoes = [
     favorite: false,
     description: 'Casa de Tia Mony',
   ),
-];
+];*/
 
 final cartoes = [
   Cartao(

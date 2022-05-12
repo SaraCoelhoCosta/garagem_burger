@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:garagem_burger/controllers/auth_service.dart';
+import 'package:garagem_burger/controllers/provider_usuario.dart';
 import 'package:garagem_burger/pages/auth/tela_abertura.dart';
 import 'package:garagem_burger/pages/auth/tela_cadastro_usuario.dart';
 import 'package:garagem_burger/pages/auth/tela_login.dart';
@@ -34,7 +34,24 @@ void main() async {
   await Firebase.initializeApp(
     options: (isAndroidOrIOS) ? null : DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ProviderUsuario()),
+        ChangeNotifierProvider(create: (_) => ProviderProdutos()),
+        ChangeNotifierProvider(create: (_) => ProviderLanches()),
+        ChangeNotifierProvider(create: (_) => ProviderPedidos()),
+        ChangeNotifierProvider(create: (_) => ProviderCarrinho()),
+        ChangeNotifierProvider(create: (context) => ProviderCartao()),
+        ChangeNotifierProvider(
+          create: (context) => ProviderLocalizacoes(
+            usuario: context.read<ProviderUsuario>(),
+          ),
+        ),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -47,42 +64,31 @@ class MyApp extends StatelessWidget {
       // DeviceOrientation.landscapeRight,
     ]);
 
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => AuthService()),
-        ChangeNotifierProvider(create: (_) => ProviderProdutos()),
-        ChangeNotifierProvider(create: (_) => ProviderLanches()),
-        ChangeNotifierProvider(create: (_) => ProviderPedidos()),
-        ChangeNotifierProvider(create: (_) => ProviderLocalizacoes()),
-        ChangeNotifierProvider(create: (_) => ProviderCarrinho()),
-        ChangeNotifierProvider(create: (_) => ProviderCartao()),
+    return MaterialApp(
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
       ],
-      child: MaterialApp(
-        localizationsDelegates: [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: [
-          const Locale('pt', 'BR'),
-        ],
-        title: 'Garagem Burger',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          backgroundColor: const Color(0xfffed80b),
-          // textTheme: TextTheme(),
-        ),
-        initialRoute: Rotas.home,
-        routes: {
-          Rotas.home: (context) => TelaAbertura(),
-          Rotas.login: (context) => TelaLogin(),
-          Rotas.cadastro: (context) => TelaCadastroUsuario(),
-          Rotas.main: (context) => TelaPrincipal(),
-          Rotas.produto: (context) => TelaProduto(),
-          Rotas.montarHamburguer: (context) => TelaMontarHamburguer(),
-        },
+      supportedLocales: [
+        const Locale('pt', 'BR'),
+      ],
+      title: 'Garagem Burger',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        backgroundColor: const Color(0xfffed80b),
+        // textTheme: TextTheme(),
       ),
+      initialRoute: Rotas.home,
+      routes: {
+        Rotas.home: (context) => TelaAbertura(),
+        Rotas.login: (context) => TelaLogin(),
+        Rotas.cadastro: (context) => TelaCadastroUsuario(),
+        Rotas.main: (context) => TelaPrincipal(),
+        Rotas.produto: (context) => TelaProduto(),
+        Rotas.montarHamburguer: (context) => TelaMontarHamburguer(),
+      },
     );
   }
 }

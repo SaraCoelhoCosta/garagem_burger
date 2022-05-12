@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/botao.dart';
 import 'package:garagem_burger/components/card_dismissible.dart';
 import 'package:garagem_burger/components/row_price.dart';
+import 'package:garagem_burger/models/item_carrinho.dart';
 import 'package:garagem_burger/pages/carrinho/tela_endereco_entrega.dart';
 import 'package:garagem_burger/pages/menu/tela_menu.dart';
 import 'package:garagem_burger/pages/tela_vazia.dart';
@@ -35,7 +36,7 @@ class TelaCarrinho extends StatelessWidget {
                 Rotas.produto,
                 arguments: [true, itemCarrinho.produto],
               ),
-              remover: (id) => provider.removeItemCarrinho(id),
+              remover: (id) => provider.removeItemCarrinho(id as String),
             );
           }).toList(),
         ),

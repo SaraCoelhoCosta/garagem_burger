@@ -19,8 +19,8 @@ class CardDismissible extends StatelessWidget {
   final Object item;
   final TipoCard tipoCard;
   final Function()? editar;
-  final Function(String id) remover;
-  final Function(String id)? favoritar;
+  final Function(Object objeto) remover;
+  final Function(Object objeto)? favoritar;
   String id = '';
   String title = '';
   String subtitle = '';
@@ -68,9 +68,9 @@ class CardDismissible extends StatelessWidget {
         title =
             '${tempItem.rua}, ${tempItem.numero.toString()} - ${tempItem.bairro}'
             '\n${tempItem.cidade}, ${tempItem.estado}';
-        subtitle = tempItem.description ?? '';
+        subtitle = tempItem.descricao ?? '';
         leadingImage = null;
-        isFavorite = tempItem.favorite;
+        isFavorite = tempItem.favorito;
         break;
 
       case TipoCard.itemCarrinho:

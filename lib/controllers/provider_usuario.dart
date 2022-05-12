@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:garagem_burger/controllers/firebase.dart';
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/controllers/provider_localizacoes.dart';
 
 // Classe para exceções.
 class AuthException implements Exception {
@@ -12,22 +13,22 @@ class AuthException implements Exception {
 }
 
 // Classe para serviço do usuário (acesso).
-class AuthService extends ChangeNotifier {
+class ProviderUsuario extends ChangeNotifier {
   // Firebase para autenticação e criação de usuário.
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = Firebase.getFirestore();
   User? usuario;
   bool isLoading = true;
 
-  AuthService() {
+  ProviderUsuario() {
     logout();
     _authCheck();
   }
 
   // Checa se tem usuário logado ou não.
   _authCheck() {
+    // Muda estado do usuário.
     _auth.authStateChanges().listen((User? user) {
-      // usuario = (user == null) ? null : user;
       usuario = user;
       isLoading = false;
       notifyListeners();

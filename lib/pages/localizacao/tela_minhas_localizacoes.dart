@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/card_dismissible.dart';
+import 'package:garagem_burger/models/localizacao.dart';
 import 'package:garagem_burger/pages/localizacao/tela_alterar_localizacao.dart';
 import 'package:garagem_burger/pages/localizacao/tela_nova_localizacao.dart';
 import 'package:garagem_burger/pages/tela_vazia.dart';
@@ -7,21 +8,23 @@ import 'package:garagem_burger/controllers/provider_localizacoes.dart';
 import 'package:garagem_burger/utils/rotas.dart';
 import 'package:provider/provider.dart';
 
-class TelaMinhasLocalizacoes extends StatelessWidget {
+class TelaMinhasLocalizacoes extends StatefulWidget {
   const TelaMinhasLocalizacoes({Key? key}) : super(key: key);
-
   @override
   String toStringShort() => 'Minhas Localizações';
 
+  @override
+  State<TelaMinhasLocalizacoes> createState() => _TelaMinhasLocalizacoesState();
+}
+
+class _TelaMinhasLocalizacoesState extends State<TelaMinhasLocalizacoes> {
   Widget _buildTela(BuildContext context) {
-    final provider = Provider.of<ProviderLocalizacoes>(
-      context,
-      listen: false,
-    );
+    final provider = Provider.of<ProviderLocalizacoes>(context);
+
     return ListView(
       children: [
         Column(
-          children: provider.listaLocalizacoes
+          children: provider.localizacoesList
               .map((localizacao) => CardDismissible(
                     tipoCard: TipoCard.localizacao,
                     item: localizacao,
@@ -33,8 +36,10 @@ class TelaMinhasLocalizacoes extends StatelessWidget {
                         'button': null,
                       },
                     ),
-                    favoritar: (id) => provider.selectFavorite(id),
-                    remover: (id) => provider.removeLocalizacao(id),
+                    remover: (localizacao) {
+                      provider.removerLocalizacao(localizacao as Localizacao);
+                    },
+                    //TODO: favoritar: (id) => provider.selectFavorite(id),
                   ))
               .toList(),
         ),
@@ -63,8 +68,13 @@ class TelaMinhasLocalizacoes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ProviderLocalizacoes>(context);
-    return (provider.qntLocalizacoes == 0)
-        ? _buildTelaVazia(context)
-        : _buildTela(context);
+    return RefreshIndicator(
+      onRefresh: () {
+        return Future.delayed(const Duration(milliseconds: 100));
+      },
+      child: (provider.listaVazia)
+          ? _buildTelaVazia(context)
+          : _buildTela(context),
+    );
   }
 }

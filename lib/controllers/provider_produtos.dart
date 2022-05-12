@@ -5,7 +5,7 @@ import 'package:garagem_burger/models/produto.dart';
 class ProviderProdutos with ChangeNotifier {
   final List<Produto> _products = [];
 
-  Future<void> loadProducts() async {
+  loadProducts() async {
     _products.clear();
     final futureSnapshot = Firebase.getFirestore().collection('produtos').get();
     futureSnapshot.then((snapshot) {
