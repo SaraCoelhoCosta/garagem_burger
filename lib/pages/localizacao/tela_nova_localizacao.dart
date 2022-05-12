@@ -349,7 +349,7 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
                                   "bairro": _bairro.text,
                                   "cidade": _cidade.text,
                                   "estado": _estado.text,
-                                  "numero": _numero.text,
+                                  "numero": _numero.text as int,
                                   "descricao": _descricao.text,
                                   "complemento": _complemento.text,
                                 },

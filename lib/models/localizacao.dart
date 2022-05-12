@@ -4,7 +4,7 @@ class Localizacao {
   late String id;
   late String cep;
   late String rua;
-  late int numero;
+  late String numero;
   late String bairro;
   late String cidade;
   late String estado;
