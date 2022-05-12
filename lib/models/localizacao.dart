@@ -27,10 +27,10 @@ class Localizacao {
     id = snapshot.id;
     rua = snapshot.get('rua');
     cep = snapshot.get('cep');
-    numero = snapshot.get('numero') + 0;
+    numero = snapshot.get('numero');
     cidade = snapshot.get('cidade');
     estado = snapshot.get('estado');
     descricao = snapshot.get('descricao');
-    favorito = snapshot.get('favorito');
+    favorito = snapshot.get('favorito') as bool;
   }
 }

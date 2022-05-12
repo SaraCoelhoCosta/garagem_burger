@@ -45,7 +45,7 @@ class ProviderLocalizacoes with ChangeNotifier {
                   cidade: localizacaoData['cidade'],
                   estado: localizacaoData['estado'],
                   descricao: localizacaoData['descricao'],
-                  favorito: localizacaoData['favorito'],
+                  favorito: localizacaoData['favorito'] ?? false,
                 ),
               );
             },

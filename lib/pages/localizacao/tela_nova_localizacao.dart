@@ -78,7 +78,7 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
       Navigator.of(context).pushReplacementNamed(
         Rotas.main,
         arguments: {
-          'index': 0,
+          'index': 3,
           'page': const TelaMinhasLocalizacoes(),
           'button': null,
         },
@@ -409,6 +409,7 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
                                   "numero": _numero.text,
                                   "descricao": _descricao.text,
                                   "complemento": _complemento.text,
+                                  "favorito": false,
                                 },
                                 addLocalizacao(),
                               },
