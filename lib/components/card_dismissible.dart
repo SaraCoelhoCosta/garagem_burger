@@ -19,8 +19,8 @@ class CardDismissible extends StatelessWidget {
   final Object item;
   final TipoCard tipoCard;
   final Function()? editar;
-  final Function(Object objeto) remover;
-  final Function(Object objeto)? favoritar;
+  final Function(String id) remover;
+  final Function(String id)? favoritar;
   String id = '';
   String title = '';
   String subtitle = '';

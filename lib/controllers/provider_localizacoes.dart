@@ -17,7 +17,6 @@ class ProviderLocalizacoes with ChangeNotifier {
 
   _startProvider() async {
     await _startFirestore();
-    await loadLocalizacoes();
   }
 
   _startFirestore() {
