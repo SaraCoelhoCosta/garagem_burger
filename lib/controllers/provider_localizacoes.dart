@@ -83,7 +83,6 @@ class ProviderLocalizacoes with ChangeNotifier {
   }
 
   removerLocalizacao(Localizacao localizacao) async {
-    print(localizacao.rua);
     await firestore
         .collection('usuarios/${usuario.usuario!.uid}/localizacoes')
         .doc(localizacao.id)
