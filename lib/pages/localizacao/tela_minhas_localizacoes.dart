@@ -36,8 +36,8 @@ class _TelaMinhasLocalizacoesState extends State<TelaMinhasLocalizacoes> {
                         'button': null,
                       },
                     ),
-                    remover: (localizacao) {
-                      provider.removerLocalizacao(localizacao as Localizacao);
+                    remover: (id) {
+                      provider.removerLocalizacao(id as String);
                     },
                     //TODO: favoritar: (id) => provider.selectFavorite(id),
                   ))

@@ -17,6 +17,7 @@ class ProviderLocalizacoes with ChangeNotifier {
 
   _startProvider() async {
     await _startFirestore();
+    await loadLocalizacoes();
   }
 
   _startFirestore() {
@@ -63,7 +64,7 @@ class ProviderLocalizacoes with ChangeNotifier {
   addLocalizacao(Map<String, dynamic> dadosLocalizacao) {
     _salvarDados(dadosLocalizacao);
     loadLocalizacoes(); // TODO: não sei se é necessário.
-    //notifyListeners();
+    notifyListeners();
   }
 
   // Salva os dados no firestore.
@@ -82,12 +83,13 @@ class ProviderLocalizacoes with ChangeNotifier {
     notifyListeners();
   }
 
-  removerLocalizacao(Localizacao localizacao) async {
+  removerLocalizacao(String id) async {
     await firestore
         .collection('usuarios/${usuario.usuario!.uid}/localizacoes')
-        .doc(localizacao.id)
+        .doc(id)
         .delete();
-    _localizacoes.remove(localizacao);
+    //_localizacoes.remove(localizacao);
+    loadLocalizacoes();
     notifyListeners();
   }
 
