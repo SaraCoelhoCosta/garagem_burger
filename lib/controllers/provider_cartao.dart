@@ -11,26 +11,25 @@ class ProviderCartao with ChangeNotifier {
 
   bool get emptyList => _cartoes.isEmpty;
 
-  Cartao get cartaoPreferencial {
+  Cartao get favoriteCard {
     return _cartoes.singleWhere((cartao) => cartao.favorite);
   }
 
-  void selectFavorite(String idCartao) {
-    for (Cartao cartao in _cartoes) {
-      cartao.favorite = (cartao.id == idCartao);
-    }
-
+  void selectFavorite(String id) {
+    _cartoes.asMap().forEach((_, cartao) {
+      cartao.favorite = (cartao.id == id);
+    });
     notifyListeners();
   }
 
-  void removeCartao(String idCartao) {
+  void removeCartao(String id) {
     bool alterarFavorito = false;
 
-    if (cartaoPreferencial.id == idCartao && qntCartoes > 1) {
+    if (favoriteCard.id == id && qntCartoes > 1) {
       alterarFavorito = true;
     }
 
-    _cartoes.removeWhere((cartao) => cartao.id == idCartao);
+    _cartoes.removeWhere((cartao) => cartao.id == id);
 
     if (alterarFavorito) {
       _cartoes[0].favorite = true;

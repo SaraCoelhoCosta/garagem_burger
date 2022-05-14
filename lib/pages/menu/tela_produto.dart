@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/app_bar_button.dart';
 import 'package:garagem_burger/components/card_ingrediente.dart';
+import 'package:garagem_burger/components/popup_dialog.dart';
+import 'package:garagem_burger/controllers/provider_usuario.dart';
 import 'package:garagem_burger/models/produto.dart';
 import 'package:garagem_burger/components/modal_produto.dart';
 import 'package:garagem_burger/controllers/provider_carrinho.dart';
@@ -61,6 +63,7 @@ class _TelaProdutoState extends State<TelaProduto>
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<ProviderUsuario>(context).usuario;
     final provider = Provider.of<ProviderCarrinho>(context);
     List arguments = ModalRoute.of(context)?.settings.arguments as List;
     Produto produto = arguments[1] as Produto;
@@ -247,29 +250,55 @@ class _TelaProdutoState extends State<TelaProduto>
                         produto: produto,
                         onTapEdit: null, // TODO: Mexe nesse onTapEdit, João
                         onTap: (ctx, qnt) {
-                          _swapModal();
-                          (isEditing)
-                              ? provider.editarItemCarrinho(produto, qnt)
-                              : provider.addItemCarrinho(produto, qnt);
+                          if (user == null) {
+                            showDialog(
+                              context: ctx,
+                              builder: (ctx) {
+                                return PopupDialog(
+                                  titulo: 'Faça o Login',
+                                  descricao:
+                                      'Não foi possível adicionar o item ao carrinho, '
+                                      'faça login para continuar',
+                                  yesLabel: 'Efetuar login',
+                                  noLabel: 'Cancelar',
+                                  onPressedNoOption: () {
+                                    Navigator.of(ctx).pop();
+                                  },
+                                  onPressedYesOption: () {
+                                    Navigator.of(ctx).pushNamedAndRemoveUntil(
+                                      Rotas.home,
+                                      (_) => false,
+                                    );
+                                  },
+                                );
+                              },
+                            );
+                          }
 
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                (isEditing)
-                                    ? '${produto.nome} atualizado para $qnt'
-                                    : '$qnt ${produto.nome} adicionado no carrinho',
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.oxygen(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
+                          if (user != null) {
+                            _swapModal();
+                            (isEditing)
+                                ? provider.editarItemCarrinho(produto, qnt)
+                                : provider.addItemCarrinho(produto, qnt);
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  (isEditing)
+                                      ? '${produto.nome} atualizado para $qnt'
+                                      : '$qnt ${produto.nome} adicionado no carrinho',
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.oxygen(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
+                                elevation: 6.0,
+                                backgroundColor: Colors.blue,
+                                duration: const Duration(milliseconds: 1500),
                               ),
-                              
-                              elevation: 6.0,
-                              backgroundColor: Colors.blue,
-                              duration: const Duration(milliseconds: 1500),
-                            ),
-                          );
+                            );
+                          }
                         },
                         isEditing: isEditing,
                       ),

@@ -22,21 +22,18 @@ class TelaEnderecoEntrega extends StatefulWidget {
 
 class _TelaEnderecoEntregaState extends State<TelaEnderecoEntrega> {
   bool updatedLocal = false;
+  bool isNewLocal = false;
   Localizacao? currentLocal;
   double frete = 7.00;
 
   @override
   Widget build(BuildContext context) {
-    final pvdLocal = Provider.of<ProviderLocalizacoes>(
-      context,
-      listen: false,
-    );
-    final pvdCarrinho = Provider.of<ProviderCarrinho>(
-      context,
-      listen: false,
-    );
+    final pvdLocal = Provider.of<ProviderLocalizacoes>(context);
+    final pvdCarrinho = Provider.of<ProviderCarrinho>(context);
     if (!updatedLocal) {
-      // TODO: currentLocal = pvdLocal.localizacaoPreferencial;
+      currentLocal = (isNewLocal)
+          ? pvdLocal.locationsList.elementAt(0)
+          : pvdLocal.favoriteLocation;
       updatedLocal = true;
     }
     return Column(
@@ -76,13 +73,12 @@ class _TelaEnderecoEntregaState extends State<TelaEnderecoEntrega> {
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
-                        items: [],
-                        /*TODO: items: pvdLocal.listaLocalizacoes.map((local) {
+                        items: pvdLocal.locationsList.map((local) {
                           return DropdownMenuItem<Localizacao>(
                             value: local,
-                            child: Text(local.description!),
+                            child: Text(local.descricao!),
                           );
-                        }).toList(),*/
+                        }).toList(),
                         onChanged: (Localizacao? selectedLocal) {
                           setState(() {
                             currentLocal = selectedLocal!;
@@ -108,14 +104,19 @@ class _TelaEnderecoEntregaState extends State<TelaEnderecoEntrega> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () => Navigator.of(context).pushNamed(
-                      Rotas.main,
-                      arguments: {
-                        'index': 2,
-                        'page': const TelaNovaLocalizacao(),
-                        'button': null,
-                      },
-                    ),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(
+                        Rotas.main,
+                        arguments: {
+                          'index': 2,
+                          'page': const TelaNovaLocalizacao(),
+                          'button': null,
+                        },
+                      ).then((isSubmit) {
+                        isNewLocal = (isSubmit as bool);
+                        updatedLocal = !isNewLocal;
+                      });
+                    },
                     child: Text(
                       'Insira outro endereço',
                       style: GoogleFonts.oxygen(
@@ -127,67 +128,6 @@ class _TelaEnderecoEntregaState extends State<TelaEnderecoEntrega> {
                   ),
                 ],
               ),
-              // child: Column(
-              //   children: [
-              //     DropdownButton<Localizacao>(
-              //       menuMaxHeight: kMinInteractiveDimension * 3,
-              //       borderRadius: BorderRadius.circular(10),
-              //       icon: const Icon(Icons.keyboard_arrow_down),
-              //       // isExpanded: true,
-              //       value: currentLocal,
-              //       style: GoogleFonts.oxygen(
-              //         fontSize: 17,
-              //         fontWeight: FontWeight.normal,
-              //         color: Colors.black,
-              //       ),
-              //       items: pvdLocal.listaLocalizacoes.map((local) {
-              //         return DropdownMenuItem<Localizacao>(
-              //           value: local,
-              //           child: Text(local.description!),
-              //         );
-              //       }).toList(),
-              //       onChanged: (Localizacao? selectedLocal) {
-              //         setState(() {
-              //           currentLocal = selectedLocal!;
-              //         });
-              //       },
-              //     ),
-              //     Text(
-              //       '\nSelecione um endereço cadastrado',
-              //       style: GoogleFonts.oxygen(
-              //         fontSize: 17,
-              //         fontWeight: FontWeight.normal,
-              //         color: Colors.black,
-              //       ),
-              //     ),
-              //     Text(
-              //       '\nou',
-              //       style: GoogleFonts.oxygen(
-              //         fontSize: 17,
-              //         fontWeight: FontWeight.normal,
-              //         color: Colors.black,
-              //       ),
-              //     ),
-              //     TextButton(
-              //       onPressed: () => Navigator.of(context).pushNamed(
-              //         Rotas.main,
-              //         arguments: {
-              //           'index': 2,
-              //           'page': const TelaNovaLocalizacao(),
-              //           'button': null,
-              //         },
-              //       ),
-              //       child: Text(
-              //         'Insira outro endereço',
-              //         style: GoogleFonts.oxygen(
-              //           fontSize: 17,
-              //           fontWeight: FontWeight.bold,
-              //           color: Colors.blue,
-              //         ),
-              //       ),
-              //     ),
-              //   ],
-              // ),
             ),
           ),
         ),

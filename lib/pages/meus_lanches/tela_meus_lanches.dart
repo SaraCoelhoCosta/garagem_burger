@@ -20,7 +20,7 @@ class TelaMeusLanches extends StatelessWidget {
             return CardDismissible(
               tipoCard: TipoCard.lanche,
               item: lanche,
-              remover: (id) => provider.removeLanche(id as String),
+              remover: (id) => provider.removeLanche(id),
               editar: () => Navigator.of(context).pushNamed(
                 Rotas.produto,
                 arguments: [true, lanche],

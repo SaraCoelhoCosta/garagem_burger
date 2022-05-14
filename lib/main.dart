@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, prefer_const_literals_to_create_immutables, unused_import
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, prefer_const_literals_to_create_immutables
 
 import 'dart:io';
 
@@ -42,12 +42,8 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ProviderLanches()),
         ChangeNotifierProvider(create: (_) => ProviderPedidos()),
         ChangeNotifierProvider(create: (_) => ProviderCarrinho()),
-        ChangeNotifierProvider(create: (context) => ProviderCartao()),
-        ChangeNotifierProvider(
-          create: (context) => ProviderLocalizacoes(
-            usuario: context.read<ProviderUsuario>(),
-          ),
-        ),
+        ChangeNotifierProvider(create: (_) => ProviderCartao()),
+        ChangeNotifierProvider(create: (_) => ProviderLocalizacoes()),
       ],
       child: MyApp(),
     ),

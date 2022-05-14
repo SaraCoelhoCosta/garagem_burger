@@ -33,8 +33,8 @@ class TelaMeusCartoes extends StatelessWidget {
                         'button': null,
                       },
                     ),
-                    favoritar: (id) => provider.selectFavorite(id as String),
-                    remover: (id) => provider.removeCartao(id as String),
+                    favoritar: (id) => provider.selectFavorite(id),
+                    remover: (id) => provider.removeCartao(id),
                   ))
               .toList(),
         ),

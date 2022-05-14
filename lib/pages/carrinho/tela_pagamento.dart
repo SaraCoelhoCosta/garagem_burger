@@ -35,7 +35,7 @@ class _TelaPagamentoState extends State<TelaPagamento> {
       listen: false,
     );
     if (!updatedCard) {
-      currentCard = pvdCartao.cartaoPreferencial;
+      currentCard = pvdCartao.favoriteCard;
       updatedCard = true;
     }
     return Column(

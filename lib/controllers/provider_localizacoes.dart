@@ -1,17 +1,14 @@
-// ignore_for_file: unnecessary_null_comparison, avoid_function_literals_in_foreach_calls, prefer_void_to_null, unused_element
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/controllers/firebase.dart';
-import 'package:garagem_burger/controllers/provider_usuario.dart';
 import 'package:garagem_burger/models/localizacao.dart';
 
 class ProviderLocalizacoes with ChangeNotifier {
-  final List<Localizacao> _localizacoes = [];
+  final List<Localizacao> _locations = [];
   late FirebaseFirestore firestore;
-  late ProviderUsuario usuario;
 
-  ProviderLocalizacoes({required this.usuario}) {
+  ProviderLocalizacoes() {
     _startProvider();
   }
 
@@ -23,80 +20,93 @@ class ProviderLocalizacoes with ChangeNotifier {
     firestore = Firebase.getFirestore();
   }
 
-  loadLocalizacoes() async {
-    if (usuario != null) {
-      _localizacoes.clear();
-      final futureSnapshot = Firebase.getFirestore()
-          .collection('usuarios/${usuario.usuario!.uid}/localizacoes')
-          .get();
+  List<Localizacao> get locationsList => [..._locations];
 
-      futureSnapshot.then(
-        (snapshot) {
-          snapshot.docs.asMap().forEach(
-            (_, doc) {
-              final localizacaoData = doc.data();
-              _localizacoes.add(
-                Localizacao(
-                  id: doc.id,
-                  cep: localizacaoData['cep'],
-                  rua: localizacaoData['rua'],
-                  numero: localizacaoData['numero'],
-                  bairro: localizacaoData['bairro'],
-                  cidade: localizacaoData['cidade'],
-                  estado: localizacaoData['estado'],
-                  descricao: localizacaoData['descricao'],
-                  favorito: localizacaoData['favorito'] ?? false,
-                ),
-              );
-            },
-          );
-        },
-      );
-      notifyListeners();
+  bool get emptyList => _locations.isEmpty;
+
+  Localizacao? get favoriteLocation {
+    try {
+      return _locations.singleWhere((local) => local.favorito);
+    } catch (error) {
+      return null;
     }
   }
 
-  addFavorito(List<Localizacao> localizacoes) {
-    // TODO: Fazer
-  }
+  // Define a localização preferencial do usuário
+  Future<void> setFavorite(User? user, String id) async {
+    // Atualiza no bd
+    final oldFavorite = favoriteLocation;
+    oldFavorite!.favorito = false;
+    await updateLocal(user, oldFavorite);
 
-  addLocalizacao(Map<String, dynamic> dadosLocalizacao) {
-    _salvarDados(dadosLocalizacao);
-    loadLocalizacoes(); // TODO: não sei se é necessário.
+    // Atualiza na lista
+    _locations.asMap().forEach((_, local) {
+      local.favorito = (local.id == id);
+    });
+
     notifyListeners();
   }
 
-  // Salva os dados no firestore.
-  Future<Null> _salvarDados(Map<String, dynamic> dadosLocalizacao) async {
-    await firestore
-        .collection('usuarios/${usuario.usuario!.uid}/localizacoes')
-        .add(dadosLocalizacao);
+  // Carrega as localizações do usuário que estão no firebase
+  Future<void> loadLocations(User? user) async {
+    if (user != null) {
+      _locations.clear();
+      final snapshot = await Firebase.getFirestore()
+          .collection('usuarios/${user.uid}/localizacoes')
+          .get();
+      snapshot.docs.asMap().forEach((_, doc) {
+        _locations.add(Localizacao.fromSnapshot(doc));
+      });
+    }
   }
 
-  editarLocalizacao(String id, Map<String, dynamic> dadosLocalizacao) async {
-    await firestore
-        .collection('usuarios/${usuario.usuario!.uid}/localizacoes')
-        .doc(id)
-        .update(dadosLocalizacao);
-    loadLocalizacoes(); // TODO: não sei se é necessário.
+  // Adiciona uma nova localização
+  Future<void> addLocal(User? user, Map<String, dynamic> localData) async {
+    final doc = await firestore
+        .collection('usuarios/${user!.uid}/localizacoes')
+        .add(localData);
+
+    _locations.insert(
+      0,
+      Localizacao(
+        id: doc.id,
+        cep: localData['cep'],
+        rua: localData['rua'],
+        numero: localData['numero'],
+        bairro: localData['bairro'],
+        cidade: localData['cidade'],
+        estado: localData['estado'],
+        descricao: localData['descricao'],
+        complemento: localData['complemento'],
+        favorito: emptyList,
+      ),
+    );
     notifyListeners();
   }
 
-  removerLocalizacao(String id) async {
+  // Atualiza os dados da localização no bd
+  Future<void> updateLocal(User? user, Localizacao local) async {
     await firestore
-        .collection('usuarios/${usuario.usuario!.uid}/localizacoes')
+        .collection('usuarios/${user!.uid}/localizacoes')
+        .doc(local.id)
+        .update(local.toMapWithoutId());
+    notifyListeners();
+  }
+
+  // Remove uma localização
+  Future<void> deleteLocalizacao(User? user, String id) async {
+    final favoriteLocationId = favoriteLocation!.id;
+    await firestore
+        .collection('usuarios/${user!.uid}/localizacoes')
         .doc(id)
         .delete();
-    //_localizacoes.remove(localizacao);
-    loadLocalizacoes();
+
+    _locations.removeWhere((local) => local.id == id);
+
+    if (favoriteLocationId == id && !emptyList) {
+      _locations[0].favorito = true;
+    }
+
     notifyListeners();
-  }
-
-  List<Localizacao> get localizacoesList {
-    return [..._localizacoes];
-  }
-
-  bool get listaVazia {
-    return _localizacoes.isEmpty;
   }
 }

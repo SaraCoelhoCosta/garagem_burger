@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:garagem_burger/controllers/firebase.dart';
 import 'package:flutter/material.dart';
-import 'package:garagem_burger/controllers/provider_localizacoes.dart';
 
 // Classe para exceções.
 class AuthException implements Exception {

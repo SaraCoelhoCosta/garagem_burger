@@ -1,13 +1,8 @@
-// ignore_for_file: unused_local_variable
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/botao.dart';
 import 'package:garagem_burger/components/campo_texto.dart';
 import 'package:garagem_burger/controllers/provider_localizacoes.dart';
 import 'package:garagem_burger/controllers/provider_usuario.dart';
-import 'package:garagem_burger/pages/localizacao/tela_minhas_localizacoes.dart';
-import 'package:garagem_burger/utils/rotas.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
@@ -69,23 +64,24 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
     _campoComplemento.dispose();
   }
 
-  addLocalizacao() async {
+  Future<void> addLocalizacao(BuildContext context) async {
+    final user = Provider.of<ProviderUsuario>(
+      context,
+      listen: false,
+    ).usuario;
     setState(() => _loading = true);
     try {
       await context
           .read<ProviderLocalizacoes>()
-          .addLocalizacao(dadosLocalizacao);
-      Navigator.of(context).pushReplacementNamed(
-        Rotas.main,
-        arguments: {
-          'index': 3,
-          'page': const TelaMinhasLocalizacoes(),
-          'button': null,
-        },
-      );
+          .addLocal(user, dadosLocalizacao)
+          .then((_) {
+        Navigator.of(context).pop(true);
+      });
     } on Exception catch (e) {
       // TODO: Arrumar exceção.
       setState(() => _loading = false);
+      // ignore: avoid_print
+      print(e.toString());
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(
@@ -94,13 +90,10 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
         ),
       );
     }
-    // TODO: Não entrar na tela se ele não estiver logado.
   }
 
   @override
   Widget build(BuildContext context) {
-    final usuario = Provider.of<ProviderUsuario>(context).usuario;
-
     return ListView(
       children: [
         Padding(
@@ -129,7 +122,9 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
                         ),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          // TODO: selecionar endereço pelo maps
+                        },
                         icon: const Icon(
                           Icons.add_location_alt_outlined,
                         ),
@@ -349,11 +344,12 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
                                   "bairro": _bairro.text,
                                   "cidade": _cidade.text,
                                   "estado": _estado.text,
-                                  "numero": _numero.text as int,
+                                  "numero": _numero.text,
                                   "descricao": _descricao.text,
                                   "complemento": _complemento.text,
+                                  "favorito": false,
                                 },
-                                addLocalizacao(),
+                                addLocalizacao(context),
                               },
                           },
 
@@ -396,7 +392,7 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
                         ),
                         Botao(
                           labelText: "Cadastrar endereço",
-                          loading: (_loading) ? true : false,
+                          loading: _loading,
                           onPressed: () => {
                             if (_formKey.currentState!.validate())
                               {
@@ -411,12 +407,12 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
                                   "complemento": _complemento.text,
                                   "favorito": false,
                                 },
-                                addLocalizacao(),
+                                addLocalizacao(context),
                               },
                           },
                         ),
                         TextButton(
-                          onPressed: () => Navigator.of(context).pop(),
+                          onPressed: () => Navigator.of(context).pop(false),
                           child: Text(
                             "Cancelar",
                             // Fonte do Google.
