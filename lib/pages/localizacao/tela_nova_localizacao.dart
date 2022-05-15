@@ -73,7 +73,7 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
     try {
       await context
           .read<ProviderLocalizacoes>()
-          .addLocal(user, dadosLocalizacao)
+          .addLocation(user, dadosLocalizacao)
           .then((_) {
         Navigator.of(context).pop(true);
       });

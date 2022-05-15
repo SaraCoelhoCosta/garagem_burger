@@ -56,8 +56,6 @@ class MyApp extends StatelessWidget {
     // O app só vai funcionar na orientação retrato
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
-      // DeviceOrientation.landscapeLeft,
-      // DeviceOrientation.landscapeRight,
     ]);
 
     return MaterialApp(

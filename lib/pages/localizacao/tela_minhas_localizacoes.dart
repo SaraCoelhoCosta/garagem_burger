@@ -20,11 +20,6 @@ class TelaMinhasLocalizacoes extends StatelessWidget {
     return RefreshIndicator(
       onRefresh: () {
         return pvdLocal.loadLocations(pvdUsuario.usuario);
-        // return Future.delayed(
-        //   const Duration(milliseconds: 100),
-        // ).then((_) async {
-        //   await
-        // });
       },
       child: (pvdLocal.emptyList)
           ? TelaVazia(
@@ -59,7 +54,7 @@ class TelaMinhasLocalizacoes extends StatelessWidget {
                             },
                           ),
                           remover: (id) {
-                            pvdLocal.deleteLocalizacao(pvdUsuario.usuario, id);
+                            pvdLocal.deleteLocation(pvdUsuario.usuario, id);
                           },
                           favoritar: (id) {
                             pvdLocal.setFavorite(pvdUsuario.usuario, id);

@@ -248,7 +248,7 @@ class _TelaProdutoState extends State<TelaProduto>
                     child: SingleChildScrollView(
                       child: ModalProduto(
                         produto: produto,
-                        onTapEdit: null, // TODO: Mexe nesse onTapEdit, João
+                        onTapEdit: null, // TODO: juao -> Mexe nesse onTapEdit
                         onTap: (ctx, qnt) {
                           if (user == null) {
                             showDialog(

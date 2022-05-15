@@ -25,26 +25,26 @@ class ProviderLocalizacoes with ChangeNotifier {
   bool get emptyList => _locations.isEmpty;
 
   Localizacao? get favoriteLocation {
-    try {
+    if (!emptyList) {
       return _locations.singleWhere((local) => local.favorito);
-    } catch (error) {
+    } else {
       return null;
     }
   }
 
   // Define a localização preferencial do usuário
   Future<void> setFavorite(User? user, String id) async {
-    // Atualiza no bd
     final oldFavorite = favoriteLocation;
-    oldFavorite!.favorito = false;
-    await updateLocal(user, oldFavorite);
 
     // Atualiza na lista
     _locations.asMap().forEach((_, local) {
       local.favorito = (local.id == id);
     });
-
     notifyListeners();
+
+    // Atualiza no bd
+    await updateLocation(user, oldFavorite!);
+    await updateLocation(user, favoriteLocation!);
   }
 
   // Carrega as localizações do usuário que estão no firebase
@@ -55,13 +55,27 @@ class ProviderLocalizacoes with ChangeNotifier {
           .collection('usuarios/${user.uid}/localizacoes')
           .get();
       snapshot.docs.asMap().forEach((_, doc) {
-        _locations.add(Localizacao.fromSnapshot(doc));
+        _locations.add(
+          Localizacao(
+            id: doc.id,
+            rua: doc.data()['rua'],
+            cep: doc.data()['cep'],
+            numero: doc.data()['numero'],
+            bairro: doc.data()['bairro'],
+            cidade: doc.data()['cidade'],
+            estado: doc.data()['estado'],
+            favorito: doc.data()['favorito'],
+            complemento: doc.data()['complemento'],
+            descricao: doc.data()['descricao'],
+          ),
+        );
       });
+      notifyListeners();
     }
   }
 
   // Adiciona uma nova localização
-  Future<void> addLocal(User? user, Map<String, dynamic> localData) async {
+  Future<void> addLocation(User? user, Map<String, dynamic> localData) async {
     final doc = await firestore
         .collection('usuarios/${user!.uid}/localizacoes')
         .add(localData);
@@ -85,7 +99,7 @@ class ProviderLocalizacoes with ChangeNotifier {
   }
 
   // Atualiza os dados da localização no bd
-  Future<void> updateLocal(User? user, Localizacao local) async {
+  Future<void> updateLocation(User? user, Localizacao local) async {
     await firestore
         .collection('usuarios/${user!.uid}/localizacoes')
         .doc(local.id)
@@ -94,19 +108,22 @@ class ProviderLocalizacoes with ChangeNotifier {
   }
 
   // Remove uma localização
-  Future<void> deleteLocalizacao(User? user, String id) async {
-    final favoriteLocationId = favoriteLocation!.id;
+  Future<void> deleteLocation(User? user, String id) async {
+    // Remove da lista e verifica se era um endereço preferencial
+    final oldFavorite = favoriteLocation;
+    _locations.removeWhere((local) => local.id == id);
+    if (oldFavorite!.id == id && !emptyList) {
+      _locations[0].favorito = true;
+    }
+    notifyListeners();
+
+    // Remove do bd e atualiza o endereço preferencial
     await firestore
         .collection('usuarios/${user!.uid}/localizacoes')
         .doc(id)
         .delete();
-
-    _locations.removeWhere((local) => local.id == id);
-
-    if (favoriteLocationId == id && !emptyList) {
-      _locations[0].favorito = true;
+    if (oldFavorite.id == id && !emptyList) {
+      await updateLocation(user, _locations[0]);
     }
-
-    notifyListeners();
   }
 }
