@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/botao.dart';
+import 'package:garagem_burger/components/combo_box.dart';
 import 'package:garagem_burger/components/row_price.dart';
-import 'package:garagem_burger/models/localizacao.dart';
 import 'package:garagem_burger/pages/carrinho/tela_pagamento.dart';
 import 'package:garagem_burger/pages/localizacao/tela_nova_localizacao.dart';
 import 'package:garagem_burger/controllers/provider_carrinho.dart';
@@ -23,7 +23,7 @@ class TelaEnderecoEntrega extends StatefulWidget {
 class _TelaEnderecoEntregaState extends State<TelaEnderecoEntrega> {
   bool updatedLocal = false;
   bool isNewLocal = false;
-  Localizacao? currentLocal;
+  String? currentLocal;
   double frete = 7.00;
 
   @override
@@ -32,8 +32,8 @@ class _TelaEnderecoEntregaState extends State<TelaEnderecoEntrega> {
     final pvdCarrinho = Provider.of<ProviderCarrinho>(context);
     if (!updatedLocal) {
       currentLocal = (isNewLocal)
-          ? pvdLocal.locationsList.elementAt(0)
-          : pvdLocal.favoriteLocation;
+          ? pvdLocal.locations.keys.last
+          : pvdLocal.favoriteLocation?.id;
       updatedLocal = true;
     }
     return Column(
@@ -50,42 +50,19 @@ class _TelaEnderecoEntregaState extends State<TelaEnderecoEntrega> {
               padding: const EdgeInsets.all(10.0),
               child: Column(
                 children: [
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey[100],
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: const EdgeInsets.only(left: 12, right: 8),
-                      child: DropdownButton<Localizacao>(
-                        menuMaxHeight: kMinInteractiveDimension * 3 + 10,
-                        underline: Container(),
-                        dropdownColor: Colors.grey[100],
-                        borderRadius: BorderRadius.circular(10),
-                        icon: const Icon(Icons.keyboard_arrow_down),
-                        isExpanded: true,
-                        value: currentLocal,
-                        style: GoogleFonts.oxygen(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                        items: pvdLocal.locationsList.map((local) {
-                          return DropdownMenuItem<Localizacao>(
-                            value: local,
-                            child: Text(local.descricao!),
-                          );
-                        }).toList(),
-                        onChanged: (Localizacao? selectedLocal) {
-                          setState(() {
-                            currentLocal = selectedLocal!;
-                          });
-                        },
-                      ),
-                    ),
+                  ComboBox(
+                    value: currentLocal,
+                    items: pvdLocal.locations.values.map((local) {
+                      return {
+                        'id': local.id,
+                        'descricao': local.descricao!,
+                      };
+                    }).toList(),
+                    onChanged: (String? selectedLocal) {
+                      setState(() {
+                        currentLocal = selectedLocal!;
+                      });
+                    },
                   ),
                   Text(
                     '\nSelecione um endereço cadastrado',

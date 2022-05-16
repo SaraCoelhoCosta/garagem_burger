@@ -94,6 +94,7 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
 
   @override
   Widget build(BuildContext context) {
+    final pvdLocal = Provider.of<ProviderLocalizacoes>(context);
     return ListView(
       children: [
         Padding(
@@ -347,7 +348,7 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
                                   "numero": _numero.text,
                                   "descricao": _descricao.text,
                                   "complemento": _complemento.text,
-                                  "favorito": false,
+                                  "favorito": pvdLocal.emptyList,
                                 },
                                 addLocalizacao(context),
                               },
@@ -405,7 +406,7 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
                                   "numero": _numero.text,
                                   "descricao": _descricao.text,
                                   "complemento": _complemento.text,
-                                  "favorito": false,
+                                  "favorito": pvdLocal.emptyList,
                                 },
                                 addLocalizacao(context),
                               },

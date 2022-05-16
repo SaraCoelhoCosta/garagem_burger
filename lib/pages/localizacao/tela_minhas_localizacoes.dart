@@ -40,7 +40,7 @@ class TelaMinhasLocalizacoes extends StatelessWidget {
           : ListView(
               children: [
                 Column(
-                  children: pvdLocal.locationsList
+                  children: pvdLocal.locations.values
                       .map(
                         (localizacao) => CardDismissible(
                           tipoCard: TipoCard.localizacao,
@@ -57,7 +57,7 @@ class TelaMinhasLocalizacoes extends StatelessWidget {
                             pvdLocal.deleteLocation(pvdUsuario.usuario, id);
                           },
                           favoritar: (id) {
-                            pvdLocal.setFavorite(pvdUsuario.usuario, id);
+                            pvdLocal.changeFavorite(pvdUsuario.usuario, id);
                           },
                         ),
                       )

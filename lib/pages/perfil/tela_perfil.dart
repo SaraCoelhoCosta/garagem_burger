@@ -40,7 +40,7 @@ class _TelaPerfilState extends State<TelaPerfil> {
             titulo: 'FAÇA LOGIN PARA CONTINUAR',
             subtitulo: 'Você precisa estar logado amiguinho.',
             rodape: '',
-            navigator: () => Navigator.of(context).pushNamed(
+            navigator: () => Navigator.of(context).pushReplacementNamed(
               Rotas.home,
             ),
           )
