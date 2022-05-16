@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/botao.dart';
 import 'package:garagem_burger/components/row_price.dart';
 import 'package:garagem_burger/controllers/provider_carrinho.dart';
-import 'package:garagem_burger/controllers/provider_cartao.dart';
+import 'package:garagem_burger/controllers/provider_cartoes.dart';
 import 'package:garagem_burger/models/cartao.dart';
 import 'package:garagem_burger/pages/cartoes/tela_novo_cartao.dart';
 import 'package:garagem_burger/utils/rotas.dart';
@@ -30,12 +30,12 @@ class _TelaPagamentoState extends State<TelaPagamento> {
       context,
       listen: false,
     );
-    final pvdCartao = Provider.of<ProviderCartao>(
+    final pvdCartao = Provider.of<ProviderCartoes>(
       context,
       listen: false,
     );
     if (!updatedCard) {
-      currentCard = pvdCartao.cartaoPreferencial;
+      currentCard = pvdCartao.favoriteCartao;
       updatedCard = true;
     }
     return Column(
@@ -137,10 +137,10 @@ class _TelaPagamentoState extends State<TelaPagamento> {
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
                           ),
-                          items: pvdCartao.listaCartoes.map((cartao) {
+                          items: pvdCartao.cartoes.values.map((cartao) {
                             return DropdownMenuItem<Cartao>(
                               value: cartao,
-                              child: Text(cartao.description),
+                              child: Text(cartao.descricao!),
                             );
                           }).toList(),
                           onChanged: (Cartao? selectedCard) {

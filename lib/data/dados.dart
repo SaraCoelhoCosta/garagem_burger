@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:garagem_burger/models/cartao.dart';
-import 'package:garagem_burger/models/localizacao.dart';
 import 'package:garagem_burger/models/pedido.dart';
 import 'package:garagem_burger/models/produto.dart';
 
@@ -79,7 +78,7 @@ final pedidos = [
   ),
 ];
 
-final localizacoes = [
+/*final localizacoes = [
   Localizacao(
     id: Random().nextDouble().toString(),
     rua: 'Rua ABC',
@@ -100,9 +99,9 @@ final localizacoes = [
     favorite: false,
     description: 'Casa de Tia Mony',
   ),
-];
+];*/
 
-final cartoes = [
+/*final cartoes = [
   Cartao(
     id: Random().nextDouble().toString(),
     description: 'Meu cartão 1',
@@ -138,4 +137,4 @@ final cartoes = [
     dueDate: '02/26',
     favorite: false,
   ),
-];
+];*/

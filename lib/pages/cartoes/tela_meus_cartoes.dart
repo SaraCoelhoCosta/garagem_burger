@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/card_dismissible.dart';
-import 'package:garagem_burger/controllers/provider_cartao.dart';
+import 'package:garagem_burger/controllers/provider_cartoes.dart';
+import 'package:garagem_burger/controllers/provider_usuario.dart';
 import 'package:garagem_burger/pages/cartoes/tela_alterar_cartao.dart';
 import 'package:garagem_burger/pages/cartoes/tela_novo_cartao.dart';
 import 'package:garagem_burger/pages/tela_vazia.dart';
@@ -13,58 +14,54 @@ class TelaMeusCartoes extends StatelessWidget {
   @override
   String toStringShort() => 'Meus Cartões';
 
-  Widget _buildTela(BuildContext context) {
-    final provider = Provider.of<ProviderCartao>(
-      context,
-      listen: false,
-    );
-    return ListView(
-      children: [
-        Column(
-          children: provider.listaCartoes
-              .map((cartao) => CardDismissible(
-                    tipoCard: TipoCard.cartao,
-                    item: cartao,
-                    editar: () => Navigator.of(context).pushNamed(
-                      Rotas.main,
-                      arguments: {
-                        'index': 3,
-                        'page': const TelaAlterarCartao(),
-                        'button': null,
-                      },
-                    ),
-                    favoritar: (id) => provider.selectFavorite(id),
-                    remover: (id) => provider.removeCartao(id),
-                  ))
-              .toList(),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildTelaVazia(BuildContext context) {
-    return TelaVazia(
-      pageName: 'Meus cartões',
-      icon: Icons.credit_card,
-      titulo: 'Adicionar novo cartão',
-      subtitulo: 'Você ainda não possui um cartão cadastrado.',
-      rodape: '',
-      navigator: () => Navigator.of(context).pushNamed(
-        Rotas.main,
-        arguments: {
-          'index': 3,
-          'page': const TelaNovoCartao(),
-          'button': null,
-        },
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<ProviderCartao>(context);
-    return (provider.qntCartoes == 0)
-        ? _buildTelaVazia(context)
-        : _buildTela(context);
+    final pvdCartao = Provider.of<ProviderCartoes>(context);
+    final pvdUsuario = Provider.of<ProviderUsuario>(context);
+    return RefreshIndicator(
+      onRefresh: () {
+        return pvdCartao.loadCartoes(pvdUsuario.usuario);
+      },
+      child: (pvdCartao.emptyList)
+          ? TelaVazia(
+              pageName: 'Meus cartões',
+              icon: Icons.credit_card,
+              titulo: 'Adicionar novo cartão',
+              subtitulo: 'Você ainda não possui um cartão cadastrado.',
+              rodape: '',
+              navigator: () => Navigator.of(context).pushNamed(
+                Rotas.main,
+                arguments: {
+                  'index': 3,
+                  'page': const TelaNovoCartao(),
+                  'button': null,
+                },
+              ),
+            )
+          : ListView(
+              children: [
+                Column(
+                  children: pvdCartao.cartoes.values
+                      .map((cartao) => CardDismissible(
+                            tipoCard: TipoCard.cartao,
+                            item: cartao,
+                            editar: () => Navigator.of(context).pushNamed(
+                              Rotas.main,
+                              arguments: {
+                                'index': 3,
+                                'page': const TelaAlterarCartao(),
+                                'button': null,
+                              },
+                            ),
+                            favoritar: (id) => pvdCartao.changeFavorite(
+                                pvdUsuario.usuario, id),
+                            remover: (id) =>
+                                pvdCartao.deleteCartao(pvdUsuario.usuario, id),
+                          ))
+                      .toList(),
+                ),
+              ],
+            ),
+    );
   }
 }

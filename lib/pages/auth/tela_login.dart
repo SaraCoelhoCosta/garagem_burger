@@ -1,7 +1,8 @@
 // ignore_for_file: file_names, prefer_const_constructors, unnecessary_new, sized_box_for_whitespace
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/botao.dart';
-import 'package:garagem_burger/controllers/auth_service.dart';
+import 'package:garagem_burger/controllers/provider_localizacoes.dart';
+import 'package:garagem_burger/controllers/provider_usuario.dart';
 import 'package:garagem_burger/utils/rotas.dart';
 import 'package:garagem_burger/components/campo_texto.dart';
 import 'package:garagem_burger/pages/menu/tela_menu.dart';
@@ -44,7 +45,19 @@ class _TelaLoginState extends State<TelaLogin> {
   efetuarLogin() async {
     setState(() => _loading = true);
     try {
-      await context.read<AuthService>().login(_email.text, _senha.text);
+      final pvdUsuario = context.read<ProviderUsuario>();
+      await pvdUsuario.login(_email.text, _senha.text);
+
+      // Carrega as localizações do usuário
+      await context
+          .read<ProviderLocalizacoes>()
+          .loadLocations(pvdUsuario.usuario)
+          .then((_) {
+        // ignore: avoid_print
+        print("Localizações carregadas com sucesso!");
+      });
+
+      // Navega para a tela de menu
       Navigator.of(context).pushReplacementNamed(
         Rotas.main,
         arguments: {

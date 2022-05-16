@@ -10,7 +10,7 @@ class ModalProduto extends StatefulWidget {
   final bool isEditing;
   final void Function(BuildContext, int) onTap;
   final void Function(BuildContext, int)? onTapEdit;
-  // TODO: Mexe nesse onTapEdit, João
+  // TODO: juao -> Mexe nesse onTapEdit
 
   const ModalProduto({
     Key? key,

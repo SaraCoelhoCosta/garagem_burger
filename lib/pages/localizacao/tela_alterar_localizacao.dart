@@ -135,6 +135,7 @@ class _TelaAlterarLocalizacaoState extends State<TelaAlterarLocalizacao> {
                         Botao(
                           labelText: "Alterar endereço",
                           onPressed: () => {},
+                          // TODO: Método de editar endereço
                         ),
                         TextButton(
                           onPressed: () {

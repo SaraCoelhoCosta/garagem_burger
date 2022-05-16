@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/product_list.dart';
-import 'package:garagem_burger/controllers/auth_service.dart';
+import 'package:garagem_burger/controllers/provider_usuario.dart';
 import 'package:garagem_burger/controllers/provider_produtos.dart';
 import 'package:garagem_burger/utils/rotas.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -32,7 +32,7 @@ class _TelaMenuState extends State<TelaMenu> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ProviderProdutos>(context);
-    final user = Provider.of<AuthService>(context).usuario;
+    final user = Provider.of<ProviderUsuario>(context).usuario;
     final userName = user?.email ?? 'Convidado';
     // Altura total da tela, subtraindo as alturas da appBar e bottomBar
     final availableHeight = MediaQuery.of(context).size.height -

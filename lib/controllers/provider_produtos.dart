@@ -7,19 +7,17 @@ class ProviderProdutos with ChangeNotifier {
 
   Future<void> loadProducts() async {
     _products.clear();
-    final futureSnapshot = Firebase.getFirestore().collection('produtos').get();
-    futureSnapshot.then((snapshot) {
-      snapshot.docs.asMap().forEach((_, doc) {
-        final productData = doc.data();
-        _products.add(
-          Produto(
-            id: doc.id,
-            nome: productData['nome'],
-            preco: productData['preco'] * 1.0,
-            tipo: productData['tipo'],
-          ),
-        );
-      });
+    final snapshot = await Firebase.getFirestore().collection('produtos').get();
+    snapshot.docs.asMap().forEach((_, doc) {
+      final productData = doc.data();
+      _products.add(
+        Produto(
+          id: doc.id,
+          nome: productData['nome'],
+          preco: productData['preco'] * 1.0,
+          tipo: productData['tipo'],
+        ),
+      );
     });
   }
 

@@ -48,7 +48,10 @@ class _TelaAberturaState extends State<TelaAbertura>
     });
 
     Future.delayed(Duration(seconds: 2)).then((_) {
-      Navigator.of(context).pushReplacementNamed(Rotas.login);
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        Rotas.login,
+        (_) => false,
+      );
     });
   }
 
