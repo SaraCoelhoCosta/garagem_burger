@@ -101,7 +101,7 @@ final pedidos = [
   ),
 ];*/
 
-final cartoes = [
+/*final cartoes = [
   Cartao(
     id: Random().nextDouble().toString(),
     description: 'Meu cartão 1',
@@ -137,4 +137,4 @@ final cartoes = [
     dueDate: '02/26',
     favorite: false,
   ),
-];
+];*/

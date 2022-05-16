@@ -10,7 +10,7 @@ import 'package:garagem_burger/pages/auth/tela_cadastro_usuario.dart';
 import 'package:garagem_burger/pages/auth/tela_login.dart';
 import 'package:garagem_burger/pages/meus_lanches/tela_montar_hamburguer.dart';
 import 'package:garagem_burger/controllers/provider_carrinho.dart';
-import 'package:garagem_burger/controllers/provider_cartao.dart';
+import 'package:garagem_burger/controllers/provider_cartoes.dart';
 import 'package:garagem_burger/controllers/provider_lanches.dart';
 import 'package:garagem_burger/controllers/provider_localizacoes.dart';
 import 'package:garagem_burger/controllers/provider_pedidos.dart';
@@ -42,7 +42,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ProviderLanches()),
         ChangeNotifierProvider(create: (_) => ProviderPedidos()),
         ChangeNotifierProvider(create: (_) => ProviderCarrinho()),
-        ChangeNotifierProvider(create: (_) => ProviderCartao()),
+        ChangeNotifierProvider(create: (_) => ProviderCartoes()),
         ChangeNotifierProvider(create: (_) => ProviderLocalizacoes()),
       ],
       child: MyApp(),

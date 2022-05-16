@@ -55,11 +55,12 @@ class CardDismissible extends StatelessWidget {
       case TipoCard.cartao:
         final tempItem = item as Cartao;
         id = tempItem.id;
-        title = tempItem.description;
-        subtitle = tempItem.cardNumber + '\nVencimento: ' + tempItem.dueDate;
+        title = tempItem.descricao!;
+        subtitle =
+            tempItem.numeroCartao + '\nVencimento: ' + tempItem.dataVencimento;
         leadingImage = 'images/cartao1.jpg';
         fit = BoxFit.contain;
-        isFavorite = tempItem.favorite;
+        isFavorite = tempItem.favorito;
         break;
 
       case TipoCard.localizacao:
