@@ -4,6 +4,7 @@ import 'package:garagem_burger/components/row_price.dart';
 import 'package:garagem_burger/controllers/provider_carrinho.dart';
 import 'package:garagem_burger/controllers/provider_cartoes.dart';
 import 'package:garagem_burger/models/cartao.dart';
+import 'package:garagem_burger/pages/carrinho/tela_acompanhar_pedido.dart';
 import 'package:garagem_burger/pages/cartoes/tela_novo_cartao.dart';
 import 'package:garagem_burger/utils/rotas.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -187,63 +188,6 @@ class _TelaPagamentoState extends State<TelaPagamento> {
                     ),
                   ],
                 ),
-                // child: Column(
-                //   children: [
-                //     DropdownButton<Cartao>(
-                //       borderRadius: BorderRadius.circular(10),
-                //       icon: const Icon(Icons.keyboard_arrow_down),
-                //       isExpanded: true,
-                //       value: currentCard,
-                //       items: pvdCartao.listaCartoes.map((local) {
-                //         return DropdownMenuItem<Cartao>(
-                //           value: local,
-                //           child: Text(
-                //             local.description,
-                //           ),
-                //         );
-                //       }).toList(),
-                //       onChanged: (Cartao? selectedCard) {
-                //         setState(() {
-                //           currentCard = selectedCard!;
-                //         });
-                //       },
-                //     ),
-                //     const Text(
-                //       '\nSelecione um cartão cadastrado',
-                //       style: TextStyle(
-                //         fontSize: 17,
-                //         fontWeight: FontWeight.normal,
-                //         color: Colors.black,
-                //       ),
-                //     ),
-                //     const Text(
-                //       'ou',
-                //       style: TextStyle(
-                //         fontSize: 17,
-                //         fontWeight: FontWeight.normal,
-                //         color: Colors.black,
-                //       ),
-                //     ),
-                //     TextButton(
-                //       onPressed: () => Navigator.of(context).pushNamed(
-                //         Rotas.main,
-                //         arguments: {
-                //           'index': 2,
-                //           'page': const TelaNovoCartao(),
-                //           'button': null,
-                //         },
-                //       ),
-                //       child: Text(
-                //         'Insira outro cartão',
-                //         style: GoogleFonts.oxygen(
-                //           fontSize: 15,
-                //           fontWeight: FontWeight.bold,
-                //           color: Colors.blue,
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // ),
               ),
             ),
           ),
@@ -306,9 +250,22 @@ class _TelaPagamentoState extends State<TelaPagamento> {
                   Botao(
                     labelText: 'Confirmar',
                     externalPadding: const EdgeInsets.only(top: 10),
-                    onPressed:
-                        () {}, // TODO: Navegar para a tela de Acompanhar Pedido
-                  )
+                    onPressed: () {
+                      Provider.of<ProviderCarrinho>(
+                        context,
+                        listen: false,
+                      ).clearAll();
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        Rotas.main,
+                        (_) => false,
+                        arguments: {
+                          'index': 2,
+                          'page': const TelaAcompanharPedido(),
+                          'button': null,
+                        },
+                      );
+                    },
+                  ),
                 ],
               ),
             ),

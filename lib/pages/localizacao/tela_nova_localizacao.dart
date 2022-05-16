@@ -49,7 +49,17 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
 
   bool _loading = false;
 
-  late Map<String, dynamic> dadosLocalizacao;
+  Map<String, dynamic> dadosLocalizacao = {
+    "cep": '',
+    "rua": '',
+    "bairro": '',
+    "cidade": '',
+    "estado": '',
+    "numero": '',
+    "descricao": '',
+    "complemento": '',
+    "favorito": false,
+  };
 
   // Libera os recursos após sair da tela ou salvar os dados.
   @override
@@ -339,17 +349,15 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
                           onFieldSubmitted: (_) => {
                             if (_formKey.currentState!.validate())
                               {
-                                dadosLocalizacao = {
-                                  "cep": _cep.text,
-                                  "rua": _rua.text,
-                                  "bairro": _bairro.text,
-                                  "cidade": _cidade.text,
-                                  "estado": _estado.text,
-                                  "numero": _numero.text,
-                                  "descricao": _descricao.text,
-                                  "complemento": _complemento.text,
-                                  "favorito": pvdLocal.emptyList,
-                                },
+                                dadosLocalizacao['cep'] = _cep.text,
+                                dadosLocalizacao['rua'] = _rua.text,
+                                dadosLocalizacao['bairro'] = _bairro.text,
+                                dadosLocalizacao['cidade'] = _cidade.text,
+                                dadosLocalizacao['estado'] = _estado.text,
+                                dadosLocalizacao['numero'] = _numero.text,
+                                dadosLocalizacao['descricao'] = _descricao.text,
+                                dadosLocalizacao['complemento'] = _complemento.text,
+                                dadosLocalizacao['favorito'] = pvdLocal.emptyList,
                                 addLocalizacao(context),
                               },
                           },
@@ -397,17 +405,15 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
                           onPressed: () => {
                             if (_formKey.currentState!.validate())
                               {
-                                dadosLocalizacao = {
-                                  "cep": _cep.text,
-                                  "rua": _rua.text,
-                                  "bairro": _bairro.text,
-                                  "cidade": _cidade.text,
-                                  "estado": _estado.text,
-                                  "numero": _numero.text,
-                                  "descricao": _descricao.text,
-                                  "complemento": _complemento.text,
-                                  "favorito": pvdLocal.emptyList,
-                                },
+                                dadosLocalizacao['cep'] = _cep.text,
+                                dadosLocalizacao['rua'] = _rua.text,
+                                dadosLocalizacao['bairro'] = _bairro.text,
+                                dadosLocalizacao['cidade'] = _cidade.text,
+                                dadosLocalizacao['estado'] = _estado.text,
+                                dadosLocalizacao['numero'] = _numero.text,
+                                dadosLocalizacao['descricao'] = _descricao.text,
+                                dadosLocalizacao['complemento'] = _complemento.text,
+                                dadosLocalizacao['favorito'] = pvdLocal.emptyList,
                                 addLocalizacao(context),
                               },
                           },

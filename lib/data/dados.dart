@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'package:garagem_burger/models/cartao.dart';
 import 'package:garagem_burger/models/pedido.dart';
 import 'package:garagem_burger/models/produto.dart';
 

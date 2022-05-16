@@ -135,14 +135,34 @@ class _TelaEnderecoEntregaState extends State<TelaEnderecoEntrega> {
                   Botao(
                     labelText: 'Confirmar',
                     externalPadding: const EdgeInsets.only(top: 10),
-                    onPressed: () => Navigator.of(context).pushNamed(
-                      Rotas.main,
-                      arguments: {
-                        'index': 3,
-                        'page': const TelaPagamento(),
-                        'button': null,
-                      },
-                    ),
+                    onPressed: () {
+                      if (currentLocal == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Selecione um endereço primeiro!',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.oxygen(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            elevation: 6.0,
+                            backgroundColor: Theme.of(context).errorColor,
+                            duration: const Duration(milliseconds: 1500),
+                          ),
+                        );
+                      } else {
+                        return Navigator.of(context).pushNamed(
+                          Rotas.main,
+                          arguments: {
+                            'index': 2,
+                            'page': const TelaPagamento(),
+                            'button': null,
+                          },
+                        );
+                      }
+                    },
                   )
                 ],
               ),

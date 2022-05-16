@@ -1,6 +1,7 @@
-// ignore_for_file: file_names, prefer_const_constructors, unnecessary_new, sized_box_for_whitespace
+// ignore_for_file: prefer_const_constructors, avoid_print
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/botao.dart';
+import 'package:garagem_burger/controllers/provider_cartoes.dart';
 import 'package:garagem_burger/controllers/provider_localizacoes.dart';
 import 'package:garagem_burger/controllers/provider_usuario.dart';
 import 'package:garagem_burger/utils/rotas.dart';
@@ -42,20 +43,34 @@ class _TelaLoginState extends State<TelaLogin> {
     _campoSenha.dispose();
   }
 
+  Future<void> loadUserData() async {
+    final pvdUsuario = context.read<ProviderUsuario>();
+
+    // Carrega as localizações do usuário
+    await context
+        .read<ProviderLocalizacoes>()
+        .loadLocations(pvdUsuario.usuario)
+        .then((_) {
+      print("Localizações carregadas com sucesso!");
+    });
+
+    // Carrega os cartões do usuário
+    await context
+        .read<ProviderCartoes>()
+        .loadCartoes(pvdUsuario.usuario)
+        .then((_) {
+      print("Cartões carregados com sucesso!");
+    });
+  }
+
   efetuarLogin() async {
     setState(() => _loading = true);
     try {
       final pvdUsuario = context.read<ProviderUsuario>();
       await pvdUsuario.login(_email.text, _senha.text);
 
-      // Carrega as localizações do usuário
-      await context
-          .read<ProviderLocalizacoes>()
-          .loadLocations(pvdUsuario.usuario)
-          .then((_) {
-        // ignore: avoid_print
-        print("Localizações carregadas com sucesso!");
-      });
+      // Carrega os dados do usuario
+      await loadUserData();
 
       // Navega para a tela de menu
       Navigator.of(context).pushReplacementNamed(
@@ -88,7 +103,7 @@ class _TelaLoginState extends State<TelaLogin> {
           // Imagem
           Hero(
             tag: 'logo',
-            child: Container(
+            child: SizedBox(
               width: 175,
               height: 175,
               child: Image.asset("./images/logoHamburgueria.png"),
