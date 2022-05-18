@@ -139,7 +139,13 @@ class _TelaMenuState extends State<TelaMenu> {
                 Rotas.montarHamburguer,
               ),
               child: Container(
-                height: availableHeight * 0.40,
+                // height: availableHeight * 0.40,
+                // Define a altura máxima de acordo com a altura da imagem,
+                // para que ela não fique esticada demais
+                constraints: const BoxConstraints(
+                  minHeight: 200,
+                  maxHeight: 346,
+                ),
                 margin: const EdgeInsets.symmetric(horizontal: 10),
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(
