@@ -45,8 +45,8 @@ class ProviderUsuario extends ChangeNotifier {
       String email, String senha, Map<String, dynamic> dadosUsuario) async {
     try {
       await _auth.createUserWithEmailAndPassword(email: email, password: senha);
-      _salvarDados(dadosUsuario);
       _getUser();
+      _salvarDados(dadosUsuario);
     } on FirebaseAuthException catch (e) {
       // Mensagens de erro.
       if (e.code == 'weak-password') {
