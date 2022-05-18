@@ -23,7 +23,7 @@ class TelaEnderecoEntrega extends StatefulWidget {
 class _TelaEnderecoEntregaState extends State<TelaEnderecoEntrega> {
   bool updatedLocal = false;
   bool isNewLocal = false;
-  String? currentLocal;
+  String? currentLocalId;
   double frete = 7.00;
 
   @override
@@ -31,7 +31,7 @@ class _TelaEnderecoEntregaState extends State<TelaEnderecoEntrega> {
     final pvdLocal = Provider.of<ProviderLocalizacoes>(context);
     final pvdCarrinho = Provider.of<ProviderCarrinho>(context);
     if (!updatedLocal) {
-      currentLocal = (isNewLocal)
+      currentLocalId = (isNewLocal)
           ? pvdLocal.locations.keys.last
           : pvdLocal.favoriteLocation?.id;
       updatedLocal = true;
@@ -51,16 +51,16 @@ class _TelaEnderecoEntregaState extends State<TelaEnderecoEntrega> {
               child: Column(
                 children: [
                   ComboBox(
-                    value: currentLocal,
+                    value: currentLocalId,
                     items: pvdLocal.locations.values.map((local) {
                       return {
                         'id': local.id,
                         'descricao': local.descricao!,
                       };
                     }).toList(),
-                    onChanged: (String? selectedLocal) {
+                    onChanged: (String? selectedLocalId) {
                       setState(() {
-                        currentLocal = selectedLocal!;
+                        currentLocalId = selectedLocalId!;
                       });
                     },
                   ),
@@ -136,7 +136,7 @@ class _TelaEnderecoEntregaState extends State<TelaEnderecoEntrega> {
                     labelText: 'Confirmar',
                     externalPadding: const EdgeInsets.only(top: 10),
                     onPressed: () {
-                      if (currentLocal == null) {
+                      if (currentLocalId == null) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(

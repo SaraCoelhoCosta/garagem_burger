@@ -55,19 +55,9 @@ class ProviderCartoes with ChangeNotifier {
           .get();
       snapshot.docs.asMap().forEach((_, doc) {
         _cartoes.putIfAbsent(
-          doc.id,
-          () => Cartao(
-            id: doc.id,
-            nomeTitular: doc.data()['nomeTitular'],
-            numeroCartao: doc.data()['numeroCarto'],
-            dataVencimento: doc.data()['dataVencimento'],
-            cvv: doc.data()['cvv'],
-            tipo: doc.data()['tipo'],
-            favorito: doc.data()['favorito'],
-            descricao: doc.data()['descricao'],
-            // TODO: bandeira: doc.data()['bandeira'],
-          ),
-        );
+      doc.id,
+      () => Cartao.fromMap(doc.id, doc.data()),
+    );
       });
       notifyListeners();
     }
@@ -83,17 +73,7 @@ class ProviderCartoes with ChangeNotifier {
     // Adiciona na lista
     _cartoes.putIfAbsent(
       doc.id,
-      () => Cartao(
-        id: doc.id,
-        nomeTitular: cartaoData['nomeTitular'],
-        numeroCartao: cartaoData['numeroCarto'],
-        dataVencimento: cartaoData['dataVencimento'],
-        cvv: cartaoData['cvv'],
-        tipo: cartaoData['tipo'],
-        favorito: cartaoData['favorito'],
-        descricao: cartaoData['descricao'],
-        // TODO: bandeira: doc.data()['bandeira'],
-      ),
+      () => Cartao.fromMap(doc.id, cartaoData),
     );
     notifyListeners();
   }
@@ -103,7 +83,7 @@ class ProviderCartoes with ChangeNotifier {
     await firestore
         .collection('usuarios/${user!.uid}/cartoes')
         .doc(cartao.id)
-        .update(cartao.toMapWithoutId());
+        .update(cartao.toMap());
     notifyListeners();
   }
 

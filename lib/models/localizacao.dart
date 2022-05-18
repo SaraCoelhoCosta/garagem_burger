@@ -23,28 +23,32 @@ class Localizacao {
     this.complemento,
   });
 
-  Map<String, dynamic> toMapWithoutId() {
-    return {
-      "cep": cep,
-      "rua": rua,
-      "bairro": bairro,
-      "cidade": cidade,
-      "estado": estado,
-      "numero": numero,
-      "descricao": descricao,
-      "complemento": complemento ?? "",
-      "favorito": favorito,
-    };
+  factory Localizacao.fromMap(String id, Map<String, dynamic> dados) {
+    return Localizacao(
+      id: id,
+      favorito: dados['favorito'],
+      descricao: dados['descricao'],
+      bairro: dados['bairro'],
+      cep: dados['cep'],
+      cidade: dados['cidade'],
+      estado: dados['estado'],
+      numero: dados['numero'],
+      rua: dados['rua'],
+      complemento: dados['complemento'],
+    );
   }
 
-  // Localizacao.fromDocument(DocumentSnapshot snapshot) {
-  //   id = snapshot.id;
-  //   rua = snapshot.get('rua');
-  //   cep = snapshot.get('cep');
-  //   numero = snapshot.get('numero');
-  //   cidade = snapshot.get('cidade');
-  //   estado = snapshot.get('estado');
-  //   descricao = snapshot.get('descricao');
-  //   favorito = snapshot.get('favorito') as bool;
-  // }
+  Map<String, dynamic> toMap() {
+    return {
+      'cep': cep,
+      'rua': rua,
+      'bairro': bairro,
+      'cidade': cidade,
+      'estado': estado,
+      'numero': numero,
+      'descricao': descricao,
+      'complemento': complemento ?? '',
+      'favorito': favorito,
+    };
+  }
 }

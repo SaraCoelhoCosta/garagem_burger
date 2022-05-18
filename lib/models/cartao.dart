@@ -20,15 +20,28 @@ class Cartao {
     this.favorito = false,
   });
 
-  Map<String, dynamic> toMapWithoutId() {
+  factory Cartao.fromMap(String id, Map<String, dynamic> dados) {
+    return Cartao(
+      id: id,
+      nomeTitular: dados['nomeTitular'],
+      numeroCartao: dados['numeroCartao'],
+      cvv: dados['cvv'],
+      dataVencimento: dados['dataVencimento'],
+      tipo: dados['tipo'],
+      favorito: dados['favorito'],
+      descricao: dados['descricao'],
+    );
+  }
+
+  Map<String, dynamic> toMap() {
     return {
-      "nomeTitular": nomeTitular,
-      "numeroCartao": numeroCartao,
-      "cvv": cvv,
-      "tipo": tipo,
-      "dataVencimento": dataVencimento,
-      "descricao": descricao,
-      "favorito": favorito,
+      'nomeTitular': nomeTitular,
+      'numeroCartao': numeroCartao,
+      'cvv': cvv,
+      'tipo': tipo,
+      'dataVencimento': dataVencimento,
+      'descricao': descricao,
+      'favorito': favorito,
     };
   }
 }

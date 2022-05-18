@@ -41,24 +41,24 @@ class TelaMeusCartoes extends StatelessWidget {
           : ListView(
               children: [
                 Column(
-                  children: pvdCartao.cartoes.values
-                      .map((cartao) => CardDismissible(
-                            tipoCard: TipoCard.cartao,
-                            item: cartao,
-                            editar: () => Navigator.of(context).pushNamed(
-                              Rotas.main,
-                              arguments: {
-                                'index': 3,
-                                'page': const TelaAlterarCartao(),
-                                'button': null,
-                              },
-                            ),
-                            favoritar: (id) => pvdCartao.changeFavorite(
-                                pvdUsuario.usuario, id),
-                            remover: (id) =>
-                                pvdCartao.deleteCartao(pvdUsuario.usuario, id),
-                          ))
-                      .toList(),
+                  children: pvdCartao.cartoes.values.map((cartao) {
+                    return CardDismissible(
+                      tipoCard: TipoCard.cartao,
+                      item: cartao,
+                      editar: () => Navigator.of(context).pushNamed(
+                        Rotas.main,
+                        arguments: {
+                          'index': 3,
+                          'page': const TelaAlterarCartao(),
+                          'button': null,
+                        },
+                      ),
+                      favoritar: (id) =>
+                          pvdCartao.changeFavorite(pvdUsuario.usuario, id),
+                      remover: (id) =>
+                          pvdCartao.deleteCartao(pvdUsuario.usuario, id),
+                    );
+                  }).toList(),
                 ),
               ],
             ),
