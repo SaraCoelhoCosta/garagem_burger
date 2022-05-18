@@ -35,9 +35,9 @@ class _TelaMenuState extends State<TelaMenu> {
     final user = Provider.of<ProviderUsuario>(context).usuario;
     final userName = user?.email ?? 'Convidado';
     // Altura total da tela, subtraindo as alturas da appBar e bottomBar
-    final availableHeight = MediaQuery.of(context).size.height -
-        (Scaffold.of(context).appBarMaxHeight ?? 0) -
-        kBottomNavigationBarHeight;
+    // final availableHeight = MediaQuery.of(context).size.height -
+    //     (Scaffold.of(context).appBarMaxHeight ?? 0) -
+    //     kBottomNavigationBarHeight;
 
     return RefreshIndicator(
       onRefresh: () {

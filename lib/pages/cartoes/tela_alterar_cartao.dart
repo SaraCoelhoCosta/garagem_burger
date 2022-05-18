@@ -64,7 +64,6 @@ class _TelaAlterarCartaoState extends State<TelaAlterarCartao> {
   final _cvv = TextEditingController();
   final _vencimentoCartao = TextEditingController();
 
-  bool _loading = false;
   bool isCvvFocused = false;
 
   Map<String, dynamic>? dadosCartao;

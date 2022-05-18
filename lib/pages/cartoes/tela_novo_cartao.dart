@@ -67,7 +67,7 @@ class _TelaNovoCartaoState extends State<TelaNovoCartao> {
   final _cvv = TextEditingController();
   final _vencimentoCartao = TextEditingController();
 
-  bool _loading = false;
+  bool _isLoading = false;
   bool isCvvFocused = false;
 
   Map<String, dynamic> dadosCartao = {
@@ -95,7 +95,7 @@ class _TelaNovoCartaoState extends State<TelaNovoCartao> {
       context,
       listen: false,
     ).usuario;
-    setState(() => _loading = true);
+    setState(() => _isLoading = true);
     try {
       await context
           .read<ProviderCartoes>()
@@ -105,7 +105,7 @@ class _TelaNovoCartaoState extends State<TelaNovoCartao> {
       });
     } on Exception catch (e) {
       // TODO: Arrumar exceção.
-      setState(() => _loading = false);
+      setState(() => _isLoading = false);
       // ignore: avoid_print
       print(e.toString());
       ScaffoldMessenger.of(context).showSnackBar(
@@ -382,6 +382,7 @@ class _TelaNovoCartaoState extends State<TelaNovoCartao> {
                             ),
                             Botao(
                               labelText: "Cadastrar cartão",
+                              loading: _isLoading,
                               onPressed: () => {
                                 if (formKey.currentState!.validate())
                                   {

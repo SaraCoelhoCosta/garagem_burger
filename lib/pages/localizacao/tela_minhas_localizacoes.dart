@@ -49,7 +49,7 @@ class TelaMinhasLocalizacoes extends StatelessWidget {
                             Rotas.main,
                             arguments: {
                               'index': 3,
-                              'page': const TelaAlterarLocalizacao(),
+                              'page': TelaAlterarLocalizacao(localizacao),
                               'button': null,
                             },
                           ),
