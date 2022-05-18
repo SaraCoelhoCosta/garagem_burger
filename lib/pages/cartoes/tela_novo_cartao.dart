@@ -5,8 +5,11 @@ import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:garagem_burger/components/botao.dart';
 import 'package:garagem_burger/components/campo_texto.dart';
+import 'package:garagem_burger/controllers/provider_cartoes.dart';
+import 'package:garagem_burger/controllers/provider_usuario.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:provider/provider.dart';
 
 enum CardType {
   credito,
@@ -67,7 +70,15 @@ class _TelaNovoCartaoState extends State<TelaNovoCartao> {
   bool _loading = false;
   bool isCvvFocused = false;
 
-  Map<String, dynamic>? dadosCartao;
+  Map<String, dynamic> dadosCartao = {
+    "nomeTitular": '',
+    "numeroCartao": '',
+    "cvv": '',
+    "tipo": '',
+    "dataVencimento": '',
+    "descricao": '',
+    "favorito": false,
+  };
 
   // Libera os recursos após sair da tela ou salvar os dados.
   @override
@@ -77,6 +88,34 @@ class _TelaNovoCartaoState extends State<TelaNovoCartao> {
     _campoNumeroCartao.dispose();
     _campoVencimentoCartao.dispose();
     _campoCVV.dispose();
+  }
+
+  Future<void> addCartao(BuildContext context) async {
+    final user = Provider.of<ProviderUsuario>(
+      context,
+      listen: false,
+    ).usuario;
+    setState(() => _loading = true);
+    try {
+      await context
+          .read<ProviderCartoes>()
+          .addCartao(user, dadosCartao)
+          .then((_) {
+        Navigator.of(context).pop(true);
+      });
+    } on Exception catch (e) {
+      // TODO: Arrumar exceção.
+      setState(() => _loading = false);
+      // ignore: avoid_print
+      print(e.toString());
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            "Erro ao cadastrar cartão",
+          ),
+        ),
+      );
+    }
   }
 
   void textFieldFocusDidChange() {
@@ -142,6 +181,7 @@ class _TelaNovoCartaoState extends State<TelaNovoCartao> {
 
   @override
   Widget build(BuildContext context) {
+    final pvdCartao = Provider.of<ProviderCartoes>(context);
     return ListView(
       children: [
         Padding(
@@ -342,14 +382,25 @@ class _TelaNovoCartaoState extends State<TelaNovoCartao> {
                             ),
                             Botao(
                               labelText: "Cadastrar cartão",
-                              onPressed: () {
-                                if (formKey.currentState!.validate()) {
-                                  // ignore: avoid_print
-                                  print('Válido!');
-                                } else {
-                                  // ignore: avoid_print
-                                  print('Inválido!');
-                                }
+                              onPressed: () => {
+                                if (formKey.currentState!.validate())
+                                  {
+                                    dadosCartao['nomeTitular'] =
+                                        _nomeTitular.text,
+                                    dadosCartao['numeroCartao'] =
+                                        _numeroCartao.text,
+                                    dadosCartao['dataVencimento'] =
+                                        _vencimentoCartao.text,
+                                    dadosCartao['cvv'] = _cvv.text,
+                                    dadosCartao['descricao'] = _descricao.text,
+                                    dadosCartao['tipo'] =
+                                        _card == CardType.credito
+                                            ? "Crédito"
+                                            : "Débito",
+                                    dadosCartao['favorito'] =
+                                        pvdCartao.emptyList,
+                                    addCartao(context),
+                                  }
                               },
                             ),
                             TextButton(
