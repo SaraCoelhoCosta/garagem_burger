@@ -4,6 +4,8 @@ import 'package:garagem_burger/components/combo_box.dart';
 import 'package:garagem_burger/components/row_price.dart';
 import 'package:garagem_burger/controllers/provider_carrinho.dart';
 import 'package:garagem_burger/controllers/provider_cartoes.dart';
+import 'package:garagem_burger/controllers/provider_pedidos.dart';
+import 'package:garagem_burger/controllers/provider_usuario.dart';
 import 'package:garagem_burger/pages/carrinho/tela_acompanhar_pedido.dart';
 import 'package:garagem_burger/pages/cartoes/tela_novo_cartao.dart';
 import 'package:garagem_burger/utils/rotas.dart';
@@ -30,6 +32,7 @@ class _TelaPagamentoState extends State<TelaPagamento> {
   Widget build(BuildContext context) {
     final pvdCarrinho = Provider.of<ProviderCarrinho>(context);
     final pvdCartao = Provider.of<ProviderCartoes>(context);
+    final pvdPedido = Provider.of<ProviderPedidos>(context);
     if (!updatedCard) {
       currentCardId = (isNewCard)
           ? pvdCartao.cartoes.keys.last
@@ -230,10 +233,16 @@ class _TelaPagamentoState extends State<TelaPagamento> {
                     labelText: 'Confirmar',
                     externalPadding: const EdgeInsets.only(top: 10),
                     onPressed: () {
-                      Provider.of<ProviderCarrinho>(
-                        context,
-                        listen: false,
-                      ).clearAll();
+                      pvdPedido.setMetodoPagamento(isPix ? 'Pix' : 'Cartão');
+                      pvdPedido.addPedido(
+                        Provider.of<ProviderUsuario>(
+                          context,
+                          listen: false,
+                        ).usuario,
+                        pvdCarrinho.itensCarrinho.values.toList(),
+                        pvdCarrinho.precoTotal,
+                      );
+                      pvdCarrinho.clearAll();
                       Navigator.of(context).pushNamedAndRemoveUntil(
                         Rotas.main,
                         (_) => false,

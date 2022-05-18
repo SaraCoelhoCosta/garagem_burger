@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'package:garagem_burger/models/pedido.dart';
 import 'package:garagem_burger/models/produto.dart';
 
 // final produtos = [
@@ -56,26 +55,25 @@ final meusLanches = [
   ),
 ];
 
+/*
 final pedidos = [
   Pedido(
     id: Random().nextDouble().toString(),
-    data: "24/04/2022",
-    hora: "21:00",
-    status: Status.pendente,
+    data: DateTime.now(),
+    status: Pedido.pendente,
   ),
   Pedido(
     id: Random().nextDouble().toString(),
-    data: "25/04/2022",
-    hora: "21:00",
-    status: Status.cancelado,
+    data: DateTime.now(),
+    status: Pedido.cancelado,
   ),
   Pedido(
     id: Random().nextDouble().toString(),
-    data: "26/04/2022",
-    hora: "21:00",
-    status: Status.entregue,
+    data: DateTime.now(),
+    status: Pedido.entregue,
   ),
 ];
+*/
 
 /*final localizacoes = [
   Localizacao(

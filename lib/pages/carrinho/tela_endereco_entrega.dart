@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/botao.dart';
 import 'package:garagem_burger/components/combo_box.dart';
 import 'package:garagem_burger/components/row_price.dart';
+import 'package:garagem_burger/controllers/provider_pedidos.dart';
 import 'package:garagem_burger/pages/carrinho/tela_pagamento.dart';
 import 'package:garagem_burger/pages/localizacao/tela_nova_localizacao.dart';
 import 'package:garagem_burger/controllers/provider_carrinho.dart';
@@ -30,6 +31,7 @@ class _TelaEnderecoEntregaState extends State<TelaEnderecoEntrega> {
   Widget build(BuildContext context) {
     final pvdLocal = Provider.of<ProviderLocalizacoes>(context);
     final pvdCarrinho = Provider.of<ProviderCarrinho>(context);
+    final pvdPedido = Provider.of<ProviderPedidos>(context);
     if (!updatedLocal) {
       currentLocalId = (isNewLocal)
           ? pvdLocal.locations.keys.last
@@ -153,7 +155,9 @@ class _TelaEnderecoEntregaState extends State<TelaEnderecoEntrega> {
                           ),
                         );
                       } else {
-                        return Navigator.of(context).pushNamed(
+                        pvdPedido.setEnderecoEntrega(currentLocalId!);
+                        pvdPedido.setFrete(frete);
+                        Navigator.of(context).pushNamed(
                           Rotas.main,
                           arguments: {
                             'index': 2,

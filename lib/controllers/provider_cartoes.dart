@@ -32,7 +32,7 @@ class ProviderCartoes with ChangeNotifier {
     }
   }
 
-// Define o cartão preferencial do usuário
+  // Define o cartão preferencial do usuário
   Future<void> changeFavorite(User? user, String id) async {
     final oldFavorite = favoriteCartao;
 
@@ -63,7 +63,7 @@ class ProviderCartoes with ChangeNotifier {
     }
   }
 
-// Adiciona um novo cartão
+  // Adiciona um novo cartão
   Future<void> addCartao(User? user, Map<String, dynamic> cartaoData) async {
     // Adiciona no bd
     final doc = await firestore
