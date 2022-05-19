@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/app_bar_button.dart';
 import 'package:garagem_burger/components/card_ingrediente.dart';
+import 'package:garagem_burger/components/card_opcoes.dart';
 import 'package:garagem_burger/components/popup_dialog.dart';
 import 'package:garagem_burger/controllers/provider_usuario.dart';
 import 'package:garagem_burger/models/produto.dart';
@@ -134,62 +135,75 @@ class _TelaProdutoState extends State<TelaProduto>
                 /*
                 * Preço
                 */
-                Text(
-                  'R\$ ${produto.preco.toStringAsFixed(2)}',
-                  style: GoogleFonts.oxygen(
-                    color: Colors.white,
-                    fontSize: 22.0,
-                    fontWeight: FontWeight.bold,
+                SizedBox(
+                  height: 50,
+                  child: Text(
+                    'R\$ ${produto.preco.toStringAsFixed(2)}',
+                    style: GoogleFonts.oxygen(
+                      color: Colors.white,
+                      fontSize: 22.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 /*
                 * Detalhes do hamburguer e insumos
                 */
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    /*
-                    * Detalhes do hamburguer
-                    */
-                    Text(
-                      'ComboBox',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                Padding(
+                  padding: const EdgeInsets.only(top: 20, bottom: 70),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      /*
+                      * Detalhes do hamburguer
+                      */
+                      Text(
+                        'ComboBox',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                    SizedBox(width: 20),
-                    /*
-                    * Insumos
-                    */
-                    Text(
-                      'Insumos', // max: 27 caracteres
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                      SizedBox(width: 20),
+                      /*
+                      * Insumos
+                      */
+                      Text(
+                        'Insumos', // max: 27 caracteres
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 /*
                 * Botões de editar
                 */
                 Column(
                   mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    // CardOpcoes(
+                    //   text: 'Escolha o pão',
+                    //   urlImage: 'images/pao.png',
+                    //   quantity: false,
+                    // ),
                     Row(
                       mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
                         CardIngrediente(
                           urlImage: 'images/pao.png',
                           text: 'Pão',
+                          proportion: 0.15,
                         ),
                         CardIngrediente(
                           urlImage: 'images/carne.jpg',
                           text: 'Carne',
+                          proportion: 0.15,
                         ),
                       ],
                     ),
@@ -198,7 +212,8 @@ class _TelaProdutoState extends State<TelaProduto>
                       text: 'Ingredientes do Hambúrguer',
                       imageRatioWidth: 0.30,
                       textRatioWidth: 0.65,
-                      ratioWidth: 0.90,
+                      ratioWidth: 0.92,
+                      proportion: 0.15,
                     ),
                   ],
                 ),
