@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:garagem_burger/controllers/firebase.dart';
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/models/usuario.dart';
 
 // Classe para exceções.
 class AuthException implements Exception {
@@ -81,6 +82,23 @@ class ProviderUsuario extends ChangeNotifier {
   // Realiza o logout do usuário.
   logout() async {
     await _auth.signOut();
+    _getUser();
+  }
+
+  // Atualiza os dados do usuário no BD
+  Future<void> updateUsuario(User? user, Usuario usuario) async {
+    await firestore
+        .collection('usuarios')
+        .doc(usuario.id)
+        .update(usuario.toMap());
+    await _auth.currentUser!.updateDisplayName(usuario.nome);
+    _getUser();
+  }
+
+  // Remove usuário
+  Future<void> deleteUsuario(User? user) async {
+    // TODO: confirmar se remove do BD.
+    await firestore.doc(user!.uid).delete();
     _getUser();
   }
 

@@ -15,6 +15,7 @@ class CampoTexto extends StatelessWidget {
   dynamic inputFormatters;
   final TextEditingController? controller;
   final Function(String)? onChanged;
+  bool? enabled;
 
   CampoTexto({
     required this.obscureText,
@@ -29,6 +30,7 @@ class CampoTexto extends StatelessWidget {
     this.focusNode,
     this.inputFormatters,
     this.suffixIcon,
+    this.enabled = true,
   });
 
   @override
@@ -50,6 +52,7 @@ class CampoTexto extends StatelessWidget {
         obscureText: obscureText,
         validator: validator,
         onChanged: onChanged,
+        enabled: enabled,
       ),
     );
   }
