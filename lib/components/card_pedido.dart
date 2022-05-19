@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/models/pedido.dart';
+import 'package:garagem_burger/utils/rotas.dart';
 import 'package:intl/intl.dart';
 
 class CardPedido extends StatelessWidget {
@@ -48,7 +49,10 @@ class CardPedido extends StatelessWidget {
         */
         child: LayoutBuilder(
           builder: (ctx, constraints) => GestureDetector(
-            onTap: () {}, // TODO: Navegar para tela de Visualizar Pedido
+            onTap: () => Navigator.of(context).pushNamed(
+              Rotas.pedido,
+              arguments: pedido,
+            ),
             child: Card(
               elevation: 6.0,
               shape: RoundedRectangleBorder(

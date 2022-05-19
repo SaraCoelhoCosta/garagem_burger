@@ -45,23 +45,37 @@ class ProviderPedidos with ChangeNotifier {
 
   // Adiciona um novo pedido
   Future<void> addPedido(
-      User? user, List<ItemCarrinho> itens, double total) async {
+    User? user,
+    List<ItemCarrinho> itens,
+    double total,
+  ) async {
     final currentDate = DateTime.now();
+    final refLocal = firestore
+        .collection('usuarios/${user!.uid}/localizacoes')
+        .doc(_enderecoEntrega);
+
     // Adiciona no bd
-    final doc =
-        await firestore.collection('usuarios/${user!.uid}/pedidos').add({
-      'data': currentDate.toIso8601String(),
+    final doc = await firestore.collection('usuarios/${user.uid}/pedidos').add({
+      'data': Timestamp.fromDate(currentDate),
       'status': 'pendente',
       'itens': itens.map((item) {
+        final refProduct =
+            firestore.collection('produtos').doc(item.produto.id);
         return {
-          'id': item.produto.id,
+          'id': refProduct,
           'quantidade': item.quantidade,
         };
       }).toList(),
-      'enderecoEntrega': _enderecoEntrega,
+      'enderecoEntrega': refLocal,
       'metodoPagamento': _metodoPagamento,
       'frete': _frete,
       'total': total,
+      'etapas': [
+        {
+          'date': Timestamp.fromDate(currentDate),
+          'isComplete': false,
+        }
+      ],
     });
 
     // Adiciona na lista
@@ -81,9 +95,50 @@ class ProviderPedidos with ChangeNotifier {
         metodoPagamento: _metodoPagamento,
         frete: _frete,
         total: total,
+        etapas: [
+          {
+            'date': currentDate,
+            'isComplete': false,
+          }
+        ],
       ),
     );
+
+    startOrder(user, _pedidos.values.last);
+
     notifyListeners();
+  }
+
+  // Inicia o processo de acompanhamento do pedido
+  Future<void> startOrder(User? user, Pedido pedido) async {
+    for (int i = 0; i < 5; i++) {
+      // Aguarda um tempo para concluir uma etapa e iniciar uma nova
+      await Future.delayed(const Duration(seconds: 5));
+      pedido.etapas[i]['isComplete'] = true;
+      if (i < 4) {
+        pedido.etapas.add({
+          'isComplete': false,
+          'date': DateTime.now(),
+        });
+      }
+
+      // Atualiza na lista
+      _pedidos.update(pedido.id, (_) => pedido);
+      notifyListeners();
+
+      // Atualiza no bd
+      await updatePedido(user, pedido);
+    }
+
+    // Muda o status do pedido para entregue
+    pedido.status = Pedido.entregue;
+
+    // Atualiza na lista
+    _pedidos.update(pedido.id, (_) => pedido);
+    notifyListeners();
+
+    // Atualiza no bd
+    await updatePedido(user, pedido);
   }
 
   // Atualiza os dados do pedido no bd
@@ -91,7 +146,28 @@ class ProviderPedidos with ChangeNotifier {
     await firestore
         .collection('usuarios/${user!.uid}/pedidos')
         .doc(pedido.id)
-        .update(pedido.toMap());
+        .update({
+      'data': Timestamp.fromDate(pedido.data),
+      'status': pedido.status,
+      'itens': pedido.itens.map((item) {
+        return {
+          'id': firestore.collection('produtos').doc(item['id']),
+          'quantidade': item['quantidade'],
+        };
+      }).toList(),
+      'enderecoEntrega': firestore
+          .collection('usuarios/${user.uid}/localizacoes')
+          .doc(pedido.enderecoEntrega),
+      'metodoPagamento': pedido.metodoPagamento,
+      'frete': pedido.frete,
+      'total': pedido.total,
+      'etapas': pedido.etapas.map((etapa) {
+        return {
+          'date': Timestamp.fromDate(etapa['date'] as DateTime),
+          'isComplete': etapa['isComplete'] as bool,
+        };
+      }).toList(),
+    });
     notifyListeners();
   }
 
