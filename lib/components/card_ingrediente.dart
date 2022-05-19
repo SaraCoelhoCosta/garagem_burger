@@ -85,7 +85,7 @@ class CardIngrediente extends StatelessWidget {
                       const Text(
                         '+R\$ 1,40',
                         style: TextStyle(
-                          fontSize: 10,
+                          fontSize: 15,
                           fontWeight: FontWeight.bold,
                           color: Colors.green,
                         ),
