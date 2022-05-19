@@ -18,6 +18,10 @@ class _TelaPedidoState extends State<TelaPedido> {
   @override
   String toStringShort() => 'Acompanhar Pedido';
 
+  _showOrderDetailPage(){
+    
+  }
+
   @override
   Widget build(BuildContext context) {
     final pedido = ModalRoute.of(context)!.settings.arguments as Pedido;

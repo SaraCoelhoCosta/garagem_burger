@@ -176,31 +176,26 @@ class _TelaProdutoState extends State<TelaProduto>
                 /*
                 * Botões de editar
                 */
-                Column(
+                Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        CardIngrediente(
-                          urlImage: 'images/pao.png',
-                          text: 'Pão',
-                        ),
-                        CardIngrediente(
-                          urlImage: 'images/carne.jpg',
-                          text: 'Carne',
-                        ),
-                      ],
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    CardIngrediente(
+                      urlImage: 'images/pao.png',
+                      text: 'Pão',
                     ),
-                    const CardIngrediente(
-                      urlImage: 'images/ingredientes.png',
-                      text: 'Ingredientes do Hambúrguer',
-                      imageRatioWidth: 0.30,
-                      textRatioWidth: 0.65,
-                      ratioWidth: 0.90,
+                    CardIngrediente(
+                      urlImage: 'images/carne.jpg',
+                      text: 'Carne',
                     ),
                   ],
+                ),
+                const CardIngrediente(
+                  urlImage: 'images/ingredientes.png',
+                  text: 'Ingredientes do Hambúrguer',
+                  imageRatioWidth: 0.30,
+                  textRatioWidth: 0.65,
+                  ratioWidth: 0.92,
                 ),
               ],
             ),

@@ -106,7 +106,7 @@ class CardPedido extends StatelessWidget {
                         * Subtitle
                         */
                         Text(
-                          'às ${pedido.data.hour}:${pedido.data.minute} hs',
+                          DateFormat('hh:mm').format(pedido.data) + ' hs',
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,

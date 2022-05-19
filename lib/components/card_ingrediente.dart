@@ -18,11 +18,12 @@ class CardIngrediente extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Altura total da tela, subtraindo as alturas da appBar e bottomBar
+    // Altura total da tela, subtraindo a altura da appBar
     final availableHeight = MediaQuery.of(context).size.height -
         Scaffold.of(context).appBarMaxHeight!;
 
     return Card(
+      // margin: const EdgeInsets.all(0),
       elevation: 6.0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),

@@ -177,6 +177,7 @@ class ProviderPedidos with ChangeNotifier {
       _pedidos.clear();
       final snapshot = await Firebase.getFirestore()
           .collection('usuarios/${user.uid}/pedidos')
+          .orderBy('data', descending: true)
           .get();
       snapshot.docs.asMap().forEach((_, doc) {
         _pedidos.putIfAbsent(
