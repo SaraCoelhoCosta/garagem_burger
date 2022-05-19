@@ -29,24 +29,32 @@ class AppBarButton extends StatelessWidget {
   _onPressed(BuildContext context) {
     switch (tipoFuncao) {
       case TipoFuncao.limparCarrinho:
-        final pvdCarrinho = Provider.of<ProviderCarrinho>(
+        _limpar(
           context,
-          listen: false,
+          Provider.of<ProviderCarrinho>(
+            context,
+            listen: false,
+          ),
         );
-        return (pvdCarrinho.emptyList) ? null : _limpar(context, pvdCarrinho);
+        break;
 
       case TipoFuncao.limparLanches:
-        final pvdLanches = Provider.of<ProviderLanches>(
+        _limpar(
           context,
-          listen: false,
+          Provider.of<ProviderLanches>(
+            context,
+            listen: false,
+          ),
         );
-        return (pvdLanches.emptyList) ? null : _limpar(context, pvdLanches);
+        break;
 
       case TipoFuncao.adicionarLocalizacao:
-        return _adicionar(context, const TelaNovaLocalizacao());
+        _adicionar(context, const TelaNovaLocalizacao());
+        break;
 
       case TipoFuncao.adicionarCartao:
-        return _adicionar(context, const TelaNovoCartao());
+        _adicionar(context, const TelaNovoCartao());
+        break;
     }
   }
 
@@ -85,12 +93,33 @@ class AppBarButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 5),
-      child: IconButton(
-        icon: Icon(icon),
-        color: color,
-        onPressed: () => _onPressed(context),
+    bool isInvisible;
+    switch (tipoFuncao) {
+      case TipoFuncao.limparCarrinho:
+        isInvisible = Provider.of<ProviderCarrinho>(context).emptyList;
+        break;
+
+      case TipoFuncao.limparLanches:
+        isInvisible = Provider.of<ProviderLanches>(context).emptyList;
+        break;
+
+      case TipoFuncao.adicionarLocalizacao:
+        isInvisible = false;
+        break;
+
+      case TipoFuncao.adicionarCartao:
+        isInvisible = false;
+        break;
+    }
+    return Offstage(
+      offstage: isInvisible,
+      child: Padding(
+        padding: const EdgeInsets.only(right: 5),
+        child: IconButton(
+          icon: Icon(icon),
+          color: color,
+          onPressed: () => _onPressed(context),
+        ),
       ),
     );
   }

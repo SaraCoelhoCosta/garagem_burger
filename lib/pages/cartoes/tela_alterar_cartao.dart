@@ -1,9 +1,12 @@
+// ignore_for_file: unnecessary_new
+
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:garagem_burger/components/botao.dart';
 import 'package:garagem_burger/components/campo_texto.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 enum CardType {
   credito,
@@ -21,13 +24,120 @@ class TelaAlterarCartao extends StatefulWidget {
 }
 
 class _TelaAlterarCartaoState extends State<TelaAlterarCartao> {
-  String cardNumber = '';
-  String expiryDate = '';
-  String cardHolderName = '';
-  String cvvCode = '';
-  bool isCvvFocused = false;
-  CardType? _card = CardType.credito;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  late CreditCardModel creditCardModel;
+  CardType? _card = CardType.credito;
+  String numeroCartao = '';
+  String vencimentoCartao = '';
+  String nomeTitular = '';
+  String cvv = '';
+
+  // Campos que estão com foco.
+  final _campoNomeTitular = FocusNode();
+  final _campoNumeroCartao = FocusNode();
+  final _campoVencimentoCartao = FocusNode();
+  final _campoCVV = FocusNode();
+
+  // Máscara.
+  var mascaraNumeroCartao = new MaskTextInputFormatter(
+    mask: '#### #### #### ####',
+    filter: {"#": RegExp(r'[0-9]')},
+    type: MaskAutoCompletionType.lazy,
+  );
+
+  var mascaraVencimentoCartao = new MaskTextInputFormatter(
+    mask: '##/##',
+    filter: {"#": RegExp(r'[0-9]')},
+    type: MaskAutoCompletionType.lazy,
+  );
+
+  var mascaraCVV = new MaskTextInputFormatter(
+    mask: '####',
+    filter: {"#": RegExp(r'[0-9]')},
+    type: MaskAutoCompletionType.lazy,
+  );
+
+// Campos de texto.
+  final _descricao = TextEditingController();
+  final _nomeTitular = TextEditingController();
+  final _numeroCartao = TextEditingController();
+  final _cvv = TextEditingController();
+  final _vencimentoCartao = TextEditingController();
+
+  bool isCvvFocused = false;
+
+  Map<String, dynamic>? dadosCartao;
+
+  // Libera os recursos após sair da tela ou salvar os dados.
+  @override
+  void dispose() {
+    super.dispose();
+    _campoNomeTitular.dispose();
+    _campoNumeroCartao.dispose();
+    _campoVencimentoCartao.dispose();
+    _campoCVV.dispose();
+  }
+
+  void textFieldFocusDidChange() {
+    creditCardModel.isCvvFocused = _campoCVV.hasFocus;
+    onCreditCardModelChange(creditCardModel);
+  }
+
+  void createCreditCardModel() {
+    numeroCartao = _numeroCartao.text;
+    vencimentoCartao = _vencimentoCartao.text;
+    nomeTitular = _nomeTitular.text;
+    cvv = _cvv.text;
+
+    creditCardModel = CreditCardModel(
+      numeroCartao,
+      vencimentoCartao,
+      nomeTitular,
+      cvv,
+      isCvvFocused,
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    createCreditCardModel();
+
+    _campoCVV.addListener(textFieldFocusDidChange);
+
+    _numeroCartao.addListener(() {
+      setState(() {
+        numeroCartao = _numeroCartao.text;
+        creditCardModel.cardNumber = numeroCartao;
+        onCreditCardModelChange(creditCardModel);
+      });
+    });
+
+    _vencimentoCartao.addListener(() {
+      setState(() {
+        vencimentoCartao = _vencimentoCartao.text;
+        creditCardModel.expiryDate = vencimentoCartao;
+        onCreditCardModelChange(creditCardModel);
+      });
+    });
+
+    _nomeTitular.addListener(() {
+      setState(() {
+        nomeTitular = _nomeTitular.text;
+        creditCardModel.cardHolderName = nomeTitular;
+        onCreditCardModelChange(creditCardModel);
+      });
+    });
+
+    _cvv.addListener(() {
+      setState(() {
+        cvv = _cvv.text;
+        creditCardModel.cvvCode = cvv;
+        onCreditCardModelChange(creditCardModel);
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,10 +182,10 @@ class _TelaAlterarCartaoState extends State<TelaAlterarCartao> {
                       CreditCardWidget(
                         labelCardHolder: "NOME DO TITULAR",
                         labelExpiredDate: "MM/AA",
-                        cardNumber: cardNumber,
-                        expiryDate: expiryDate,
-                        cardHolderName: cardHolderName,
-                        cvvCode: cvvCode,
+                        cardNumber: numeroCartao,
+                        expiryDate: vencimentoCartao,
+                        cardHolderName: nomeTitular,
+                        cvvCode: cvv,
                         showBackView: isCvvFocused,
                         obscureCardNumber: true,
                         obscureCardCvv: true,
@@ -84,90 +194,178 @@ class _TelaAlterarCartaoState extends State<TelaAlterarCartao> {
                         onCreditCardWidgetChange:
                             (CreditCardBrand creditCardBrand) {},
                       ),
-                      CampoTexto(
-                        obscureText: false,
-                        labelText: "Descrição",
-                      ),
-                      CreditCardForm(
-                        formKey: formKey,
-                        obscureCvv: true,
-                        obscureNumber: true,
-                        cardNumber: cardNumber,
-                        cvvCode: cvvCode,
-                        cardHolderName: cardHolderName,
-                        expiryDate: expiryDate,
-                        themeColor: Colors.blue,
-                        textColor: Colors.black,
-                        cardNumberDecoration: const InputDecoration(
-                          labelText: 'Número do cartão',
-                        ),
-                        expiryDateDecoration: const InputDecoration(
-                          labelText: 'Vencimento',
-                        ),
-                        cvvCodeDecoration: const InputDecoration(
-                          labelText: 'CVV',
-                        ),
-                        cardHolderDecoration: const InputDecoration(
-                          labelText: 'Nome do titular',
-                        ),
-                        onCreditCardModelChange: onCreditCardModelChange,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            flex: 5,
-                            child: RadioListTile<CardType>(
-                              title: const Text('Crédito'),
-                              value: CardType.credito,
-                              groupValue: _card,
-                              onChanged: (CardType? value) {
-                                setState(() {
-                                  _card = value;
-                                });
+                      Form(
+                        key: formKey,
+                        child: Column(
+                          children: <Widget>[
+                            CampoTexto(
+                              obscureText: false,
+                              labelText: "Descrição",
+                              onFieldSubmitted: (_) {
+                                FocusScope.of(context)
+                                    .requestFocus(_campoNumeroCartao);
+                              },
+                              textInputAction: TextInputAction.next,
+                              controller: _descricao,
+                            ),
+                            CampoTexto(
+                              obscureText: false,
+                              labelText: 'Número do cartão',
+                              focusNode: _campoNumeroCartao,
+                              onFieldSubmitted: (_) {
+                                FocusScope.of(context)
+                                    .requestFocus(_campoVencimentoCartao);
+                              },
+                              inputFormatters: [mascaraNumeroCartao],
+                              keyboardType: TextInputType.number,
+                              textInputAction: TextInputAction.next,
+                              validator: (String? value) {
+                                if (value!.isEmpty || value.length < 16) {
+                                  return "Número de cartão inválido";
+                                }
+                                return null;
+                              },
+                              controller: _numeroCartao,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  flex: 5,
+                                  child: CampoTexto(
+                                    obscureText: false,
+                                    labelText: 'Vencimento',
+                                    focusNode: _campoVencimentoCartao,
+                                    onFieldSubmitted: (_) {
+                                      FocusScope.of(context)
+                                          .requestFocus(_campoCVV);
+                                    },
+                                    inputFormatters: [mascaraVencimentoCartao],
+                                    keyboardType: TextInputType.number,
+                                    textInputAction: TextInputAction.next,
+                                    validator: ((String? value) {
+                                      if (value!.isEmpty) {
+                                        return "Campo de vencimento obrigatório";
+                                      }
+                                      final DateTime now = DateTime.now();
+                                      final List<String> date =
+                                          value.split(RegExp(r'/'));
+                                      final int month = int.parse(date.first);
+                                      final int year =
+                                          int.parse('20${date.last}');
+                                      final DateTime cardDate =
+                                          DateTime(year, month);
+
+                                      if (cardDate.isBefore(now) ||
+                                          month > 12 ||
+                                          month == 0) {
+                                        return "Data inválida";
+                                      }
+                                      return null;
+                                    }),
+                                    controller: _vencimentoCartao,
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 5,
+                                  child: CampoTexto(
+                                    obscureText: true,
+                                    labelText: 'CVV',
+                                    focusNode: _campoCVV,
+                                    inputFormatters: [mascaraCVV],
+                                    onFieldSubmitted: (_) {
+                                      FocusScope.of(context)
+                                          .requestFocus(_campoNomeTitular);
+                                    },
+                                    onChanged: (String text) {
+                                      setState(() {
+                                        cvv = text;
+                                      });
+                                    },
+                                    keyboardType: TextInputType.number,
+                                    textInputAction: TextInputAction.next,
+                                    validator: (String? value) {
+                                      if (value!.isEmpty || value.length < 3) {
+                                        return 'Código inválido';
+                                      }
+                                      return null;
+                                    },
+                                    controller: _cvv,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            CampoTexto(
+                              obscureText: false,
+                              labelText: 'Nome do titular',
+                              focusNode: _campoNomeTitular,
+                              onFieldSubmitted: (_) {
+                                onCreditCardModelChange(creditCardModel);
+                              },
+                              keyboardType: TextInputType.text,
+                              textInputAction: TextInputAction.next,
+                              controller: _nomeTitular,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  flex: 5,
+                                  child: RadioListTile<CardType>(
+                                    title: const Text('Crédito'),
+                                    value: CardType.credito,
+                                    groupValue: _card,
+                                    onChanged: (CardType? value) {
+                                      setState(() {
+                                        _card = value;
+                                      });
+                                    },
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 5,
+                                  child: RadioListTile<CardType>(
+                                    title: const Text('Débito'),
+                                    value: CardType.debito,
+                                    groupValue: _card,
+                                    onChanged: (CardType? value) {
+                                      setState(() {
+                                        _card = value;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Botao(
+                              labelText: "Alterar cartão",
+                              onPressed: () {
+                                if (formKey.currentState!.validate()) {
+                                  // ignore: avoid_print
+                                  print('Válido!');
+                                } else {
+                                  // ignore: avoid_print
+                                  print('Inválido!');
+                                }
                               },
                             ),
-                          ),
-                          Expanded(
-                            flex: 5,
-                            child: RadioListTile<CardType>(
-                              title: const Text('Débito'),
-                              value: CardType.debito,
-                              groupValue: _card,
-                              onChanged: (CardType? value) {
-                                setState(() {
-                                  _card = value;
-                                });
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
                               },
+                              child: Text(
+                                "Cancelar",
+                                // Fonte do Google.
+                                style: GoogleFonts.oxygen(
+                                  fontSize: 15, // Tamanho da fonte.
+                                  //fontWeight: FontWeight.bold, // Largura da fonte.
+                                  color: Colors.black,
+                                ),
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Botao(
-                        labelText: "Alterar cartão",
-                        onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            // ignore: avoid_print
-                            print('Válido!');
-                          } else {
-                            // ignore: avoid_print
-                            print('Inválido!');
-                          }
-                        },
-                      ),
-                      TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          "Cancelar",
-                          // Fonte do Google.
-                          style: GoogleFonts.oxygen(
-                            fontSize: 15, // Tamanho da fonte.
-                            //fontWeight: FontWeight.bold, // Largura da fonte.
-                            color: Colors.black,
-                          ),
+                          ],
                         ),
                       ),
                     ],
@@ -183,10 +381,10 @@ class _TelaAlterarCartaoState extends State<TelaAlterarCartao> {
 
   void onCreditCardModelChange(CreditCardModel? creditCardModel) {
     setState(() {
-      cardNumber = creditCardModel!.cardNumber;
-      expiryDate = creditCardModel.expiryDate;
-      cardHolderName = creditCardModel.cardHolderName;
-      cvvCode = creditCardModel.cvvCode;
+      numeroCartao = creditCardModel!.cardNumber;
+      vencimentoCartao = creditCardModel.expiryDate;
+      nomeTitular = creditCardModel.cardHolderName;
+      cvv = creditCardModel.cvvCode;
       isCvvFocused = creditCardModel.isCvvFocused;
     });
   }

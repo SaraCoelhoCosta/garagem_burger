@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/botao.dart';
 import 'package:garagem_burger/controllers/provider_cartoes.dart';
 import 'package:garagem_burger/controllers/provider_localizacoes.dart';
+import 'package:garagem_burger/controllers/provider_pedidos.dart';
 import 'package:garagem_burger/controllers/provider_usuario.dart';
 import 'package:garagem_burger/utils/rotas.dart';
 import 'package:garagem_burger/components/campo_texto.dart';
@@ -60,6 +61,14 @@ class _TelaLoginState extends State<TelaLogin> {
         .loadCartoes(pvdUsuario.usuario)
         .then((_) {
       print("Cartões carregados com sucesso!");
+    });
+
+    // Carrega os pedidos do usuário
+    await context
+        .read<ProviderPedidos>()
+        .loadPedidos(pvdUsuario.usuario)
+        .then((_) {
+      print("Pedidos carregados com sucesso!");
     });
   }
 

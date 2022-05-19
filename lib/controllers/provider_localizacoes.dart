@@ -56,18 +56,7 @@ class ProviderLocalizacoes with ChangeNotifier {
       snapshot.docs.asMap().forEach((_, doc) {
         _locations.putIfAbsent(
           doc.id,
-          () => Localizacao(
-            id: doc.id,
-            rua: doc.data()['rua'],
-            cep: doc.data()['cep'],
-            numero: doc.data()['numero'],
-            bairro: doc.data()['bairro'],
-            cidade: doc.data()['cidade'],
-            estado: doc.data()['estado'],
-            favorito: doc.data()['favorito'],
-            complemento: doc.data()['complemento'],
-            descricao: doc.data()['descricao'],
-          ),
+          () => Localizacao.fromMap(doc.id, doc.data()),
         );
       });
       notifyListeners();
@@ -84,18 +73,7 @@ class ProviderLocalizacoes with ChangeNotifier {
     // Adiciona na lista
     _locations.putIfAbsent(
       doc.id,
-      () => Localizacao(
-        id: doc.id,
-        cep: localData['cep'],
-        rua: localData['rua'],
-        numero: localData['numero'],
-        bairro: localData['bairro'],
-        cidade: localData['cidade'],
-        estado: localData['estado'],
-        descricao: localData['descricao'],
-        complemento: localData['complemento'],
-        favorito: localData['favorito'],
-      ),
+      () => Localizacao.fromMap(doc.id, localData),
     );
     notifyListeners();
   }
@@ -105,7 +83,7 @@ class ProviderLocalizacoes with ChangeNotifier {
     await firestore
         .collection('usuarios/${user!.uid}/localizacoes')
         .doc(local.id)
-        .update(local.toMapWithoutId());
+        .update(local.toMap());
     notifyListeners();
   }
 

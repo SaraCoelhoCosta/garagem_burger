@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/botao.dart';
+import 'package:garagem_burger/components/combo_box.dart';
 import 'package:garagem_burger/components/row_price.dart';
 import 'package:garagem_burger/controllers/provider_carrinho.dart';
 import 'package:garagem_burger/controllers/provider_cartoes.dart';
-import 'package:garagem_burger/models/cartao.dart';
-import 'package:garagem_burger/pages/carrinho/tela_acompanhar_pedido.dart';
+import 'package:garagem_burger/controllers/provider_pedidos.dart';
+import 'package:garagem_burger/controllers/provider_usuario.dart';
 import 'package:garagem_burger/pages/cartoes/tela_novo_cartao.dart';
 import 'package:garagem_burger/utils/rotas.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,20 +24,48 @@ class TelaPagamento extends StatefulWidget {
 class _TelaPagamentoState extends State<TelaPagamento> {
   bool isPix = false;
   bool updatedCard = false;
-  Cartao? currentCard;
+  bool isNewCard = false;
+  bool isLoading = false;
+  String? currentCardId;
 
-  @override
-  Widget build(BuildContext context) {
+  Future<void> _efetuarPedido(BuildContext context) async {
     final pvdCarrinho = Provider.of<ProviderCarrinho>(
       context,
       listen: false,
     );
-    final pvdCartao = Provider.of<ProviderCartoes>(
+    final pvdPedido = Provider.of<ProviderPedidos>(
       context,
       listen: false,
     );
+    final user = Provider.of<ProviderUsuario>(
+      context,
+      listen: false,
+    ).usuario;
+
+    setState(() => isLoading = true);
+    pvdPedido.setMetodoPagamento(isPix ? 'Pix' : 'Cartão');
+    await pvdPedido.addPedido(
+      user,
+      pvdCarrinho.itensCarrinho.values.toList(),
+      pvdCarrinho.precoTotal,
+    );
+    pvdCarrinho.clearAll();
+    setState(() => isLoading = false);
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      Rotas.pedido,
+      (_) => false,
+      arguments: pvdPedido.pedidos.values.last,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final pvdCarrinho = Provider.of<ProviderCarrinho>(context);
+    final pvdCartao = Provider.of<ProviderCartoes>(context);
     if (!updatedCard) {
-      currentCard = pvdCartao.favoriteCartao;
+      currentCardId = (isNewCard)
+          ? pvdCartao.cartoes.keys.last
+          : pvdCartao.favoriteCartao?.id;
       updatedCard = true;
     }
     return Column(
@@ -115,42 +144,19 @@ class _TelaPagamentoState extends State<TelaPagamento> {
                 padding: const EdgeInsets.all(10.0),
                 child: Column(
                   children: [
-                    Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey[100],
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        padding: const EdgeInsets.only(left: 12, right: 8),
-                        child: DropdownButton<Cartao>(
-                          menuMaxHeight: kMinInteractiveDimension * 3 + 10,
-                          underline: Container(),
-                          dropdownColor: Colors.grey[100],
-                          borderRadius: BorderRadius.circular(10),
-                          icon: const Icon(Icons.keyboard_arrow_down),
-                          isExpanded: true,
-                          value: currentCard,
-                          style: GoogleFonts.oxygen(
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                          items: pvdCartao.cartoes.values.map((cartao) {
-                            return DropdownMenuItem<Cartao>(
-                              value: cartao,
-                              child: Text(cartao.descricao!),
-                            );
-                          }).toList(),
-                          onChanged: (Cartao? selectedCard) {
-                            setState(() {
-                              currentCard = selectedCard!;
-                            });
-                          },
-                        ),
-                      ),
+                    ComboBox(
+                      value: currentCardId,
+                      items: pvdCartao.cartoes.values.map((cartao) {
+                        return {
+                          'id': cartao.id,
+                          'descricao': cartao.descricao!,
+                        };
+                      }).toList(),
+                      onChanged: (String? selectedCardId) {
+                        setState(() {
+                          currentCardId = selectedCardId!;
+                        });
+                      },
                     ),
                     Text(
                       '\nSelecione um cartão cadastrado',
@@ -169,14 +175,19 @@ class _TelaPagamentoState extends State<TelaPagamento> {
                       ),
                     ),
                     TextButton(
-                      onPressed: () => Navigator.of(context).pushNamed(
-                        Rotas.main,
-                        arguments: {
-                          'index': 2,
-                          'page': const TelaNovoCartao(),
-                          'button': null,
-                        },
-                      ),
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(
+                          Rotas.main,
+                          arguments: {
+                            'index': 2,
+                            'page': const TelaNovoCartao(),
+                            'button': null,
+                          },
+                        ).then((isSubmit) {
+                          isNewCard = (isSubmit as bool);
+                          updatedCard = !isNewCard;
+                        });
+                      },
                       child: Text(
                         'Insira outro cartão',
                         style: GoogleFonts.oxygen(
@@ -249,22 +260,9 @@ class _TelaPagamentoState extends State<TelaPagamento> {
                   ),
                   Botao(
                     labelText: 'Confirmar',
+                    loading: isLoading,
                     externalPadding: const EdgeInsets.only(top: 10),
-                    onPressed: () {
-                      Provider.of<ProviderCarrinho>(
-                        context,
-                        listen: false,
-                      ).clearAll();
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                        Rotas.main,
-                        (_) => false,
-                        arguments: {
-                          'index': 2,
-                          'page': const TelaAcompanharPedido(),
-                          'button': null,
-                        },
-                      );
-                    },
+                    onPressed: () => _efetuarPedido(context),
                   ),
                 ],
               ),

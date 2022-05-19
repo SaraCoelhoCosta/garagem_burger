@@ -47,7 +47,7 @@ dependencies:
   cloud_firestore: ^3.1.13
 
   # É o código comum necessário para todos os plug-ins do Firebase Flutter.
-  firebase_core: ^1.14.1
+  firebase_core: ^1.17.0
 
   # Botões de rede social.
   sign_button: ^2.0.2

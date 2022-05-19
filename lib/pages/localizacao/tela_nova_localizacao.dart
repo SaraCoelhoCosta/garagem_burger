@@ -155,73 +155,40 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
                         CampoTexto(
                           obscureText: false,
                           labelText: "Descrição",
-                          // Aponta para o próximo campo de entrada.
                           onFieldSubmitted: (_) {
                             FocusScope.of(context).requestFocus(_campoCep);
                           },
-
-                          // O botão de enter leva para o próximo campo.
                           textInputAction: TextInputAction.next,
-
-                          // Indica qual é o campo.
                           focusNode: null,
-
                           controller: _descricao,
                         ),
                         CampoTexto(
                           obscureText: false,
                           labelText: "CEP",
-                          // Aponta para o próximo campo de entrada.
                           onFieldSubmitted: (_) {
                             FocusScope.of(context).requestFocus(_campoRua);
                           },
-
-                          // O botão de enter leva para o próximo campo.
                           textInputAction: TextInputAction.next,
-
-                          // Indica qual é o campo.
                           focusNode: _campoCep,
-
-                          // Define o tipo de entrada do campo.
                           keyboardType: TextInputType.number,
-
                           controller: _cep,
-
-                          // Formato/máscara do campo.
                           inputFormatters: [mascaraCep],
-
-                          // Validação do campo.
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Informe o número do seu CEP';
-                            }
-                            return null;
-                          },
+                          validator: (value) => value!.isEmpty
+                              ? 'Informe o número do seu CEP'
+                              : null,
                         ),
                         CampoTexto(
                           obscureText: false,
                           labelText: "Rua",
-
-                          // Aponta para o próximo campo de entrada.
                           onFieldSubmitted: (_) {
                             FocusScope.of(context).requestFocus(_campoBairro);
                           },
-
-                          // O botão de enter leva para o próximo campo.
                           textInputAction: TextInputAction.next,
-
-                          // Indica qual é o campo.
                           focusNode: _campoRua,
-
                           controller: _rua,
-
-                          // Validação do campo.
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Informe o nome da sua rua';
-                            }
-                            return null;
-                          },
+                          validator: (value) => value!.isEmpty
+                              ? 'Informe o nome da sua rua'
+                              : null,
                         ),
                         Row(
                           children: [
@@ -229,55 +196,32 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
                               child: CampoTexto(
                                 obscureText: false,
                                 labelText: "Bairro",
-
-                                // Aponta para o próximo campo de entrada.
                                 onFieldSubmitted: (_) {
                                   FocusScope.of(context)
                                       .requestFocus(_campoNumero);
                                 },
-
-                                // O botão de enter leva para o próximo campo.
                                 textInputAction: TextInputAction.next,
-
-                                // Indica qual é o campo.
                                 focusNode: _campoBairro,
-
                                 controller: _bairro,
-
-                                // Validação do campo.
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Informe o nome do seu bairro';
-                                  }
-                                  return null;
-                                },
+                                validator: (value) => value!.isEmpty
+                                    ? 'Informe o nome do seu bairro'
+                                    : null,
                               ),
                             ),
                             Expanded(
                               child: CampoTexto(
                                 obscureText: false,
                                 labelText: "Número",
-                                // Aponta para o próximo campo de entrada.
                                 onFieldSubmitted: (_) {
                                   FocusScope.of(context)
                                       .requestFocus(_campoCidade);
                                 },
-
-                                // O botão de enter leva para o próximo campo.
                                 textInputAction: TextInputAction.next,
-
-                                // Indica qual é o campo.
                                 focusNode: _campoNumero,
-
                                 controller: _numero,
-
-                                // Validação do campo.
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Informe o número do seu endereço';
-                                  }
-                                  return null;
-                                },
+                                validator: (value) => value!.isEmpty
+                                    ? 'Informe o número do seu endereço'
+                                    : null,
                               ),
                             ),
                           ],
@@ -288,55 +232,32 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
                               child: CampoTexto(
                                 obscureText: false,
                                 labelText: "Cidade",
-
-                                // Aponta para o próximo campo de entrada.
                                 onFieldSubmitted: (_) {
                                   FocusScope.of(context)
                                       .requestFocus(_campoEstado);
                                 },
-
-                                // O botão de enter leva para o próximo campo.
                                 textInputAction: TextInputAction.next,
-
-                                // Indica qual é o campo.
                                 focusNode: _campoCidade,
-
                                 controller: _cidade,
-
-                                // Validação do campo.
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Informe o nome da sua cidade';
-                                  }
-                                  return null;
-                                },
+                                validator: (value) => value!.isEmpty
+                                    ? 'Informe o nome da sua cidade'
+                                    : null,
                               ),
                             ),
                             Expanded(
                               child: CampoTexto(
                                 obscureText: false,
                                 labelText: "Estado",
-                                // Aponta para o próximo campo de entrada.
                                 onFieldSubmitted: (_) {
                                   FocusScope.of(context)
                                       .requestFocus(_campoComplemento);
                                 },
-
-                                // O botão de enter leva para o próximo campo.
                                 textInputAction: TextInputAction.next,
-
-                                // Indica qual é o campo.
                                 focusNode: _campoEstado,
-
                                 controller: _estado,
-
-                                // Validação do campo.
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Informe nome do seu estado';
-                                  }
-                                  return null;
-                                },
+                                validator: (value) => value!.isEmpty
+                                    ? 'Informe o nome do seu estado'
+                                    : null,
                               ),
                             ),
                           ],
@@ -344,8 +265,6 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
                         CampoTexto(
                           obscureText: false,
                           labelText: "Complemento",
-
-                          // Aponta para o próximo campo de entrada.
                           onFieldSubmitted: (_) => {
                             if (_formKey.currentState!.validate())
                               {
@@ -356,18 +275,15 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
                                 dadosLocalizacao['estado'] = _estado.text,
                                 dadosLocalizacao['numero'] = _numero.text,
                                 dadosLocalizacao['descricao'] = _descricao.text,
-                                dadosLocalizacao['complemento'] = _complemento.text,
-                                dadosLocalizacao['favorito'] = pvdLocal.emptyList,
+                                dadosLocalizacao['complemento'] =
+                                    _complemento.text,
+                                dadosLocalizacao['favorito'] =
+                                    pvdLocal.emptyList,
                                 addLocalizacao(context),
                               },
                           },
-
-                          // O botão de enter leva para o próximo campo.
                           textInputAction: TextInputAction.done,
-
-                          // Indica qual é o campo.
                           focusNode: _campoComplemento,
-
                           controller: _complemento,
                         ),
                         Padding(
@@ -412,8 +328,10 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
                                 dadosLocalizacao['estado'] = _estado.text,
                                 dadosLocalizacao['numero'] = _numero.text,
                                 dadosLocalizacao['descricao'] = _descricao.text,
-                                dadosLocalizacao['complemento'] = _complemento.text,
-                                dadosLocalizacao['favorito'] = pvdLocal.emptyList,
+                                dadosLocalizacao['complemento'] =
+                                    _complemento.text,
+                                dadosLocalizacao['favorito'] =
+                                    pvdLocal.emptyList,
                                 addLocalizacao(context),
                               },
                           },

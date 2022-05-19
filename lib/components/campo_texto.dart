@@ -14,11 +14,13 @@ class CampoTexto extends StatelessWidget {
   final String? Function(String?)? validator;
   dynamic inputFormatters;
   final TextEditingController? controller;
+  final Function(String)? onChanged;
 
   CampoTexto({
     required this.obscureText,
     required this.labelText,
     this.controller,
+    this.onChanged,
     this.validator,
     this.prefixIcon,
     this.textInputAction,
@@ -47,6 +49,7 @@ class CampoTexto extends StatelessWidget {
         inputFormatters: inputFormatters,
         obscureText: obscureText,
         validator: validator,
+        onChanged: onChanged,
       ),
     );
   }

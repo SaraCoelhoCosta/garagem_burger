@@ -8,4 +8,6 @@ class Rotas {
 
   static const montarHamburguer = '/montar-hamburguer';
   static const produto = '/produto';
+
+  static const pedido = '/pedido';
 }

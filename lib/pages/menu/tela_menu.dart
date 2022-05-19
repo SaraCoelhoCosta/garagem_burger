@@ -35,9 +35,9 @@ class _TelaMenuState extends State<TelaMenu> {
     final user = Provider.of<ProviderUsuario>(context).usuario;
     final userName = user?.email ?? 'Convidado';
     // Altura total da tela, subtraindo as alturas da appBar e bottomBar
-    final availableHeight = MediaQuery.of(context).size.height -
-        (Scaffold.of(context).appBarMaxHeight ?? 0) -
-        kBottomNavigationBarHeight;
+    // final availableHeight = MediaQuery.of(context).size.height -
+    //     (Scaffold.of(context).appBarMaxHeight ?? 0) -
+    //     kBottomNavigationBarHeight;
 
     return RefreshIndicator(
       onRefresh: () {
@@ -139,7 +139,13 @@ class _TelaMenuState extends State<TelaMenu> {
                 Rotas.montarHamburguer,
               ),
               child: Container(
-                height: availableHeight * 0.40,
+                // height: availableHeight * 0.40,
+                // Define a altura máxima de acordo com a altura da imagem,
+                // para que ela não fique esticada demais
+                constraints: const BoxConstraints(
+                  minHeight: 200,
+                  maxHeight: 346,
+                ),
                 margin: const EdgeInsets.symmetric(horizontal: 10),
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(

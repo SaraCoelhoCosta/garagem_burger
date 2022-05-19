@@ -86,7 +86,7 @@ class _TelaProdutoState extends State<TelaProduto>
     final totalHeight = MediaQuery.of(context).size.height;
     final appBarHeight =
         appBar.preferredSize.height + MediaQuery.of(context).padding.top;
-    final availableHeigth = totalHeight - appBarHeight;
+    final availableHeight = totalHeight - appBarHeight;
     final double maxHeight = (isEditing) ? 0.47 : 0.40;
 
     return Scaffold(
@@ -225,8 +225,8 @@ class _TelaProdutoState extends State<TelaProduto>
           */
           AnimatedContainer(
             duration: _duration,
-            height: availableHeigth * (openedModal ? maxHeight : 0.07),
-            // height: availableHeigth * maxHeight,
+            height: availableHeight * (openedModal ? maxHeight : 0.07),
+            // height: availableHeight * maxHeight,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.vertical(
                 top: Radius.circular(10),
@@ -236,7 +236,7 @@ class _TelaProdutoState extends State<TelaProduto>
             child: Column(
               children: [
                 SizedBox(
-                  height: availableHeigth * 0.07,
+                  height: availableHeight * 0.07,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -254,9 +254,9 @@ class _TelaProdutoState extends State<TelaProduto>
                 AnimatedContainer(
                   duration: _duration,
                   constraints: BoxConstraints(
-                    minHeight: availableHeigth * (openedModal ? 0.07 : 0),
+                    minHeight: availableHeight * (openedModal ? 0.07 : 0),
                     maxHeight:
-                        availableHeigth * (openedModal ? maxHeight - 0.1 : 0),
+                        availableHeight * (openedModal ? maxHeight - 0.1 : 0),
                   ),
                   child: FadeTransition(
                     opacity: _opacityAnimation!,

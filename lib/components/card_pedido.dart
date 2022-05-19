@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/models/pedido.dart';
+import 'package:garagem_burger/utils/rotas.dart';
+import 'package:intl/intl.dart';
 
 class CardPedido extends StatelessWidget {
   final Pedido pedido;
@@ -11,8 +13,8 @@ class CardPedido extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color color;
-    IconData icon;
+    late Color color;
+    late IconData icon;
 
     // Altura total da tela, subtraindo as alturas da appBar e bottomBar
     final availableHeight = MediaQuery.of(context).size.height -
@@ -20,15 +22,15 @@ class CardPedido extends StatelessWidget {
         kBottomNavigationBarHeight;
 
     switch (pedido.status) {
-      case Status.entregue:
+      case Pedido.entregue:
         color = Colors.green;
         icon = Icons.check_circle_outline;
         break;
-      case Status.pendente:
+      case Pedido.pendente:
         color = const Color(0xfffed80b);
         icon = Icons.error_outline;
         break;
-      case Status.cancelado:
+      case Pedido.cancelado:
         color = Colors.red;
         icon = Icons.cancel_outlined;
         break;
@@ -47,7 +49,10 @@ class CardPedido extends StatelessWidget {
         */
         child: LayoutBuilder(
           builder: (ctx, constraints) => GestureDetector(
-            onTap: () {}, // TODO: Navegar para tela de Visualizar Pedido
+            onTap: () => Navigator.of(context).pushNamed(
+              Rotas.pedido,
+              arguments: pedido,
+            ),
             child: Card(
               elevation: 6.0,
               shape: RoundedRectangleBorder(
@@ -61,8 +66,8 @@ class CardPedido extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   /*
-                    * Leading (Imagem)
-                    */
+                  * Leading (Imagem)
+                  */
                   Container(
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(
@@ -76,8 +81,8 @@ class CardPedido extends StatelessWidget {
                     width: constraints.maxWidth * 0.30,
                   ),
                   /*
-                    * Title e Subtitle
-                    */
+                  * Title e Subtitle
+                  */
                   Container(
                     padding: const EdgeInsets.all(12),
                     width: constraints.maxWidth * 0.55,
@@ -86,10 +91,11 @@ class CardPedido extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         /*
-                          * Title
-                          */
+                        * Title
+                        */
                         Text(
-                          'Pedido ${pedido.status.name} em ${pedido.data}',
+                          'Pedido ${pedido.status} em '
+                          '${DateFormat('dd/MM/yyyy').format(pedido.data)}',
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -97,10 +103,10 @@ class CardPedido extends StatelessWidget {
                           ),
                         ),
                         /*
-                          * Subtitle
-                          */
+                        * Subtitle
+                        */
                         Text(
-                          'às ${pedido.hora}',
+                          'às ${pedido.data.hour}:${pedido.data.minute} hs',
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,

@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/botao.dart';
 import 'package:garagem_burger/components/campo_texto.dart';
+import 'package:garagem_burger/controllers/provider_localizacoes.dart';
+import 'package:garagem_burger/controllers/provider_usuario.dart';
+import 'package:garagem_burger/models/localizacao.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:provider/provider.dart';
 
 class TelaAlterarLocalizacao extends StatefulWidget {
-  const TelaAlterarLocalizacao({Key? key}) : super(key: key);
+  final Localizacao localizacao;
+
+  const TelaAlterarLocalizacao(
+    this.localizacao, {
+    Key? key,
+  }) : super(key: key);
 
   @override
   String toStringShort() => 'Alterar localização';
@@ -14,6 +24,87 @@ class TelaAlterarLocalizacao extends StatefulWidget {
 }
 
 class _TelaAlterarLocalizacaoState extends State<TelaAlterarLocalizacao> {
+  // Chave do formulário
+  final _formKey = GlobalKey<FormState>();
+
+  // Campos que estão com foco.
+  final _campoCep = FocusNode();
+  final _campoRua = FocusNode();
+  final _campoBairro = FocusNode();
+  final _campoNumero = FocusNode();
+  final _campoCidade = FocusNode();
+  final _campoEstado = FocusNode();
+  final _campoComplemento = FocusNode();
+
+  // Máscara para cep.
+  var mascaraCep = MaskTextInputFormatter(
+    mask: '#####-###',
+    filter: {"#": RegExp(r'[0-9]')},
+    type: MaskAutoCompletionType.lazy,
+  );
+
+  // Campos de texto.
+  final _descricao = TextEditingController();
+  final _cep = TextEditingController();
+  final _rua = TextEditingController();
+  final _bairro = TextEditingController();
+  final _numero = TextEditingController();
+  final _cidade = TextEditingController();
+  final _estado = TextEditingController();
+  final _complemento = TextEditingController();
+
+  @override
+  void initState() {
+    _descricao.text = widget.localizacao.descricao!;
+    _cep.text = widget.localizacao.cep;
+    _rua.text = widget.localizacao.rua;
+    _bairro.text = widget.localizacao.bairro;
+    _numero.text = widget.localizacao.numero;
+    _cidade.text = widget.localizacao.cidade;
+    _estado.text = widget.localizacao.estado;
+    _complemento.text = widget.localizacao.complemento!;
+    super.initState();
+  }
+
+  // Libera os recursos após sair da tela ou salvar os dados.
+  @override
+  void dispose() {
+    super.dispose();
+    _campoRua.dispose();
+    _campoBairro.dispose();
+    _campoCep.dispose();
+    _campoCidade.dispose();
+    _campoEstado.dispose();
+    _campoNumero.dispose();
+    _campoComplemento.dispose();
+  }
+
+  Future<void> alterarLocalizacao(BuildContext context) async {
+    final user = Provider.of<ProviderUsuario>(
+      context,
+      listen: false,
+    ).usuario;
+    try {
+      await context
+          .read<ProviderLocalizacoes>()
+          .updateLocation(user, widget.localizacao)
+          .then((_) {
+        Navigator.of(context).pop(true);
+      });
+    } on Exception catch (e) {
+      // TODO: Arrumar exceção.
+      // ignore: avoid_print
+      print(e.toString());
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            "Erro ao alterar endereço",
+          ),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -56,19 +147,46 @@ class _TelaAlterarLocalizacaoState extends State<TelaAlterarLocalizacao> {
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Form(
+                    key: _formKey,
                     child: Column(
                       children: [
                         CampoTexto(
                           obscureText: false,
                           labelText: "Descrição",
+                          onFieldSubmitted: (_) {
+                            FocusScope.of(context).requestFocus(_campoCep);
+                          },
+                          textInputAction: TextInputAction.next,
+                          focusNode: null,
+                          controller: _descricao,
                         ),
                         CampoTexto(
                           obscureText: false,
                           labelText: "CEP",
+                          onFieldSubmitted: (_) {
+                            FocusScope.of(context).requestFocus(_campoRua);
+                          },
+                          textInputAction: TextInputAction.next,
+                          focusNode: _campoCep,
+                          keyboardType: TextInputType.number,
+                          controller: _cep,
+                          inputFormatters: [mascaraCep],
+                          validator: (value) => value!.isEmpty
+                              ? 'Informe o número do seu CEP'
+                              : null,
                         ),
                         CampoTexto(
                           obscureText: false,
                           labelText: "Rua",
+                          onFieldSubmitted: (_) {
+                            FocusScope.of(context).requestFocus(_campoBairro);
+                          },
+                          textInputAction: TextInputAction.next,
+                          focusNode: _campoRua,
+                          controller: _rua,
+                          validator: (value) => value!.isEmpty
+                              ? 'Informe o nome da sua rua'
+                              : null,
                         ),
                         Row(
                           children: [
@@ -77,6 +195,16 @@ class _TelaAlterarLocalizacaoState extends State<TelaAlterarLocalizacao> {
                               child: CampoTexto(
                                 obscureText: false,
                                 labelText: "Bairro",
+                                onFieldSubmitted: (_) {
+                                  FocusScope.of(context)
+                                      .requestFocus(_campoNumero);
+                                },
+                                textInputAction: TextInputAction.next,
+                                focusNode: _campoBairro,
+                                controller: _bairro,
+                                validator: (value) => value!.isEmpty
+                                    ? 'Informe o nome do seu bairro'
+                                    : null,
                               ),
                             ),
                             Expanded(
@@ -84,6 +212,16 @@ class _TelaAlterarLocalizacaoState extends State<TelaAlterarLocalizacao> {
                               child: CampoTexto(
                                 obscureText: false,
                                 labelText: "Número",
+                                onFieldSubmitted: (_) {
+                                  FocusScope.of(context)
+                                      .requestFocus(_campoCidade);
+                                },
+                                textInputAction: TextInputAction.next,
+                                focusNode: _campoNumero,
+                                controller: _numero,
+                                validator: (value) => value!.isEmpty
+                                    ? 'Informe o número do seu endereço'
+                                    : null,
                               ),
                             ),
                           ],
@@ -95,6 +233,16 @@ class _TelaAlterarLocalizacaoState extends State<TelaAlterarLocalizacao> {
                               child: CampoTexto(
                                 obscureText: false,
                                 labelText: "Cidade",
+                                onFieldSubmitted: (_) {
+                                  FocusScope.of(context)
+                                      .requestFocus(_campoEstado);
+                                },
+                                textInputAction: TextInputAction.next,
+                                focusNode: _campoCidade,
+                                controller: _cidade,
+                                validator: (value) => value!.isEmpty
+                                    ? 'Informe o nome da sua cidade'
+                                    : null,
                               ),
                             ),
                             Expanded(
@@ -102,6 +250,16 @@ class _TelaAlterarLocalizacaoState extends State<TelaAlterarLocalizacao> {
                               child: CampoTexto(
                                 obscureText: false,
                                 labelText: "Estado",
+                                onFieldSubmitted: (_) {
+                                  FocusScope.of(context)
+                                      .requestFocus(_campoComplemento);
+                                },
+                                textInputAction: TextInputAction.next,
+                                focusNode: _campoEstado,
+                                controller: _estado,
+                                validator: (value) => value!.isEmpty
+                                    ? 'Informe o nome do seu estado'
+                                    : null,
                               ),
                             ),
                           ],
@@ -109,6 +267,24 @@ class _TelaAlterarLocalizacaoState extends State<TelaAlterarLocalizacao> {
                         CampoTexto(
                           obscureText: false,
                           labelText: "Complemento",
+                          onFieldSubmitted: (_) => {
+                            if (_formKey.currentState!.validate())
+                              {
+                                widget.localizacao.cep = _cep.text,
+                                widget.localizacao.rua = _rua.text,
+                                widget.localizacao.bairro = _bairro.text,
+                                widget.localizacao.cidade = _cidade.text,
+                                widget.localizacao.estado = _estado.text,
+                                widget.localizacao.numero = _numero.text,
+                                widget.localizacao.descricao = _descricao.text,
+                                widget.localizacao.complemento =
+                                    _complemento.text,
+                                alterarLocalizacao(context),
+                              },
+                          },
+                          textInputAction: TextInputAction.done,
+                          focusNode: _campoComplemento,
+                          controller: _complemento,
                         ),
                         Column(
                           children: [
@@ -134,8 +310,21 @@ class _TelaAlterarLocalizacaoState extends State<TelaAlterarLocalizacao> {
                         ),
                         Botao(
                           labelText: "Alterar endereço",
-                          onPressed: () => {},
-                          // TODO: Método de editar endereço
+                          onPressed: () => {
+                            if (_formKey.currentState!.validate())
+                              {
+                                widget.localizacao.cep = _cep.text,
+                                widget.localizacao.rua = _rua.text,
+                                widget.localizacao.bairro = _bairro.text,
+                                widget.localizacao.cidade = _cidade.text,
+                                widget.localizacao.estado = _estado.text,
+                                widget.localizacao.numero = _numero.text,
+                                widget.localizacao.descricao = _descricao.text,
+                                widget.localizacao.complemento =
+                                    _complemento.text,
+                                alterarLocalizacao(context),
+                              },
+                          },
                         ),
                         TextButton(
                           onPressed: () {
