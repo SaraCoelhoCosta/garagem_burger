@@ -8,16 +8,16 @@ class CardItem extends StatelessWidget {
 
   const CardItem({
     Key? key,
-    required this.addItem,
-    required this.removeItem,
+    this.addItem,
+    this.removeItem,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // Altura total da tela, subtraindo as alturas da appBar e bottomBar
+    // Altura total da tela, subtraindo a altura da appBar
     final availableHeight = MediaQuery.of(context).size.height -
-        Scaffold.of(context).appBarMaxHeight! -
-        kBottomNavigationBarHeight;
+        Scaffold.of(context).appBarMaxHeight!;
+    final deviceWidth = MediaQuery.of(context).size.width;
 
     return Padding(
       padding: const EdgeInsets.only(
@@ -27,110 +27,105 @@ class CardItem extends StatelessWidget {
       ),
       child: SizedBox(
         height: availableHeight * 0.20,
-        /*
-        * Layout Builder
-        */
-        child: LayoutBuilder(
-          builder: (ctx, constraints) => Card(
-            elevation: 6.0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                /*
-                * Leading (Imagem)
-                */
-                Container(
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(15),
-                    ),
-                    image: DecorationImage(
-                      image: AssetImage('images/pao.png'),
-                      fit: BoxFit.cover,
-                    ),
+        child: Card(
+          elevation: 6.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              /*
+              * Leading (Imagem)
+              */
+              Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(15),
                   ),
-                  width: constraints.maxWidth * 0.30,
+                  image: DecorationImage(
+                    image: AssetImage('images/pao.png'),
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                /*
-                * Tudo
-                */
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  width: constraints.maxWidth * 0.65,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      /*
-                      * Title
-                      */
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            'Geleia de pimenta',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
+                width: deviceWidth * 0.25,
+              ),
+              /*
+              * Tudo
+              */
+              Container(
+                padding: const EdgeInsets.all(12),
+                width: deviceWidth * 0.65,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    /*
+                    * Title
+                    */
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Geleia de pimenta',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
                           ),
-                          Container(
-                            height: constraints.maxWidth * 0.07,
-                            width: constraints.maxWidth * 0.07,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Theme.of(context).backgroundColor,
-                            ),
-                            child: Center(
-                              child: FittedBox(
-                                child: Text(
-                                  '1',
-                                  textAlign: TextAlign.center,
-                                  style: GoogleFonts.oxygen(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                        ),
+                        Container(
+                          height: deviceWidth * 0.07,
+                          width: deviceWidth * 0.07,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Theme.of(context).backgroundColor,
+                          ),
+                          child: Center(
+                            child: FittedBox(
+                              child: Text(
+                                '1',
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.oxygen(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                      /*
+                        ),
+                      ],
+                    ),
+                    /*
                       * Subtitle
                       */
-                      Row(
-                        children: [
-                          const Text(
-                            'Porção de 180g\n'
-                            'R\$ 0,70',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey,
-                            ),
+                    Row(
+                      children: [
+                        const Text(
+                          'Porção de 180g\n'
+                          'R\$ 0,70',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey,
                           ),
-                          const Spacer(),
-                          Botao(
-                            onPressed: removeItem,
-                            icon: Icons.remove,
-                            externalPadding: const EdgeInsets.only(right: 10),
-                          ),
-                          Botao(
-                            onPressed: addItem,
-                            icon: Icons.add,
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                        const Spacer(),
+                        Botao(
+                          onPressed: removeItem,
+                          icon: Icons.remove,
+                          externalPadding: const EdgeInsets.only(right: 10),
+                        ),
+                        Botao(
+                          onPressed: addItem,
+                          icon: Icons.add,
+                        )
+                      ],
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

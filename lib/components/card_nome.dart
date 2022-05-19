@@ -38,9 +38,6 @@ class CardNome extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              /*
-              * Texto
-              */
               Text(
                 text,
                 style: const TextStyle(

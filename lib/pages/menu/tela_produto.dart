@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/app_bar_button.dart';
-import 'package:garagem_burger/components/card_item.dart';
+import 'package:garagem_burger/components/category_grid.dart';
 import 'package:garagem_burger/components/popup_dialog.dart';
 import 'package:garagem_burger/controllers/provider_usuario.dart';
 import 'package:garagem_burger/models/produto.dart';
@@ -182,97 +182,19 @@ class _TelaProdutoState extends State<TelaProduto>
                 /*
                 * Botões de editar
                 */
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    CardItem(addItem: null, removeItem: null),
-                    //Opções de pão e carne
-                    // CardOpcoes(
-                    //   text: 'Escolha o pão',
-                    //   urlImage: 'images/pao.png',
-                    //   quantity: false,
-                    // ),
-                    //
-                    //Catetorias iniciais
-                    // Row(
-                    //   mainAxisSize: MainAxisSize.min,
-                    //   children: const [
-                    //     CardIngrediente(
-                    //       urlImage: 'images/pao.png',
-                    //       text: 'Pão',
-                    //       proportion: 0.15,
-                    //     ),
-                    //     CardIngrediente(
-                    //       urlImage: 'images/carne.jpg',
-                    //       text: 'Carne',
-                    //       proportion: 0.15,
-                    //     ),
-                    //   ],
-                    // ),
-                    // const CardIngrediente(
-                    //   urlImage: 'images/ingredientes.png',
-                    //   text: 'Ingredientes do Hambúrguer',
-                    //   imageRatioWidth: 0.30,
-                    //   textRatioWidth: 0.65,
-                    //   ratioWidth: 0.92,
-                    //   proportion: 0.15,
-                    // ),
-                    //
-                    //Categorias ingredientes
-                    // Column(
-                    //   mainAxisSize: MainAxisSize.min,
-                    //   mainAxisAlignment: MainAxisAlignment.center,
-                    //   children: [
-                    //     const CardIngrediente(
-                    //       urlImage: 'images/pao.png',
-                    //       text: 'Frutas, verduras e legumes',
-                    //       subtitle: 'R\$ 1,40',
-                    //       imageRatioWidth: 0.30,
-                    //       textRatioWidth: 0.65,
-                    //       ratioWidth: 0.92,
-                    //       proportion: 0.15,
-                    //     ),
-                    //     Row(
-                    //       mainAxisSize: MainAxisSize.min,
-                    //       mainAxisAlignment: MainAxisAlignment.center,
-                    //       children: const [
-                    //         CardIngrediente(
-                    //           urlImage: 'images/pao.png',
-                    //           text: 'Queijos',
-                    //           proportion: 0.15,
-                    //           subtitle: 'R\$ 1,40',
-                    //         ),
-                    //         CardIngrediente(
-                    //           urlImage: 'images/carne.jpg',
-                    //           text: 'Cebolas',
-                    //           subtitle: 'R\$ 1,40',
-                    //           proportion: 0.15,
-                    //         ),
-                    //       ],
-                    //     ),
-                    //     Row(
-                    //       mainAxisSize: MainAxisSize.min,
-                    //       mainAxisAlignment: MainAxisAlignment.center,
-                    //       children: const [
-                    //         CardIngrediente(
-                    //           urlImage: 'images/pao.png',
-                    //           text: 'Molhos',
-                    //           subtitle: 'R\$ 1,40',
-                    //           proportion: 0.15,
-                    //         ),
-                    //         CardIngrediente(
-                    //           urlImage: 'images/carne.jpg',
-                    //           text: 'Outros',
-                    //           subtitle: 'R\$ 1,40',
-                    //           proportion: 0.15,
-                    //         ),
-                    //       ],
-                    //     ),
-                    //   ],
-                    // ),
-                  ],
-                ),
+                if (isEditing) const CategoryGrid(isIngredients: false),
+
+                // const CardOpcoes(
+                //   text: 'Escolha o pão',
+                //   urlImage: 'images/pao.png',
+                //   quantity: false,
+                // ),
+
+                // const CardOpcoes(
+                //   text: 'Escolha a carne',
+                //   urlImage: 'images/carne.jpg',
+                //   quantity: true,
+                // ),
               ],
             ),
           ),

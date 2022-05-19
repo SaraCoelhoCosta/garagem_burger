@@ -7,28 +7,13 @@ class CardOpcoes extends StatelessWidget {
   final String urlImage;
   final String text;
   final bool quantity;
-  final double imageRatioWidth;
-  final double textRatioWidth;
-  final double ratioWidth;
 
   const CardOpcoes({
     Key? key,
     required this.urlImage,
     required this.text,
-    this.imageRatioWidth = 0.50,
-    this.textRatioWidth = 0.45,
-    this.ratioWidth = 0.45,
     this.quantity = false,
   }) : super(key: key);
-
-  // double dividerSize() {
-  //   if (urlImage == 'images/pao.png') {
-  //     return 280;
-  //   } else if (urlImage == 'images/carne.jpg') {
-  //     return 420;
-  //   }
-  //   return 0;
-  // }
 
   @override
   Widget build(BuildContext context) {
