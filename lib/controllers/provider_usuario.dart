@@ -20,7 +20,6 @@ class ProviderUsuario extends ChangeNotifier {
   bool isLoading = true;
 
   ProviderUsuario() {
-    logout();
     _authCheck();
   }
 
@@ -45,6 +44,8 @@ class ProviderUsuario extends ChangeNotifier {
       String email, String senha, Map<String, dynamic> dadosUsuario) async {
     try {
       await _auth.createUserWithEmailAndPassword(email: email, password: senha);
+      await _auth.currentUser!
+          .updateDisplayName(dadosUsuario['nome'].toString());
       _getUser();
       _salvarDados(dadosUsuario);
     } on FirebaseAuthException catch (e) {

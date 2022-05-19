@@ -33,7 +33,7 @@ class _TelaMenuState extends State<TelaMenu> {
   Widget build(BuildContext context) {
     final provider = Provider.of<ProviderProdutos>(context);
     final user = Provider.of<ProviderUsuario>(context).usuario;
-    final userName = user?.email ?? 'Convidado';
+    final userName = user?.displayName?.split(' ').elementAt(0) ?? 'Convidado';
     // Altura total da tela, subtraindo as alturas da appBar e bottomBar
     // final availableHeight = MediaQuery.of(context).size.height -
     //     (Scaffold.of(context).appBarMaxHeight ?? 0) -
