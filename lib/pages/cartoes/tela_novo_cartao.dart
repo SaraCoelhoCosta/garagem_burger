@@ -104,15 +104,13 @@ class _TelaNovoCartaoState extends State<TelaNovoCartao> {
         Navigator.of(context).pop(true);
       });
     } on Exception catch (e) {
-      // TODO: Arrumar exceção.
       setState(() => _isLoading = false);
       // ignore: avoid_print
       print(e.toString());
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text(
-            "Erro ao cadastrar cartão",
-          ),
+          content: Text("Erro ao cadastrar cartão"),
+          backgroundColor: Colors.red,
         ),
       );
     }
@@ -261,7 +259,9 @@ class _TelaNovoCartaoState extends State<TelaNovoCartao> {
                               keyboardType: TextInputType.number,
                               textInputAction: TextInputAction.next,
                               validator: (String? value) {
-                                if (value!.isEmpty || value.length < 16) {
+                                if (value!.trim().isEmpty) {
+                                  return "Campo obrigatório";
+                                } else if (value.trim().length < 16) {
                                   return "Número de cartão inválido";
                                 }
                                 return null;
@@ -285,7 +285,7 @@ class _TelaNovoCartaoState extends State<TelaNovoCartao> {
                                     textInputAction: TextInputAction.next,
                                     validator: ((String? value) {
                                       if (value!.isEmpty) {
-                                        return "Campo de vencimento obrigatório";
+                                        return "Campo obrigatório";
                                       }
                                       final DateTime now = DateTime.now();
                                       final List<String> date =
@@ -325,7 +325,9 @@ class _TelaNovoCartaoState extends State<TelaNovoCartao> {
                                     keyboardType: TextInputType.number,
                                     textInputAction: TextInputAction.next,
                                     validator: (String? value) {
-                                      if (value!.isEmpty || value.length < 3) {
+                                      if (value!.trim().isEmpty) {
+                                        return 'Campo obrigatório';
+                                      } else if (value.trim().length < 3) {
                                         return 'Código inválido';
                                       }
                                       return null;
@@ -345,6 +347,12 @@ class _TelaNovoCartaoState extends State<TelaNovoCartao> {
                               keyboardType: TextInputType.text,
                               textInputAction: TextInputAction.next,
                               controller: _nomeTitular,
+                              validator: (String? value) {
+                                if (value!.trim().isEmpty) {
+                                  return 'Campo obrigatório';
+                                }
+                                return null;
+                              },
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,

@@ -207,6 +207,12 @@ class _TelaAlterarCartaoState extends State<TelaAlterarCartao> {
                               },
                               textInputAction: TextInputAction.next,
                               controller: _descricao,
+                              validator: (String? value) {
+                                if (value!.trim().isEmpty) {
+                                  return "Campo obrigatório";
+                                }
+                                return null;
+                              },
                             ),
                             CampoTexto(
                               obscureText: false,
@@ -220,7 +226,9 @@ class _TelaAlterarCartaoState extends State<TelaAlterarCartao> {
                               keyboardType: TextInputType.number,
                               textInputAction: TextInputAction.next,
                               validator: (String? value) {
-                                if (value!.isEmpty || value.length < 16) {
+                                if (value!.trim().isEmpty) {
+                                  return "Campo obrigatório";
+                                } else if (value.trim().length < 16) {
                                   return "Número de cartão inválido";
                                 }
                                 return null;
@@ -243,8 +251,8 @@ class _TelaAlterarCartaoState extends State<TelaAlterarCartao> {
                                     keyboardType: TextInputType.number,
                                     textInputAction: TextInputAction.next,
                                     validator: ((String? value) {
-                                      if (value!.isEmpty) {
-                                        return "Campo de vencimento obrigatório";
+                                      if (value!.trim().isEmpty) {
+                                        return "Campo obrigatório";
                                       }
                                       final DateTime now = DateTime.now();
                                       final List<String> date =
@@ -284,7 +292,9 @@ class _TelaAlterarCartaoState extends State<TelaAlterarCartao> {
                                     keyboardType: TextInputType.number,
                                     textInputAction: TextInputAction.next,
                                     validator: (String? value) {
-                                      if (value!.isEmpty || value.length < 3) {
+                                      if (value!.trim().isEmpty) {
+                                        return 'Campo obrigatório';
+                                      } else if (value.trim().length < 3) {
                                         return 'Código inválido';
                                       }
                                       return null;
@@ -304,6 +314,12 @@ class _TelaAlterarCartaoState extends State<TelaAlterarCartao> {
                               keyboardType: TextInputType.text,
                               textInputAction: TextInputAction.next,
                               controller: _nomeTitular,
+                              validator: (String? value) {
+                                if (value!.trim().isEmpty) {
+                                  return 'Campo obrigatório';
+                                }
+                                return null;
+                              },
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,

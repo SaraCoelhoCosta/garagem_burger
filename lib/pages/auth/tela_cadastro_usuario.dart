@@ -73,8 +73,10 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
       );
     } on AuthException catch (e) {
       setState(() => _loading = false);
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.message)));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(e.message),
+        backgroundColor: Colors.red,
+      ));
     }
   }
 
@@ -154,8 +156,8 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
 
                     // Validação do campo.
                     validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Informe seu nome';
+                      if (value!.trim().isEmpty) {
+                        return 'Campo obrigatório';
                       }
                       return null;
                     },
@@ -190,8 +192,11 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
 
                     // Validação do campo.
                     validator: (value) {
-                      if (value!.isEmpty || !value.contains('@')) {
-                        return 'Informe seu e-mail corretamente';
+                      if (value!.trim().isEmpty) {
+                        return 'Campo obrigatório';
+                      } else if (!value.contains('@') ||
+                          value.trim().length < 10) {
+                        return 'E-mail inválido';
                       }
                       return null;
                     },
@@ -229,8 +234,10 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
 
                     // Validação do campo.
                     validator: (value) {
-                      if (value!.isEmpty || value.length < 11) {
-                        return 'Informe seu telefone';
+                      if (value!.isEmpty) {
+                        return 'Campo obrigatório';
+                      } else if (value.length < 11) {
+                        return 'Telefone inválido';
                       }
                       return null;
                     },
@@ -273,9 +280,9 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
 
                     // Validação do campo.
                     validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Informa sua senha';
-                      } else if (value.length < 6) {
+                      if (value!.trim().isEmpty) {
+                        return 'Campo obrigatório';
+                      } else if (value.trim().length < 6) {
                         return 'Sua senha deve ter no mínimo 6 caracteres';
                       }
                       return null;
@@ -328,8 +335,8 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
 
                     // Validação do campo.
                     validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Informa sua confirmação de senha';
+                      if (value!.trim().isEmpty) {
+                        return 'Campo onrigatório';
                       } else if (value.length < 6) {
                         return 'Sua senha deve ter no mínimo 6 caracteres';
                       } else if (_confirmarSenha.text != _senha.text) {
@@ -349,7 +356,7 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
                 const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
             backgroundColor: Colors.black,
             foregroundColor: Colors.white,
-            loading: (_loading) ? true : false,
+            loading: _loading,
             labelText: "Cadastrar",
             onPressed: () => {
               if (_formKey.currentState!.validate())
