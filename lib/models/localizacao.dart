@@ -7,8 +7,8 @@ class Localizacao {
   String cidade;
   String estado;
   bool favorito;
+  String descricao;
   String? complemento;
-  String? descricao;
 
   Localizacao({
     required this.id,
@@ -19,7 +19,7 @@ class Localizacao {
     required this.cidade,
     required this.estado,
     required this.favorito,
-    this.descricao,
+    required this.descricao,
     this.complemento,
   });
 

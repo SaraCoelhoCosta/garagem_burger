@@ -7,6 +7,7 @@ class CampoTexto extends StatelessWidget {
   final Widget? suffixIcon;
   final String labelText;
   final bool obscureText;
+  final String? hintText;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
   final FocusNode? focusNode;
@@ -30,6 +31,7 @@ class CampoTexto extends StatelessWidget {
     this.focusNode,
     this.inputFormatters,
     this.suffixIcon,
+    this.hintText,
     this.enabled = true,
   });
 
@@ -42,7 +44,9 @@ class CampoTexto extends StatelessWidget {
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
           labelText: labelText,
+          hintText: hintText,
         ),
+        
         controller: controller,
         keyboardType: keyboardType,
         focusNode: focusNode,

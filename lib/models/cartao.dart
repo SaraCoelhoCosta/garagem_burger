@@ -6,7 +6,7 @@ class Cartao {
   final String cvv;
   final String tipo;
   //final String bandeira;
-  String? descricao;
+  String descricao;
   bool favorito;
 
   Cartao({
@@ -16,7 +16,7 @@ class Cartao {
     required this.cvv,
     required this.dataVencimento,
     required this.tipo,
-    this.descricao,
+    required this.descricao,
     this.favorito = false,
   });
 

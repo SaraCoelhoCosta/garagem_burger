@@ -153,6 +153,7 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
                         CampoTexto(
                           obscureText: false,
                           labelText: "Descrição",
+                          hintText: 'Minha localização ${pvdLocal.countLocations + 1}',
                           onFieldSubmitted: (_) {
                             FocusScope.of(context).requestFocus(_campoCep);
                           },
@@ -292,7 +293,10 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
                                 dadosLocalizacao['cidade'] = _cidade.text,
                                 dadosLocalizacao['estado'] = _estado.text,
                                 dadosLocalizacao['numero'] = _numero.text,
-                                dadosLocalizacao['descricao'] = _descricao.text,
+                                dadosLocalizacao['descricao'] = (_descricao
+                                        .text.isEmpty)
+                                    ? 'Minha localização ${pvdLocal.countLocations + 1}'
+                                    : _descricao.text,
                                 dadosLocalizacao['complemento'] =
                                     _complemento.text,
                                 dadosLocalizacao['favorito'] =
@@ -345,7 +349,10 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
                                 dadosLocalizacao['cidade'] = _cidade.text,
                                 dadosLocalizacao['estado'] = _estado.text,
                                 dadosLocalizacao['numero'] = _numero.text,
-                                dadosLocalizacao['descricao'] = _descricao.text,
+                                dadosLocalizacao['descricao'] = (_descricao
+                                        .text.isEmpty)
+                                    ? 'Minha localização ${pvdLocal.countLocations + 1}'
+                                    : _descricao.text,
                                 dadosLocalizacao['complemento'] =
                                     _complemento.text,
                                 dadosLocalizacao['favorito'] =

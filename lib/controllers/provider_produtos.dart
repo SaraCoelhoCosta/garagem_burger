@@ -17,6 +17,9 @@ class ProviderProdutos with ChangeNotifier {
           nome: doc.data()['nome'],
           preco: doc.data()['preco'] * 1.0,
           tipo: doc.data()['tipo'],
+          urlImage: doc.data()['img'] ?? '',
+          quantidade: 0,
+          unidadeMedida: '',
         ),
       );
     });

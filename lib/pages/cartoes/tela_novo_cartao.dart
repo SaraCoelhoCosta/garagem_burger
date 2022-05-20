@@ -240,6 +240,7 @@ class _TelaNovoCartaoState extends State<TelaNovoCartao> {
                             CampoTexto(
                               obscureText: false,
                               labelText: "Descrição",
+                              hintText: 'Meu cartão ${pvdCartao.countCards + 1}',
                               onFieldSubmitted: (_) {
                                 FocusScope.of(context)
                                     .requestFocus(_campoNumeroCartao);
@@ -401,7 +402,10 @@ class _TelaNovoCartaoState extends State<TelaNovoCartao> {
                                     dadosCartao['dataVencimento'] =
                                         _vencimentoCartao.text,
                                     dadosCartao['cvv'] = _cvv.text,
-                                    dadosCartao['descricao'] = _descricao.text,
+                                    dadosCartao['descricao'] = (_descricao
+                                            .text.isEmpty)
+                                        ? 'Meu cartão ${pvdCartao.countCards + 1}'
+                                        : _descricao.text,
                                     dadosCartao['tipo'] =
                                         _card == CardType.credito
                                             ? "Crédito"

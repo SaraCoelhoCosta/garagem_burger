@@ -149,7 +149,7 @@ class _TelaPagamentoState extends State<TelaPagamento> {
                       items: pvdCartao.cartoes.values.map((cartao) {
                         return {
                           'id': cartao.id,
-                          'descricao': cartao.descricao!,
+                          'descricao': cartao.descricao,
                         };
                       }).toList(),
                       onChanged: (String? selectedCardId) {

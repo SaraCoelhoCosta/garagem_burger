@@ -57,7 +57,7 @@ class _TelaEnderecoEntregaState extends State<TelaEnderecoEntrega> {
                     items: pvdLocal.locations.values.map((local) {
                       return {
                         'id': local.id,
-                        'descricao': local.descricao!,
+                        'descricao': local.descricao,
                       };
                     }).toList(),
                     onChanged: (String? selectedLocalId) {

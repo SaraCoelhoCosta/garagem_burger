@@ -24,6 +24,8 @@ class ProviderCartoes with ChangeNotifier {
 
   bool get emptyList => _cartoes.isEmpty;
 
+  int get countCards => _cartoes.length;
+
   Cartao? get favoriteCartao {
     if (!emptyList) {
       return _cartoes.values.singleWhere((cartao) => cartao.favorito);

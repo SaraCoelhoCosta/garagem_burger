@@ -22,6 +22,8 @@ class ProviderLocalizacoes with ChangeNotifier {
 
   Map<String, Localizacao> get locations => {..._locations};
 
+  int get countLocations => _locations.length;
+
   bool get emptyList => _locations.isEmpty;
 
   Localizacao? get favoriteLocation {

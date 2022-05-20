@@ -55,7 +55,7 @@ class _TelaAlterarLocalizacaoState extends State<TelaAlterarLocalizacao> {
 
   @override
   void initState() {
-    _descricao.text = widget.localizacao.descricao!;
+    _descricao.text = widget.localizacao.descricao;
     _cep.text = widget.localizacao.cep;
     _rua.text = widget.localizacao.rua;
     _bairro.text = widget.localizacao.bairro;
