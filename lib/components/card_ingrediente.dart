@@ -8,6 +8,7 @@ class CardIngrediente extends StatelessWidget {
   final double imageRatioWidth;
   final double textRatioWidth;
   final double ratioWidth;
+  final Function()? onTap;
 
   const CardIngrediente({
     Key? key,
@@ -18,6 +19,7 @@ class CardIngrediente extends StatelessWidget {
     this.ratioWidth = 0.45,
     required this.proportion,
     this.subtitle,
+    this.onTap,
   }) : super(key: key);
 
   @override
@@ -26,7 +28,8 @@ class CardIngrediente extends StatelessWidget {
     final availableHeight = MediaQuery.of(context).size.height -
         Scaffold.of(context).appBarMaxHeight!;
 
-    return Flexible(
+    return GestureDetector(
+      onTap: onTap,
       child: Card(
         // margin: const EdgeInsets.all(0),
         elevation: 8.0,

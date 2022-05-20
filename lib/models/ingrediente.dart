@@ -6,11 +6,15 @@ class Ingrediente {
   static const molho = 'Molho';
   static const cebola = 'Cebola';
   static const outros = 'Outros';
+  static const pao = 'Pão';
+  static const carne = 'Carne';
 
   // Unidades de medida
   static const mg = 'mg';
+  static const g = 'g';
   static const un = 'un';
   static const mL = 'mL';
+  static const fatia = 'fatia';
 
   final String id;
   final String nome;

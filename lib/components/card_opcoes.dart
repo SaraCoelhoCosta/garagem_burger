@@ -7,12 +7,14 @@ class CardOpcoes extends StatelessWidget {
   final String urlImage;
   final String text;
   final bool quantity;
+  final Widget? child;
 
   const CardOpcoes({
     Key? key,
     required this.urlImage,
     required this.text,
     this.quantity = false,
+    this.child,
   }) : super(key: key);
 
   @override
@@ -29,13 +31,27 @@ class CardOpcoes extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                text,
-                style: GoogleFonts.oxygen(
-                  color: Colors.black,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                ),
+              /*
+              * Title
+              */
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '  ' + text,
+                    style: GoogleFonts.oxygen(
+                      color: Colors.black,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  IconButton(
+                    // padding: const EdgeInsets.all(0),
+                    iconSize: 20,
+                    onPressed: () {},
+                    icon: const Icon(Icons.close_sharp),
+                  ),
+                ],
               ),
               const Divider(
                 height: 20,
@@ -44,160 +60,166 @@ class CardOpcoes extends StatelessWidget {
                 endIndent: 5,
                 color: Colors.grey,
               ),
-              Padding(
-                padding: const EdgeInsets.all(0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if (urlImage == 'images/pao.png')
-                      CardIngrediente(
-                        urlImage: urlImage,
-                        text: 'Pão de Briochi',
-                        proportion: 0.12,
-                      ),
-                    if (urlImage == 'images/pao.png')
-                      CardIngrediente(
-                        urlImage: urlImage,
-                        text: 'Pão Americano',
-                        proportion: 0.12,
-                      ),
-                    if (urlImage == 'images/carne.jpg')
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15),
-                              decoration: const BoxDecoration(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(15),
-                                ),
-                                image: DecorationImage(
-                                  image: AssetImage('images/carne.jpg'),
-                                  fit: BoxFit.contain,
-                                ),
+              if (urlImage == 'images/ingredientes.png') child!,
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (urlImage == 'images/pao.png')
+                    CardIngrediente(
+                      urlImage: urlImage,
+                      text: 'Pão de Briochi',
+                      proportion: 0.12,
+                    ),
+                  if (urlImage == 'images/pao.png')
+                    CardIngrediente(
+                      urlImage: urlImage,
+                      text: 'Pão Americano',
+                      proportion: 0.12,
+                    ),
+                  if (urlImage == 'images/carne.jpg')
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(15),
                               ),
-                              width: 150,
-                              height: 150,
-                            ),
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                GestureDetector(
-                                  onTap: null,
-                                  child: const CardNome(text: 'Mal passada'),
-                                ),
-                                GestureDetector(
-                                  onTap: null,
-                                  child: const CardNome(text: 'No ponto'),
-                                ),
-                                GestureDetector(
-                                  onTap: null,
-                                  child: const CardNome(text: 'Bem passada'),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    if (quantity)
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Row(
-                          // mainAxisSize: MainAxisSize.min,
-                          // mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Quantidade',
-                              style: GoogleFonts.oxygen(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
+                              image: DecorationImage(
+                                image: AssetImage('images/carne.jpg'),
+                                fit: BoxFit.contain,
                               ),
                             ),
-                            const Spacer(),
-                            Container(
-                              height: 30,
-                              width: 30,
-                              margin: const EdgeInsets.only(
-                                top: 10,
-                                right: 10,
+                            width: 150,
+                            height: 150,
+                          ),
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: null,
+                                child: const CardNome(text: 'Mal passada'),
                               ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Theme.of(context).backgroundColor,
+                              GestureDetector(
+                                onTap: null,
+                                child: const CardNome(text: 'No ponto'),
                               ),
-                              child: Center(
-                                child: FittedBox(
-                                  child: Text(
-                                    '-',
-                                    textAlign: TextAlign.center,
-                                    style: GoogleFonts.oxygen(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                              GestureDetector(
+                                onTap: null,
+                                child: const CardNome(text: 'Bem passada'),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  if (quantity)
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        // mainAxisSize: MainAxisSize.min,
+                        // mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Quantidade',
+                            style: GoogleFonts.oxygen(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const Spacer(),
+                          /*
+                          * Botao remove
+                          */
+                          Container(
+                            height: 30,
+                            width: 30,
+                            margin: const EdgeInsets.only(
+                              top: 10,
+                              right: 10,
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Theme.of(context).backgroundColor,
+                            ),
+                            child: Center(
+                              child: FittedBox(
+                                child: Text(
+                                  '-',
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.oxygen(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),
                             ),
-                            Container(
-                              height: 30,
-                              width: 30,
-                              margin: const EdgeInsets.only(
-                                top: 10,
-                                right: 10,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Theme.of(context).backgroundColor,
-                              ),
-                              child: Center(
-                                child: FittedBox(
-                                  child: Text(
-                                    '0',
-                                    textAlign: TextAlign.center,
-                                    style: GoogleFonts.oxygen(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                          ),
+                          /*
+                          * Quantidade
+                          */
+                          Container(
+                            height: 30,
+                            width: 30,
+                            margin: const EdgeInsets.only(
+                              top: 10,
+                              right: 10,
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Theme.of(context).backgroundColor,
+                            ),
+                            child: Center(
+                              child: FittedBox(
+                                child: Text(
+                                  '0',
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.oxygen(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),
                             ),
-                            Container(
-                              height: 30,
-                              width: 30,
-                              margin: const EdgeInsets.only(
-                                top: 10,
-                                right: 10,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Theme.of(context).backgroundColor,
-                              ),
-                              child: Center(
-                                child: FittedBox(
-                                  child: Text(
-                                    '+',
-                                    textAlign: TextAlign.center,
-                                    style: GoogleFonts.oxygen(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                          ),
+                          /*
+                          * Botao add
+                          */
+                          Container(
+                            height: 30,
+                            width: 30,
+                            margin: const EdgeInsets.only(
+                              top: 10,
+                              right: 10,
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Theme.of(context).backgroundColor,
+                            ),
+                            child: Center(
+                              child: FittedBox(
+                                child: Text(
+                                  '+',
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.oxygen(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                  ],
-                ),
+                    ),
+                ],
               ),
             ],
           ),

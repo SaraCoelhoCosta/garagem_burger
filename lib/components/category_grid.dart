@@ -3,10 +3,16 @@ import 'package:garagem_burger/components/card_ingrediente.dart';
 
 class CategoryGrid extends StatelessWidget {
   final bool isIngredients;
+  final Function()? showIngredients;
+  final Function()? showPao;
+  final Function()? showCarne;
 
   const CategoryGrid({
     Key? key,
     required this.isIngredients,
+    this.showIngredients,
+    this.showPao,
+    this.showCarne,
   }) : super(key: key);
 
   @override
@@ -19,7 +25,8 @@ class CategoryGrid extends StatelessWidget {
         * Ingredientes do hamburguer
         */
         if (!isIngredients)
-          const CardIngrediente(
+          CardIngrediente(
+            onTap: showIngredients,
             urlImage: 'images/ingredientes.png',
             text: 'Ingredientes do Hambúrguer',
             imageRatioWidth: 0.30,
@@ -33,13 +40,15 @@ class CategoryGrid extends StatelessWidget {
         if (!isIngredients)
           Row(
             mainAxisSize: MainAxisSize.min,
-            children: const [
+            children: [
               CardIngrediente(
+                onTap: showPao,
                 urlImage: 'images/pao.png',
                 text: 'Pão',
                 proportion: 0.15,
               ),
               CardIngrediente(
+                onTap: showCarne,
                 urlImage: 'images/carne.jpg',
                 text: 'Carne',
                 proportion: 0.15,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TelaMontarHamburguer extends StatelessWidget {
-  const TelaMontarHamburguer({ Key? key }) : super(key: key);
+  const TelaMontarHamburguer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,6 @@ class TelaMontarHamburguer extends StatelessWidget {
         ),
         child: Column(
           children: [
-            
             const SizedBox(height: 30),
 
             // Botao voltar

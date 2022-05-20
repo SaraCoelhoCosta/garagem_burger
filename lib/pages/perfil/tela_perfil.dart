@@ -23,16 +23,10 @@ class TelaPerfil extends StatefulWidget {
   State<TelaPerfil> createState() => _TelaPerfilState();
 }
 
-// ignore: camel_case_types
 class _TelaPerfilState extends State<TelaPerfil> {
-  final String name = 'Miyamura Tanaki';
-
   @override
   Widget build(BuildContext context) {
-    final pvdUsuario = Provider.of<ProviderUsuario>(
-      context,
-      listen: false,
-    );
+    final pvdUsuario = Provider.of<ProviderUsuario>(context);
     return (pvdUsuario.usuario == null)
         ? TelaVazia(
             pageName: 'Perfil',
@@ -66,7 +60,7 @@ class _TelaPerfilState extends State<TelaPerfil> {
                       ),
                     ),
                     Text(
-                      name,
+                      pvdUsuario.usuario!.displayName!,
                       style: GoogleFonts.oxygen(
                         color: Colors.black,
                         fontSize: 18,

@@ -53,10 +53,12 @@ class TelaMeusCartoes extends StatelessWidget {
                           'button': null,
                         },
                       ),
-                      favoritar: (id) =>
-                          pvdCartao.changeFavorite(pvdUsuario.usuario, id),
-                      remover: (id) =>
-                          pvdCartao.deleteCartao(pvdUsuario.usuario, id),
+                      favoritar: (id) {
+                        pvdCartao.changeFavorite(pvdUsuario.usuario, id);
+                      },
+                      remover: (id) {
+                        pvdCartao.deleteCartao(pvdUsuario.usuario, id);
+                      },
                     );
                   }).toList(),
                 ),

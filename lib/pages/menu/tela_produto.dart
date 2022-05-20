@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/app_bar_button.dart';
+import 'package:garagem_burger/components/card_opcoes.dart';
 import 'package:garagem_burger/components/category_grid.dart';
 import 'package:garagem_burger/components/popup_dialog.dart';
 import 'package:garagem_burger/controllers/provider_usuario.dart';
@@ -20,6 +21,9 @@ class TelaProduto extends StatefulWidget {
 
 class _TelaProdutoState extends State<TelaProduto>
     with SingleTickerProviderStateMixin {
+  bool isIngredients = false;
+  bool isPao = false;
+  bool isCarne = false;
   bool openedModal = false;
   AnimationController? _controller;
   Animation<double>? _opacityAnimation;
@@ -180,21 +184,44 @@ class _TelaProdutoState extends State<TelaProduto>
                   ),
                 ),
                 /*
-                * Botões de editar
+                * Grid de opções de edição ou ingredientes
                 */
-                if (isEditing) const CategoryGrid(isIngredients: false),
+                if (isEditing && !isCarne && !isPao)
+                  CardOpcoes(
+                    text: 'Ingredientes',
+                    urlImage: 'images/ingredientes.png',
+                    child: CategoryGrid(
+                      isIngredients: isIngredients,
+                      showIngredients: () {
+                        setState(() => isIngredients = true);
+                      },
+                      showCarne: () {
+                        setState(() => isCarne = true);
+                      },
+                      showPao: () {
+                        setState(() => isPao = true);
+                      },
+                    ),
+                  ),
 
-                // const CardOpcoes(
-                //   text: 'Escolha o pão',
-                //   urlImage: 'images/pao.png',
-                //   quantity: false,
-                // ),
-
-                // const CardOpcoes(
-                //   text: 'Escolha a carne',
-                //   urlImage: 'images/carne.jpg',
-                //   quantity: true,
-                // ),
+                /*
+                * Grid de pão
+                */
+                if (isEditing && isPao)
+                  const CardOpcoes(
+                    text: 'Escolha o pão',
+                    urlImage: 'images/pao.png',
+                    quantity: false,
+                  ),
+                /*
+                * Grid de carne
+                */
+                if (isEditing && isCarne)
+                  const CardOpcoes(
+                    text: 'Escolha a carne',
+                    urlImage: 'images/carne.jpg',
+                    quantity: true,
+                  ),
               ],
             ),
           ),
