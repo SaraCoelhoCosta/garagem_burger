@@ -3,10 +3,11 @@ import 'package:garagem_burger/components/card_ingrediente.dart';
 import 'package:garagem_burger/components/card_nome.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CardOpcoes extends StatelessWidget {
+class CardOpcoes extends StatefulWidget {
   final String urlImage;
   final String text;
   final bool quantity;
+  final Function()? close;
   final Widget? child;
 
   const CardOpcoes({
@@ -15,12 +16,19 @@ class CardOpcoes extends StatelessWidget {
     required this.text,
     this.quantity = false,
     this.child,
+    this.close,
   }) : super(key: key);
 
+  @override
+  State<CardOpcoes> createState() => _CardOpcoesState();
+}
+
+class _CardOpcoesState extends State<CardOpcoes> {
   @override
   Widget build(BuildContext context) {
     return Flexible(
       child: Card(
+        color: const Color.fromARGB(255, 238, 237, 234),
         elevation: 6.0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
@@ -38,7 +46,7 @@ class CardOpcoes extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '  ' + text,
+                    '  ' + widget.text,
                     style: GoogleFonts.oxygen(
                       color: Colors.black,
                       fontSize: 25,
@@ -59,24 +67,24 @@ class CardOpcoes extends StatelessWidget {
                 endIndent: 5,
                 color: Colors.grey,
               ),
-              if (urlImage == 'images/ingredientes.png') child!,
+              if (widget.urlImage == 'images/ingredientes.png') widget.child!,
               Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  if (urlImage == 'images/pao.png')
+                  if (widget.urlImage == 'images/pao.png')
                     CardIngrediente(
-                      urlImage: urlImage,
+                      urlImage: widget.urlImage,
                       text: 'Pão de Briochi',
                       proportion: 0.12,
                     ),
-                  if (urlImage == 'images/pao.png')
+                  if (widget.urlImage == 'images/pao.png')
                     CardIngrediente(
-                      urlImage: urlImage,
+                      urlImage: widget.urlImage,
                       text: 'Pão Americano',
                       proportion: 0.12,
                     ),
-                  if (urlImage == 'images/carne.jpg')
+                  if (widget.urlImage == 'images/carne.jpg')
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
@@ -118,7 +126,7 @@ class CardOpcoes extends StatelessWidget {
                         ],
                       ),
                     ),
-                  if (quantity)
+                  if (widget.quantity)
                     Padding(
                       padding: const EdgeInsets.all(10),
                       child: Row(

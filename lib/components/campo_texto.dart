@@ -19,8 +19,8 @@ class CampoTexto extends StatelessWidget {
   bool? enabled;
 
   CampoTexto({
-    required this.obscureText,
     required this.labelText,
+    this.obscureText = false,
     this.controller,
     this.onChanged,
     this.validator,
