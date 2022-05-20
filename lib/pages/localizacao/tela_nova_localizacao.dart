@@ -88,9 +88,8 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
         Navigator.of(context).pop(true);
       });
     } on Exception catch (e) {
-      // TODO: Arrumar exceção.
       setState(() => _loading = false);
-      // ignore: avoid_print
+      // ignore: avoid_print, TODO: deixa o print?
       print(e.toString());
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

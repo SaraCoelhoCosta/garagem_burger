@@ -92,8 +92,7 @@ class _TelaAlterarLocalizacaoState extends State<TelaAlterarLocalizacao> {
         Navigator.of(context).pop(true);
       });
     } on Exception catch (e) {
-      // TODO: Arrumar exceção.
-      // ignore: avoid_print
+      // ignore: avoid_print, TODO: deixa o print?
       print(e.toString());
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
