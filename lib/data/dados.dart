@@ -37,6 +37,7 @@ final meusLanches = [
     quantidade: 0,
     unidadeMedida: '',
     urlImage: '',
+    recipiente: '',
   ),
   Produto(
     id: Random().nextDouble().toString(),
@@ -46,6 +47,7 @@ final meusLanches = [
     quantidade: 0,
     unidadeMedida: '',
     urlImage: '',
+    recipiente: '',
   ),
   Produto(
     id: Random().nextDouble().toString(),
@@ -55,6 +57,7 @@ final meusLanches = [
     unidadeMedida: '',
     urlImage: '',
     quantidade: 0,
+    recipiente: '',
   ),
   Produto(
     id: Random().nextDouble().toString(),
@@ -64,6 +67,7 @@ final meusLanches = [
     urlImage: '',
     unidadeMedida: '',
     quantidade: 0,
+    recipiente: '',
   ),
 ];
 

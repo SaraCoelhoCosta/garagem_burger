@@ -1,25 +1,65 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/controllers/firebase.dart';
+import 'package:garagem_burger/models/hamburguer.dart';
 import 'package:garagem_burger/models/ingrediente.dart';
 import 'package:garagem_burger/models/produto.dart';
 
 class ProviderProdutos with ChangeNotifier {
   final List<Produto> _products = [];
   final List<Ingrediente> _ingredients = [];
+  final List<Hamburguer> _hamburgers = [];
+
+  Future<void> loadHamburgers() async {
+    _hamburgers.clear();
+    final snapshot = await Firebase.getFirestore()
+        .collection('produtos')
+        .where('tipo', isEqualTo: Produto.hamburguerCasa)
+        .get();
+    snapshot.docs.asMap().forEach((_, doc) {
+      _hamburgers.add(
+        Hamburguer(
+          id: doc.id,
+          nome: doc.data()['nome'],
+          preco: double.parse(doc.data()['preco'].toString()),
+          tipo: doc.data()['tipo'],
+          urlImage: doc.data()['img'] ?? '',
+          quantidade: doc.data()['quantidade'],
+          unidadeMedida: doc.data()['unidadeMedida'],
+          ingredientes: (doc.data()['ingredientes'] == null)
+              ? []
+              : (doc.data()['ingredientes'] as List<dynamic>)
+                  .map((ingrediente) {
+                  return {
+                    'id': (ingrediente['id']
+                            as DocumentReference<Map<String, dynamic>>)
+                        .id,
+                    'quantidade': ingrediente['quantidade'],
+                  };
+                }).toList(),
+        ),
+      );
+    });
+    notifyListeners();
+  }
 
   Future<void> loadProducts() async {
     _products.clear();
-    final snapshot = await Firebase.getFirestore().collection('produtos').get();
+    final snapshot = await Firebase.getFirestore()
+        .collection('produtos')
+        .where('tipo', isNotEqualTo: Produto.hamburguerCasa)
+        .get();
     snapshot.docs.asMap().forEach((_, doc) {
       _products.add(
         Produto(
           id: doc.id,
           nome: doc.data()['nome'],
-          preco: doc.data()['preco'] * 1.0,
+          preco: double.parse(doc.data()['preco'].toString()),
           tipo: doc.data()['tipo'],
           urlImage: doc.data()['img'] ?? '',
-          quantidade: 0,
-          unidadeMedida: '',
+          quantidade: doc.data()['quantidade'],
+          unidadeMedida: doc.data()['unidadeMedida'],
+          recipiente: doc.data()['recipiente'],
         ),
       );
     });
@@ -35,10 +75,11 @@ class ProviderProdutos with ChangeNotifier {
         Ingrediente(
           id: doc.id,
           nome: doc.data()['nome'],
-          preco: doc.data()['preco'] * 1.0,
+          preco: double.parse(doc.data()['preco'].toString()),
           tipo: doc.data()['tipo'],
-          quantidade: doc.data()['quantidade'] as int,
+          quantidade: doc.data()['quantidade'],
           unidadeMedida: doc.data()['unidadeMedida'],
+          urlImage: doc.data()['img'] ?? '',
         ),
       );
     });
@@ -50,6 +91,10 @@ class ProviderProdutos with ChangeNotifier {
 
   List<Produto> get produtos {
     return [..._products];
+  }
+
+  List<Hamburguer> get hamburgueres {
+    return [..._hamburgers];
   }
 
   List<Produto> get sobremesas {
@@ -70,9 +115,10 @@ class ProviderProdutos with ChangeNotifier {
     }).toList();
   }
 
-  List<Produto> get hamburgueres {
-    return produtos.where((product) {
-      return product.tipo == Produto.hamburguerCasa;
-    }).toList();
+  Ingrediente getIngredientById(String id) {
+    return _ingredients.singleWhere(
+      (ingrediente) => ingrediente.id == id,
+      orElse: () => _ingredients.first,
+    );
   }
 }

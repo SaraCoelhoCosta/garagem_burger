@@ -41,7 +41,7 @@ class ProductList extends StatelessWidget {
         /*
         * Lista de Produtos
         */
-        if (!isOfertasEspeciais)
+        if (!isOfertasEspeciais && produtos != null)
           Column(
             children: produtos!.map(
               (produto) {

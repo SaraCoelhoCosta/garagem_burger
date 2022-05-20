@@ -1,5 +1,6 @@
-class Ingrediente {
-  
+import 'package:garagem_burger/models/produto.dart';
+
+class Ingrediente extends Produto {
   // Tipos
   static const queijo = 'Queijo';
   static const legume = 'Legume';
@@ -13,22 +14,25 @@ class Ingrediente {
   static const mg = 'mg';
   static const g = 'g';
   static const un = 'un';
-  static const mL = 'mL';
+  static const ml = 'ml';
+  static const l = 'L';
   static const fatia = 'fatia';
 
-  final String id;
-  final String nome;
-  final double preco;
-  final String tipo;
-  final int quantidade;
-  final String unidadeMedida;
-
-  const Ingrediente({
-    required this.id,
-    required this.nome,
-    required this.preco,
-    required this.tipo,
-    required this.quantidade,
-    required this.unidadeMedida,
-  });
+  Ingrediente({
+    required String id,
+    required String nome,
+    required double preco,
+    required String tipo,
+    required String urlImage,
+    required int quantidade,
+    required String unidadeMedida,
+  }) : super(
+          id: id,
+          nome: nome,
+          preco: preco,
+          tipo: tipo,
+          urlImage: urlImage,
+          quantidade: quantidade,
+          unidadeMedida: unidadeMedida,
+        );
 }

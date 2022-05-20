@@ -48,6 +48,24 @@ class _TelaAberturaState extends State<TelaAbertura>
       print('Produtos carregados com sucesso!');
     });
 
+    //Carrega os ingredientes do banco de dados
+    Provider.of<ProviderProdutos>(
+      context,
+      listen: false,
+    ).loadIngredients().then((_) {
+      // TODO: excluir print.
+      print('Ingredientes carregados com sucesso!');
+    });
+
+    //Carrega os hamburgueres do banco de dados
+    Provider.of<ProviderProdutos>(
+      context,
+      listen: false,
+    ).loadHamburgers().then((_) {
+      // TODO: excluir print.
+      print('Hamburgueres carregados com sucesso!');
+    });
+
     Future.delayed(Duration(seconds: 2)).then((_) {
       Navigator.of(context).pushNamedAndRemoveUntil(
         Rotas.login,
