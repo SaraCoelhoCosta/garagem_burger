@@ -78,10 +78,12 @@ class _TelaProdutoState extends State<TelaProduto>
       foregroundColor: Colors.white,
       centerTitle: true,
       elevation: 0,
-      title: Text(
-        produto.nome,
-        style: GoogleFonts.keaniaOne(
-          fontSize: 30,
+      title: FittedBox(
+        child: Text(
+          produto.nome,
+          style: GoogleFonts.keaniaOne(
+            fontSize: 30,
+          ),
         ),
       ),
     );

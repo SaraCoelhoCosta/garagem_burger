@@ -6,6 +6,12 @@ class Produto {
   static const sobremesa = 'Sobremesa';
   static const hamburguerCasa = 'Hambúrgueres da Casa';
 
+  // Recipiente/Conjunto
+  static const porcao = 'Porção';
+  static const lata = 'Lata';
+  static const garrafa = 'Garrafa';
+  static const copo = 'Copo';
+
   String id;
   String urlImage;
   String nome;
@@ -13,6 +19,7 @@ class Produto {
   String tipo;
   int quantidade;
   String unidadeMedida;
+  String? recipiente;
 
   Produto({
     required this.id,
@@ -22,5 +29,6 @@ class Produto {
     required this.urlImage,
     required this.quantidade,
     required this.unidadeMedida,
+    this.recipiente,
   });
 }

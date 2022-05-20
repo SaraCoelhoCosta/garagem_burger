@@ -13,7 +13,7 @@ class CardProduto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Altura total da tela, subtraindo as alturas da appBar e bottomBar
+
     final availableHeight = MediaQuery.of(context).size.height -
         (Scaffold.of(context).appBarMaxHeight ?? 0) -
         kBottomNavigationBarHeight;
@@ -56,7 +56,8 @@ class CardProduto extends StatelessWidget {
                           Radius.circular(15),
                         ),
                         child: FadeInImage(
-                          placeholder: const AssetImage('images/placeholder.jpg'),
+                          placeholder:
+                              const AssetImage('images/placeholder.jpg'),
                           image: image,
                           fit: BoxFit.cover,
                         ),
@@ -65,8 +66,8 @@ class CardProduto extends StatelessWidget {
                       height: double.infinity,
                     ),
                     /*
-                      * Title e Subtitle
-                      */
+                    * Title e Subtitle
+                    */
                     Container(
                       padding: const EdgeInsets.all(12),
                       width: constraints.maxWidth * 0.65,
@@ -75,8 +76,8 @@ class CardProduto extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           /*
-                            * Title
-                            */
+                          * Title
+                          */
                           FittedBox(
                             child: Text(
                               produto.nome, // max: 27 caracteres
@@ -88,15 +89,36 @@ class CardProduto extends StatelessWidget {
                             ),
                           ),
                           /*
-                            * Subtitle
-                            */
-                          Text(
-                            'R\$ ${produto.preco.toStringAsFixed(2)}',
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey,
-                            ),
+                          * Subtitle
+                          */
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              FittedBox(
+                                child: Text(
+                                  (produto.recipiente == null
+                                          ? ''
+                                          : '${produto.recipiente} de ') +
+                                      produto.quantidade.toString() +
+                                      produto.unidadeMedida,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ),
+                              FittedBox(
+                                child: Text(
+                                  'R\$ ${produto.preco.toStringAsFixed(2)}',
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.green,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -108,85 +130,6 @@ class CardProduto extends StatelessWidget {
           ),
         ),
       ),
-
-      // child: LayoutBuilder(
-      //   builder: (ctx, constraints) => SizedBox(
-      //     height: availableHeight * 0.20,
-      //     width: MediaQuery.of(context).size.width -
-      //         16, // Subtrai do padding acima
-      //     child: GestureDetector(
-      //       onTap: onTap,
-      //       child: Card(
-      //         elevation: 6.0,
-      //         shape: RoundedRectangleBorder(
-      //           borderRadius: BorderRadius.circular(15.0),
-      //         ),
-      //         child: Padding(
-      //           padding: const EdgeInsets.all(5),
-      //           child: Row(
-      //             crossAxisAlignment: CrossAxisAlignment.start,
-      //             children: [
-      //               /*
-      //               * Leading (Imagem)
-      //               */
-      //               Container(
-      //                 decoration: const BoxDecoration(
-      //                   borderRadius: BorderRadius.all(
-      //                     Radius.circular(15),
-      //                   ),
-      //                   image: DecorationImage(
-      //                     image: AssetImage('images/hamburguer.jpg'),
-      //                     fit: BoxFit.cover,
-      //                   ),
-      //                 ),
-      //                 width: constraints.maxWidth * 0.30,
-      //               ),
-      //               /*
-      //               * Title e Subtitle
-      //               */
-      //               SizedBox(width: constraints.maxWidth * 0.05),
-      //               Container(
-      //                 padding: const EdgeInsets.symmetric(vertical: 12),
-      //                 width: constraints.maxWidth * 0.60,
-      //                 child: Column(
-      //                   crossAxisAlignment: CrossAxisAlignment.start,
-      //                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-      //                   children: [
-      //                     /*
-      //                     * Title
-      //                     */
-      //                     FittedBox(
-      //                       child: Text(
-      //                         produto.nome, // max: 27 caracteres
-      //                         style: const TextStyle(
-      //                           fontSize: 20,
-      //                           fontWeight: FontWeight.bold,
-      //                           color: Colors.black,
-      //                         ),
-      //                       ),
-      //                     ),
-      //                     /*
-      //                     * Subtitle
-      //                     */
-      //                     Text(
-      //                       'R\$ ${produto.preco.toStringAsFixed(2)}',
-      //                       style: const TextStyle(
-      //                         fontSize: 18,
-      //                         fontWeight: FontWeight.bold,
-      //                         color: Colors.grey,
-      //                       ),
-      //                     ),
-      //                   ],
-      //                 ),
-      //               ),
-      //               SizedBox(width: constraints.maxWidth * 0.05),
-      //             ],
-      //           ),
-      //         ),
-      //       ),
-      //     ),
-      //   ),
-      // ),
     );
   }
 }
