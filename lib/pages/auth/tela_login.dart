@@ -52,6 +52,7 @@ class _TelaLoginState extends State<TelaLogin> {
         .read<ProviderLocalizacoes>()
         .loadLocations(pvdUsuario.usuario)
         .then((_) {
+      // TODO: excluir print.
       print("Localizações carregadas com sucesso!");
     });
 
@@ -60,6 +61,7 @@ class _TelaLoginState extends State<TelaLogin> {
         .read<ProviderCartoes>()
         .loadCartoes(pvdUsuario.usuario)
         .then((_) {
+      // TODO: excluir print.
       print("Cartões carregados com sucesso!");
     });
 
@@ -68,6 +70,7 @@ class _TelaLoginState extends State<TelaLogin> {
         .read<ProviderPedidos>()
         .loadPedidos(pvdUsuario.usuario)
         .then((_) {
+      // TODO: excluir print.
       print("Pedidos carregados com sucesso!");
     });
   }
@@ -92,8 +95,10 @@ class _TelaLoginState extends State<TelaLogin> {
       );
     } on AuthException catch (e) {
       setState(() => _loading = false);
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.message)));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(e.message),
+        backgroundColor: Colors.red,
+      ));
     }
   }
 
@@ -153,8 +158,11 @@ class _TelaLoginState extends State<TelaLogin> {
 
                     // Validação do campo.
                     validator: (value) {
-                      if (value!.isEmpty || !value.contains('@')) {
-                        return 'Informe o email corretamente!';
+                      if (value!.trim().isEmpty) {
+                        return 'Campo obrigatório';
+                      } else if (!value.contains('@') ||
+                          value.trim().length < 10) {
+                        return 'E-mail inválido';
                       }
                       return null;
                     },
@@ -193,9 +201,9 @@ class _TelaLoginState extends State<TelaLogin> {
 
                     // Validação do campo.
                     validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Informa sua senha!';
-                      } else if (value.length < 6) {
+                      if (value!.trim().isEmpty) {
+                        return 'Campo obrigatório';
+                      } else if (value.trim().length < 6) {
                         return 'Sua senha deve ter no mínimo 6 caracteres';
                       }
                       return null;
@@ -285,7 +293,7 @@ class _TelaLoginState extends State<TelaLogin> {
                 const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
             backgroundColor: Colors.black,
             foregroundColor: Colors.white,
-            loading: (_loading) ? true : false,
+            loading: _loading,
             labelText: "Entrar",
             onPressed: () => {
               _formKey.currentState!.validate() ? efetuarLogin() : null,

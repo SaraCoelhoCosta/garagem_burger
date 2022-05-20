@@ -54,7 +54,7 @@ class ProviderUsuario extends ChangeNotifier {
       if (e.code == 'weak-password') {
         throw AuthException('A senha é muito fraca!');
       } else if (e.code == 'email-already-in-use') {
-        throw AuthException('Este email já está cadastrado');
+        throw AuthException('Este e-mail já está cadastrado!');
       }
     }
   }
@@ -72,9 +72,9 @@ class ProviderUsuario extends ChangeNotifier {
     } on FirebaseAuthException catch (e) {
       // Mensagem de erro.
       if (e.code == 'user-not-found') {
-        throw AuthException('Email não encontrado. Cadastre-se.');
+        throw AuthException('E-mail não encontrado. Cadastre-se!');
       } else if (e.code == 'wrong-password') {
-        throw AuthException('Senha incorreta. Tente novamente');
+        throw AuthException('Senha incorreta. Tente novamente!');
       }
     }
   }

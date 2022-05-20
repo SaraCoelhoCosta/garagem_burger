@@ -44,6 +44,7 @@ class _TelaAberturaState extends State<TelaAbertura>
       context,
       listen: false,
     ).loadProducts().then((_) {
+      // TODO: excluir print.
       print('Produtos carregados com sucesso!');
     });
 

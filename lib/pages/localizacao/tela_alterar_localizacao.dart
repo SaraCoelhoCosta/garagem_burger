@@ -92,14 +92,12 @@ class _TelaAlterarLocalizacaoState extends State<TelaAlterarLocalizacao> {
         Navigator.of(context).pop(true);
       });
     } on Exception catch (e) {
-      // TODO: Arrumar exceção.
-      // ignore: avoid_print
+      // ignore: avoid_print, TODO: deixa o print?
       print(e.toString());
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text(
-            "Erro ao alterar endereço",
-          ),
+          content: Text("Erro ao alterar endereço"),
+          backgroundColor: Colors.red,
         ),
       );
     }
@@ -159,6 +157,12 @@ class _TelaAlterarLocalizacaoState extends State<TelaAlterarLocalizacao> {
                           textInputAction: TextInputAction.next,
                           focusNode: null,
                           controller: _descricao,
+                          validator: (String? value) {
+                            if (value!.trim().isEmpty) {
+                              return 'Campo obrigatório';
+                            }
+                            return null;
+                          },
                         ),
                         CampoTexto(
                           obscureText: false,
@@ -171,9 +175,14 @@ class _TelaAlterarLocalizacaoState extends State<TelaAlterarLocalizacao> {
                           keyboardType: TextInputType.number,
                           controller: _cep,
                           inputFormatters: [mascaraCep],
-                          validator: (value) => value!.isEmpty
-                              ? 'Informe o número do seu CEP'
-                              : null,
+                          validator: (String? value) {
+                            if (value!.trim().isEmpty) {
+                              return 'Campo obrigatório';
+                            } else if (value.trim().length < 8) {
+                              return 'CEP inválido';
+                            }
+                            return null;
+                          },
                         ),
                         CampoTexto(
                           obscureText: false,
@@ -184,9 +193,12 @@ class _TelaAlterarLocalizacaoState extends State<TelaAlterarLocalizacao> {
                           textInputAction: TextInputAction.next,
                           focusNode: _campoRua,
                           controller: _rua,
-                          validator: (value) => value!.isEmpty
-                              ? 'Informe o nome da sua rua'
-                              : null,
+                          validator: (String? value) {
+                            if (value!.trim().isEmpty) {
+                              return 'Campo obrigatório';
+                            }
+                            return null;
+                          },
                         ),
                         Row(
                           children: [
@@ -202,9 +214,12 @@ class _TelaAlterarLocalizacaoState extends State<TelaAlterarLocalizacao> {
                                 textInputAction: TextInputAction.next,
                                 focusNode: _campoBairro,
                                 controller: _bairro,
-                                validator: (value) => value!.isEmpty
-                                    ? 'Informe o nome do seu bairro'
-                                    : null,
+                                validator: (String? value) {
+                                  if (value!.trim().isEmpty) {
+                                    return 'Campo obrigatório';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                             Expanded(
@@ -219,9 +234,12 @@ class _TelaAlterarLocalizacaoState extends State<TelaAlterarLocalizacao> {
                                 textInputAction: TextInputAction.next,
                                 focusNode: _campoNumero,
                                 controller: _numero,
-                                validator: (value) => value!.isEmpty
-                                    ? 'Informe o número do seu endereço'
-                                    : null,
+                                validator: (String? value) {
+                                  if (value!.trim().isEmpty) {
+                                    return 'Campo obrigatório';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                           ],
@@ -240,9 +258,12 @@ class _TelaAlterarLocalizacaoState extends State<TelaAlterarLocalizacao> {
                                 textInputAction: TextInputAction.next,
                                 focusNode: _campoCidade,
                                 controller: _cidade,
-                                validator: (value) => value!.isEmpty
-                                    ? 'Informe o nome da sua cidade'
-                                    : null,
+                                validator: (String? value) {
+                                  if (value!.trim().isEmpty) {
+                                    return 'Campo obrigatório';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                             Expanded(
@@ -257,9 +278,12 @@ class _TelaAlterarLocalizacaoState extends State<TelaAlterarLocalizacao> {
                                 textInputAction: TextInputAction.next,
                                 focusNode: _campoEstado,
                                 controller: _estado,
-                                validator: (value) => value!.isEmpty
-                                    ? 'Informe o nome do seu estado'
-                                    : null,
+                                validator: (String? value) {
+                                  if (value!.trim().isEmpty) {
+                                    return 'Campo obrigatório';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                           ],

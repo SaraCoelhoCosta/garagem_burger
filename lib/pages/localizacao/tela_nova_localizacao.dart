@@ -88,15 +88,13 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
         Navigator.of(context).pop(true);
       });
     } on Exception catch (e) {
-      // TODO: Arrumar exceção.
       setState(() => _loading = false);
-      // ignore: avoid_print
+      // ignore: avoid_print, TODO: deixa o print?
       print(e.toString());
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text(
-            "Erro ao cadastrar endereço",
-          ),
+          content: Text("Erro ao cadastrar endereço"),
+          backgroundColor: Colors.red,
         ),
       );
     }
@@ -173,9 +171,14 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
                           keyboardType: TextInputType.number,
                           controller: _cep,
                           inputFormatters: [mascaraCep],
-                          validator: (value) => value!.isEmpty
-                              ? 'Informe o número do seu CEP'
-                              : null,
+                          validator: (String? value) {
+                            if (value!.trim().isEmpty) {
+                              return 'Campo obrigatório';
+                            } else if (value.trim().length < 8) {
+                              return 'CEP inválido';
+                            }
+                            return null;
+                          },
                         ),
                         CampoTexto(
                           obscureText: false,
@@ -186,9 +189,12 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
                           textInputAction: TextInputAction.next,
                           focusNode: _campoRua,
                           controller: _rua,
-                          validator: (value) => value!.isEmpty
-                              ? 'Informe o nome da sua rua'
-                              : null,
+                          validator: (String? value) {
+                            if (value!.trim().isEmpty) {
+                              return 'Campo obrigatório';
+                            }
+                            return null;
+                          },
                         ),
                         Row(
                           children: [
@@ -203,9 +209,12 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
                                 textInputAction: TextInputAction.next,
                                 focusNode: _campoBairro,
                                 controller: _bairro,
-                                validator: (value) => value!.isEmpty
-                                    ? 'Informe o nome do seu bairro'
-                                    : null,
+                                validator: (String? value) {
+                                  if (value!.trim().isEmpty) {
+                                    return 'Campo obrigatório';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                             Expanded(
@@ -219,9 +228,12 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
                                 textInputAction: TextInputAction.next,
                                 focusNode: _campoNumero,
                                 controller: _numero,
-                                validator: (value) => value!.isEmpty
-                                    ? 'Informe o número do seu endereço'
-                                    : null,
+                                validator: (String? value) {
+                                  if (value!.trim().isEmpty) {
+                                    return 'Campo obrigatório';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                           ],
@@ -239,9 +251,12 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
                                 textInputAction: TextInputAction.next,
                                 focusNode: _campoCidade,
                                 controller: _cidade,
-                                validator: (value) => value!.isEmpty
-                                    ? 'Informe o nome da sua cidade'
-                                    : null,
+                                validator: (String? value) {
+                                  if (value!.trim().isEmpty) {
+                                    return 'Campo obrigatório';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                             Expanded(
@@ -255,9 +270,12 @@ class _TelaNovaLocalizacaoState extends State<TelaNovaLocalizacao> {
                                 textInputAction: TextInputAction.next,
                                 focusNode: _campoEstado,
                                 controller: _estado,
-                                validator: (value) => value!.isEmpty
-                                    ? 'Informe o nome do seu estado'
-                                    : null,
+                                validator: (String? value) {
+                                  if (value!.trim().isEmpty) {
+                                    return 'Campo obrigatório';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                           ],
