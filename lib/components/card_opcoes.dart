@@ -46,9 +46,8 @@ class CardOpcoes extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    // padding: const EdgeInsets.all(0),
-                    iconSize: 20,
                     onPressed: () {},
+                    // splashRadius: 20,
                     icon: const Icon(Icons.close_sharp),
                   ),
                 ],

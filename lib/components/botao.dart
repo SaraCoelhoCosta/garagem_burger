@@ -30,38 +30,35 @@ class Botao extends StatelessWidget {
     return Padding(
       padding: externalPadding,
       child: ElevatedButton(
-        child: Padding(
-          padding: internalPadding,
-          // child: (labelText != null) ? _buildText() : _buildIcon(),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (loading)
-                SizedBox(
-                  width: 22,
-                  height: 22,
-                  child: CircularProgressIndicator(
-                    color: foregroundColor,
-                  ),
-                )
-              else if (icon != null)
-                Icon(
-                  icon!,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (loading)
+              SizedBox(
+                width: 22,
+                height: 22,
+                child: CircularProgressIndicator(
                   color: foregroundColor,
-                )
-              else if (labelText != null)
-                Text(
-                  labelText!,
-                  style: GoogleFonts.oxygen(
-                    color: foregroundColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )
-            ],
-          ),
+                ),
+              )
+            else if (icon != null)
+              Icon(
+                icon!,
+                color: foregroundColor,
+              )
+            else if (labelText != null)
+              Text(
+                labelText!,
+                style: GoogleFonts.oxygen(
+                  color: foregroundColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              )
+          ],
         ),
         style: ElevatedButton.styleFrom(
+          padding: internalPadding,
           primary: backgroundColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),

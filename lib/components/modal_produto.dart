@@ -66,11 +66,7 @@ class _ModalProdutoState extends State<ModalProduto> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Botao(
-                onPressed: (_qnt == 1)
-                    ? null
-                    : () {
-                        setState(() => _qnt--);
-                      },
+                onPressed: (_qnt > 1) ? () => setState(() => _qnt--) : null,
                 icon: Icons.remove,
               ),
               Padding(
@@ -80,6 +76,7 @@ class _ModalProdutoState extends State<ModalProduto> {
                 ),
                 child: Botao(
                   onPressed: () {},
+                  internalPadding: const EdgeInsets.symmetric(vertical: 15),
                   labelText: '$_qnt',
                 ),
               ),
