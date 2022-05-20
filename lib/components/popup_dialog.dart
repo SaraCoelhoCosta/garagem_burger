@@ -11,7 +11,7 @@ class PopupDialog extends StatelessWidget {
   const PopupDialog({
     Key? key,
     required this.titulo,
-    required this.descricao,
+    this.descricao = '',
     this.onPressedNoOption,
     this.onPressedYesOption,
     this.yesLabel = 'Sim',

@@ -1,8 +1,15 @@
+// ignore_for_file: deprecated_member_use
+
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/botao.dart';
 import 'package:garagem_burger/components/campo_texto.dart';
+import 'package:garagem_burger/components/popup_dialog.dart';
 import 'package:garagem_burger/controllers/provider_usuario.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 
 class TelaConfiguracoes extends StatefulWidget {
@@ -21,12 +28,57 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
     print("editar foto");
   }
 
+  final _campoNome = FocusNode();
+  final _campoDataNascimento = FocusNode();
+  final _campoEmail = FocusNode();
+  final _campoTelefone = FocusNode();
+
+  // Máscara para telefone.
+  var mascaraTelefone = MaskTextInputFormatter(
+    mask: '(##) #####-####',
+    filter: {"#": RegExp(r'[0-9]')},
+    type: MaskAutoCompletionType.lazy,
+  );
+  var mascaraDataNascimento = MaskTextInputFormatter(
+    mask: '##/##/####',
+    filter: <String, RegExp>{'#': RegExp('[0-9]')},
+  );
+
+  //Libera os recursos após sair da tela ou salvar os dados
+  @override
+  void dispose() {
+    super.dispose();
+    _campoNome.dispose();
+    _campoDataNascimento.dispose();
+    _campoEmail.dispose();
+    _campoTelefone.dispose();
+  }
+
+  // Campos de texto.
+  final _nome = TextEditingController();
+  final _dataNascimento = TextEditingController();
+  final _email = TextEditingController();
+  final _telefone = TextEditingController();
+
+  ImagePicker imagepicker = ImagePicker();
+  File? imagemSelecionada;
+
   @override
   Widget build(BuildContext context) {
+    pegarImagemGaleria() async {
+      final XFile? imagemTemporaria =
+          await ImagePicker.platform.getImage(source: ImageSource.gallery);
+      if (imagemSelecionada != null) {
+        setState(() {
+          imagemSelecionada = File(imagemTemporaria!.path);
+        });
+      }
+    }
+
     final pvdUsuario = Provider.of<ProviderUsuario>(context);
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.only(top: 30, right: 10, left: 10),
+        padding: const EdgeInsets.only(top: 30, right: 20, left: 20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -46,28 +98,42 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                   width: 115,
                   child: Stack(
                     fit: StackFit.expand,
+                    overflow: Overflow.visible,
                     children: [
-                      const CircleAvatar(
-                        backgroundColor: Colors.grey,
-                        backgroundImage: AssetImage("images/profile.png"),
-                      ),
-                      Positioned(
-                        right: -10,
-                        bottom: 0,
-                        child: TextButton(
-                          onPressed: editarFoto,
-                          child: Container(
-                            width: 40,
-                            height: 40,
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
+                      // const CircleAvatar(
+                      //   backgroundColor: Colors.grey,
+                      //   // backgroundImage: AssetImage("images/profile.png"),
+                      // ),
+                      imagemSelecionada == null
+                          ? const CircleAvatar(
+                              backgroundColor: Colors.grey,
+                            )
+                          : Container(
+                              child:
+                                  Image(image: FileImage(imagemSelecionada!)),
+                              decoration:
+                                  const BoxDecoration(shape: BoxShape.circle),
                             ),
-                            child: const Icon(
+                      Positioned(
+                        right: -12,
+                        bottom: 0,
+                        child: Container(
+                          child: IconButton(
+                            onPressed: () {
+                              editarFoto;
+                              pegarImagemGaleria();
+                            },
+                            icon: const Icon(
                               Icons.camera_alt_outlined,
                               color: Colors.grey,
                               size: 20,
                             ),
+                          ),
+                          width: 40,
+                          height: 40,
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
                           ),
                         ),
                       ),
@@ -91,7 +157,7 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
             ),
             const SizedBox(height: 20),
             const Divider(
-              height: 20,
+              height: 50,
               thickness: 1,
               color: Colors.grey,
             ),
@@ -100,8 +166,8 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
             */
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
+              children: const [
+                Text(
                   'Informações pessoais',
                   style: TextStyle(
                     color: Colors.black,
@@ -109,42 +175,46 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'Alterar senha',
-                    style: GoogleFonts.oxygen(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue,
-                      decoration: TextDecoration.none,
-                    ),
-                  ),
-                ),
               ],
             ),
             /*
             * Nome e data de nascimento
             */
-            Row(
-              children: [
-                Flexible(
-                  flex: 1,
-                  child: CampoTexto(
-                    labelText: 'Nome',
-                    prefixIcon: const Icon(Icons.person),
-                    keyboardType: TextInputType.name,
-                  ),
-                ),
-                Flexible(
-                  flex: 1,
-                  child: CampoTexto(
-                    labelText: 'Data de nascimento',
-                    prefixIcon: const Icon(Icons.date_range),
-                    keyboardType: TextInputType.datetime,
-                  ),
-                ),
-              ],
+
+            CampoTexto(
+              labelText: 'Nome',
+              focusNode: _campoNome,
+              onFieldSubmitted: (_) {
+                FocusScope.of(context).requestFocus(_campoNome);
+              },
+              textInputAction: TextInputAction.next,
+              controller: _nome,
+              prefixIcon: const Icon(Icons.person),
+              keyboardType: TextInputType.name,
+              enabled: true,
+              suffixIcon: IconButton(
+                // ignore: avoid_print
+                onPressed: () => print('teste'),
+                icon: const Icon(Icons.edit),
+              ),
+            ),
+            CampoTexto(
+              labelText: 'Data de nascimento',
+              focusNode: _campoDataNascimento,
+              inputFormatters: [mascaraDataNascimento],
+              onFieldSubmitted: (_) {
+                FocusScope.of(context).requestFocus(_campoDataNascimento);
+              },
+              textInputAction: TextInputAction.next,
+              controller: _dataNascimento,
+              prefixIcon: const Icon(Icons.date_range),
+              keyboardType: TextInputType.datetime,
+              enabled: true,
+              suffixIcon: IconButton(
+                // ignore: avoid_print
+                onPressed: () => print('teste'),
+                icon: const Icon(Icons.edit),
+              ),
             ),
             /*
             * Informações de contato
@@ -162,6 +232,12 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
             ),
             CampoTexto(
               labelText: 'E-mail',
+              focusNode: _campoEmail,
+              onFieldSubmitted: (_) {
+                FocusScope.of(context).requestFocus(_campoEmail);
+              },
+              textInputAction: TextInputAction.next,
+              controller: _email,
               prefixIcon: const Icon(Icons.email),
               keyboardType: TextInputType.emailAddress,
               // TODO: Editar campo de texto
@@ -175,8 +251,36 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
             const SizedBox(height: 10),
             CampoTexto(
               labelText: 'Telefone',
+              focusNode: _campoTelefone,
+              inputFormatters: [mascaraTelefone],
+              onFieldSubmitted: (_) {
+                FocusScope.of(context).requestFocus(_campoTelefone);
+              },
+              textInputAction: TextInputAction.next,
+              controller: _telefone,
               prefixIcon: const Icon(Icons.phone),
               keyboardType: TextInputType.phone,
+              enabled: true,
+              suffixIcon: IconButton(
+                // ignore: avoid_print
+                onPressed: () => print('teste'),
+                icon: const Icon(Icons.edit),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 5, top: 20),
+              child: TextButton(
+                onPressed: () {},
+                child: Text(
+                  'Alterar senha',
+                  style: GoogleFonts.oxygen(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
+                    decoration: TextDecoration.none,
+                  ),
+                ),
+              ),
             ),
             /*
             * Botões da parte inferior
@@ -187,7 +291,24 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return PopupDialog(
+                            titulo: 'Tem certeza que deseja excluir sua conta?',
+                            yesLabel: 'Sim',
+                            noLabel: 'Não',
+                            onPressedNoOption: () {
+                              Navigator.of(context).pop();
+                            },
+                            onPressedYesOption: () {
+                              Navigator.of(context).pop();
+                            },
+                          );
+                        },
+                      );
+                    },
                     icon: const Icon(
                       Icons.person,
                       color: Colors.blue,

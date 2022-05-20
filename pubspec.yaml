@@ -29,7 +29,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  
+  #Acesso à galeria (câmera)
+  image_picker: ^0.8.5+3
+  
   # Idioma.
   flutter_localizations:
       sdk: flutter
