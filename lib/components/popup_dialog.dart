@@ -75,6 +75,21 @@ class PopupDialog extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(
+                height: 50,
+                child: TextButton(
+                  onPressed: onPressedNoOption,
+                  child: Text(
+                    noLabel,
+                    style: GoogleFonts.oxygen(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.normal,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
