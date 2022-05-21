@@ -31,10 +31,6 @@ class OrderStatusRow extends StatelessWidget {
       false: 'Aguardando pedido sair para entrega...',
       true: 'Seu pedido saiu para entrega!',
     },
-    {
-      false: 'Aguardando recebimento do pedido...',
-      true: 'Seu pedido foi entregue!',
-    },
   ];
 
   @override

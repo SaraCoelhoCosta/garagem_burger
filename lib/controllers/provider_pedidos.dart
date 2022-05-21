@@ -25,7 +25,13 @@ class ProviderPedidos with ChangeNotifier {
     firestore = Firebase.getFirestore();
   }
 
-  Map<String, Pedido> get pedidos => {..._pedidos};
+  Map<String, Pedido> get pedidos {
+    Map<String, Pedido> temp = {};
+    _pedidos.values.toList().reversed.toList().forEach((pedido) {
+      temp.putIfAbsent(pedido.id, () => pedido);
+    });
+    return temp;
+  }
 
   int get qntPedidos => _pedidos.length;
 
@@ -111,11 +117,11 @@ class ProviderPedidos with ChangeNotifier {
 
   // Inicia o processo de acompanhamento do pedido
   Future<void> startOrder(User? user, Pedido pedido) async {
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 4; i++) {
       // Aguarda um tempo para concluir uma etapa e iniciar uma nova
       await Future.delayed(const Duration(seconds: 5));
       pedido.etapas[i]['isComplete'] = true;
-      if (i < 4) {
+      if (i < 3) {
         pedido.etapas.add({
           'isComplete': false,
           'date': DateTime.now(),
@@ -130,10 +136,8 @@ class ProviderPedidos with ChangeNotifier {
       await updatePedido(user, pedido);
     }
 
-    // Muda o status do pedido para entregue
-    pedido.status = Pedido.entregue;
-
     // Atualiza na lista
+    pedido.status = Pedido.entregue;
     _pedidos.update(pedido.id, (_) => pedido);
     notifyListeners();
 
@@ -177,7 +181,7 @@ class ProviderPedidos with ChangeNotifier {
       _pedidos.clear();
       final snapshot = await Firebase.getFirestore()
           .collection('usuarios/${user.uid}/pedidos')
-          .orderBy('data', descending: true)
+          .orderBy('data')
           .get();
       snapshot.docs.asMap().forEach((_, doc) {
         _pedidos.putIfAbsent(

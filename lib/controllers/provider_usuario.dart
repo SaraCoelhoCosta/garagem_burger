@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_final_fields, prefer_void_to_null, unused_element
+// ignore_for_file: prefer_final_fields, prefer_void_to_null, unused_element, avoid_print
 
 import 'dart:io';
 

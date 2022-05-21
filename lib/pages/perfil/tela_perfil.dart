@@ -26,6 +26,11 @@ class TelaPerfil extends StatefulWidget {
 class _TelaPerfilState extends State<TelaPerfil> {
   @override
   Widget build(BuildContext context) {
+    // Altura total da tela, subtraindo as alturas da appBar e bottomBar
+    final availableHeight = MediaQuery.of(context).size.height -
+        Scaffold.of(context).appBarMaxHeight! -
+        kBottomNavigationBarHeight;
+
     final pvdUsuario = Provider.of<ProviderUsuario>(context);
     if ((pvdUsuario.usuario == null)) {
       return TelaVazia(
@@ -45,33 +50,27 @@ class _TelaPerfilState extends State<TelaPerfil> {
           children: [
             const SizedBox(height: 30),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  height: 115,
-                  width: 115,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      if (pvdUsuario.usuario!.photoURL == null)
-                        const CircleAvatar(
-                          backgroundColor: Colors.grey,
-                          backgroundImage: AssetImage(
-                            'images/placeholder-perfil.png',
+                SizedBox.square(
+                  dimension: availableHeight * 0.20,
+                  child: (pvdUsuario.usuario!.photoURL != null)
+                      ? ClipOval(
+                          child: FadeInImage.assetNetwork(
+                            image: pvdUsuario.usuario!.photoURL!,
+                            placeholder: 'images/placeholder-perfil.png',
+                            fit: BoxFit.cover,
+                            placeholderFit: BoxFit.cover,
                           ),
                         )
-                      else
-                        ClipOval(
-                          child: FadeInImage(
-                            placeholder: const AssetImage(
-                              'images/placeholder-perfil.png',
-                            ),
-                            image: NetworkImage(pvdUsuario.usuario!.photoURL!),
+                      : ClipOval(
+                          child: Image.asset(
+                            'images/placeholder-perfil.png',
+                            fit: BoxFit.cover,
                           ),
                         ),
-                    ],
-                  ),
                 ),
+                const SizedBox(width: 30),
                 Text(
                   pvdUsuario.usuario!.displayName!,
                   style: GoogleFonts.oxygen(

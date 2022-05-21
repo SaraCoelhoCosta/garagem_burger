@@ -80,6 +80,8 @@ dependencies:
   # Acesso com facebook.
   flutter_facebook_auth: ^4.3.4
 
+  # Bordinha no texto
+  bordered_text: ^2.0.0
 
 dev_dependencies:
   

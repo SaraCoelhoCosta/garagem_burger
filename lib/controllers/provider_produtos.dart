@@ -22,10 +22,8 @@ class ProviderProdutos with ChangeNotifier {
           id: doc.id,
           nome: doc.data()['nome'],
           preco: double.parse(doc.data()['preco'].toString()),
-          tipo: doc.data()['tipo'],
           urlImage: doc.data()['img'] ?? '',
           quantidade: doc.data()['quantidade'],
-          unidadeMedida: doc.data()['unidadeMedida'],
           ingredientes: (doc.data()['ingredientes'] == null)
               ? []
               : (doc.data()['ingredientes'] as List<dynamic>)
@@ -45,10 +43,10 @@ class ProviderProdutos with ChangeNotifier {
 
   Future<void> loadProducts() async {
     _products.clear();
-    final snapshot = await Firebase.getFirestore()
-        .collection('produtos')
-        .where('tipo', isNotEqualTo: Produto.hamburguerCasa)
-        .get();
+    final snapshot = await Firebase.getFirestore().collection('produtos').where(
+      'tipo',
+      whereNotIn: [Produto.hamburguerCasa, Produto.combo],
+    ).get();
     snapshot.docs.asMap().forEach((_, doc) {
       _products.add(
         Produto(
@@ -115,7 +113,7 @@ class ProviderProdutos with ChangeNotifier {
     }).toList();
   }
 
-  Ingrediente getIngredientById(String id) {
+  Ingrediente ingredientById(String id) {
     return _ingredients.singleWhere(
       (ingrediente) => ingrediente.id == id,
       orElse: () => _ingredients.first,

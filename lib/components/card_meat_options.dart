@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class CardNome extends StatelessWidget {
+class CardMeatOptions extends StatelessWidget {
   final String text;
   final double imageRatioWidth;
   final double textRatioWidth;
   final double ratioWidth;
+  final bool isSelected;
 
-  const CardNome({
+  const CardMeatOptions({
     Key? key,
     required this.text,
+    required this.isSelected,
     this.imageRatioWidth = 0.50,
     this.textRatioWidth = 0.45,
     this.ratioWidth = 0.45,
@@ -24,31 +27,29 @@ class CardNome extends StatelessWidget {
       elevation: 8.0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
-        side: const BorderSide(
-          width: 0.3,
-          color: Colors.grey,
+        side: BorderSide(
+          width: (isSelected) ? 1.0 : 0.3,
+          color: (isSelected) ? Colors.black : Colors.grey,
         ),
       ),
       child: Container(
         padding: const EdgeInsets.all(8),
         height: availableHeight * 0.10,
         width: MediaQuery.of(context).size.width * ratioWidth,
-        child: LayoutBuilder(builder: (ctx, constraints) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                text,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              text,
+              style: GoogleFonts.oxygen(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
               ),
-            ],
-          );
-        }),
+            ),
+          ],
+        ),
       ),
     );
   }

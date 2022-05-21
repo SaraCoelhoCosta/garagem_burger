@@ -106,7 +106,7 @@ class CardPedido extends StatelessWidget {
                         * Subtitle
                         */
                         Text(
-                          DateFormat('hh:mm').format(pedido.data) + ' hs',
+                          DateFormat.Hm().format(pedido.data) + ' hs',
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,

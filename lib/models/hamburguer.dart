@@ -11,16 +11,14 @@ class Hamburguer extends Produto {
     required double preco,
     required String urlImage,
     required int quantidade,
-    String unidadeMedida = Ingrediente.g,
-    String tipo = Produto.hamburguerCasa,
   }) : super(
           id: id,
           nome: nome,
           preco: preco,
-          tipo: tipo,
           urlImage: urlImage,
-          unidadeMedida: unidadeMedida,
           quantidade: quantidade,
+          unidadeMedida: Ingrediente.g,
+          tipo: Produto.hamburguerCasa,
         );
 
   int get totalIngredientes {

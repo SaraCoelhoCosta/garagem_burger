@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/app_bar_button.dart';
-import 'package:garagem_burger/components/card_opcoes.dart';
+import 'package:garagem_burger/components/card_options.dart';
 import 'package:garagem_burger/components/category_grid.dart';
 import 'package:garagem_burger/components/popup_dialog.dart';
+import 'package:garagem_burger/controllers/provider_produtos.dart';
 import 'package:garagem_burger/controllers/provider_usuario.dart';
+import 'package:garagem_burger/models/hamburguer.dart';
 import 'package:garagem_burger/models/produto.dart';
 import 'package:garagem_burger/components/modal_produto.dart';
 import 'package:garagem_burger/controllers/provider_carrinho.dart';
@@ -11,6 +13,7 @@ import 'package:garagem_burger/pages/carrinho/tela_carrinho.dart';
 import 'package:garagem_burger/utils/rotas.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:bordered_text/bordered_text.dart';
 
 class TelaProduto extends StatefulWidget {
   const TelaProduto({Key? key}) : super(key: key);
@@ -21,6 +24,8 @@ class TelaProduto extends StatefulWidget {
 
 class _TelaProdutoState extends State<TelaProduto>
     with SingleTickerProviderStateMixin {
+  bool isCategories = true;
+  bool showEditOptions = false;
   bool isIngredients = false;
   bool isPao = false;
   bool isCarne = false;
@@ -53,9 +58,9 @@ class _TelaProdutoState extends State<TelaProduto>
     _controller?.dispose();
   }
 
-  void _swapModal() {
+  void showModal(bool show) {
     setState(() {
-      if (!openedModal) {
+      if (show) {
         openedModal = true;
         _controller?.forward();
       } else {
@@ -67,6 +72,7 @@ class _TelaProdutoState extends State<TelaProduto>
 
   @override
   Widget build(BuildContext context) {
+    final pvdProduto = Provider.of<ProviderProdutos>(context);
     final user = Provider.of<ProviderUsuario>(context).usuario;
     final provider = Provider.of<ProviderCarrinho>(context);
     List arguments = ModalRoute.of(context)?.settings.arguments as List;
@@ -79,10 +85,14 @@ class _TelaProdutoState extends State<TelaProduto>
       centerTitle: true,
       elevation: 0,
       title: FittedBox(
-        child: Text(
-          produto.nome,
-          style: GoogleFonts.keaniaOne(
-            fontSize: 30,
+        child: BorderedText(
+          strokeColor: Colors.black,
+          strokeWidth: 3,
+          child: Text(
+            produto.nome,
+            style: GoogleFonts.keaniaOne(
+              fontSize: 30,
+            ),
           ),
         ),
       ),
@@ -92,7 +102,7 @@ class _TelaProdutoState extends State<TelaProduto>
     final appBarHeight =
         appBar.preferredSize.height + MediaQuery.of(context).padding.top;
     final availableHeight = totalHeight - appBarHeight;
-    final double maxHeight = (isEditing) ? 0.47 : 0.40;
+    final maxHeight = showEditOptions ? 0.95 : ((isEditing) ? 0.47 : 0.40);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -134,106 +144,195 @@ class _TelaProdutoState extends State<TelaProduto>
                 image: AssetImage('images/fundo-hamburguer.jpeg'),
               ),
             ),
-            child: Column(
-              children: [
-                SizedBox(height: appBarHeight),
-                /*
-                * Preço
-                */
-                SizedBox(
-                  height: 50,
-                  child: Text(
-                    'R\$ ${produto.preco.toStringAsFixed(2)}',
-                    style: GoogleFonts.oxygen(
-                      color: Colors.white,
-                      fontSize: 22.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                /*
-                * Detalhes do hamburguer e insumos
-                */
-                Padding(
-                  padding: const EdgeInsets.only(top: 20, bottom: 70),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      /*
-                      * Detalhes do hamburguer
-                      */
-                      Text(
-                        'ComboBox',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+            /*
+            * Detalhes do produto
+            */
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  SizedBox(height: appBarHeight),
+                  /*
+                  * Preço inicial
+                  */
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      BorderedText(
+                        strokeColor: Colors.black,
+                        strokeWidth: 3,
+                        child: Text(
+                          'Preço',
+                          style: GoogleFonts.oxygen(
+                            color: Colors.white,
+                            fontSize: 30.0,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                      SizedBox(width: 20),
-                      /*
-                      * Insumos
-                      */
-                      Text(
-                        'Insumos', // max: 27 caracteres
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                      BorderedText(
+                        strokeColor: Colors.black,
+                        strokeWidth: 3,
+                        child: Text(
+                          'R\$ ${produto.preco.toStringAsFixed(2)}',
+                          style: GoogleFonts.oxygen(
+                            color: Colors.white,
+                            fontSize: 30.0,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ],
                   ),
-                ),
-                /*
-                * Grid de opções de edição ou ingredientes
-                */
-                if (isEditing && !isCarne && !isPao)
-                  CardOpcoes(
-                    text: 'Ingredientes',
-                    urlImage: 'images/ingredientes.png',
-                    child: CategoryGrid(
-                      isIngredients: isIngredients,
-                      showIngredients: () {
-                        setState(() => isIngredients = true);
-                      },
-                      showCarne: () {
-                        setState(() => isCarne = true);
-                      },
-                      showPao: () {
-                        setState(() => isPao = true);
-                      },
-                    ),
+                  /*
+                  * Detalhes do produto
+                  */
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      BorderedText(
+                        strokeColor: Colors.black,
+                        strokeWidth: 3,
+                        child: Text(
+                          'Itens',
+                          style: GoogleFonts.oxygen(
+                            color: Colors.white,
+                            fontSize: 26.0,
+                          ),
+                        ),
+                      ),
+                      BorderedText(
+                        strokeColor: Colors.black,
+                        strokeWidth: 3,
+                        child: Text(
+                          'Quantidade',
+                          style: GoogleFonts.oxygen(
+                            color: Colors.white,
+                            fontSize: 26.0,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-
-                /*
-                * Grid de pão
-                */
-                if (isEditing && isPao)
-                  const CardOpcoes(
-                    text: 'Escolha o pão',
-                    urlImage: 'images/pao.png',
-                    quantity: false,
+                  Column(
+                    children:
+                        (produto as Hamburguer).ingredientes.map((ingrediente) {
+                      final ing = pvdProduto.ingredientById(ingrediente['id']);
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Flexible(
+                            flex: 7,
+                            child: BorderedText(
+                              strokeColor: Colors.black,
+                              strokeWidth: 3,
+                              child: Text(
+                                ing.nome,
+                                style: GoogleFonts.oxygen(
+                                  color: Colors.white,
+                                  fontSize: 24.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Flexible(
+                            flex: 3,
+                            child: BorderedText(
+                              strokeColor: Colors.black,
+                              strokeWidth: 3,
+                              child: Text(
+                                '${ing.quantidade} ${ing.unidadeMedida}',
+                                style: GoogleFonts.oxygen(
+                                  color: Colors.white,
+                                  fontSize: 24.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      );
+                    }).toList(),
                   ),
-                /*
-                * Grid de carne
-                */
-                if (isEditing && isCarne)
-                  const CardOpcoes(
-                    text: 'Escolha a carne',
-                    urlImage: 'images/carne.jpg',
-                    quantity: true,
+                  /*
+                  * Preço adicional
+                  */
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      BorderedText(
+                        strokeColor: Colors.black,
+                        strokeWidth: 3,
+                        child: Text(
+                          'Adicionais',
+                          style: GoogleFonts.oxygen(
+                            color: Colors.white,
+                            fontSize: 30.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      BorderedText(
+                        strokeColor: Colors.black,
+                        strokeWidth: 3,
+                        child: Text(
+                          'R\$ ${produto.preco.toStringAsFixed(2)}',
+                          style: GoogleFonts.oxygen(
+                            color: Colors.white,
+                            fontSize: 30.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-              ],
+                  /*
+                  * Preço total
+                  */
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      BorderedText(
+                        strokeColor: Colors.black,
+                        strokeWidth: 3,
+                        child: Text(
+                          'Total',
+                          style: GoogleFonts.oxygen(
+                            color: Colors.white,
+                            fontSize: 30.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      BorderedText(
+                        strokeColor: Colors.black,
+                        strokeWidth: 3,
+                        child: Text(
+                          'R\$ ${produto.preco.toStringAsFixed(2)}',
+                          style: GoogleFonts.oxygen(
+                            color: Colors.white,
+                            fontSize: 30.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
           /*
-          * Modal
+          * Animações do modal
           */
           AnimatedContainer(
             duration: _duration,
             height: availableHeight * (openedModal ? maxHeight : 0.07),
-            // height: availableHeight * maxHeight,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.vertical(
                 top: Radius.circular(10),
@@ -248,7 +347,7 @@ class _TelaProdutoState extends State<TelaProduto>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       IconButton(
-                        onPressed: _swapModal,
+                        onPressed: () => showModal(!openedModal),
                         icon: Icon(
                           (openedModal)
                               ? Icons.keyboard_arrow_down_outlined
@@ -268,9 +367,39 @@ class _TelaProdutoState extends State<TelaProduto>
                   child: FadeTransition(
                     opacity: _opacityAnimation!,
                     child: SingleChildScrollView(
+                      /*
+                      * Modal
+                      */
                       child: ModalProduto(
                         produto: produto,
-                        onTapEdit: null, // TODO: juao -> Mexe nesse onTapEdit
+                        isEditing: isEditing,
+                        showEditOptions: showEditOptions,
+                        editOptions: (!isCategories && !isIngredients)
+                            ? CardOptions(showCarne: isCarne)
+                            : CategoryGrid(
+                                isIngredients: isIngredients,
+                                showIngredients: () {
+                                  setState(() {
+                                    isIngredients = true;
+                                    isCategories = false;
+                                  });
+                                },
+                                showCarne: () {
+                                  setState(() {
+                                    isCarne = true;
+                                    isCategories = false;
+                                  });
+                                },
+                                showPao: () {
+                                  setState(() {
+                                    isPao = true;
+                                    isCategories = false;
+                                  });
+                                },
+                              ),
+                        onTapEdit: () {
+                          setState(() => showEditOptions = true);
+                        },
                         onTap: (ctx, qnt) {
                           if (user == null) {
                             showDialog(
@@ -298,7 +427,7 @@ class _TelaProdutoState extends State<TelaProduto>
                           }
 
                           if (user != null) {
-                            _swapModal();
+                            showModal(false);
                             (isEditing)
                                 ? provider.editarItemCarrinho(produto, qnt)
                                 : provider.addItemCarrinho(produto, qnt);
@@ -322,7 +451,6 @@ class _TelaProdutoState extends State<TelaProduto>
                             );
                           }
                         },
-                        isEditing: isEditing,
                       ),
                     ),
                   ),

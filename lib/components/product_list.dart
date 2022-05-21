@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/card_produto.dart';
-import 'package:garagem_burger/components/mini_card_produto.dart';
+import 'package:garagem_burger/components/card_ofertas.dart';
 import 'package:garagem_burger/models/produto.dart';
 import 'package:garagem_burger/utils/rotas.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -66,7 +66,7 @@ class ProductList extends StatelessWidget {
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: 10,
-              itemBuilder: (ctx, _) => const MiniCardProduto(),
+              itemBuilder: (ctx, _) => const CardOfertas(),
             ),
           ),
       ],

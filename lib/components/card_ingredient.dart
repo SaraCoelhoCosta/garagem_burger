@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/botao.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CardItem extends StatelessWidget {
+class CardIngredient extends StatelessWidget {
   final Function()? addItem;
   final Function()? removeItem;
 
-  const CardItem({
+  const CardIngredient({
     Key? key,
     this.addItem,
     this.removeItem,
@@ -97,8 +97,8 @@ class CardItem extends StatelessWidget {
                       ],
                     ),
                     /*
-                      * Subtitle
-                      */
+                    * Subtitle (Quantidade e preço)
+                    */
                     Row(
                       children: [
                         const Text(

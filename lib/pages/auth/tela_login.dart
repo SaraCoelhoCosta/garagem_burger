@@ -50,29 +50,13 @@ class _TelaLoginState extends State<TelaLogin> {
     // Carrega as localizações do usuário
     await context
         .read<ProviderLocalizacoes>()
-        .loadLocations(pvdUsuario.usuario)
-        .then((_) {
-      // TODO: excluir print.
-      print("Localizações carregadas com sucesso!");
-    });
+        .loadLocations(pvdUsuario.usuario);
 
     // Carrega os cartões do usuário
-    await context
-        .read<ProviderCartoes>()
-        .loadCartoes(pvdUsuario.usuario)
-        .then((_) {
-      // TODO: excluir print.
-      print("Cartões carregados com sucesso!");
-    });
+    await context.read<ProviderCartoes>().loadCartoes(pvdUsuario.usuario);
 
     // Carrega os pedidos do usuário
-    await context
-        .read<ProviderPedidos>()
-        .loadPedidos(pvdUsuario.usuario)
-        .then((_) {
-      // TODO: excluir print.
-      print("Pedidos carregados com sucesso!");
-    });
+    await context.read<ProviderPedidos>().loadPedidos(pvdUsuario.usuario);
   }
 
   efetuarLoginGoogle() async {

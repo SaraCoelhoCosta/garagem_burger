@@ -19,7 +19,7 @@ class TelaConfiguracoes extends StatefulWidget {
 
 class TelaConfiguracoesState extends State<TelaConfiguracoes> {
   final _campoNome = FocusNode();
-  final _campoDataNascimento = FocusNode();
+  final _campoSenha = FocusNode();
   final _campoEmail = FocusNode();
   final _campoTelefone = FocusNode();
 
@@ -29,28 +29,25 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
     filter: {"#": RegExp(r'[0-9]')},
     type: MaskAutoCompletionType.lazy,
   );
-  var mascaraDataNascimento = MaskTextInputFormatter(
-    mask: '##/##/####',
-    filter: <String, RegExp>{'#': RegExp('[0-9]')},
-  );
 
   //Libera os recursos após sair da tela ou salvar os dados
   @override
   void dispose() {
     super.dispose();
     _campoNome.dispose();
-    _campoDataNascimento.dispose();
+    _campoSenha.dispose();
     _campoEmail.dispose();
     _campoTelefone.dispose();
   }
 
   // Campos de texto.
   final _nome = TextEditingController();
-  final _dataNascimento = TextEditingController();
+  final _senha = TextEditingController();
   final _email = TextEditingController();
   final _telefone = TextEditingController();
 
   String? userPhotoURL;
+  bool updatingPhoto = false;
 
   Future<void> pickAndUploadImage(BuildContext context) async {
     final pvdUsuario = Provider.of<ProviderUsuario>(
@@ -66,8 +63,10 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
 
     // Salva a imagem no Firebase Storage
     if (tempImage != null) {
+      setState(() => updatingPhoto = true);
       await pvdUsuario.addPhoto(pvdUsuario.usuario, tempImage.path);
       setState(() {
+        updatingPhoto = false;
         userPhotoURL = pvdUsuario.usuario!.photoURL;
       });
     }
@@ -85,6 +84,11 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
 
   @override
   Widget build(BuildContext context) {
+    // Altura total da tela, subtraindo as alturas da appBar e bottomBar
+    final availableHeight = MediaQuery.of(context).size.height -
+        Scaffold.of(context).appBarMaxHeight! -
+        kBottomNavigationBarHeight;
+
     final pvdUsuario = Provider.of<ProviderUsuario>(context);
     return SingleChildScrollView(
       child: Padding(
@@ -103,18 +107,27 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                 /*
                 * Foto
                 */
-                SizedBox(
-                  height: 115,
-                  width: 115,
+                SizedBox.square(
+                  dimension: availableHeight * 0.20,
                   child: Stack(
                     fit: StackFit.expand,
                     clipBehavior: Clip.none,
                     children: [
-                      if (userPhotoURL != null)
-                        ClipOval(child: Image.network(userPhotoURL!))
+                      if (updatingPhoto)
+                        const ClipOval(child: CircularProgressIndicator())
+                      else if (userPhotoURL != null)
+                        ClipOval(
+                          child: Image.network(
+                            userPhotoURL!,
+                            fit: BoxFit.cover,
+                          ),
+                        )
                       else
                         ClipOval(
-                          child: Image.asset('images/placeholder-perfil.png'),
+                          child: Image.asset(
+                            'images/placeholder-perfil.png',
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       Positioned(
                         right: -12,
@@ -149,21 +162,16 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                 */
                 Text(
                   pvdUsuario.usuario!.displayName!,
-                  style: const TextStyle(
+                  style: GoogleFonts.oxygen(
                     color: Colors.black,
                     fontSize: 18,
-                    fontWeight: FontWeight.w300,
+                    fontWeight: FontWeight.bold,
                     decoration: TextDecoration.none,
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 20),
-            const Divider(
-              height: 50,
-              thickness: 1,
-              color: Colors.grey,
-            ),
+            const SizedBox(height: 30),
             /*
             * Informações pessoais
             */
@@ -201,16 +209,16 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
               ),
             ),
             CampoTexto(
-              labelText: 'Data de nascimento',
-              focusNode: _campoDataNascimento,
-              inputFormatters: [mascaraDataNascimento],
+              labelText: 'Senha',
+              focusNode: _campoSenha,
+              obscureText: true,
               onFieldSubmitted: (_) {
-                FocusScope.of(context).requestFocus(_campoDataNascimento);
+                FocusScope.of(context).requestFocus(_campoSenha);
               },
               textInputAction: TextInputAction.next,
-              controller: _dataNascimento,
-              prefixIcon: const Icon(Icons.date_range),
-              keyboardType: TextInputType.datetime,
+              controller: _senha,
+              prefixIcon: const Icon(Icons.lock),
+              keyboardType: TextInputType.visiblePassword,
               enabled: true,
               suffixIcon: IconButton(
                 // ignore: avoid_print
@@ -267,21 +275,6 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                 // ignore: avoid_print
                 onPressed: () => print('teste'),
                 icon: const Icon(Icons.edit),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 5, top: 20),
-              child: TextButton(
-                onPressed: () {},
-                child: Text(
-                  'Alterar senha',
-                  style: GoogleFonts.oxygen(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blue,
-                    decoration: TextDecoration.none,
-                  ),
-                ),
               ),
             ),
             /*

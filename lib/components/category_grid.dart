@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:garagem_burger/components/card_ingrediente.dart';
+import 'package:garagem_burger/components/card_category.dart';
 
 class CategoryGrid extends StatelessWidget {
   final bool isIngredients;
@@ -25,14 +25,13 @@ class CategoryGrid extends StatelessWidget {
         * Ingredientes do hamburguer
         */
         if (!isIngredients)
-          CardIngrediente(
+          CardCategory(
             onTap: showIngredients,
             urlImage: 'images/ingredientes.png',
             text: 'Ingredientes do Hambúrguer',
             imageRatioWidth: 0.30,
             textRatioWidth: 0.65,
             ratioWidth: 0.92,
-            proportion: 0.15,
           ),
         /*
         * Pão e carne
@@ -41,17 +40,15 @@ class CategoryGrid extends StatelessWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              CardIngrediente(
+              CardCategory(
                 onTap: showPao,
                 urlImage: 'images/pao.png',
                 text: 'Pão',
-                proportion: 0.15,
               ),
-              CardIngrediente(
+              CardCategory(
                 onTap: showCarne,
                 urlImage: 'images/carne.jpg',
                 text: 'Carne',
-                proportion: 0.15,
               ),
             ],
           ),
@@ -59,14 +56,13 @@ class CategoryGrid extends StatelessWidget {
         * Frutas, verduras e legumes
         */
         if (isIngredients)
-          const CardIngrediente(
+          const CardCategory(
             urlImage: 'images/pao.png',
             text: 'Frutas, verduras e legumes',
             subtitle: 'R\$ 1,40',
             imageRatioWidth: 0.30,
             textRatioWidth: 0.65,
             ratioWidth: 0.92,
-            proportion: 0.15,
           ),
         /*
         * Queijos e cebolas
@@ -76,17 +72,15 @@ class CategoryGrid extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
-              CardIngrediente(
+              CardCategory(
                 urlImage: 'images/pao.png',
                 text: 'Queijos',
-                proportion: 0.15,
                 subtitle: 'R\$ 1,40',
               ),
-              CardIngrediente(
+              CardCategory(
                 urlImage: 'images/carne.jpg',
                 text: 'Cebolas',
                 subtitle: 'R\$ 1,40',
-                proportion: 0.15,
               ),
             ],
           ),
@@ -98,17 +92,15 @@ class CategoryGrid extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
-              CardIngrediente(
+              CardCategory(
                 urlImage: 'images/pao.png',
                 text: 'Molhos',
                 subtitle: 'R\$ 1,40',
-                proportion: 0.15,
               ),
-              CardIngrediente(
+              CardCategory(
                 urlImage: 'images/carne.jpg',
                 text: 'Outros',
                 subtitle: 'R\$ 1,40',
-                proportion: 0.15,
               ),
             ],
           ),
