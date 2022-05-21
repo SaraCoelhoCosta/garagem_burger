@@ -16,9 +16,9 @@
         <item name="android:windowBackground">?android:colorBackground</item>
     </style>
 
-    <!-- Adicionado <string> 
+    <!-- Adicionado <string> -->
     <string name="facebook_app_id">428812319009879</string>
     <string name="fb_login_protocol_scheme">fb1234</string>
-    <string name="facebook_client_token">56789</string>
-    -->   
+    <string name="facebook_client_token">8e49fabe864d90b837f985576784ce61</string>
+    <!-- Adicionado -->   
 </resources>
