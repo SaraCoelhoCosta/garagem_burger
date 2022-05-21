@@ -8,12 +8,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:554330678666:android:b5901c7a16dc9fd5ea9473",
+        "mobilesdk_app_id": "1:554330678666:android:5061267ffb5631d9ea9473",
         "android_client_info": {
           "package_name": "com.example.garagem_burger"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "554330678666-s18q0e9pvlv63tkdjhduf9i2919r5e0q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.garagem_burger",
+            "certificate_hash": "8feb13a8f3c2b652aca7e56287acc0385f239479"
+          }
+        },
         {
           "client_id": "554330678666-7k32vfjlpt90mrnq7j8qrfs2hq7tdvcf.apps.googleusercontent.com",
           "client_type": 3

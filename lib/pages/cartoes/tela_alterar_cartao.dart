@@ -5,8 +5,12 @@ import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:garagem_burger/components/botao.dart';
 import 'package:garagem_burger/components/campo_texto.dart';
+import 'package:garagem_burger/controllers/provider_cartoes.dart';
+import 'package:garagem_burger/controllers/provider_usuario.dart';
+import 'package:garagem_burger/models/cartao.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:provider/provider.dart';
 
 enum CardType {
   credito,
@@ -14,7 +18,11 @@ enum CardType {
 }
 
 class TelaAlterarCartao extends StatefulWidget {
-  const TelaAlterarCartao({Key? key}) : super(key: key);
+  final Cartao cartao;
+  const TelaAlterarCartao(
+    this.cartao, {
+    Key? key,
+  }) : super(key: key);
 
   @override
   String toStringShort() => 'Alterar cartão';
@@ -24,7 +32,7 @@ class TelaAlterarCartao extends StatefulWidget {
 }
 
 class _TelaAlterarCartaoState extends State<TelaAlterarCartao> {
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late CreditCardModel creditCardModel;
   CardType? _card = CardType.credito;
   String numeroCartao = '';
@@ -100,8 +108,6 @@ class _TelaAlterarCartaoState extends State<TelaAlterarCartao> {
 
   @override
   void initState() {
-    super.initState();
-
     createCreditCardModel();
 
     _campoCVV.addListener(textFieldFocusDidChange);
@@ -137,6 +143,37 @@ class _TelaAlterarCartaoState extends State<TelaAlterarCartao> {
         onCreditCardModelChange(creditCardModel);
       });
     });
+
+    _descricao.text = widget.cartao.descricao;
+    _nomeTitular.text = widget.cartao.nomeTitular;
+    _numeroCartao.text = widget.cartao.numeroCartao;
+    _cvv.text = widget.cartao.cvv;
+    _vencimentoCartao.text = widget.cartao.dataVencimento;
+    super.initState();
+  }
+
+  Future<void> alterarCartao(BuildContext context) async {
+    final user = Provider.of<ProviderUsuario>(
+      context,
+      listen: false,
+    ).usuario;
+    try {
+      await context
+          .read<ProviderCartoes>()
+          .updateCartao(user, widget.cartao)
+          .then((_) {
+        Navigator.of(context).pop(true);
+      });
+    } on Exception catch (e) {
+      // ignore: avoid_print, TODO: deixa o print?
+      print(e.toString());
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Erro ao alterar cartão"),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   @override
@@ -195,7 +232,7 @@ class _TelaAlterarCartaoState extends State<TelaAlterarCartao> {
                             (CreditCardBrand creditCardBrand) {},
                       ),
                       Form(
-                        key: formKey,
+                        key: _formKey,
                         child: Column(
                           children: <Widget>[
                             CampoTexto(
@@ -322,6 +359,7 @@ class _TelaAlterarCartaoState extends State<TelaAlterarCartao> {
                               },
                             ),
                             Row(
+                              // TODO: retornar valor do RadioListTile.
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Expanded(
@@ -357,14 +395,19 @@ class _TelaAlterarCartaoState extends State<TelaAlterarCartao> {
                             ),
                             Botao(
                               labelText: "Alterar cartão",
-                              onPressed: () {
-                                if (formKey.currentState!.validate()) {
-                                  // ignore: avoid_print
-                                  print('Válido!');
-                                } else {
-                                  // ignore: avoid_print
-                                  print('Inválido!');
-                                }
+                              onPressed: () => {
+                                if (_formKey.currentState!.validate())
+                                  {
+                                    widget.cartao.dataVencimento =
+                                        _vencimentoCartao.text,
+                                    widget.cartao.nomeTitular =
+                                        _nomeTitular.text,
+                                    widget.cartao.numeroCartao =
+                                        _numeroCartao.text,
+                                    widget.cartao.cvv = _cvv.text,
+                                    widget.cartao.descricao = _descricao.text,
+                                    alterarCartao(context),
+                                  }
                               },
                             ),
                             TextButton(

@@ -49,7 +49,7 @@ class TelaMeusCartoes extends StatelessWidget {
                         Rotas.main,
                         arguments: {
                           'index': 3,
-                          'page': const TelaAlterarCartao(),
+                          'page': TelaAlterarCartao(cartao),
                           'button': null,
                         },
                       ),

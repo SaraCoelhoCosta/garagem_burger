@@ -71,4 +71,5 @@ dependencies {
     implementation "com.google.firebase:firebase-bom:29.3.1" // Adicionado.
     implementation 'com.google.firebase:firebase-auth'  // Adicionado.
     implementation 'com.google.firebase:firebase-firestore' // Adicionado.
+    implementation 'com.facebook.android:facebook-login:latest.release' // Adicionado.
 }

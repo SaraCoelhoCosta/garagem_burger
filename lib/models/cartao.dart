@@ -1,10 +1,10 @@
 class Cartao {
-  final String id;
-  final String nomeTitular;
-  final String numeroCartao;
-  final String dataVencimento;
-  final String cvv;
-  final String tipo;
+  String id;
+  String nomeTitular;
+  String numeroCartao;
+  String dataVencimento;
+  String cvv;
+  String tipo;
   //final String bandeira;
   String descricao;
   bool favorito;
