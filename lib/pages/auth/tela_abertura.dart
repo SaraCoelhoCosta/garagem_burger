@@ -69,8 +69,7 @@ class _TelaAberturaState extends State<TelaAbertura>
 
     Future.delayed(Duration(seconds: 2)).then((_) {
       Navigator.of(context).pushNamedAndRemoveUntil(
-        Provider.of<ProviderUsuario>(context, listen: false)
-        .getUserCurrent() != null
+        Provider.of<ProviderUsuario>(context, listen: false).usuario != null
             ? Rotas.main
             : Rotas.login, // TODO: teste.
         (_) => false,

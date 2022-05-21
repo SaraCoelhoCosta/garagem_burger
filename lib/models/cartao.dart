@@ -1,9 +1,9 @@
 class Cartao {
   final String id;
-  final String nomeTitular;
-  final String numeroCartao;
-  final String dataVencimento;
-  final String cvv;
+  late final String nomeTitular;
+  late final String numeroCartao;
+  late final String dataVencimento;
+  late final String cvv;
   final String tipo;
   //final String bandeira;
   String descricao;

@@ -36,13 +36,6 @@ class ProviderUsuario extends ChangeNotifier {
     });
   }
 
-  dynamic getUserCurrent() {
-    if (usuario != null) {
-      return usuario;
-    }
-    return null;
-  }
-
   // Retorna usuário atual.
   _getUser() {
     usuario = _auth.currentUser;
@@ -90,6 +83,7 @@ class ProviderUsuario extends ChangeNotifier {
   }
 
   signInWithGoogle() async {
+    // TODO: Cadastrar usuário e fazer logout.
     final googleUser = GoogleSignIn();
     final GoogleSignInAccount? googleUserAccount = await googleUser.signIn();
     final GoogleSignInAuthentication? googleAuth =
@@ -103,7 +97,7 @@ class ProviderUsuario extends ChangeNotifier {
   }
 
   signInWithFacebook() async {
-    // TODO: Com erro (Colocar token no style.xml).
+    // TODO: Com erro (Colocar token no style.xml), concluir login, cadastrar usuário e fazer logout.
     print("Entrei no facebook");
     final LoginResult loginResult = await FacebookAuth.instance.login();
 

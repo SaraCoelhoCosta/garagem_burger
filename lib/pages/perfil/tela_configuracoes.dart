@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, invalid_use_of_visible_for_testing_member
 
 import 'dart:io';
 
@@ -70,7 +70,7 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
           await ImagePicker.platform.getImage(source: ImageSource.gallery);
       if (imagemTemporaria != null) {
         setState(() {
-          imagemSelecionada = File(imagemTemporaria!.path);
+          imagemSelecionada = File(imagemTemporaria.path);
         });
       }
     }
