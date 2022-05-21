@@ -68,7 +68,7 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
     pegarImagemGaleria() async {
       final XFile? imagemTemporaria =
           await ImagePicker.platform.getImage(source: ImageSource.gallery);
-      if (imagemSelecionada != null) {
+      if (imagemTemporaria != null) {
         setState(() {
           imagemSelecionada = File(imagemTemporaria!.path);
         });
@@ -108,11 +108,9 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                           ? const CircleAvatar(
                               backgroundColor: Colors.grey,
                             )
-                          : Container(
-                              child:
-                                  Image(image: FileImage(imagemSelecionada!)),
-                              decoration:
-                                  const BoxDecoration(shape: BoxShape.circle),
+                          : CircleAvatar(
+                              child: ClipOval(
+                                  child: Image.file(imagemSelecionada!)),
                             ),
                       Positioned(
                         right: -12,
@@ -120,7 +118,7 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                         child: Container(
                           child: IconButton(
                             onPressed: () {
-                              editarFoto;
+                              editarFoto();
                               pegarImagemGaleria();
                             },
                             icon: const Icon(
