@@ -101,9 +101,6 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
       child: Padding(
         padding: const EdgeInsets.only(top: 30, right: 20, left: 20),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             /*
             * Foto e nome
@@ -177,242 +174,278 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                 ),
               ],
             ),
-            const SizedBox(height: 30),
-            /*
-            * Informações pessoais
-            */
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text(
-                  'Informações pessoais',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            /*
-            * Nome
-            */
-            Row(
-              children: [
-                if (!editingName)
-                  Text(
-                    'Nome: ',
-                    style: GoogleFonts.oxygen(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                if (!editingName)
-                  Expanded(
-                    child: Text(
-                      pvdUsuario.usuario!.displayName!,
-                      style: GoogleFonts.oxygen(
-                        color: Colors.grey[700],
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
-                if (editingName)
-                  Expanded(
-                    child: CampoTexto(
-                      labelText: 'Nome',
-                      focusNode: _campoNome,
-                      textInputAction: TextInputAction.next,
-                      controller: _nome,
-                      prefixIcon: const Icon(Icons.person),
-                      keyboardType: TextInputType.name,
-                    ),
-                  ),
-                IconButton(
-                  onPressed: () {
-                    setState(() => editingName = !editingName);
-                  },
-                  icon: Icon(
-                    (editingName) ? Icons.check : Icons.edit,
-                    color: Colors.grey[700],
-                  ),
-                ),
-              ],
-            ),
-            /*
-            * Senha
-            */
-            Row(
-              children: [
-                if (!editingPassword)
-                  Text(
-                    'Senha: ',
-                    style: GoogleFonts.oxygen(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                if (!editingPassword)
-                  Expanded(
-                    child: Text(
-                      '************',
-                      style: GoogleFonts.oxygen(
-                        color: Colors.grey[700],
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
-                if (editingPassword)
-                  Expanded(
-                    child: CampoTexto(
-                      labelText: 'Senha',
-                      focusNode: _campoSenha,
-                      textInputAction: TextInputAction.next,
-                      controller: _senha,
-                      prefixIcon: const Icon(Icons.lock),
-                      keyboardType: TextInputType.visiblePassword,
-                    ),
-                  ),
-                IconButton(
-                  onPressed: () {
-                    setState(() => editingPassword = !editingPassword);
-                  },
-                  icon: Icon(
-                    (editingPassword) ? Icons.check : Icons.edit,
-                    color: Colors.grey[700],
-                  ),
-                ),
-              ],
-            ),
-            /*
-            * Senha
-            */
-            // CampoTexto(
-            //   labelText: 'Senha',
-            //   focusNode: _campoSenha,
-            //   obscureText: true,
-            //   onFieldSubmitted: (_) {
-            //     FocusScope.of(context).requestFocus(_campoSenha);
-            //   },
-            //   textInputAction: TextInputAction.next,
-            //   controller: _senha,
-            //   prefixIcon: const Icon(Icons.lock),
-            //   keyboardType: TextInputType.visiblePassword,
-            //   enabled: true,
-            //   suffixIcon: IconButton(
-            //     // ignore: avoid_print
-            //     onPressed: () => print('teste'),
-            //     icon: const Icon(Icons.edit),
-            //   ),
-            // ),
-            /*
-            * Informações de contato
-            */
-            const Padding(
-              padding: EdgeInsets.only(top: 40),
-              child: Text(
-                'Informações de contato',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            /*
-            * Email
-            */
-            CampoTexto(
-              labelText: 'E-mail',
-              focusNode: _campoEmail,
-              onFieldSubmitted: (_) {
-                FocusScope.of(context).requestFocus(_campoEmail);
-              },
-              textInputAction: TextInputAction.next,
-              controller: _email,
-              prefixIcon: const Icon(Icons.email),
-              keyboardType: TextInputType.emailAddress,
-              // TODO: Editar campo de texto
-              enabled: true,
-              suffixIcon: IconButton(
-                // ignore: avoid_print
-                onPressed: () => print('teste'),
-                icon: const Icon(Icons.edit),
-              ),
-            ),
-            /*
-            * Telefone
-            */
-            const SizedBox(height: 10),
-            CampoTexto(
-              labelText: 'Telefone',
-              focusNode: _campoTelefone,
-              inputFormatters: [mascaraTelefone],
-              onFieldSubmitted: (_) {
-                FocusScope.of(context).requestFocus(_campoTelefone);
-              },
-              textInputAction: TextInputAction.next,
-              controller: _telefone,
-              prefixIcon: const Icon(Icons.phone),
-              keyboardType: TextInputType.phone,
-              enabled: true,
-              suffixIcon: IconButton(
-                // ignore: avoid_print
-                onPressed: () => print('teste'),
-                icon: const Icon(Icons.edit),
-              ),
-            ),
-            /*
-            * Botões da parte inferior
-            */
-            Padding(
-              padding: const EdgeInsets.only(top: 40, right: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Form(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TextButton.icon(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return PopupDialog(
-                            titulo: 'Tem certeza que deseja excluir sua conta?',
-                            yesLabel: 'Sim',
-                            noLabel: 'Não',
-                            onPressedNoOption: () {
-                              Navigator.of(context).pop();
-                            },
-                            onPressedYesOption: () {
-                              Navigator.of(context).pop();
-                            },
-                          );
-                        },
-                      );
-                    },
-                    icon: const Icon(
-                      Icons.person,
-                      color: Colors.blue,
-                    ),
-                    label: Text(
-                      'Excluir minha conta',
-                      style: GoogleFonts.oxygen(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue,
-                        decoration: TextDecoration.none,
+                  const SizedBox(height: 30),
+                  /*
+                  * Informações pessoais
+                  */
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: const [
+                      Text(
+                        'Informações pessoais',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                  // Botao(
-                  //   onPressed: () {},
-                  //   labelText: 'Salvar',
-                  //   internalPadding: const EdgeInsets.symmetric(
-                  //     horizontal: 20,
-                  //     vertical: 15,
+                  /*
+                  * Nome
+                  */
+                  Row(
+                    children: [
+                      if (!editingName)
+                        Text(
+                          'Nome: ',
+                          style: GoogleFonts.oxygen(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      if (!editingName)
+                        Expanded(
+                          child: Text(
+                            pvdUsuario.usuario!.displayName!,
+                            style: GoogleFonts.oxygen(
+                              color: Colors.grey[700],
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      if (editingName)
+                        Expanded(
+                          child: CampoTexto(
+                            labelText: 'Nome',
+                            focusNode: _campoNome,
+                            textInputAction: TextInputAction.next,
+                            controller: _nome,
+                            prefixIcon: const Icon(Icons.person),
+                            keyboardType: TextInputType.name,
+                          ),
+                        ),
+                      IconButton(
+                        onPressed: () {
+                          setState(() => editingName = !editingName);
+                        },
+                        icon: Icon(
+                          (editingName) ? Icons.check : Icons.edit,
+                          color: Colors.grey[700],
+                        ),
+                      ),
+                    ],
+                  ),
+                  /*
+                  * Senha
+                  */
+                  Row(
+                    children: [
+                      if (!editingPassword)
+                        Text(
+                          'Senha: ',
+                          style: GoogleFonts.oxygen(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      if (!editingPassword)
+                        Expanded(
+                          child: Text(
+                            '************',
+                            style: GoogleFonts.oxygen(
+                              color: Colors.grey[700],
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      if (editingPassword)
+                        Expanded(
+                          child: CampoTexto(
+                            labelText: 'Senha',
+                            focusNode: _campoSenha,
+                            textInputAction: TextInputAction.next,
+                            controller: _senha,
+                            prefixIcon: const Icon(Icons.lock),
+                            keyboardType: TextInputType.visiblePassword,
+                          ),
+                        ),
+                      IconButton(
+                        onPressed: () {
+                          setState(() => editingPassword = !editingPassword);
+                        },
+                        icon: Icon(
+                          (editingPassword) ? Icons.check : Icons.edit,
+                          color: Colors.grey[700],
+                        ),
+                      ),
+                    ],
+                  ),
+                  /*
+                  * Senha
+                  */
+                  // CampoTexto(
+                  //   labelText: 'Senha',
+                  //   focusNode: _campoSenha,
+                  //   obscureText: true,
+                  //   onFieldSubmitted: (_) {
+                  //     FocusScope.of(context).requestFocus(_campoSenha);
+                  //   },
+                  //   textInputAction: TextInputAction.next,
+                  //   controller: _senha,
+                  //   prefixIcon: const Icon(Icons.lock),
+                  //   keyboardType: TextInputType.visiblePassword,
+                  //   enabled: true,
+                  //   suffixIcon: IconButton(
+                  //     // ignore: avoid_print
+                  //     onPressed: () => print('teste'),
+                  //     icon: const Icon(Icons.edit),
                   //   ),
                   // ),
+                  /*
+                  * Informações de contato
+                  */
+                  const Padding(
+                    padding: EdgeInsets.only(top: 40),
+                    child: Text(
+                      'Informações de contato',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  /*
+                  * Email
+                  */
+                  CampoTexto(
+                    labelText: 'E-mail',
+                    focusNode: _campoEmail,
+                    onFieldSubmitted: (_) {
+                      FocusScope.of(context).requestFocus(_campoEmail);
+                    },
+                    textInputAction: TextInputAction.next,
+                    controller: _email,
+                    prefixIcon: const Icon(Icons.email),
+                    keyboardType: TextInputType.emailAddress,
+                    // TODO: Editar campo de texto
+                    enabled: true,
+                    suffixIcon: IconButton(
+                      // ignore: avoid_print
+                      onPressed: () => print('teste'),
+                      icon: const Icon(Icons.edit),
+                    ),
+                  ),
+                  /*
+                  * Telefone
+                  */
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      if (!editingPhone)
+                        Text(
+                          'Telefone: ',
+                          style: GoogleFonts.oxygen(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      if (!editingPhone)
+                        Expanded(
+                          child: Text(
+                            pvdUsuario.usuario!.phoneNumber ?? 'sem numero',
+                            style: GoogleFonts.oxygen(
+                              color: Colors.grey[700],
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      if (editingPhone)
+                        Expanded(
+                          child: CampoTexto(
+                            labelText: 'Telefone',
+                            focusNode: _campoTelefone,
+                            inputFormatters: [mascaraTelefone],
+                            textInputAction: TextInputAction.next,
+                            controller: _telefone,
+                            prefixIcon: const Icon(Icons.person),
+                            keyboardType: TextInputType.name,
+                          ),
+                        ),
+                      IconButton(
+                        onPressed: () {
+                          setState(() => editingPhone = !editingPhone);
+                        },
+                        icon: Icon(
+                          (editingPhone) ? Icons.check : Icons.edit,
+                          color: Colors.grey[700],
+                        ),
+                      ),
+                    ],
+                  ),
+                  /*
+                  * Botões da parte inferior
+                  */
+                  Padding(
+                    padding: const EdgeInsets.only(top: 40, right: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextButton.icon(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return PopupDialog(
+                                  titulo:
+                                      'Tem certeza que deseja excluir sua conta?',
+                                  yesLabel: 'Sim',
+                                  noLabel: 'Não',
+                                  onPressedNoOption: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  onPressedYesOption: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                );
+                              },
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.person,
+                            color: Colors.blue,
+                          ),
+                          label: Text(
+                            'Excluir minha conta',
+                            style: GoogleFonts.oxygen(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue,
+                              decoration: TextDecoration.none,
+                            ),
+                          ),
+                        ),
+                        // Botao(
+                        //   onPressed: () {},
+                        //   labelText: 'Salvar',
+                        //   internalPadding: const EdgeInsets.symmetric(
+                        //     horizontal: 20,
+                        //     vertical: 15,
+                        //   ),
+                        // ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),

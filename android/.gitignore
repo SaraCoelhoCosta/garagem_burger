@@ -11,3 +11,6 @@ GeneratedPluginRegistrant.java
 key.properties
 **/*.keystore
 **/*.jks
+
+# Alterações de Sara
+android/app/src/main/res/values/styles.xml
