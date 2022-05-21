@@ -19,7 +19,7 @@ class TelaConfiguracoes extends StatefulWidget {
 
 class TelaConfiguracoesState extends State<TelaConfiguracoes> {
   final _campoNome = FocusNode();
-  final _campoDataNascimento = FocusNode();
+  final _campoSenha = FocusNode();
   final _campoEmail = FocusNode();
   final _campoTelefone = FocusNode();
 
@@ -29,24 +29,20 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
     filter: {"#": RegExp(r'[0-9]')},
     type: MaskAutoCompletionType.lazy,
   );
-  var mascaraDataNascimento = MaskTextInputFormatter(
-    mask: '##/##/####',
-    filter: <String, RegExp>{'#': RegExp('[0-9]')},
-  );
 
   //Libera os recursos após sair da tela ou salvar os dados
   @override
   void dispose() {
     super.dispose();
     _campoNome.dispose();
-    _campoDataNascimento.dispose();
+    _campoSenha.dispose();
     _campoEmail.dispose();
     _campoTelefone.dispose();
   }
 
   // Campos de texto.
   final _nome = TextEditingController();
-  final _dataNascimento = TextEditingController();
+  final _senha = TextEditingController();
   final _email = TextEditingController();
   final _telefone = TextEditingController();
 
@@ -201,16 +197,16 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
               ),
             ),
             CampoTexto(
-              labelText: 'Data de nascimento',
-              focusNode: _campoDataNascimento,
-              inputFormatters: [mascaraDataNascimento],
+              labelText: 'Senha',
+              focusNode: _campoSenha,
+              obscureText: true,
               onFieldSubmitted: (_) {
-                FocusScope.of(context).requestFocus(_campoDataNascimento);
+                FocusScope.of(context).requestFocus(_campoSenha);
               },
               textInputAction: TextInputAction.next,
-              controller: _dataNascimento,
-              prefixIcon: const Icon(Icons.date_range),
-              keyboardType: TextInputType.datetime,
+              controller: _senha,
+              prefixIcon: const Icon(Icons.lock),
+              keyboardType: TextInputType.visiblePassword,
               enabled: true,
               suffixIcon: IconButton(
                 // ignore: avoid_print
