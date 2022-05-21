@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:garagem_burger/controllers/provider_produtos.dart';
+import 'package:garagem_burger/controllers/provider_usuario.dart';
 import 'package:garagem_burger/utils/rotas.dart';
 import 'package:provider/provider.dart';
 
@@ -68,7 +69,10 @@ class _TelaAberturaState extends State<TelaAbertura>
 
     Future.delayed(Duration(seconds: 2)).then((_) {
       Navigator.of(context).pushNamedAndRemoveUntil(
-        Rotas.login,
+        Provider.of<ProviderUsuario>(context, listen: false)
+        .getUserCurrent() != null
+            ? Rotas.main
+            : Rotas.login, // TODO: teste.
         (_) => false,
       );
     });

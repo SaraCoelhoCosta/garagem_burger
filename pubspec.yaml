@@ -30,7 +30,7 @@ dependencies:
   flutter:
     sdk: flutter
   
-  #Acesso à galeria (câmera)
+  # Acesso à galeria (câmera)
   image_picker: ^0.8.5+3
   
   # Idioma.
@@ -70,6 +70,13 @@ dependencies:
 
   # Cartão de crédito
   flutter_credit_card: ^3.0.1
+
+  # Acesso com google.
+  google_sign_in: ^5.3.1
+
+  # Acesso com facebook.
+  flutter_facebook_auth: ^4.3.4
+
 
 dev_dependencies:
   

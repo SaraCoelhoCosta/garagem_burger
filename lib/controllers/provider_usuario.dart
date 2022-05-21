@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:garagem_burger/controllers/firebase.dart';
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/models/usuario.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 // Classe para exceções.
 class AuthException implements Exception {
@@ -32,6 +34,13 @@ class ProviderUsuario extends ChangeNotifier {
       isLoading = false;
       notifyListeners();
     });
+  }
+
+  dynamic getUserCurrent() {
+    if (usuario != null) {
+      return usuario;
+    }
+    return null;
   }
 
   // Retorna usuário atual.
@@ -65,9 +74,10 @@ class ProviderUsuario extends ChangeNotifier {
   }
 
   // Realiza login do usuário.
-  login(String email, String senha) async {
+  login(String email, String senha, bool manterLogin) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: senha);
+      await _auth.currentUser!.getIdTokenResult(manterLogin);
       _getUser();
     } on FirebaseAuthException catch (e) {
       // Mensagem de erro.
@@ -77,6 +87,33 @@ class ProviderUsuario extends ChangeNotifier {
         throw AuthException('Senha incorreta. Tente novamente!');
       }
     }
+  }
+
+  signInWithGoogle() async {
+    final googleUser = GoogleSignIn();
+    final GoogleSignInAccount? googleUserAccount = await googleUser.signIn();
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUserAccount?.authentication;
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+    _auth.signInWithCredential(credential);
+    _getUser();
+  }
+
+  signInWithFacebook() async {
+    // TODO: Com erro (Colocar token no style.xml).
+    print("Entrei no facebook");
+    final LoginResult loginResult = await FacebookAuth.instance.login();
+
+    print("Passo 1: no facebook");
+    final OAuthCredential facebookAuthCredential =
+        FacebookAuthProvider.credential(loginResult.accessToken!.token);
+
+    print("Passo 2 no facebook");
+    _auth.signInWithCredential(facebookAuthCredential);
+    _getUser();
   }
 
   // Realiza o logout do usuário.
@@ -98,7 +135,7 @@ class ProviderUsuario extends ChangeNotifier {
   // Remove usuário
   Future<void> deleteUsuario(User? user) async {
     // TODO: confirmar se remove do BD.
-    await firestore.doc(user!.uid).delete();
+    await firestore.collection('usuarios').doc(user!.uid).delete();
     _getUser();
   }
 

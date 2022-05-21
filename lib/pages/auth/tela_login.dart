@@ -75,11 +75,63 @@ class _TelaLoginState extends State<TelaLogin> {
     });
   }
 
+  efetuarLoginGoogle() async {
+    // TODO: Arrumar login (Não cadastrta usuário).
+    try {
+      final pvdUsuario = context.read<ProviderUsuario>();
+      await pvdUsuario.signInWithGoogle();
+
+      // Carrega os dados do usuario
+      //await loadUserData();
+
+      // Navega para a tela de menu
+      Navigator.of(context).pushReplacementNamed(
+        Rotas.main,
+        arguments: {
+          'index': 0,
+          'page': const TelaMenu(),
+          'button': null,
+        },
+      );
+    } on AuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(e.message),
+        backgroundColor: Colors.red,
+      ));
+    }
+  }
+
+  efetuarLoginFacebook() async {
+    try {
+      // TODO: Arrumar login (Não cadastrta usuário).
+      final pvdUsuario = context.read<ProviderUsuario>();
+      await pvdUsuario.signInWithFacebook();
+
+      // Carrega os dados do usuario
+      //await loadUserData();
+
+      // Navega para a tela de menu
+      Navigator.of(context).pushReplacementNamed(
+        Rotas.main,
+        arguments: {
+          'index': 0,
+          'page': const TelaMenu(),
+          'button': null,
+        },
+      );
+    } on AuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(e.message),
+        backgroundColor: Colors.red,
+      ));
+    }
+  }
+
   efetuarLogin() async {
     setState(() => _loading = true);
     try {
       final pvdUsuario = context.read<ProviderUsuario>();
-      await pvdUsuario.login(_email.text, _senha.text);
+      await pvdUsuario.login(_email.text, _senha.text, _isMarcado);
 
       // Carrega os dados do usuario
       await loadUserData();
@@ -379,12 +431,16 @@ class _TelaLoginState extends State<TelaLogin> {
                 children: <Widget>[
                   SignInButton.mini(
                     buttonType: ButtonType.google,
-                    onPressed: () {},
+                    onPressed: () => {
+                      efetuarLoginGoogle(),
+                    },
                   ),
                   // Botão facebook.
                   SignInButton.mini(
                     buttonType: ButtonType.facebook,
-                    onPressed: () {},
+                    onPressed: () => {
+                      efetuarLoginFacebook(),
+                    },
                   ),
                 ],
               ),
