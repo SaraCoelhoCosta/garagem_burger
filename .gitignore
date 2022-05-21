@@ -44,3 +44,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Alterações de Sarinha
+/android/app/src/main/res/values/styles.xml

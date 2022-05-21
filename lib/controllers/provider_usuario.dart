@@ -86,6 +86,20 @@ class ProviderUsuario extends ChangeNotifier {
     }
   }
 
+  // Esqueceu senha.
+  recuperarSenha(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      // Mensagem de erro.
+      if (e.code == 'auth/user-not-found') {
+        throw AuthException('E-mail não encontrado. Cadastre-se!');
+      } else if (e.code == 'auth/invalid-email') {
+        throw AuthException('E-mail inválido. Tente novamente!');
+      }
+    }
+  }
+
   signInWithGoogle() async {
     // TODO: Cadastrar usuário e fazer logout.
     final googleUser = GoogleSignIn();
@@ -96,21 +110,25 @@ class ProviderUsuario extends ChangeNotifier {
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
     );
-    _auth.signInWithCredential(credential);
+    await _auth.signInWithCredential(credential);
     _getUser();
   }
 
   signInWithFacebook() async {
     // TODO: Com erro (Colocar token no style.xml), concluir login, cadastrar usuário e fazer logout.
     print("Entrei no facebook");
-    final LoginResult loginResult = await FacebookAuth.instance.login();
+    final facebookUser = FacebookAuth.instance;
 
     print("Passo 1: no facebook");
-    final OAuthCredential facebookAuthCredential =
+    final LoginResult loginResult = await facebookUser.login();
+
+    print("Passo 2: no facebook");
+    final facebookAuthCredential =
         FacebookAuthProvider.credential(loginResult.accessToken!.token);
 
-    print("Passo 2 no facebook");
-    _auth.signInWithCredential(facebookAuthCredential);
+    print("Passo 3: no facebook");
+    await _auth.signInWithCredential(facebookAuthCredential);
+
     _getUser();
   }
 
@@ -150,26 +168,23 @@ class ProviderUsuario extends ChangeNotifier {
     }
   }
 
-  /*esqueceuSenha(String email) async {
-    try {
-      await _auth.sendSignInLinkToEmail(
-          email: email, actionCodeSettings: actionCodeSettings);
-    } on FirebaseAuthException catch (e) {
-      // Mensagem de erro.
-      if (e.code == 'user-not-found') {
-        throw AuthException('Email não encontrado. Cadastre-se.');
+  // Alterar senha.
+  redefinirSenha(String senhaAtual, String novaSenha) {
+    if (usuario != null) {
+      AuthCredential credential = EmailAuthProvider.credential(
+          email: usuario!.email.toString(), password: senhaAtual);
+      try {
+        usuario!.reauthenticateWithCredential(credential).then((value) {
+          //Conseguiu se reautenticar, então atualiza a senha
+          usuario!.updatePassword(novaSenha).then((value) {});
+        });
+      } on FirebaseAuthException catch (e) {
+        // Mensagem de erro.
+        if (e.code == 'wrong-password') {
+          throw AuthException('Senha inválida. Tente novamente!');
+        }
       }
+      _getUser();
     }
-  }*/
-
-  /*novaSenha(String senha) async{
-    try {
-      await _auth;
-    } on FirebaseAuthException catch (e) {
-      // Mensagem de erro.
-      if (e.code == 'user-not-found') {
-        throw AuthException('Email não encontrado. Cadastre-se.');
-      }
-    }
-  }*/
+  }
 }

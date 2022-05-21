@@ -18,10 +18,17 @@ class TelaConfiguracoes extends StatefulWidget {
 }
 
 class TelaConfiguracoesState extends State<TelaConfiguracoes> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final _campoNome = FocusNode();
   final _campoSenha = FocusNode();
   final _campoEmail = FocusNode();
   final _campoTelefone = FocusNode();
+
+  // Verificações de edição de campo
+  bool editingName = false;
+  bool editingPassword = false;
+  bool editingEmail = false;
+  bool editingPhone = false;
 
   // Máscara para telefone.
   var mascaraTelefone = MaskTextInputFormatter(
@@ -166,7 +173,6 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                     color: Colors.black,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    decoration: TextDecoration.none,
                   ),
                 ),
               ],
@@ -189,43 +195,118 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
               ],
             ),
             /*
-            * Nome e data de nascimento
+            * Nome
             */
-            CampoTexto(
-              labelText: 'Nome',
-              focusNode: _campoNome,
-              onFieldSubmitted: (_) {
-                FocusScope.of(context).requestFocus(_campoNome);
-              },
-              textInputAction: TextInputAction.next,
-              controller: _nome,
-              prefixIcon: const Icon(Icons.person),
-              keyboardType: TextInputType.name,
-              enabled: true,
-              suffixIcon: IconButton(
-                // ignore: avoid_print
-                onPressed: () => print('teste'),
-                icon: const Icon(Icons.edit),
-              ),
+            Row(
+              children: [
+                if (!editingName)
+                  Text(
+                    'Nome: ',
+                    style: GoogleFonts.oxygen(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                if (!editingName)
+                  Expanded(
+                    child: Text(
+                      pvdUsuario.usuario!.displayName!,
+                      style: GoogleFonts.oxygen(
+                        color: Colors.grey[700],
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                if (editingName)
+                  Expanded(
+                    child: CampoTexto(
+                      labelText: 'Nome',
+                      focusNode: _campoNome,
+                      textInputAction: TextInputAction.next,
+                      controller: _nome,
+                      prefixIcon: const Icon(Icons.person),
+                      keyboardType: TextInputType.name,
+                    ),
+                  ),
+                IconButton(
+                  onPressed: () {
+                    setState(() => editingName = !editingName);
+                  },
+                  icon: Icon(
+                    (editingName) ? Icons.check : Icons.edit,
+                    color: Colors.grey[700],
+                  ),
+                ),
+              ],
             ),
-            CampoTexto(
-              labelText: 'Senha',
-              focusNode: _campoSenha,
-              obscureText: true,
-              onFieldSubmitted: (_) {
-                FocusScope.of(context).requestFocus(_campoSenha);
-              },
-              textInputAction: TextInputAction.next,
-              controller: _senha,
-              prefixIcon: const Icon(Icons.lock),
-              keyboardType: TextInputType.visiblePassword,
-              enabled: true,
-              suffixIcon: IconButton(
-                // ignore: avoid_print
-                onPressed: () => print('teste'),
-                icon: const Icon(Icons.edit),
-              ),
+            /*
+            * Senha
+            */
+            Row(
+              children: [
+                if (!editingPassword)
+                  Text(
+                    'Senha: ',
+                    style: GoogleFonts.oxygen(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                if (!editingPassword)
+                  Expanded(
+                    child: Text(
+                      '************',
+                      style: GoogleFonts.oxygen(
+                        color: Colors.grey[700],
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                if (editingPassword)
+                  Expanded(
+                    child: CampoTexto(
+                      labelText: 'Senha',
+                      focusNode: _campoSenha,
+                      textInputAction: TextInputAction.next,
+                      controller: _senha,
+                      prefixIcon: const Icon(Icons.lock),
+                      keyboardType: TextInputType.visiblePassword,
+                    ),
+                  ),
+                IconButton(
+                  onPressed: () {
+                    setState(() => editingPassword = !editingPassword);
+                  },
+                  icon: Icon(
+                    (editingPassword) ? Icons.check : Icons.edit,
+                    color: Colors.grey[700],
+                  ),
+                ),
+              ],
             ),
+            /*
+            * Senha
+            */
+            // CampoTexto(
+            //   labelText: 'Senha',
+            //   focusNode: _campoSenha,
+            //   obscureText: true,
+            //   onFieldSubmitted: (_) {
+            //     FocusScope.of(context).requestFocus(_campoSenha);
+            //   },
+            //   textInputAction: TextInputAction.next,
+            //   controller: _senha,
+            //   prefixIcon: const Icon(Icons.lock),
+            //   keyboardType: TextInputType.visiblePassword,
+            //   enabled: true,
+            //   suffixIcon: IconButton(
+            //     // ignore: avoid_print
+            //     onPressed: () => print('teste'),
+            //     icon: const Icon(Icons.edit),
+            //   ),
+            // ),
             /*
             * Informações de contato
             */
@@ -240,6 +321,9 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                 ),
               ),
             ),
+            /*
+            * Email
+            */
             CampoTexto(
               labelText: 'E-mail',
               focusNode: _campoEmail,
@@ -258,6 +342,9 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                 icon: const Icon(Icons.edit),
               ),
             ),
+            /*
+            * Telefone
+            */
             const SizedBox(height: 10),
             CampoTexto(
               labelText: 'Telefone',

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/components/botao.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class PopupDialog extends StatelessWidget {
   final String titulo;
-  final String descricao;
+  final String? descricao;
   final String yesLabel;
   final String noLabel;
   final void Function()? onPressedNoOption;
@@ -11,7 +13,7 @@ class PopupDialog extends StatelessWidget {
   const PopupDialog({
     Key? key,
     required this.titulo,
-    this.descricao = '',
+    this.descricao,
     this.onPressedNoOption,
     this.onPressedYesOption,
     this.yesLabel = 'Sim',
@@ -21,24 +23,75 @@ class PopupDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(
-        titulo,
-        style: const TextStyle(color: Colors.red),
-      ),
-      content: Text(descricao),
-      actions: <Widget>[
-        MaterialButton(
-          elevation: 5.0,
-          child: Text(noLabel),
-          onPressed: onPressedNoOption,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(20),
         ),
-        MaterialButton(
-          elevation: 5.0,
+      ),
+      titlePadding: descricao == null
+          ? EdgeInsets.only(
+              top: 24,
+              bottom: 10,
+              left: MediaQuery.of(context).size.width * 0.25,
+              right: MediaQuery.of(context).size.width * 0.25)
+          : EdgeInsets.only(
+              top: 24,
+              bottom: 20,
+              right: MediaQuery.of(context).size.width * 0.25,
+              left: MediaQuery.of(context).size.width * 0.25),
+      title: Flexible(
+        child: SizedBox(
           child: Text(
-            yesLabel,
-            style: const TextStyle(color: Colors.red),
+            titulo,
+            style: GoogleFonts.oxygen(
+              color: Colors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
           ),
-          onPressed: onPressedYesOption,
+        ),
+      ),
+      content: descricao != null
+          ? Flexible(
+              child: Text(
+                descricao!,
+                textAlign: TextAlign.center,
+              ),
+            )
+          : const SizedBox(),
+      actions: <Widget>[
+        Flexible(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: SizedBox(
+                  width: 120,
+                  child: Botao(
+                    onPressed: onPressedYesOption,
+                    labelText: yesLabel,
+                    // internalPadding: const EdgeInsets.symmetric(horizontal: ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 50,
+                child: TextButton(
+                  onPressed: onPressedNoOption,
+                  child: Text(
+                    noLabel,
+                    style: GoogleFonts.oxygen(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.normal,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );

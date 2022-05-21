@@ -3,6 +3,7 @@ class Rotas {
   static const authCheck = '/auth-check';
   static const login = '/login';
   static const cadastro = '/cadastro';
+  static const esqueceuSenha = '/esqueceu-senha';
 
   static const main = '/principal';
 

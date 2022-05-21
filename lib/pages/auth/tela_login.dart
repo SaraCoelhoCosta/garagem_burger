@@ -304,13 +304,9 @@ class _TelaLoginState extends State<TelaLogin> {
                                 ),
                               ),
                               onPressed: () {
-                                /*
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => TelaEsqueceuSenha(),
-                                  ),
-                                );*/
+                                Navigator.of(context).pushNamed(
+                                  Rotas.esqueceuSenha,
+                                );
                               },
                             ),
                           ],
