@@ -29,8 +29,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  
-  #Acesso à galeria (câmera)
+
+  # Acesso à galeria (câmera)
   image_picker: ^0.8.5+3
   
   # Idioma.
@@ -42,6 +42,9 @@ dependencies:
 
   # Fontes do google.
   google_fonts: ^2.3.1
+
+  # Permite o acesso ao armazenamento de arquivos no Firebase Storage
+  firebase_storage: ^10.2.16
 
   # Permite a integração com o recurso de autenticação do Firebase.
   firebase_auth: ^3.3.11
@@ -61,7 +64,7 @@ dependencies:
   # ??
   rxdart: ^0.27.3
 
-  # ??
+  # Gerenciamento de dados dentro da árvore de widgets
   provider: ^6.0.2
 
   # The following adds the Cupertino Icons font to your application.
@@ -97,7 +100,6 @@ flutter:
   assets:
      - images/logoHamburgueria.png
      - images/hamburguer.jpg
-     - images/profile.png
      - images/fundo-hamburguer.jpeg
      - images/montar-hamburguer.jpeg
      - images/pedido.jpg
@@ -105,7 +107,8 @@ flutter:
      - images/pao.png
      - images/carne.jpg
      - images/ingredientes.png
-     - images/placeholder.jpg
+     - images/placeholder-produto.jpg
+     - images/placeholder-perfil.png
      
   # To add assets to your application, add an assets section, like this:
   # assets:

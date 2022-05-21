@@ -1,9 +1,4 @@
-// ignore_for_file: deprecated_member_use
-
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:garagem_burger/components/botao.dart';
 import 'package:garagem_burger/components/campo_texto.dart';
 import 'package:garagem_burger/components/popup_dialog.dart';
 import 'package:garagem_burger/controllers/provider_usuario.dart';
@@ -23,11 +18,6 @@ class TelaConfiguracoes extends StatefulWidget {
 }
 
 class TelaConfiguracoesState extends State<TelaConfiguracoes> {
-  void editarFoto() {
-    // ignore: avoid_print
-    print("editar foto");
-  }
-
   final _campoNome = FocusNode();
   final _campoDataNascimento = FocusNode();
   final _campoEmail = FocusNode();
@@ -60,21 +50,41 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
   final _email = TextEditingController();
   final _telefone = TextEditingController();
 
-  ImagePicker imagepicker = ImagePicker();
-  File? imagemSelecionada;
+  String? userPhotoURL;
+
+  Future<void> pickAndUploadImage(BuildContext context) async {
+    final pvdUsuario = Provider.of<ProviderUsuario>(
+      context,
+      listen: false,
+    );
+
+    // Captura a imagem da galeria
+    final ImagePicker _picker = ImagePicker();
+    XFile? tempImage = await _picker.pickImage(
+      source: ImageSource.gallery,
+    );
+
+    // Salva a imagem no Firebase Storage
+    if (tempImage != null) {
+      await pvdUsuario.addPhoto(pvdUsuario.usuario, tempImage.path);
+      setState(() {
+        userPhotoURL = pvdUsuario.usuario!.photoURL;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    userPhotoURL = Provider.of<ProviderUsuario>(
+      context,
+      listen: false,
+    ).usuario!.photoURL;
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    pegarImagemGaleria() async {
-      final XFile? imagemTemporaria =
-          await ImagePicker.platform.getImage(source: ImageSource.gallery);
-      if (imagemTemporaria != null) {
-        setState(() {
-          imagemSelecionada = File(imagemTemporaria!.path);
-        });
-      }
-    }
-
     final pvdUsuario = Provider.of<ProviderUsuario>(context);
     return SingleChildScrollView(
       child: Padding(
@@ -98,40 +108,35 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                   width: 115,
                   child: Stack(
                     fit: StackFit.expand,
-                    overflow: Overflow.visible,
+                    clipBehavior: Clip.none,
                     children: [
-                      // const CircleAvatar(
-                      //   backgroundColor: Colors.grey,
-                      //   // backgroundImage: AssetImage("images/profile.png"),
-                      // ),
-                      imagemSelecionada == null
-                          ? const CircleAvatar(
-                              backgroundColor: Colors.grey,
-                            )
-                          : CircleAvatar(
-                              child: ClipOval(
-                                  child: Image.file(imagemSelecionada!)),
-                            ),
+                      if (userPhotoURL != null)
+                        ClipOval(child: Image.network(userPhotoURL!))
+                      else
+                        ClipOval(
+                          child: Image.asset('images/placeholder-perfil.png'),
+                        ),
                       Positioned(
                         right: -12,
                         bottom: 0,
                         child: Container(
                           child: IconButton(
-                            onPressed: () {
-                              editarFoto();
-                              pegarImagemGaleria();
-                            },
+                            splashRadius: 20,
+                            onPressed: () => pickAndUploadImage(context),
+                            iconSize: 20,
                             icon: const Icon(
                               Icons.camera_alt_outlined,
                               color: Colors.grey,
-                              size: 20,
                             ),
                           ),
                           width: 40,
                           height: 40,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             color: Colors.white,
                             shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Colors.grey,
+                            ),
                           ),
                         ),
                       ),
@@ -178,7 +183,6 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
             /*
             * Nome e data de nascimento
             */
-
             CampoTexto(
               labelText: 'Nome',
               focusNode: _campoNome,
@@ -321,14 +325,14 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                       ),
                     ),
                   ),
-                  Botao(
-                    onPressed: () {},
-                    labelText: 'Salvar',
-                    internalPadding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 15,
-                    ),
-                  ),
+                  // Botao(
+                  //   onPressed: () {},
+                  //   labelText: 'Salvar',
+                  //   internalPadding: const EdgeInsets.symmetric(
+                  //     horizontal: 20,
+                  //     vertical: 15,
+                  //   ),
+                  // ),
                 ],
               ),
             ),

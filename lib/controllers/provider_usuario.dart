@@ -1,7 +1,10 @@
 // ignore_for_file: prefer_final_fields, prefer_void_to_null, unused_element
 
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:garagem_burger/controllers/firebase.dart';
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/models/usuario.dart';
@@ -17,6 +20,7 @@ class ProviderUsuario extends ChangeNotifier {
   // Firebase para autenticação e criação de usuário.
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = Firebase.getFirestore();
+  FirebaseStorage storage = Firebase.getStorage();
   User? usuario;
   bool isLoading = true;
 
@@ -100,6 +104,19 @@ class ProviderUsuario extends ChangeNotifier {
     // TODO: confirmar se remove do BD.
     await firestore.doc(user!.uid).delete();
     _getUser();
+  }
+
+  // Adicionar foto
+  Future<void> addPhoto(User? user, String path) async {
+    File file = File(path);
+    try {
+      String ref = 'Usuários/${user!.uid}/perfil.png';
+      final task = await storage.ref(ref).putFile(file);
+      await usuario!.updatePhotoURL(await task.ref.getDownloadURL());
+      _getUser();
+    } on FirebaseException catch (e) {
+      throw Exception('Erro no upload da foto: ${e.code}');
+    }
   }
 
   /*esqueceuSenha(String email) async {

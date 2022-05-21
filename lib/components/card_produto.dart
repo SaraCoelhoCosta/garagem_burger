@@ -57,7 +57,7 @@ class CardProduto extends StatelessWidget {
                         ),
                         child: FadeInImage(
                           placeholder:
-                              const AssetImage('images/placeholder.jpg'),
+                              const AssetImage('images/placeholder-produto.jpg'),
                           image: image,
                           fit: BoxFit.cover,
                         ),

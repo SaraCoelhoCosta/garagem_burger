@@ -27,141 +27,155 @@ class _TelaPerfilState extends State<TelaPerfil> {
   @override
   Widget build(BuildContext context) {
     final pvdUsuario = Provider.of<ProviderUsuario>(context);
-    return (pvdUsuario.usuario == null)
-        ? TelaVazia(
-            pageName: 'Perfil',
-            icon: Icons.person,
-            titulo: 'FAÇA LOGIN PARA CONTINUAR',
-            subtitulo: 'Você precisa estar logado amiguinho.',
-            rodape: '',
-            navigator: () => Navigator.of(context).pushReplacementNamed(
-              Rotas.home,
-            ),
-          )
-        : SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+    if ((pvdUsuario.usuario == null)) {
+      return TelaVazia(
+        pageName: 'Perfil',
+        icon: Icons.person,
+        titulo: 'FAÇA LOGIN PARA CONTINUAR',
+        subtitulo: 'Você precisa estar logado amiguinho.',
+        rodape: '',
+        navigator: () => Navigator.of(context).pushReplacementNamed(
+          Rotas.home,
+        ),
+      );
+    } else {
+      return SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const SizedBox(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const SizedBox(height: 30),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    SizedBox(
-                      height: 115,
-                      width: 115,
-                      child: Stack(
-                        fit: StackFit.expand,
-                        children: const [
-                          CircleAvatar(
-                            backgroundColor: Colors.grey,
-                            backgroundImage: AssetImage("images/profile.png"),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Text(
-                      pvdUsuario.usuario!.displayName!,
-                      style: GoogleFonts.oxygen(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.none,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                const Divider(
-                  height: 20,
-                  thickness: 1,
-                  indent: 5,
-                  endIndent: 5,
-                  color: Colors.grey,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 15.0,
-                    right: 15.0,
-                    top: 10.0,
-                  ),
-                  child: Column(
+                SizedBox(
+                  height: 115,
+                  width: 115,
+                  child: Stack(
+                    fit: StackFit.expand,
                     children: [
-                      BotaoComSeta(
-                        text: 'Meus Pedidos',
-                        icon: Icons.shopping_cart_outlined,
-                        onTap: () => Navigator.of(context).pushNamed(
-                          Rotas.main,
-                          arguments: {
-                            'index': 3,
-                            'page': const TelaMeusPedidos(),
-                            'button': null,
-                          },
-                        ),
-                      ),
-                      BotaoComSeta(
-                        text: 'Minhas Localizações',
-                        icon: Icons.location_on_outlined,
-                        onTap: () => Navigator.of(context).pushNamed(
-                          Rotas.main,
-                          arguments: {
-                            'index': 3,
-                            'page': const TelaMinhasLocalizacoes(),
-                            'button': const AppBarButton(
-                              icon: Icons.add_location_alt_outlined,
-                              tipoFuncao: TipoFuncao.adicionarLocalizacao,
+                      if (pvdUsuario.usuario!.photoURL == null)
+                        const CircleAvatar(
+                          backgroundColor: Colors.grey,
+                          backgroundImage: AssetImage(
+                            'images/placeholder-perfil.png',
+                          ),
+                        )
+                      else
+                        ClipOval(
+                          child: FadeInImage(
+                            placeholder: const AssetImage(
+                              'images/placeholder-perfil.png',
                             ),
-                          },
+                            image: NetworkImage(pvdUsuario.usuario!.photoURL!),
+                          ),
                         ),
-                      ),
-                      BotaoComSeta(
-                        text: 'Meus Cartões',
-                        icon: Icons.credit_card_outlined,
-                        onTap: () => Navigator.of(context).pushNamed(
-                          Rotas.main,
-                          arguments: {
-                            'index': 3,
-                            'page': const TelaMeusCartoes(),
-                            'button': const AppBarButton(
-                              icon: Icons.add_card,
-                              tipoFuncao: TipoFuncao.adicionarCartao,
-                            ),
-                          },
-                        ),
-                      ),
-                      BotaoComSeta(
-                        text: 'Configurações',
-                        icon: Icons.settings,
-                        onTap: () => Navigator.of(context).pushNamed(
-                          Rotas.main,
-                          arguments: {
-                            'index': 3,
-                            'page': const TelaConfiguracoes(),
-                            'button': null,
-                          },
-                        ),
-                      ),
-                      BotaoComSeta(
-                        text: 'Sair',
-                        icon: Icons.exit_to_app,
-                        onTap: () {
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                            Rotas.home,
-                            (_) => false,
-                          );
-                          if (pvdUsuario.usuario != null) {
-                            pvdUsuario.logout();
-                          }
-                          Provider.of<ProviderCarrinho>(
-                            context,
-                            listen: false,
-                          ).clearAll();
-                        },
-                      ),
                     ],
+                  ),
+                ),
+                Text(
+                  pvdUsuario.usuario!.displayName!,
+                  style: GoogleFonts.oxygen(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.none,
                   ),
                 ),
               ],
             ),
-          );
+            const SizedBox(height: 20),
+            const Divider(
+              height: 20,
+              thickness: 1,
+              indent: 5,
+              endIndent: 5,
+              color: Colors.grey,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 15.0,
+                right: 15.0,
+                top: 10.0,
+              ),
+              child: Column(
+                children: [
+                  BotaoComSeta(
+                    text: 'Meus Pedidos',
+                    icon: Icons.shopping_cart_outlined,
+                    onTap: () => Navigator.of(context).pushNamed(
+                      Rotas.main,
+                      arguments: {
+                        'index': 3,
+                        'page': const TelaMeusPedidos(),
+                        'button': null,
+                      },
+                    ),
+                  ),
+                  BotaoComSeta(
+                    text: 'Minhas Localizações',
+                    icon: Icons.location_on_outlined,
+                    onTap: () => Navigator.of(context).pushNamed(
+                      Rotas.main,
+                      arguments: {
+                        'index': 3,
+                        'page': const TelaMinhasLocalizacoes(),
+                        'button': const AppBarButton(
+                          icon: Icons.add_location_alt_outlined,
+                          tipoFuncao: TipoFuncao.adicionarLocalizacao,
+                        ),
+                      },
+                    ),
+                  ),
+                  BotaoComSeta(
+                    text: 'Meus Cartões',
+                    icon: Icons.credit_card_outlined,
+                    onTap: () => Navigator.of(context).pushNamed(
+                      Rotas.main,
+                      arguments: {
+                        'index': 3,
+                        'page': const TelaMeusCartoes(),
+                        'button': const AppBarButton(
+                          icon: Icons.add_card,
+                          tipoFuncao: TipoFuncao.adicionarCartao,
+                        ),
+                      },
+                    ),
+                  ),
+                  BotaoComSeta(
+                    text: 'Configurações',
+                    icon: Icons.settings,
+                    onTap: () => Navigator.of(context).pushNamed(
+                      Rotas.main,
+                      arguments: {
+                        'index': 3,
+                        'page': const TelaConfiguracoes(),
+                        'button': null,
+                      },
+                    ),
+                  ),
+                  BotaoComSeta(
+                    text: 'Sair',
+                    icon: Icons.exit_to_app,
+                    onTap: () {
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        Rotas.home,
+                        (_) => false,
+                      );
+                      if (pvdUsuario.usuario != null) {
+                        pvdUsuario.logout();
+                      }
+                      Provider.of<ProviderCarrinho>(
+                        context,
+                        listen: false,
+                      ).clearAll();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
   }
 }
