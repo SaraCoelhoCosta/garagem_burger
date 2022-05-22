@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/components/botao.dart';
 import 'package:garagem_burger/components/order_status_row.dart';
+import 'package:garagem_burger/components/popup_dialog.dart';
 import 'package:garagem_burger/controllers/provider_pedidos.dart';
 import 'package:garagem_burger/models/pedido.dart';
 import 'package:garagem_burger/pages/menu/tela_menu.dart';
@@ -18,9 +20,7 @@ class _TelaPedidoState extends State<TelaPedido> {
   @override
   String toStringShort() => 'Acompanhar Pedido';
 
-  _showOrderDetailPage(){
-    
-  }
+  //_showOrderDetailPage() {}
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +38,7 @@ class _TelaPedidoState extends State<TelaPedido> {
         ),
       ),
     );
+    bool clickToCancel = false;
     final totalHeight = MediaQuery.of(context).size.height;
     final appBarHeight =
         appBar.preferredSize.height + MediaQuery.of(context).padding.top;
@@ -58,53 +59,82 @@ class _TelaPedidoState extends State<TelaPedido> {
       appBar: appBar,
       // body: Center(child: Text(pedido.total.toStringAsFixed(2))),
 
-      body: Card(
-        elevation: 6.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        child: Container(
-          height: availableHeight * 0.5,
-          padding: const EdgeInsets.all(10.0),
-          child: ListView.builder(
-            itemCount: pedido.etapas.length,
-            itemBuilder: (ctx, i) => OrderStatusRow(
-              date: pedido.etapas[i]['date'] as DateTime,
-              isComplete: pedido.etapas[i]['isComplete'] as bool,
-              indexStatus: i,
+      body: Column(
+        children: [
+          Card(
+            elevation: 6.0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            child: Container(
+              height: availableHeight * 0.5,
+              padding: const EdgeInsets.all(10.0),
+              child: ListView.builder(
+                itemCount: pedido.etapas.length,
+                itemBuilder: (ctx, i) => OrderStatusRow(
+                  date: pedido.etapas[i]['date'] as DateTime,
+                  isComplete: pedido.etapas[i]['isComplete'] as bool,
+                  indexStatus: i,
+                ),
+              ),
+              // child: Column(
+              //   mainAxisSize: MainAxisSize.min,
+              //   children: [
+              //     OrderStatusRow(
+              //       date: DateTime.now(),
+              //       isComplete: true,
+              //       indexStatus: 0,
+              //     ),
+              //     OrderStatusRow(
+              //       date: DateTime.now(),
+              //       isComplete: true,
+              //       indexStatus: 1,
+              //     ),
+              //     OrderStatusRow(
+              //       date: DateTime.now(),
+              //       isComplete: true,
+              //       indexStatus: 2,
+              //     ),
+              //     OrderStatusRow(
+              //       date: DateTime.now(),
+              //       isComplete: true,
+              //       indexStatus: 3,
+              //     ),
+              //     OrderStatusRow(
+              //       date: DateTime.now(),
+              //       isComplete: true,
+              //       indexStatus: 4,
+              //     ),
+              //   ],
+              // ),
             ),
           ),
-          // child: Column(
-          //   mainAxisSize: MainAxisSize.min,
-          //   children: [
-          //     OrderStatusRow(
-          //       date: DateTime.now(),
-          //       isComplete: true,
-          //       indexStatus: 0,
-          //     ),
-          //     OrderStatusRow(
-          //       date: DateTime.now(),
-          //       isComplete: true,
-          //       indexStatus: 1,
-          //     ),
-          //     OrderStatusRow(
-          //       date: DateTime.now(),
-          //       isComplete: true,
-          //       indexStatus: 2,
-          //     ),
-          //     OrderStatusRow(
-          //       date: DateTime.now(),
-          //       isComplete: true,
-          //       indexStatus: 3,
-          //     ),
-          //     OrderStatusRow(
-          //       date: DateTime.now(),
-          //       isComplete: true,
-          //       indexStatus: 4,
-          //     ),
-          //   ],
-          // ),
-        ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Botao(
+              labelText: 'Cancelar',
+              loading: clickToCancel,
+              externalPadding: const EdgeInsets.only(top: 20),
+              // TODO: Fazer com que o botão desabilite quando chegar na etapa tal junto com o popup.
+              onPressed: () => showDialog(
+                context: context,
+                builder: (BuildContext context) => PopupDialog(
+                  titulo: 'Tem certeza que deseja cancelar o pedido?',
+                  yesLabel: 'Sim',
+                  noLabel: 'Não',
+                  //TODO: @Willia Acena
+                  onPressedYesOption: () {
+                    Navigator.of(context).pop(); // Mudar de tela?
+                    setState(() {
+                      clickToCancel = true;
+                    });
+                  },
+                  onPressedNoOption: () => Navigator.of(context).pop(),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
 
       floatingActionButton: FloatingActionButton(

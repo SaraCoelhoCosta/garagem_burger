@@ -175,6 +175,7 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
               ],
             ),
             Form(
+              key: formKey,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,

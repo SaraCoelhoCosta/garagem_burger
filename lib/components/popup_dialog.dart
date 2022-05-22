@@ -41,13 +41,13 @@ class PopupDialog extends StatelessWidget {
       ),
       content: descricao != null
           ? Text(
-            descricao!,
-            textAlign: TextAlign.center,
-            style: GoogleFonts.oxygen(
-              color: Colors.black,
-              fontSize: 18,
-            ),
-          )
+              descricao!,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.oxygen(
+                color: Colors.black,
+                fontSize: 18,
+              ),
+            )
           : null,
       actions: [
         Column(
@@ -61,6 +61,9 @@ class PopupDialog extends StatelessWidget {
                   horizontal: MediaQuery.of(context).size.width * 0.20,
                 ),
               ),
+            ),
+            const SizedBox(
+              height: 10,
             ),
             TextButton(
               onPressed: onPressedNoOption,
