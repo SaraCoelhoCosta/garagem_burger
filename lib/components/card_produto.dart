@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/models/produto.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CardProduto extends StatelessWidget {
   final Produto produto;
@@ -81,7 +82,7 @@ class CardProduto extends StatelessWidget {
                           FittedBox(
                             child: Text(
                               produto.nome, // max: 27 caracteres
-                              style: const TextStyle(
+                              style: GoogleFonts.oxygen(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black,
@@ -101,7 +102,7 @@ class CardProduto extends StatelessWidget {
                                           : '${produto.recipiente} de ') +
                                       produto.quantidade.toString() +
                                       produto.unidadeMedida,
-                                  style: const TextStyle(
+                                  style: GoogleFonts.oxygen(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.grey,

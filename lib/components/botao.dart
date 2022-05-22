@@ -12,6 +12,7 @@ class Botao extends StatelessWidget {
   final EdgeInsets internalPadding;
   final EdgeInsets externalPadding;
   final bool loading;
+  final double iconSize;
 
   const Botao({
     Key? key,
@@ -22,6 +23,7 @@ class Botao extends StatelessWidget {
     this.foregroundColor = Colors.black,
     this.backgroundColor = const Color(0xfffed80b),
     this.loading = false,
+    this.iconSize = 24,
     required this.onPressed,
   }) : super(key: key);
 
@@ -45,6 +47,7 @@ class Botao extends StatelessWidget {
               Icon(
                 icon!,
                 color: foregroundColor,
+                size: iconSize,
               )
             else if (labelText != null)
               Text(

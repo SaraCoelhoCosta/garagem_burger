@@ -6,6 +6,7 @@ class Produto {
   static const sobremesa = 'Sobremesa';
   static const hamburguerCasa = 'Hambúrgueres da Casa';
   static const combo = 'Combo';
+  static const meuHamburguer = 'Meu Hambúrguer';
 
   // Recipiente/Conjunto
   static const porcao = 'Porção';

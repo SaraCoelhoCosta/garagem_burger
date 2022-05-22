@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/app_bar_button.dart';
-import 'package:garagem_burger/components/card_options.dart';
-import 'package:garagem_burger/components/category_grid.dart';
 import 'package:garagem_burger/components/popup_dialog.dart';
 import 'package:garagem_burger/controllers/provider_produtos.dart';
 import 'package:garagem_burger/controllers/provider_usuario.dart';
 import 'package:garagem_burger/models/hamburguer.dart';
+import 'package:garagem_burger/models/ingrediente.dart';
 import 'package:garagem_burger/models/produto.dart';
 import 'package:garagem_burger/components/modal_produto.dart';
 import 'package:garagem_burger/controllers/provider_carrinho.dart';
@@ -24,11 +23,7 @@ class TelaProduto extends StatefulWidget {
 
 class _TelaProdutoState extends State<TelaProduto>
     with SingleTickerProviderStateMixin {
-  bool isCategories = true;
   bool showEditOptions = false;
-  bool isIngredients = false;
-  bool isPao = false;
-  bool isCarne = false;
   bool openedModal = false;
   AnimationController? _controller;
   Animation<double>? _opacityAnimation;
@@ -107,10 +102,9 @@ class _TelaProdutoState extends State<TelaProduto>
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: appBar,
-      floatingActionButton: (provider.emptyList)
+      floatingActionButton: (provider.emptyList || showEditOptions)
           ? null
           : FloatingActionButton(
-              mini: true,
               backgroundColor: const Color(0xfffed80b),
               foregroundColor: Colors.black,
               child: const Icon(
@@ -129,7 +123,7 @@ class _TelaProdutoState extends State<TelaProduto>
                 },
               ),
             ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndTop,
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
@@ -151,7 +145,7 @@ class _TelaProdutoState extends State<TelaProduto>
               padding: const EdgeInsets.all(20),
               child: Column(
                 children: [
-                  SizedBox(height: appBarHeight),
+                  SizedBox(height: appBarHeight + 20),
                   /*
                   * Preço inicial
                   */
@@ -215,6 +209,7 @@ class _TelaProdutoState extends State<TelaProduto>
                       ),
                     ],
                   ),
+                  const SizedBox(height: 5),
                   Column(
                     children:
                         (produto as Hamburguer).ingredientes.map((ingrediente) {
@@ -229,7 +224,7 @@ class _TelaProdutoState extends State<TelaProduto>
                               strokeColor: Colors.black,
                               strokeWidth: 3,
                               child: Text(
-                                ing.nome,
+                                '${ingrediente['quantidade']}x ${ing.nome}',
                                 style: GoogleFonts.oxygen(
                                   color: Colors.white,
                                   fontSize: 24.0,
@@ -244,7 +239,9 @@ class _TelaProdutoState extends State<TelaProduto>
                               strokeColor: Colors.black,
                               strokeWidth: 3,
                               child: Text(
-                                '${ing.quantidade} ${ing.unidadeMedida}',
+                                '${ing.quantidade * (ingrediente['quantidade'] as int)} '
+                                '${ing.unidadeMedida}'
+                                '${(ing.unidadeMedida == Ingrediente.fatia && ingrediente['quantidade'] > 1 ? 's' : '')}',
                                 style: GoogleFonts.oxygen(
                                   color: Colors.white,
                                   fontSize: 24.0,
@@ -374,31 +371,11 @@ class _TelaProdutoState extends State<TelaProduto>
                         produto: produto,
                         isEditing: isEditing,
                         showEditOptions: showEditOptions,
-                        editOptions: (!isCategories && !isIngredients)
-                            ? CardOptions(showCarne: isCarne)
-                            : CategoryGrid(
-                                isIngredients: isIngredients,
-                                showIngredients: () {
-                                  setState(() {
-                                    isIngredients = true;
-                                    isCategories = false;
-                                  });
-                                },
-                                showCarne: () {
-                                  setState(() {
-                                    isCarne = true;
-                                    isCategories = false;
-                                  });
-                                },
-                                showPao: () {
-                                  setState(() {
-                                    isPao = true;
-                                    isCategories = false;
-                                  });
-                                },
-                              ),
                         onTapEdit: () {
                           setState(() => showEditOptions = true);
+                        },
+                        onTapReturn: () {
+                          setState(() => showEditOptions = false);
                         },
                         onTap: (ctx, qnt) {
                           if (user == null) {

@@ -1,18 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/botao.dart';
+import 'package:garagem_burger/components/card_category.dart';
+import 'package:garagem_burger/components/card_ingredient.dart';
+import 'package:garagem_burger/components/card_meat.dart';
+import 'package:garagem_burger/components/category_grid.dart';
+import 'package:garagem_burger/controllers/provider_produtos.dart';
+import 'package:garagem_burger/models/hamburguer.dart';
 import 'package:garagem_burger/models/produto.dart';
 import 'package:garagem_burger/controllers/provider_carrinho.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+enum OptionEdit {
+  categories,
+  ingredientsGrid,
+  ingredientsList,
+  meat,
+  bread,
+}
+
 class ModalProduto extends StatefulWidget {
   final Produto produto;
   final bool isEditing;
   final bool showEditOptions;
-  final Widget? editOptions;
   final void Function(BuildContext, int) onTap;
   final void Function()? onTapEdit;
-  final void Function()? onTapCancel;
+  final void Function()? onTapReturn;
 
   const ModalProduto({
     Key? key,
@@ -20,9 +33,8 @@ class ModalProduto extends StatefulWidget {
     required this.onTap,
     required this.isEditing,
     this.showEditOptions = false,
-    this.editOptions,
     this.onTapEdit,
-    this.onTapCancel,
+    this.onTapReturn,
   }) : super(key: key);
 
   @override
@@ -32,10 +44,15 @@ class ModalProduto extends StatefulWidget {
 class _ModalProdutoState extends State<ModalProduto> {
   int _qnt = 1;
   bool modalUpdated = false;
+  OptionEdit optionEdit = OptionEdit.categories;
 
   @override
   Widget build(BuildContext context) {
     final pvdCarrinho = Provider.of<ProviderCarrinho>(
+      context,
+      listen: false,
+    );
+    final pvdProduto = Provider.of<ProviderProdutos>(
       context,
       listen: false,
     );
@@ -47,7 +64,7 @@ class _ModalProdutoState extends State<ModalProduto> {
     }
 
     return Padding(
-      padding: const EdgeInsets.all(15),
+      padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -55,7 +72,61 @@ class _ModalProdutoState extends State<ModalProduto> {
           /*
           * Opções de edição
           */
-          if (widget.showEditOptions) widget.editOptions!,
+          if (widget.showEditOptions &&
+              (optionEdit == OptionEdit.categories ||
+                  optionEdit == OptionEdit.ingredientsGrid))
+            CategoryGrid(
+              isIngredients: optionEdit == OptionEdit.ingredientsGrid,
+              showIngredients: () {
+                setState(() {
+                  if (widget.produto.tipo == Produto.hamburguerCasa) {
+                    optionEdit = OptionEdit.ingredientsList;
+                  } else {
+                    optionEdit = OptionEdit.ingredientsGrid;
+                  }
+                });
+              },
+              showMeat: () {
+                setState(() => optionEdit = OptionEdit.meat);
+              },
+              showBread: () {
+                setState(() => optionEdit = OptionEdit.bread);
+              },
+            ),
+          if (widget.showEditOptions &&
+              optionEdit == OptionEdit.ingredientsList)
+            SizedBox(
+              height: 400,
+              child: ListView.builder(
+                itemCount: (widget.produto as Hamburguer).ingredientes.length,
+                itemBuilder: (ctx, index) {
+                  final ing =
+                      (widget.produto as Hamburguer).ingredientes[index];
+                  return CardIngredient(
+                    count: ing['quantidade'] as int,
+                    ingredient: pvdProduto.ingredientById(ing['id']),
+                  );
+                },
+              ),
+            ),
+          if (widget.showEditOptions && optionEdit == OptionEdit.meat)
+            const CardMeat(),
+          if (widget.showEditOptions && optionEdit == OptionEdit.bread)
+            const CardCategory(
+              urlImage: 'images/pao.png',
+              text: 'Pão de Briochi',
+              imageRatioWidth: 0.30,
+              textRatioWidth: 0.65,
+              ratioWidth: 0.92,
+            ),
+          if (widget.showEditOptions && optionEdit == OptionEdit.bread)
+            const CardCategory(
+              urlImage: 'images/pao.png',
+              text: 'Pão Americano',
+              imageRatioWidth: 0.30,
+              textRatioWidth: 0.65,
+              ratioWidth: 0.92,
+            ),
           /*
           * Titulo do modal
           */
@@ -141,13 +212,19 @@ class _ModalProdutoState extends State<ModalProduto> {
             ),
           ),
           /*
-          * Botão de cancelar
+          * Botão de voltar
           */
           if (widget.isEditing && widget.showEditOptions)
             Botao(
-              labelText: 'Cancelar',
+              labelText: 'Voltar',
               externalPadding: const EdgeInsets.only(top: 5),
-              onPressed: widget.onTapCancel,
+              onPressed: () {
+                if (optionEdit != OptionEdit.categories) {
+                  setState(() => optionEdit = OptionEdit.categories);
+                } else if (widget.onTapReturn != null) {
+                  widget.onTapReturn!();
+                }
+              },
             ),
         ],
       ),

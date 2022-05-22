@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/botao.dart';
+import 'package:garagem_burger/models/ingrediente.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CardIngredient extends StatelessWidget {
+  final Ingrediente ingredient;
+  final int count;
   final Function()? addItem;
   final Function()? removeItem;
 
   const CardIngredient({
     Key? key,
+    required this.ingredient,
+    required this.count,
     this.addItem,
     this.removeItem,
   }) : super(key: key);
@@ -19,14 +24,9 @@ class CardIngredient extends StatelessWidget {
         Scaffold.of(context).appBarMaxHeight!;
     final deviceWidth = MediaQuery.of(context).size.width;
 
-    return Padding(
-      padding: const EdgeInsets.only(
-        left: 8,
-        right: 8,
-        top: 8,
-      ),
-      child: SizedBox(
-        height: availableHeight * 0.20,
+    return LayoutBuilder(builder: (ctx, constraints) {
+      return SizedBox(
+        height: availableHeight * 0.17,
         child: Card(
           elevation: 6.0,
           shape: RoundedRectangleBorder(
@@ -43,19 +43,31 @@ class CardIngredient extends StatelessWidget {
                   borderRadius: BorderRadius.all(
                     Radius.circular(15),
                   ),
-                  image: DecorationImage(
-                    image: AssetImage('images/pao.png'),
+                ),
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(15),
+                  ),
+                  child: FadeInImage.assetNetwork(
+                    image: ingredient.urlImage,
+                    placeholder: 'images/placeholder-produto.jpg',
                     fit: BoxFit.cover,
+                    placeholderFit: BoxFit.cover,
                   ),
                 ),
-                width: deviceWidth * 0.25,
+                width: constraints.maxWidth * 0.30,
+                height: double.infinity,
               ),
               /*
               * Tudo
               */
-              Container(
-                padding: const EdgeInsets.all(12),
-                width: deviceWidth * 0.65,
+              Container( 
+                padding: const EdgeInsets.only(
+                  top: 12,
+                  bottom: 12,
+                  left: 12,
+                ),
+                width: constraints.maxWidth * 0.65,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -66,9 +78,9 @@ class CardIngredient extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'Geleia de pimenta',
-                          style: TextStyle(
+                        Text(
+                          ingredient.nome,
+                          style: GoogleFonts.oxygen(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
@@ -84,11 +96,12 @@ class CardIngredient extends StatelessWidget {
                           child: Center(
                             child: FittedBox(
                               child: Text(
-                                '1',
+                                count.toString(),
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.oxygen(
-                                  fontSize: 16,
+                                  fontSize: 20,
                                   fontWeight: FontWeight.bold,
+                                  color: Colors.black,
                                 ),
                               ),
                             ),
@@ -101,11 +114,12 @@ class CardIngredient extends StatelessWidget {
                     */
                     Row(
                       children: [
-                        const Text(
-                          'Porção de 180g\n'
-                          'R\$ 0,70',
-                          style: TextStyle(
-                            fontSize: 15,
+                        Text(
+                          '${ingredient.quantidade} '
+                          '${ingredient.unidadeMedida}'
+                          '\nR\$ ${ingredient.preco.toStringAsFixed(2)}',
+                          style: GoogleFonts.oxygen(
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Colors.grey,
                           ),
@@ -115,10 +129,14 @@ class CardIngredient extends StatelessWidget {
                           onPressed: removeItem,
                           icon: Icons.remove,
                           externalPadding: const EdgeInsets.only(right: 10),
+                          internalPadding: EdgeInsets.zero,
+                          iconSize: 20,
                         ),
                         Botao(
                           onPressed: addItem,
                           icon: Icons.add,
+                          internalPadding: EdgeInsets.zero,
+                          iconSize: 20,
                         )
                       ],
                     ),
@@ -128,7 +146,7 @@ class CardIngredient extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

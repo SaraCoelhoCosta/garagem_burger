@@ -28,70 +28,52 @@ class PopupDialog extends StatelessWidget {
           Radius.circular(20),
         ),
       ),
-      titlePadding: descricao == null
-          ? EdgeInsets.only(
-              top: 24,
-              bottom: 10,
-              left: MediaQuery.of(context).size.width * 0.25,
-              right: MediaQuery.of(context).size.width * 0.25)
-          : EdgeInsets.only(
-              top: 24,
-              bottom: 20,
-              right: MediaQuery.of(context).size.width * 0.25,
-              left: MediaQuery.of(context).size.width * 0.25),
-      title: Flexible(
-        child: SizedBox(
-          child: Text(
-            titulo,
-            style: GoogleFonts.oxygen(
-              color: Colors.black,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-            textAlign: TextAlign.center,
-          ),
+      insetPadding: const EdgeInsets.symmetric(horizontal: 70),
+      // padd
+      title: Text(
+        titulo,
+        style: GoogleFonts.oxygen(
+          color: Colors.black,
+          fontSize: 22,
+          fontWeight: FontWeight.bold,
         ),
+        textAlign: TextAlign.center,
       ),
       content: descricao != null
-          ? Flexible(
+          ? Text(
+            descricao!,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.oxygen(
+              color: Colors.black,
+              fontSize: 18,
+            ),
+          )
+          : null,
+      actions: [
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Botao(
+                onPressed: onPressedYesOption,
+                labelText: yesLabel,
+                externalPadding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.20,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: onPressedNoOption,
               child: Text(
-                descricao!,
-                textAlign: TextAlign.center,
-              ),
-            )
-          : const SizedBox(),
-      actions: <Widget>[
-        Flexible(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Center(
-                child: SizedBox(
-                  width: 120,
-                  child: Botao(
-                    onPressed: onPressedYesOption,
-                    labelText: yesLabel,
-                    // internalPadding: const EdgeInsets.symmetric(horizontal: ),
-                  ),
+                noLabel,
+                style: GoogleFonts.oxygen(
+                  color: Colors.black,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(
-                height: 50,
-                child: TextButton(
-                  onPressed: onPressedNoOption,
-                  child: Text(
-                    noLabel,
-                    style: GoogleFonts.oxygen(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.normal,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ],
     );

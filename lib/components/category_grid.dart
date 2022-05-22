@@ -4,15 +4,15 @@ import 'package:garagem_burger/components/card_category.dart';
 class CategoryGrid extends StatelessWidget {
   final bool isIngredients;
   final Function()? showIngredients;
-  final Function()? showPao;
-  final Function()? showCarne;
+  final Function()? showBread;
+  final Function()? showMeat;
 
   const CategoryGrid({
     Key? key,
-    required this.isIngredients,
+    this.isIngredients = false,
     this.showIngredients,
-    this.showPao,
-    this.showCarne,
+    this.showBread,
+    this.showMeat,
   }) : super(key: key);
 
   @override
@@ -41,12 +41,12 @@ class CategoryGrid extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               CardCategory(
-                onTap: showPao,
+                onTap: showBread,
                 urlImage: 'images/pao.png',
                 text: 'Pão',
               ),
               CardCategory(
-                onTap: showCarne,
+                onTap: showMeat,
                 urlImage: 'images/carne.jpg',
                 text: 'Carne',
               ),
