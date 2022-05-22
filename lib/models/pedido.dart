@@ -27,6 +27,16 @@ class Pedido {
     required this.etapas,
   });
 
+  bool get isCancelable {
+    if (etapas.length == 1 && status == Pedido.pendente) {
+      return true;
+    } else if (etapas.length == 2 && status == Pedido.pendente) {
+      return !etapas[1]['isComplete'];
+    } else {
+      return false;
+    }
+  }
+
   factory Pedido.fromMap(String id, Map<String, dynamic> dados) {
     return Pedido(
       id: id,

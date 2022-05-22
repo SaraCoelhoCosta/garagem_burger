@@ -12,7 +12,7 @@ enum OrderStatus {
 
 class OrderStatusRow extends StatelessWidget {
   final DateTime date;
-  final int indexStatus; // Entre 0 e 4
+  final int indexStatus;
   final bool isComplete;
   final bool isCanceled;
   final Color? completeColor;
@@ -43,16 +43,12 @@ class OrderStatusRow extends StatelessWidget {
       false: 'Aguardando pedido sair para entrega...',
       true: 'Seu pedido saiu para entrega!',
     },
-    {
-      false: 'Cancelando pedido...',
-      true: 'Seu pedido foi cancelado!',
-    },
   ];
 
   @override
   Widget build(BuildContext context) {
     Color? color = Colors.grey;
-    if(isCanceled){
+    if (isCanceled) {
       color = Theme.of(context).errorColor;
     }
     return SizedBox(

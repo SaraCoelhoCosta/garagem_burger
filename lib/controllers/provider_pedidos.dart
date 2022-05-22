@@ -184,14 +184,11 @@ class ProviderPedidos with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> cancelOrder(User? user, Pedido pedido) async {
-    if (pedido.etapas.length <= 2 && !pedido.etapas[1]['isComplete']) {
+  Future<void> cancelOrder(User? user, Pedido pedido) async {
+    if (pedido.isCancelable) {
       pedido.status = Pedido.cancelado;
       _pedidos.update(pedido.id, (_) => pedido);
       await updatePedido(user, pedido);
-      return true;
-    } else {
-      return false;
     }
   }
 

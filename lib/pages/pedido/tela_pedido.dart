@@ -81,29 +81,27 @@ class _TelaPedidoState extends State<TelaPedido> {
               labelText: 'Cancelar',
               loading: canceling,
               externalPadding: const EdgeInsets.only(top: 20),
-              onPressed: () => showDialog(
-                context: context,
-                builder: (ctx) => PopupDialog(
-                  titulo: 'Tem certeza que deseja cancelar o pedido?',
-                  yesLabel: 'Sim',
-                  noLabel: 'Não',
-                  onPressedYesOption: () => Navigator.of(ctx).pop(true),
-                  onPressedNoOption: () => Navigator.of(ctx).pop(false),
-                ),
-              ).then((selectedYesOption) async {
-                if (selectedYesOption) {
-                  setState(() => canceling = true);
-                  final canceled = await pvdPedido.cancelOrder(user, pedido);
-                  if (canceled) {
-                    // TODO: @Juao Mostrar para o usuário que isso aconteceu
-                    print('O pedido foi cancelado!');
-                  } else {
-                    // TODO: @Juao Mostrar para o usuário que isso aconteceu
-                    print('Não foi possível cancelar o pedido');
-                  }
-                  setState(() => canceling = false);
-                }
-              }),
+              onPressed: (!pedido.isCancelable)
+                  ? null
+                  : () {
+                      return showDialog(
+                        context: context,
+                        builder: (ctx) => PopupDialog(
+                          titulo: 'Tem certeza que deseja cancelar o pedido?',
+                          yesLabel: 'Sim',
+                          noLabel: 'Não',
+                          onPressedYesOption: () => Navigator.of(ctx).pop(true),
+                          onPressedNoOption: () => Navigator.of(ctx).pop(false),
+                        ),
+                      ).then((selectedYesOption) async {
+                        if (selectedYesOption) {
+                          setState(() => canceling = true);
+                          await pvdPedido.cancelOrder(user, pedido);
+                          // TODO: (Juao) => mostrar para o usuário que o pedido foi cancelado
+                          setState(() => canceling = false);
+                        }
+                      });
+                    },
             ),
           ),
         ],
