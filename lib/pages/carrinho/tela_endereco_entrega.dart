@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/botao.dart';
 import 'package:garagem_burger/components/combo_box.dart';
+import 'package:garagem_burger/components/custom_text.dart';
 import 'package:garagem_burger/components/row_price.dart';
 import 'package:garagem_burger/controllers/provider_pedidos.dart';
 import 'package:garagem_burger/pages/carrinho/tela_pagamento.dart';
@@ -8,7 +9,6 @@ import 'package:garagem_burger/pages/localizacao/tela_nova_localizacao.dart';
 import 'package:garagem_burger/controllers/provider_carrinho.dart';
 import 'package:garagem_burger/controllers/provider_localizacoes.dart';
 import 'package:garagem_burger/utils/rotas.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class TelaEnderecoEntrega extends StatefulWidget {
@@ -66,21 +66,9 @@ class _TelaEnderecoEntregaState extends State<TelaEnderecoEntrega> {
                       });
                     },
                   ),
-                  Text(
-                    '\nSelecione um endereço cadastrado',
-                    style: GoogleFonts.oxygen(
-                      fontSize: 17,
-                      fontWeight: FontWeight.normal,
-                      color: Colors.black,
-                    ),
-                  ),
-                  Text(
-                    '\nou',
-                    style: GoogleFonts.oxygen(
-                      fontSize: 17,
-                      fontWeight: FontWeight.normal,
-                      color: Colors.black,
-                    ),
+                  const CustomText(
+                    '\nSelecione um endereço cadastrado\n\nou',
+                    textAlign: TextAlign.center,
                   ),
                   TextButton(
                     onPressed: () {
@@ -96,13 +84,10 @@ class _TelaEnderecoEntregaState extends State<TelaEnderecoEntrega> {
                         updatedLocal = !isNewLocal;
                       });
                     },
-                    child: Text(
+                    child: const CustomText(
                       'Insira outro endereço',
-                      style: GoogleFonts.oxygen(
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue,
-                      ),
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue,
                     ),
                   ),
                 ],
@@ -141,13 +126,11 @@ class _TelaEnderecoEntregaState extends State<TelaEnderecoEntrega> {
                       if (currentLocalId == null) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text(
+                            content: const CustomText(
                               'Selecione um endereço primeiro!',
                               textAlign: TextAlign.center,
-                              style: GoogleFonts.oxygen(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
                             ),
                             elevation: 6.0,
                             backgroundColor: Theme.of(context).errorColor,

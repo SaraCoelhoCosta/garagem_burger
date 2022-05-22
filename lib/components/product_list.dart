@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/card_produto.dart';
 import 'package:garagem_burger/components/card_ofertas.dart';
+import 'package:garagem_burger/components/custom_text.dart';
 import 'package:garagem_burger/models/produto.dart';
 import 'package:garagem_burger/utils/rotas.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ProductList extends StatelessWidget {
   final String title;
@@ -30,12 +30,10 @@ class ProductList extends StatelessWidget {
             top: 10.0,
             left: 8.0,
           ),
-          child: Text(
+          child: CustomText(
             title,
-            style: GoogleFonts.oxygen(
-              fontSize: 22.0,
-              fontWeight: FontWeight.bold,
-            ),
+            fontSize: 22.0,
+            fontWeight: FontWeight.bold,
           ),
         ),
         /*

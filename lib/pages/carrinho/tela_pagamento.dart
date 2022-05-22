@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/botao.dart';
 import 'package:garagem_burger/components/combo_box.dart';
+import 'package:garagem_burger/components/custom_text.dart';
 import 'package:garagem_burger/components/row_price.dart';
 import 'package:garagem_burger/controllers/provider_carrinho.dart';
 import 'package:garagem_burger/controllers/provider_cartoes.dart';
@@ -92,13 +93,11 @@ class _TelaPagamentoState extends State<TelaPagamento> {
                     iconSize: 50,
                     color: (isPix) ? Colors.blue : Colors.black,
                   ),
-                  Text(
+                  CustomText(
                     'PIX',
-                    style: GoogleFonts.oxygen(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: (isPix) ? Colors.blue : Colors.black,
-                    ),
+                    fontWeight: FontWeight.bold,
+                    color: (isPix) ? Colors.blue : Colors.black,
+                    fontSize: 20,
                   ),
                 ],
               ),
@@ -116,13 +115,11 @@ class _TelaPagamentoState extends State<TelaPagamento> {
                     iconSize: 50,
                     color: (!isPix) ? Colors.blue : Colors.black,
                   ),
-                  Text(
+                  CustomText(
                     'Cartão',
-                    style: GoogleFonts.oxygen(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: (!isPix) ? Colors.blue : Colors.black,
-                    ),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: (!isPix) ? Colors.blue : Colors.black,
                   ),
                 ],
               ),
@@ -158,21 +155,9 @@ class _TelaPagamentoState extends State<TelaPagamento> {
                         });
                       },
                     ),
-                    Text(
-                      '\nSelecione um cartão cadastrado',
-                      style: GoogleFonts.oxygen(
-                        fontSize: 17,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.black,
-                      ),
-                    ),
-                    Text(
-                      '\nou',
-                      style: GoogleFonts.oxygen(
-                        fontSize: 17,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.black,
-                      ),
+                    const CustomText(
+                      '\nSelecione um cartão cadastrado\n\nou',
+                      textAlign: TextAlign.center,
                     ),
                     TextButton(
                       onPressed: () {
@@ -188,13 +173,10 @@ class _TelaPagamentoState extends State<TelaPagamento> {
                           updatedCard = !isNewCard;
                         });
                       },
-                      child: Text(
+                      child: const CustomText(
                         'Insira outro cartão',
-                        style: GoogleFonts.oxygen(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue,
-                        ),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue,
                       ),
                     ),
                   ],
@@ -216,21 +198,16 @@ class _TelaPagamentoState extends State<TelaPagamento> {
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: ListTile(
-                  title: Text(
+                  title: const CustomText(
                     'Pagamento - Chave PIX',
-                    style: GoogleFonts.oxygen(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
-                  subtitle: Text(
+                  subtitle: const CustomText(
                     '95.752.445/0001-34',
-                    style: GoogleFonts.oxygen(
-                      fontSize: 18,
-                    ),
+                    color: Colors.grey,
                   ),
                   trailing: IconButton(
-                    // TODO: Copiar o subtitle para a área de transferência
                     onPressed: () {},
                     icon: const Icon(Icons.copy),
                   ),

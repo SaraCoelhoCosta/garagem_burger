@@ -1,11 +1,10 @@
-// ignore_for_file: file_names, prefer_const_constructors, unnecessary_new, sized_box_for_whitespace, avoid_print, prefer_collection_literals, override_on_non_overriding_member, unused_import
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/botao.dart';
+import 'package:garagem_burger/components/custom_text.dart';
 import 'package:garagem_burger/controllers/provider_usuario.dart';
 import 'package:garagem_burger/pages/menu/tela_menu.dart';
 import 'package:garagem_burger/utils/rotas.dart';
-import 'package:garagem_burger/components/campo_texto.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:garagem_burger/components/custom_text_field.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 
@@ -27,9 +26,9 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
   final _campoConfirmarSenha = FocusNode();
 
   // Máscara para telefone.
-  var mascaraTelefone = new MaskTextInputFormatter(
+  var mascaraTelefone = MaskTextInputFormatter(
     mask: '(##) #####-####',
-    filter: {"#": RegExp(r'[0-9]')},
+    filter: {'#': RegExp(r'[0-9]')},
     type: MaskAutoCompletionType.lazy,
   );
 
@@ -40,9 +39,8 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
   final _senha = TextEditingController();
   final _confirmarSenha = TextEditingController();
 
-  // Flag para senha.
+  // Flags
   bool exibirSenha = false;
-
   bool _loading = false;
 
   Map<String, dynamic>? dadosUsuario;
@@ -74,7 +72,7 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
     } on AuthException catch (e) {
       setState(() => _loading = false);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(e.message),
+        content: CustomText(e.message),
         backgroundColor: Colors.red,
       ));
     }
@@ -82,79 +80,56 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
 
   @override
   Widget build(BuildContext context) {
-    // Pega tamanho da tela.
     Size tamanho = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: Color(0xfffed80b), // Cor de fundo.
-
+      backgroundColor: const Color(0xfffed80b),
       body: ListView(
-        children: <Widget>[
-          // Espaçamento vertical início da tela e imagem.
+        children: [
           SizedBox(height: tamanho.height * 0.04),
-
-          // Imagem.
-          Container(
-            // Largura e altura.
+          /*
+          * Imagem
+          */
+          SizedBox(
             width: 175,
             height: 175,
-
-            // Imagem.
             child: Image.asset(
-              "./images/logoHamburgueria.png",
+              './images/logoHamburgueria.png',
             ),
           ),
-
-          // Texto.
-          Center(
-            child: Text(
-              "Cadastro",
-              style: TextStyle(
-                fontFamily: "Oxygen", // Tipo de fonte.
-                fontSize: 30, // Tamanho da fonte.
-                fontWeight: FontWeight.bold, // Largura da fonte.
-              ),
+          /*
+          * Titulo
+          */
+          const Center(
+            child: CustomText(
+              'Cadastro',
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
             ),
           ),
-
+          /*
+          * Formulário
+          */
           Padding(
             padding: const EdgeInsets.all(10.0),
-            // Formulário.
             child: Form(
               key: _formKey,
               child: Column(
                 children: [
-                  // Campo de nome.
-                  CampoTexto(
-                    // Nome do campo.
+                  /*
+                  * Campo de nome
+                  */
+                  CustomTextField(
                     labelText: 'Nome',
-
-                    // Icone perfixo.
-                    prefixIcon: Icon(Icons.person),
-
-                    // Oculta texto.
-                    obscureText: false,
-
-                    // Define o tipo de entrada do campo.
+                    prefixIcon: const Icon(Icons.person),
                     keyboardType: TextInputType.name,
-
-                    // Aponta para o próximo campo de entrada.
                     onFieldSubmitted: (_) {
                       FocusScope.of(context).requestFocus(_campoEmail);
                     },
-
-                    // O botão de enter leva para o próximo campo.
                     textInputAction: TextInputAction.next,
-
-                    // Indica qual é o campo.
                     focusNode: null,
-
-                    // Formato/máscara do campo.
                     inputFormatters: null,
-
                     controller: _nome,
-
-                    // Validação do campo.
                     validator: (value) {
                       if (value!.trim().isEmpty) {
                         return 'Campo obrigatório';
@@ -162,35 +137,19 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
                       return null;
                     },
                   ),
-
-                  // Campo de e-mail.
-                  CampoTexto(
-                    // Campo de texto "E-mail".
+                  /*
+                  * Campo de email
+                  */
+                  CustomTextField(
                     labelText: 'E-mail',
-
-                    // Icone prefixo.
-                    prefixIcon: Icon(Icons.email),
-
-                    // Define o tipo de entrada do campo.
+                    prefixIcon: const Icon(Icons.email),
                     keyboardType: TextInputType.emailAddress,
-
-                    // Indica qual é o campo.
                     focusNode: _campoEmail,
-
-                    // Aponta para o próximo campo de entrada.
                     onFieldSubmitted: (_) {
                       FocusScope.of(context).requestFocus(_campoTelefone);
                     },
-
-                    // O botão de enter leva para o próximo campo.
                     textInputAction: TextInputAction.next,
-
-                    // Oculta o texto.
-                    obscureText: false,
-
                     controller: _email,
-
-                    // Validação do campo.
                     validator: (value) {
                       if (value!.trim().isEmpty) {
                         return 'Campo obrigatório';
@@ -201,38 +160,20 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
                       return null;
                     },
                   ),
-
-                  // Campo de telefone.
-                  CampoTexto(
-                    // Campo de texto "Telefone".
+                  /*
+                  * Campo de telefone
+                  */
+                  CustomTextField(
                     labelText: 'Telefone',
-
-                    // Icone prefixo.
-                    prefixIcon: Icon(Icons.phone),
-
-                    // Define o tipo de entrada do campo.
+                    prefixIcon: const Icon(Icons.phone),
                     keyboardType: TextInputType.number,
-
-                    // Máscara do telefone.
                     inputFormatters: [mascaraTelefone],
-
-                    // Indica qual é o campo.
                     focusNode: _campoTelefone,
-
-                    // Aponta para o próximo campo de entrada.
                     onFieldSubmitted: (_) {
                       FocusScope.of(context).requestFocus(_campoSenha);
                     },
-
-                    // O botão de enter leva para o próximo campo.
                     textInputAction: TextInputAction.next,
-
-                    // Oculta o texto.
-                    obscureText: false,
-
                     controller: _telefone,
-
-                    // Validação do campo.
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Campo obrigatório';
@@ -242,43 +183,29 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
                       return null;
                     },
                   ),
-
-                  CampoTexto(
-                    // Campo de texto "Senha".
+                  /*
+                  * Campo de senha
+                  */
+                  CustomTextField(
                     labelText: 'Senha',
-
-                    // Icone prefixo.
-                    prefixIcon: Icon(Icons.lock),
-                    // Icone com ação. - suffixIcon: IconButton(onPressed: () => {}, icon: Icon(Icons.remove_red_eye),),
-
-                    // Icone sufixo (exibir senha)
+                    prefixIcon: const Icon(Icons.lock),
                     suffixIcon: GestureDetector(
-                      child: Icon(exibirSenha
-                          ? Icons.visibility
-                          : Icons.visibility_off),
+                      child: Icon(
+                        exibirSenha ? Icons.visibility : Icons.visibility_off,
+                      ),
                       onTap: () {
                         setState(() {
                           exibirSenha = !exibirSenha;
                         });
                       },
                     ),
-                    // Indica qual é o campo.
                     focusNode: _campoSenha,
-
-                    // Aponta para o próximo campo de entrada.
                     onFieldSubmitted: (_) {
                       FocusScope.of(context).requestFocus(_campoConfirmarSenha);
                     },
-
-                    // O botão de enter leva para o próximo campo.
                     textInputAction: TextInputAction.next,
-
-                    // Oculta texto.
                     obscureText: !exibirSenha,
-
                     controller: _senha,
-
-                    // Validação do campo.
                     validator: (value) {
                       if (value!.trim().isEmpty) {
                         return 'Campo obrigatório';
@@ -288,16 +215,12 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
                       return null;
                     },
                   ),
-
-                  // Campo de confirmar senha.
-                  CampoTexto(
-                    // Campo de texto "Confirmar Senha".
+                  /*
+                  * Campo de confirmar senha
+                  */
+                  CustomTextField(
                     labelText: 'Confirmar Senha',
-
-                    // Icone prefixo.
-                    prefixIcon: Icon(Icons.lock),
-
-                    // Icone sufixo (exibir senha)
+                    prefixIcon: const Icon(Icons.lock),
                     suffixIcon: GestureDetector(
                       child: Icon(exibirSenha
                           ? Icons.visibility
@@ -308,32 +231,21 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
                         });
                       },
                     ),
-
-                    // Indica qual é o campo.
                     focusNode: _campoConfirmarSenha,
-
-                    // O botão de enter realiza cadastro.
                     textInputAction: TextInputAction.done,
-
-                    // Chama a função para concluir cadastro.
                     onFieldSubmitted: (_) => {
                       if (_formKey.currentState!.validate())
                         {
                           dadosUsuario = {
-                            "nome": _nome.text,
-                            "email": _email.text,
-                            "telefone": _telefone.text,
+                            'nome': _nome.text,
+                            'email': _email.text,
+                            'telefone': _telefone.text,
                           },
                           efetuarCadastro(),
                         },
                     },
-
-                    // Oculta texto.
                     obscureText: !exibirSenha,
-
                     controller: _confirmarSenha,
-
-                    // Validação do campo.
                     validator: (value) {
                       if (value!.trim().isEmpty) {
                         return 'Campo onrigatório';
@@ -349,7 +261,9 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
               ),
             ),
           ),
-
+          /*
+          * Botão de Cadastro
+          */
           Botao(
             internalPadding: const EdgeInsets.symmetric(vertical: 15),
             externalPadding:
@@ -357,51 +271,38 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
             backgroundColor: Colors.black,
             foregroundColor: Colors.white,
             loading: _loading,
-            labelText: "Cadastrar",
+            labelText: 'Cadastrar',
             onPressed: () => {
               if (_formKey.currentState!.validate())
                 {
                   dadosUsuario = {
-                    "nome": _nome.text,
-                    "email": _email.text,
-                    "telefone": _telefone.text,
+                    'nome': _nome.text,
+                    'email': _email.text,
+                    'telefone': _telefone.text,
                   },
                   efetuarCadastro(),
                 },
             },
           ),
-
+          /*
+          * Botão de login
+          */
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              // Texto.
-              Text(
-                "Já possui cadastro?",
-                // Fonte do Google.
-                style: GoogleFonts.oxygen(
-                  fontSize: 18, // Tamanho da fonte.
-                  fontWeight: FontWeight.w500, // Largura da fonte.
-                ),
+            children: [
+              const CustomText(
+                'Já possui cadastro?',
+                fontWeight: FontWeight.w500,
               ),
-
-              // Botão em forma de texto.
               TextButton(
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.transparent,
                 ),
-
-                // Texto do botão.
-                child: Text(
+                child: const CustomText(
                   'Login',
-                  // Fonte do Google.
-                  style: GoogleFonts.oxygen(
-                    fontSize: 18, // Tamanho da fonte.
-                    color: Colors.blue, // Cor da fonte.
-                    fontWeight: FontWeight.bold, // Largura da fonte.
-                  ),
+                  color: Colors.blue,
+                  fontWeight: FontWeight.bold,
                 ),
-
-                // Ação executada pelo botão.
                 onPressed: () {
                   Navigator.of(context).pushReplacementNamed(Rotas.login);
                 },

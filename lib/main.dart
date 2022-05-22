@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, prefer_const_literals_to_create_immutables
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -47,12 +45,14 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ProviderCartoes()),
         ChangeNotifierProvider(create: (_) => ProviderLocalizacoes()),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     // O app só vai funcionar na orientação retrato
@@ -61,13 +61,13 @@ class MyApp extends StatelessWidget {
     ]);
 
     return MaterialApp(
-      localizationsDelegates: [
+      localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: [
-        const Locale('pt', 'BR'),
+      supportedLocales: const [
+        Locale('pt', 'BR'),
       ],
       title: 'Garagem Burger',
       debugShowCheckedModeBanner: false,
@@ -79,13 +79,13 @@ class MyApp extends StatelessWidget {
       initialRoute: Rotas.home,
       routes: {
         Rotas.home: (context) => TelaAbertura(),
-        Rotas.login: (context) => TelaLogin(),
-        Rotas.cadastro: (context) => TelaCadastroUsuario(),
-        Rotas.main: (context) => TelaPrincipal(),
-        Rotas.produto: (context) => TelaProduto(),
-        Rotas.montarHamburguer: (context) => TelaMontarHamburguer(),
-        Rotas.pedido: (context) => TelaPedido(),
-        Rotas.esqueceuSenha: (context) => TelaEsqueceuSenha(),
+        Rotas.login: (context) => const TelaLogin(),
+        Rotas.cadastro: (context) => const TelaCadastroUsuario(),
+        Rotas.main: (context) => const TelaPrincipal(),
+        Rotas.produto: (context) => const TelaProduto(),
+        Rotas.montarHamburguer: (context) => const TelaMontarHamburguer(),
+        Rotas.pedido: (context) => const TelaPedido(),
+        Rotas.esqueceuSenha: (context) => const TelaEsqueceuSenha(),
       },
     );
   }

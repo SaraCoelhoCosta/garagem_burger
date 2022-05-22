@@ -1,7 +1,5 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:garagem_burger/components/custom_text.dart';
 
 class Botao extends StatelessWidget {
   final String? labelText;
@@ -50,13 +48,10 @@ class Botao extends StatelessWidget {
                 size: iconSize,
               )
             else if (labelText != null)
-              Text(
+              CustomText(
                 labelText!,
-                style: GoogleFonts.oxygen(
-                  color: foregroundColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+                color: foregroundColor,
+                fontWeight: FontWeight.bold,
               )
           ],
         ),

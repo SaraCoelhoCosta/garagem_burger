@@ -32,6 +32,7 @@ class CategoryGrid extends StatelessWidget {
             imageRatioWidth: 0.30,
             textRatioWidth: 0.65,
             ratioWidth: 0.92,
+            ratioHeight: 0.17,
           ),
         /*
         * Pão e carne
@@ -44,11 +45,13 @@ class CategoryGrid extends StatelessWidget {
                 onTap: showBread,
                 urlImage: 'images/pao.png',
                 text: 'Pão',
+                ratioHeight: 0.17,
               ),
               CardCategory(
                 onTap: showMeat,
                 urlImage: 'images/carne.jpg',
                 text: 'Carne',
+                ratioHeight: 0.17,
               ),
             ],
           ),

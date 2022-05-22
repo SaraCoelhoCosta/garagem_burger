@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/components/custom_text.dart';
 import 'package:garagem_burger/models/pedido.dart';
 import 'package:garagem_burger/utils/rotas.dart';
 import 'package:intl/intl.dart';
@@ -93,25 +94,20 @@ class CardPedido extends StatelessWidget {
                         /*
                         * Title
                         */
-                        Text(
+                        CustomText(
                           'Pedido ${pedido.status} em '
                           '${DateFormat('dd/MM/yyyy').format(pedido.data)}',
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
+                          fontWeight: FontWeight.bold,
+                          textAlign: TextAlign.left,
+                          fontSize: 20,
                         ),
                         /*
                         * Subtitle
                         */
-                        Text(
+                        CustomText(
                           DateFormat.Hm().format(pedido.data) + ' hs',
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey,
-                          ),
+                          color: Colors.grey,
+                          fontWeight: FontWeight.bold,
                         ),
                       ],
                     ),

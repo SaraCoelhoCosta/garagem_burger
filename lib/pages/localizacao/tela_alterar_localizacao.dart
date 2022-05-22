@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/botao.dart';
-import 'package:garagem_burger/components/campo_texto.dart';
+import 'package:garagem_burger/components/custom_text.dart';
+import 'package:garagem_burger/components/custom_text_field.dart';
 import 'package:garagem_burger/controllers/provider_localizacoes.dart';
 import 'package:garagem_burger/controllers/provider_usuario.dart';
 import 'package:garagem_burger/models/localizacao.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 
@@ -39,7 +39,7 @@ class _TelaAlterarLocalizacaoState extends State<TelaAlterarLocalizacao> {
   // Máscara para cep.
   var mascaraCep = MaskTextInputFormatter(
     mask: '#####-###',
-    filter: {"#": RegExp(r'[0-9]')},
+    filter: {'#': RegExp(r'[0-9]')},
     type: MaskAutoCompletionType.lazy,
   );
 
@@ -91,12 +91,10 @@ class _TelaAlterarLocalizacaoState extends State<TelaAlterarLocalizacao> {
           .then((_) {
         Navigator.of(context).pop(true);
       });
-    } on Exception catch (e) {
-      // ignore: avoid_print, TODO: deixa o print?
-      print(e.toString());
+    } on Exception catch (_) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text("Erro ao alterar endereço"),
+          content: CustomText('Erro ao alterar endereço'),
           backgroundColor: Colors.red,
         ),
       );
@@ -105,36 +103,35 @@ class _TelaAlterarLocalizacaoState extends State<TelaAlterarLocalizacao> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(25.0),
-          child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            elevation: 6.0,
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(25),
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          elevation: 6.0,
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
             child: Column(
               children: [
+                /*
+                * Title
+                */
                 Padding(
-                  padding: const EdgeInsets.only(
-                    top: 20,
-                    left: 20,
-                    right: 10,
-                    bottom: 5,
-                  ),
+                  padding: const EdgeInsets.only(left: 10),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "Alterar endereço",
-                        // Fonte do Google.
-                        style: GoogleFonts.oxygen(
-                          fontSize: 20, // Tamanho da fonte.
-                          fontWeight: FontWeight.bold, // Largura da fonte.
-                        ),
+                      const CustomText(
+                        'Alterar localização',
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          // TODO: adicionar localização no mapa
+                        },
                         icon: const Icon(
                           Icons.add_location_alt_outlined,
                         ),
@@ -142,237 +139,233 @@ class _TelaAlterarLocalizacaoState extends State<TelaAlterarLocalizacao> {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        CampoTexto(
-                          obscureText: false,
-                          labelText: "Descrição",
-                          onFieldSubmitted: (_) {
-                            FocusScope.of(context).requestFocus(_campoCep);
-                          },
-                          textInputAction: TextInputAction.next,
-                          focusNode: null,
-                          controller: _descricao,
-                          validator: (String? value) {
-                            if (value!.trim().isEmpty) {
-                              return 'Campo obrigatório';
-                            }
-                            return null;
-                          },
-                        ),
-                        CampoTexto(
-                          obscureText: false,
-                          labelText: "CEP",
-                          onFieldSubmitted: (_) {
-                            FocusScope.of(context).requestFocus(_campoRua);
-                          },
-                          textInputAction: TextInputAction.next,
-                          focusNode: _campoCep,
-                          keyboardType: TextInputType.number,
-                          controller: _cep,
-                          inputFormatters: [mascaraCep],
-                          validator: (String? value) {
-                            if (value!.trim().isEmpty) {
-                              return 'Campo obrigatório';
-                            } else if (value.trim().length < 8) {
-                              return 'CEP inválido';
-                            }
-                            return null;
-                          },
-                        ),
-                        CampoTexto(
-                          obscureText: false,
-                          labelText: "Rua",
-                          onFieldSubmitted: (_) {
-                            FocusScope.of(context).requestFocus(_campoBairro);
-                          },
-                          textInputAction: TextInputAction.next,
-                          focusNode: _campoRua,
-                          controller: _rua,
-                          validator: (String? value) {
-                            if (value!.trim().isEmpty) {
-                              return 'Campo obrigatório';
-                            }
-                            return null;
-                          },
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 5,
-                              child: CampoTexto(
-                                obscureText: false,
-                                labelText: "Bairro",
-                                onFieldSubmitted: (_) {
-                                  FocusScope.of(context)
-                                      .requestFocus(_campoNumero);
-                                },
-                                textInputAction: TextInputAction.next,
-                                focusNode: _campoBairro,
-                                controller: _bairro,
-                                validator: (String? value) {
-                                  if (value!.trim().isEmpty) {
-                                    return 'Campo obrigatório';
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ),
-                            Expanded(
-                              flex: 5,
-                              child: CampoTexto(
-                                obscureText: false,
-                                labelText: "Número",
-                                onFieldSubmitted: (_) {
-                                  FocusScope.of(context)
-                                      .requestFocus(_campoCidade);
-                                },
-                                textInputAction: TextInputAction.next,
-                                focusNode: _campoNumero,
-                                controller: _numero,
-                                validator: (String? value) {
-                                  if (value!.trim().isEmpty) {
-                                    return 'Campo obrigatório';
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 5,
-                              child: CampoTexto(
-                                obscureText: false,
-                                labelText: "Cidade",
-                                onFieldSubmitted: (_) {
-                                  FocusScope.of(context)
-                                      .requestFocus(_campoEstado);
-                                },
-                                textInputAction: TextInputAction.next,
-                                focusNode: _campoCidade,
-                                controller: _cidade,
-                                validator: (String? value) {
-                                  if (value!.trim().isEmpty) {
-                                    return 'Campo obrigatório';
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ),
-                            Expanded(
-                              flex: 5,
-                              child: CampoTexto(
-                                obscureText: false,
-                                labelText: "Estado",
-                                onFieldSubmitted: (_) {
-                                  FocusScope.of(context)
-                                      .requestFocus(_campoComplemento);
-                                },
-                                textInputAction: TextInputAction.next,
-                                focusNode: _campoEstado,
-                                controller: _estado,
-                                validator: (String? value) {
-                                  if (value!.trim().isEmpty) {
-                                    return 'Campo obrigatório';
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        CampoTexto(
-                          obscureText: false,
-                          labelText: "Complemento",
-                          onFieldSubmitted: (_) => {
-                            if (_formKey.currentState!.validate())
-                              {
-                                widget.localizacao.cep = _cep.text,
-                                widget.localizacao.rua = _rua.text,
-                                widget.localizacao.bairro = _bairro.text,
-                                widget.localizacao.cidade = _cidade.text,
-                                widget.localizacao.estado = _estado.text,
-                                widget.localizacao.numero = _numero.text,
-                                widget.localizacao.descricao = _descricao.text,
-                                widget.localizacao.complemento =
-                                    _complemento.text,
-                                alterarLocalizacao(context),
+                /*
+                * Formulário
+                */
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      CustomTextField(
+                        labelText: 'Descrição',
+                        onFieldSubmitted: (_) {
+                          FocusScope.of(context).requestFocus(_campoCep);
+                        },
+                        textInputAction: TextInputAction.next,
+                        focusNode: null,
+                        controller: _descricao,
+                        validator: (String? value) {
+                          if (value!.trim().isEmpty) {
+                            return 'Campo obrigatório';
+                          }
+                          return null;
+                        },
+                      ),
+                      CustomTextField(
+                        labelText: 'CEP',
+                        onFieldSubmitted: (_) {
+                          FocusScope.of(context).requestFocus(_campoRua);
+                        },
+                        textInputAction: TextInputAction.next,
+                        focusNode: _campoCep,
+                        keyboardType: TextInputType.number,
+                        controller: _cep,
+                        inputFormatters: [mascaraCep],
+                        validator: (String? value) {
+                          if (value!.trim().isEmpty) {
+                            return 'Campo obrigatório';
+                          } else if (value.trim().length < 8) {
+                            return 'CEP inválido';
+                          }
+                          return null;
+                        },
+                      ),
+                      CustomTextField(
+                        labelText: 'Rua',
+                        onFieldSubmitted: (_) {
+                          FocusScope.of(context).requestFocus(_campoBairro);
+                        },
+                        textInputAction: TextInputAction.next,
+                        focusNode: _campoRua,
+                        controller: _rua,
+                        validator: (String? value) {
+                          if (value!.trim().isEmpty) {
+                            return 'Campo obrigatório';
+                          }
+                          return null;
+                        },
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 5,
+                            child: CustomTextField(
+                              labelText: 'Bairro',
+                              onFieldSubmitted: (_) {
+                                FocusScope.of(context)
+                                    .requestFocus(_campoNumero);
                               },
-                          },
-                          textInputAction: TextInputAction.done,
-                          focusNode: _campoComplemento,
-                          controller: _complemento,
+                              textInputAction: TextInputAction.next,
+                              focusNode: _campoBairro,
+                              controller: _bairro,
+                              validator: (String? value) {
+                                if (value!.trim().isEmpty) {
+                                  return 'Campo obrigatório';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          Expanded(
+                            flex: 5,
+                            child: CustomTextField(
+                              labelText: 'Número',
+                              onFieldSubmitted: (_) {
+                                FocusScope.of(context)
+                                    .requestFocus(_campoCidade);
+                              },
+                              textInputAction: TextInputAction.next,
+                              focusNode: _campoNumero,
+                              controller: _numero,
+                              validator: (String? value) {
+                                if (value!.trim().isEmpty) {
+                                  return 'Campo obrigatório';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 5,
+                            child: CustomTextField(
+                              labelText: 'Cidade',
+                              onFieldSubmitted: (_) {
+                                FocusScope.of(context)
+                                    .requestFocus(_campoEstado);
+                              },
+                              textInputAction: TextInputAction.next,
+                              focusNode: _campoCidade,
+                              controller: _cidade,
+                              validator: (String? value) {
+                                if (value!.trim().isEmpty) {
+                                  return 'Campo obrigatório';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          Expanded(
+                            flex: 5,
+                            child: CustomTextField(
+                              labelText: 'Estado',
+                              onFieldSubmitted: (_) {
+                                FocusScope.of(context)
+                                    .requestFocus(_campoComplemento);
+                              },
+                              textInputAction: TextInputAction.next,
+                              focusNode: _campoEstado,
+                              controller: _estado,
+                              validator: (String? value) {
+                                if (value!.trim().isEmpty) {
+                                  return 'Campo obrigatório';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      CustomTextField(
+                        labelText: 'Complemento',
+                        onFieldSubmitted: (_) => {
+                          if (_formKey.currentState!.validate())
+                            {
+                              widget.localizacao.cep = _cep.text,
+                              widget.localizacao.rua = _rua.text,
+                              widget.localizacao.bairro = _bairro.text,
+                              widget.localizacao.cidade = _cidade.text,
+                              widget.localizacao.estado = _estado.text,
+                              widget.localizacao.numero = _numero.text,
+                              widget.localizacao.descricao = _descricao.text,
+                              widget.localizacao.complemento =
+                                  _complemento.text,
+                              alterarLocalizacao(context),
+                            },
+                        },
+                        textInputAction: TextInputAction.done,
+                        focusNode: _campoComplemento,
+                        controller: _complemento,
+                      ),
+                      /*
+                      * Dicas
+                      */
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10,
                         ),
-                        Column(
+                        child: Column(
                           children: [
                             Row(
                               mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  "Dica: Clicando no ícone ",
-                                  style: GoogleFonts.oxygen(
-                                    fontSize: 14.0,
-                                  ),
+                              children: const [
+                                CustomText(
+                                  'Dica: Clicando no ícone ',
+                                  textAlign: TextAlign.center,
+                                  fontSize: 15,
                                 ),
-                                const Icon(Icons.add_location_alt_outlined),
+                                Icon(Icons.add_location_alt_outlined),
                               ],
                             ),
-                            Text(
-                              " você pode adicionar um endereço a partir do mapa.",
-                              style: GoogleFonts.oxygen(
-                                fontSize: 14.0,
-                              ),
+                            const CustomText(
+                              ' você pode adicionar um endereço a partir do mapa.',
+                              textAlign: TextAlign.center,
+                              fontSize: 15,
                             ),
                           ],
                         ),
-                        Botao(
-                          labelText: "Alterar endereço",
-                          onPressed: () => {
-                            if (_formKey.currentState!.validate())
-                              {
-                                widget.localizacao.cep = _cep.text,
-                                widget.localizacao.rua = _rua.text,
-                                widget.localizacao.bairro = _bairro.text,
-                                widget.localizacao.cidade = _cidade.text,
-                                widget.localizacao.estado = _estado.text,
-                                widget.localizacao.numero = _numero.text,
-                                widget.localizacao.descricao = _descricao.text,
-                                widget.localizacao.complemento =
-                                    _complemento.text,
-                                alterarLocalizacao(context),
-                              },
-                          },
+                      ),
+                      /*
+                      * Botão de salvar alterções
+                      */
+                      Botao(
+                        labelText: 'Salvar alterações',
+                        onPressed: () => {
+                          if (_formKey.currentState!.validate())
+                            {
+                              widget.localizacao.cep = _cep.text,
+                              widget.localizacao.rua = _rua.text,
+                              widget.localizacao.bairro = _bairro.text,
+                              widget.localizacao.cidade = _cidade.text,
+                              widget.localizacao.estado = _estado.text,
+                              widget.localizacao.numero = _numero.text,
+                              widget.localizacao.descricao = _descricao.text,
+                              widget.localizacao.complemento =
+                                  _complemento.text,
+                              alterarLocalizacao(context),
+                            },
+                        },
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const CustomText(
+                          'Cancelar',
+                          fontSize: 15,
                         ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text(
-                            "Cancelar",
-                            // Fonte do Google.
-                            style: GoogleFonts.oxygen(
-                              fontSize: 15, // Tamanho da fonte.
-                              //fontWeight: FontWeight.bold, // Largura da fonte.
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           ),
         ),
-      ],
+      ),
     );
   }
 }

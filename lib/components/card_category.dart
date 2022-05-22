@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/components/custom_text.dart';
 
 class CardCategory extends StatelessWidget {
   final String urlImage;
@@ -16,7 +17,7 @@ class CardCategory extends StatelessWidget {
     required this.urlImage,
     required this.text,
     this.flex = 1,
-    this.ratioHeight = 0.17,
+    this.ratioHeight = 0.15,
     this.imageRatioWidth = 0.50,
     this.textRatioWidth = 0.45,
     this.ratioWidth = 0.45,
@@ -26,7 +27,6 @@ class CardCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Altura total da tela, subtraindo as alturas do bottomBar
     final availableHeight = MediaQuery.of(context).size.height -
         Scaffold.of(context).appBarMaxHeight!;
 
@@ -70,20 +70,16 @@ class CardCategory extends StatelessWidget {
                   * Title (Nome do ingrediente)
                   */
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                         width: constraints.maxWidth * textRatioWidth,
                         child: FittedBox(
                           fit: BoxFit.scaleDown,
-                          child: Text(
+                          child: CustomText(
                             text,
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
@@ -91,13 +87,11 @@ class CardCategory extends StatelessWidget {
                       * Subtitle (Preço)
                       */
                       if (subtitle != null)
-                        const Text(
+                        const CustomText(
                           '+R\$ 1,40',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.green,
-                          ),
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green,
                         ),
                     ],
                   ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/components/custom_text.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ComboBox extends StatelessWidget {
@@ -43,7 +44,7 @@ class ComboBox extends StatelessWidget {
           items: items!.map((item) {
             return DropdownMenuItem<String>(
               value: item['id'],
-              child: Text(item['descricao']!),
+              child: CustomText(item['descricao']!),
             );
           }).toList(),
           onChanged: onChanged,

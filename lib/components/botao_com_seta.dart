@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/components/custom_text.dart';
 
 class BotaoComSeta extends StatelessWidget {
   final String text;
@@ -27,12 +28,9 @@ class BotaoComSeta extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
-          title: Text(
+          title: CustomText(
             text,
-            style: const TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
+            fontWeight: FontWeight.bold,
           ),
           leading: Icon(
             icon,

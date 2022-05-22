@@ -67,7 +67,7 @@ class ProviderUsuario extends ChangeNotifier {
 
   // Salva os dados no firestore.
   Future<Null> _salvarDados(Map<String, dynamic> dadosUsuario) async {
-    await firestore.collection("usuarios").doc(usuario!.uid).set(dadosUsuario);
+    await firestore.collection('usuarios').doc(usuario!.uid).set(dadosUsuario);
   }
 
   // Realiza login do usuário.
@@ -116,17 +116,17 @@ class ProviderUsuario extends ChangeNotifier {
 
   signInWithFacebook() async {
     // TODO: Com erro (Colocar token no style.xml), concluir login, cadastrar usuário e fazer logout.
-    print("Entrei no facebook");
+    print('Entrei no facebook');
     final facebookUser = FacebookAuth.instance;
 
-    print("Passo 1: no facebook");
+    print('Passo 1: no facebook');
     final LoginResult loginResult = await facebookUser.login();
 
-    print("Passo 2: no facebook");
+    print('Passo 2: no facebook');
     final facebookAuthCredential =
         FacebookAuthProvider.credential(loginResult.accessToken!.token);
 
-    print("Passo 3: no facebook");
+    print('Passo 3: no facebook');
     await _auth.signInWithCredential(facebookAuthCredential);
 
     _getUser();

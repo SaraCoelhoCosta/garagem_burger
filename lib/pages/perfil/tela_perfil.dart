@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/app_bar_button.dart';
+import 'package:garagem_burger/components/custom_text.dart';
 import 'package:garagem_burger/controllers/provider_carrinho.dart';
 import 'package:garagem_burger/controllers/provider_usuario.dart';
 import 'package:garagem_burger/pages/tela_vazia.dart';
@@ -71,14 +72,10 @@ class _TelaPerfilState extends State<TelaPerfil> {
                         ),
                 ),
                 const SizedBox(width: 30),
-                Text(
+                CustomText(
                   pvdUsuario.usuario!.displayName!,
-                  style: GoogleFonts.oxygen(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    decoration: TextDecoration.none,
-                  ),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
                 ),
               ],
             ),

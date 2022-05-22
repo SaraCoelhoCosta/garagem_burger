@@ -1,144 +1,105 @@
 import 'package:flutter/material.dart';
-import 'package:garagem_burger/components/card_meat_options.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:garagem_burger/components/botao.dart';
+import 'package:garagem_burger/components/card_meat_option.dart';
+import 'package:garagem_burger/components/custom_text.dart';
 
-class CardMeat extends StatelessWidget {
+class CardMeat extends StatefulWidget {
   const CardMeat({Key? key}) : super(key: key);
+
+  @override
+  State<CardMeat> createState() => _CardMeatState();
+}
+
+class _CardMeatState extends State<CardMeat> {
+  String meatOptionSelected = 'No ponto';
+  int quantidade = 1;
+
+  final _meatOption = [
+    'Mal passada',
+    'No ponto',
+    'Bem passada',
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(15),
-                  ),
-                  image: DecorationImage(
-                    image: AssetImage('images/carne.jpg'),
-                    fit: BoxFit.contain,
-                  ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(15),
                 ),
-                width: 150,
-                height: 150,
+                image: DecorationImage(
+                  image: AssetImage('images/carne.jpg'),
+                  fit: BoxFit.contain,
+                ),
               ),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: ['Mal passada', 'No ponto', 'Bem passada']
-                    .map((textOption) {
-                  return CardMeatOptions(
-                    text: textOption,
-                    isSelected: false,
-                  );
-                }).toList(),
-              ),
-            ],
-          ),
+              width: 150,
+              height: 150,
+            ),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: _meatOption.map((meatOption) {
+                return CardMeatOption(
+                  text: meatOption,
+                  isSelected: meatOption == meatOptionSelected,
+                  onTap: () {
+                    setState(() {
+                      meatOptionSelected = meatOption;
+                    });
+                  },
+                );
+              }).toList(),
+            ),
+          ],
         ),
-        Padding(
-          padding: const EdgeInsets.all(10),
-          child: Row(
-            children: [
-              Text(
-                'Quantidade',
-                style: GoogleFonts.oxygen(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+        Row(
+          children: [
+            const CustomText(
+              'Quantidade:',
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+            const Spacer(),
+            SizedBox(
+              width: 50,
+              child: Botao(
+                onPressed: (quantidade == 1)
+                    ? null
+                    : () => setState(() => quantidade--),
+                icon: Icons.remove,
+                externalPadding: const EdgeInsets.only(right: 10),
+                internalPadding: EdgeInsets.zero,
+                iconSize: 20,
               ),
-              const Spacer(),
-              /*
-              * Botao remover
-              */
-              Container(
-                height: 30,
-                width: 30,
-                margin: const EdgeInsets.only(
-                  top: 10,
-                  right: 10,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Theme.of(context).backgroundColor,
-                ),
-                child: Center(
-                  child: FittedBox(
-                    child: Text(
-                      '-',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.oxygen(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
+            ),
+            SizedBox(
+              width: 40,
+              child: Botao(
+                onPressed: () {},
+                internalPadding: EdgeInsets.zero,
+                labelText: quantidade.toString(),
               ),
-              /*
-              * Quantidade
-              */
-              Container(
-                height: 30,
-                width: 30,
-                margin: const EdgeInsets.only(
-                  top: 10,
-                  right: 10,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Theme.of(context).backgroundColor,
-                ),
-                child: Center(
-                  child: FittedBox(
-                    child: Text(
-                      '0',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.oxygen(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
+            ),
+            SizedBox(
+              width: 50,
+              child: Botao(
+                onPressed: (quantidade == 3)
+                    ? null
+                    : () => setState(() => quantidade++),
+                icon: Icons.add,
+                externalPadding: const EdgeInsets.only(left: 10),
+                internalPadding: EdgeInsets.zero,
+                iconSize: 20,
               ),
-              /*
-              * Botao de adicionar
-              */
-              Container(
-                height: 30,
-                width: 30,
-                margin: const EdgeInsets.only(
-                  top: 10,
-                  right: 10,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Theme.of(context).backgroundColor,
-                ),
-                child: Center(
-                  child: FittedBox(
-                    child: Text(
-                      '+',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.oxygen(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+            )
+          ],
         ),
       ],
     );

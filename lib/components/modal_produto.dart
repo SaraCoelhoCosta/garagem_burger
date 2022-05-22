@@ -4,11 +4,11 @@ import 'package:garagem_burger/components/card_category.dart';
 import 'package:garagem_burger/components/card_ingredient.dart';
 import 'package:garagem_burger/components/card_meat.dart';
 import 'package:garagem_burger/components/category_grid.dart';
+import 'package:garagem_burger/components/custom_text.dart';
 import 'package:garagem_burger/controllers/provider_produtos.dart';
 import 'package:garagem_burger/models/hamburguer.dart';
 import 'package:garagem_burger/models/produto.dart';
 import 'package:garagem_burger/controllers/provider_carrinho.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 enum OptionEdit {
@@ -17,6 +17,7 @@ enum OptionEdit {
   ingredientsList,
   meat,
   bread,
+  none,
 }
 
 class ModalProduto extends StatefulWidget {
@@ -44,7 +45,24 @@ class ModalProduto extends StatefulWidget {
 class _ModalProdutoState extends State<ModalProduto> {
   int _qnt = 1;
   bool modalUpdated = false;
-  OptionEdit optionEdit = OptionEdit.categories;
+  OptionEdit optionEdit = OptionEdit.none;
+
+  String _modalTitle() {
+    switch (optionEdit) {
+      case OptionEdit.categories:
+        return 'Ingredientes do Hambúrguer';
+      case OptionEdit.ingredientsGrid:
+        return 'Escolha os Ingredientes';
+      case OptionEdit.ingredientsList:
+        return 'Escolha os Ingredientes';
+      case OptionEdit.meat:
+        return 'Escolha a Carne';
+      case OptionEdit.bread:
+        return 'Escolha o Pão';
+      case OptionEdit.none:
+        return 'Quantidade';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +74,10 @@ class _ModalProdutoState extends State<ModalProduto> {
       context,
       listen: false,
     );
+    final totalHeight = MediaQuery.of(context).size.height;
+    final appBarHeight = Scaffold.of(context).appBarMaxHeight;
+    final availableHeight = (totalHeight - appBarHeight!) * 0.85;
+
     if (!modalUpdated &&
         widget.isEditing &&
         pvdCarrinho.itensCarrinho.containsKey(widget.produto.id)) {
@@ -70,79 +92,112 @@ class _ModalProdutoState extends State<ModalProduto> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           /*
-          * Opções de edição
+          * Titulo do modal
+          */
+          SizedBox(
+            height: availableHeight * 0.07,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomText(
+                  _modalTitle(),
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ],
+            ),
+          ),
+          /*
+          * Opções de edição (Grid de categorias ou Grid de ingredientes)
           */
           if (widget.showEditOptions &&
               (optionEdit == OptionEdit.categories ||
                   optionEdit == OptionEdit.ingredientsGrid))
-            CategoryGrid(
-              isIngredients: optionEdit == OptionEdit.ingredientsGrid,
-              showIngredients: () {
-                setState(() {
-                  if (widget.produto.tipo == Produto.hamburguerCasa) {
-                    optionEdit = OptionEdit.ingredientsList;
-                  } else {
-                    optionEdit = OptionEdit.ingredientsGrid;
-                  }
-                });
-              },
-              showMeat: () {
-                setState(() => optionEdit = OptionEdit.meat);
-              },
-              showBread: () {
-                setState(() => optionEdit = OptionEdit.bread);
-              },
-            ),
-          if (widget.showEditOptions &&
-              optionEdit == OptionEdit.ingredientsList)
             SizedBox(
-              height: 400,
-              child: ListView.builder(
-                itemCount: (widget.produto as Hamburguer).ingredientes.length,
-                itemBuilder: (ctx, index) {
-                  final ing =
-                      (widget.produto as Hamburguer).ingredientes[index];
-                  return CardIngredient(
-                    count: ing['quantidade'] as int,
-                    ingredient: pvdProduto.ingredientById(ing['id']),
-                  );
+              height: availableHeight * 0.60,
+              child: CategoryGrid(
+                isIngredients: optionEdit == OptionEdit.ingredientsGrid,
+                showIngredients: () {
+                  setState(() {
+                    if (widget.produto.tipo == Produto.hamburguerCasa) {
+                      optionEdit = OptionEdit.ingredientsGrid;
+                    } else {
+                      optionEdit = OptionEdit.ingredientsGrid;
+                    }
+                  });
+                },
+                showMeat: () {
+                  setState(() => optionEdit = OptionEdit.meat);
+                },
+                showBread: () {
+                  setState(() => optionEdit = OptionEdit.bread);
                 },
               ),
             ),
-          if (widget.showEditOptions && optionEdit == OptionEdit.meat)
-            const CardMeat(),
-          if (widget.showEditOptions && optionEdit == OptionEdit.bread)
-            const CardCategory(
-              urlImage: 'images/pao.png',
-              text: 'Pão de Briochi',
-              imageRatioWidth: 0.30,
-              textRatioWidth: 0.65,
-              ratioWidth: 0.92,
-            ),
-          if (widget.showEditOptions && optionEdit == OptionEdit.bread)
-            const CardCategory(
-              urlImage: 'images/pao.png',
-              text: 'Pão Americano',
-              imageRatioWidth: 0.30,
-              textRatioWidth: 0.65,
-              ratioWidth: 0.92,
+          /*
+          * Opções de edição (Lista de ingredientes)
+          */
+          if (widget.showEditOptions &&
+              optionEdit == OptionEdit.ingredientsList)
+            Card(
+              elevation: 6,
+              margin: EdgeInsets.zero,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.grey[300],
+                ),
+                height: availableHeight * 0.60,
+                child: ListView.builder(
+                  itemCount: (widget.produto as Hamburguer).ingredientes.length,
+                  itemBuilder: (ctx, index) {
+                    final ing =
+                        (widget.produto as Hamburguer).ingredientes[index];
+                    return CardIngredient(
+                      count: ing['quantidade'] as int,
+                      ingredient: pvdProduto.ingredientById(ing['id']),
+                    );
+                  },
+                ),
+              ),
             ),
           /*
-          * Titulo do modal
+          * Opções de edição (Opções de Carne)
           */
-          if (!widget.showEditOptions)
-            Row(
-              children: [
-                Text(
-                  'Quantidade',
-                  style: GoogleFonts.oxygen(
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
+          if (widget.showEditOptions && optionEdit == OptionEdit.meat)
+            SizedBox(
+              height: availableHeight * 0.60,
+              child: const CardMeat(),
             ),
-          const SizedBox(height: 15),
+          /*
+          * Opções de edição (Opções de Pão)
+          */
+          if (widget.showEditOptions && optionEdit == OptionEdit.bread)
+            SizedBox(
+              height: availableHeight * 0.60,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  CardCategory(
+                    urlImage: 'images/pao.png',
+                    text: 'Pão de Briochi',
+                    imageRatioWidth: 0.30,
+                    textRatioWidth: 0.65,
+                    ratioWidth: 0.92,
+                  ),
+                  CardCategory(
+                    urlImage: 'images/pao.png',
+                    text: 'Pão Americano',
+                    imageRatioWidth: 0.30,
+                    textRatioWidth: 0.65,
+                    ratioWidth: 0.92,
+                  ),
+                ],
+              ),
+            ),
           /*
           * Botoes de aumentar e diminuir quantidade
           */
@@ -154,21 +209,14 @@ class _ModalProdutoState extends State<ModalProduto> {
                   onPressed: (_qnt > 1) ? () => setState(() => _qnt--) : null,
                   icon: Icons.remove,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 15,
-                    right: 15,
-                  ),
-                  child: Botao(
-                    onPressed: () {},
-                    internalPadding: const EdgeInsets.symmetric(vertical: 15),
-                    labelText: '$_qnt',
-                  ),
+                Botao(
+                  onPressed: () {},
+                  internalPadding: const EdgeInsets.symmetric(vertical: 15),
+                  externalPadding: const EdgeInsets.symmetric(horizontal: 15),
+                  labelText: '$_qnt',
                 ),
                 Botao(
-                  onPressed: () {
-                    setState(() => _qnt++);
-                  },
+                  onPressed: () => setState(() => _qnt++),
                   icon: Icons.add,
                 ),
               ],
@@ -178,15 +226,13 @@ class _ModalProdutoState extends State<ModalProduto> {
           * Dicas
           */
           if (widget.showEditOptions)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Text(
+            const Padding(
+              padding: EdgeInsets.only(bottom: 10),
+              child: CustomText(
                 'Dica: Você pode adicionar até 3 unidades do mesmo ingrediente'
                 ', com exceção do pão.',
-                style: GoogleFonts.oxygen(
-                  fontSize: 18,
-                  color: Colors.grey,
-                ),
+                fontSize: 18,
+                color: Colors.grey,
                 textAlign: TextAlign.center,
               ),
             ),
@@ -197,7 +243,12 @@ class _ModalProdutoState extends State<ModalProduto> {
             Botao(
               labelText: 'Editar Produto',
               externalPadding: const EdgeInsets.only(bottom: 5),
-              onPressed: widget.onTapEdit,
+              onPressed: () {
+                if (widget.onTapEdit != null) {
+                  setState(() => optionEdit = OptionEdit.categories);
+                  widget.onTapEdit!();
+                }
+              },
             ),
           /*
           * Botão de salvar 
@@ -222,6 +273,7 @@ class _ModalProdutoState extends State<ModalProduto> {
                 if (optionEdit != OptionEdit.categories) {
                   setState(() => optionEdit = OptionEdit.categories);
                 } else if (widget.onTapReturn != null) {
+                  setState(() => optionEdit = OptionEdit.none);
                   widget.onTapReturn!();
                 }
               },

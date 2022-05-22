@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/botao.dart';
+import 'package:garagem_burger/components/custom_text.dart';
 import 'package:garagem_burger/models/ingrediente.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class CardIngredient extends StatelessWidget {
   final Ingrediente ingredient;
@@ -61,82 +61,73 @@ class CardIngredient extends StatelessWidget {
               /*
               * Tudo
               */
-              Container( 
-                padding: const EdgeInsets.only(
-                  top: 12,
-                  bottom: 12,
-                  left: 12,
-                ),
+              Container(
+                padding: const EdgeInsets.only(left: 12),
                 width: constraints.maxWidth * 0.65,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     /*
-                    * Title
+                    * Title (Nome e Quantidade)
                     */
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        CustomText(
                           ingredient.nome,
-                          style: GoogleFonts.oxygen(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
+                          fontWeight: FontWeight.bold,
                         ),
                         Container(
                           height: deviceWidth * 0.07,
                           width: deviceWidth * 0.07,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Theme.of(context).backgroundColor,
+                            border: Border.all(
+                              color: Theme.of(context).backgroundColor,
+                              width: 2,
+                            ),
+                            shape: BoxShape.circle,
                           ),
-                          child: Center(
-                            child: FittedBox(
-                              child: Text(
-                                count.toString(),
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.oxygen(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: CustomText(
+                              count.toString(),
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
                       ],
                     ),
                     /*
-                    * Subtitle (Quantidade e preço)
+                    * Subtitle (Preço e botões)
                     */
                     Row(
                       children: [
-                        Text(
+                        CustomText(
                           '${ingredient.quantidade} '
                           '${ingredient.unidadeMedida}'
                           '\nR\$ ${ingredient.preco.toStringAsFixed(2)}',
-                          style: GoogleFonts.oxygen(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey,
-                          ),
+                          color: Colors.grey,
+                          textAlign: TextAlign.left,
                         ),
                         const Spacer(),
-                        Botao(
-                          onPressed: removeItem,
-                          icon: Icons.remove,
-                          externalPadding: const EdgeInsets.only(right: 10),
-                          internalPadding: EdgeInsets.zero,
-                          iconSize: 20,
+                        SizedBox(
+                          width: 50,
+                          child: Botao(
+                            onPressed: removeItem,
+                            icon: Icons.remove,
+                            externalPadding: const EdgeInsets.only(right: 10),
+                            internalPadding: EdgeInsets.zero,
+                            iconSize: 20,
+                          ),
                         ),
-                        Botao(
-                          onPressed: addItem,
-                          icon: Icons.add,
-                          internalPadding: EdgeInsets.zero,
-                          iconSize: 20,
+                        SizedBox(
+                          width: 40,
+                          child: Botao(
+                            onPressed: addItem,
+                            icon: Icons.add,
+                            internalPadding: EdgeInsets.zero,
+                            iconSize: 20,
+                          ),
                         )
                       ],
                     ),

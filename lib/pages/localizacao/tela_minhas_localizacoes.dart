@@ -17,54 +17,51 @@ class TelaMinhasLocalizacoes extends StatelessWidget {
   Widget build(BuildContext context) {
     final pvdLocal = Provider.of<ProviderLocalizacoes>(context);
     final pvdUsuario = Provider.of<ProviderUsuario>(context);
-    return RefreshIndicator(
-      onRefresh: () {
-        return pvdLocal.loadLocations(pvdUsuario.usuario);
-      },
-      child: (pvdLocal.emptyList)
-          ? TelaVazia(
-              pageName: 'Minha Localizações',
-              icon: Icons.location_on_outlined,
-              titulo: 'Adicionar novo endereço',
-              subtitulo: 'Você ainda não possui endereço cadastrado.',
-              rodape: 'Decida onde quer matar sua fome.',
-              navigator: () => Navigator.of(context).pushNamed(
-                Rotas.main,
-                arguments: {
-                  'index': 3,
-                  'page': const TelaNovaLocalizacao(),
-                  'button': null,
-                },
-              ),
-            )
-          : ListView(
-              children: [
-                Column(
-                  children: pvdLocal.locations.values
-                      .map(
-                        (localizacao) => CardDismissible(
-                          tipoCard: TipoCard.localizacao,
-                          item: localizacao,
-                          editar: () => Navigator.of(context).pushNamed(
-                            Rotas.main,
-                            arguments: {
-                              'index': 3,
-                              'page': TelaAlterarLocalizacao(localizacao),
-                              'button': null,
-                            },
-                          ),
-                          remover: (id) {
-                            pvdLocal.deleteLocation(pvdUsuario.usuario, id);
-                          },
-                          favoritar: (id) {
-                            pvdLocal.changeFavorite(pvdUsuario.usuario, id);
-                          },
-                        ),
-                      )
-                      .toList(),
-                ),
-              ],
-            ),
-    );
+    if ((pvdLocal.emptyList)) {
+      return TelaVazia(
+        pageName: 'Minha Localizações',
+        icon: Icons.location_on_outlined,
+        titulo: 'Adicionar novo endereço',
+        subtitulo: 'Você ainda não possui endereço cadastrado.',
+        rodape: 'Decida onde quer matar sua fome.',
+        navigator: () => Navigator.of(context).pushNamed(
+          Rotas.main,
+          arguments: {
+            'index': 3,
+            'page': const TelaNovaLocalizacao(),
+            'button': null,
+          },
+        ),
+      );
+    } else {
+      return ListView(
+        children: [
+          Column(
+            children: pvdLocal.locations.values.map(
+              (localizacao) {
+                return CardDismissible(
+                  tipoCard: TipoCard.localizacao,
+                  item: localizacao,
+                  editar: () => Navigator.of(context).pushNamed(
+                    Rotas.main,
+                    arguments: {
+                      'index': 3,
+                      'page': TelaAlterarLocalizacao(localizacao),
+                      'button': null,
+                    },
+                  ),
+                  remover: (id) {
+                    pvdLocal.deleteLocation(pvdUsuario.usuario, id);
+                  },
+                  favoritar: (id) {
+                    pvdLocal.changeFavorite(pvdUsuario.usuario, id);
+                  },
+                );
+              },
+            ).toList(),
+          ),
+        ],
+      );
+    }
   }
 }

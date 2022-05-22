@@ -1,9 +1,10 @@
 // ignore_for_file: prefer_const_constructors, avoid_print
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/botao.dart';
+import 'package:garagem_burger/components/custom_text.dart';
 import 'package:garagem_burger/controllers/provider_usuario.dart';
 import 'package:garagem_burger/utils/rotas.dart';
-import 'package:garagem_burger/components/campo_texto.dart';
+import 'package:garagem_burger/components/custom_text_field.dart';
 import 'package:provider/provider.dart';
 
 class TelaEsqueceuSenha extends StatefulWidget {
@@ -31,7 +32,7 @@ class _TelaEsqueceuSenhaState extends State<TelaEsqueceuSenha> {
 
       // TODO: Colocar um pop-up.
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Link enviado por e-mail"),
+        content: CustomText('Link enviado por e-mail'),
         backgroundColor: Colors.green,
       ));
 
@@ -42,7 +43,7 @@ class _TelaEsqueceuSenhaState extends State<TelaEsqueceuSenha> {
     } on AuthException catch (e) {
       setState(() => _loading = false);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(e.message),
+        content: CustomText(e.message),
         backgroundColor: Colors.red,
       ));
     }
@@ -66,13 +67,16 @@ class _TelaEsqueceuSenhaState extends State<TelaEsqueceuSenha> {
             child: SizedBox(
               width: 175,
               height: 175,
-              child: Image.asset("./images/logoHamburgueria.png"),
+              child: Image.asset('./images/logoHamburgueria.png'),
             ),
           ),
 
           // Espaçamento vertical entre a imagem e o formulário.
           SizedBox(height: tamanho.height * 0.03),
-          Text("Insira seu e-mail", textAlign: TextAlign.center),
+          CustomText(
+            'Insira seu e-mail',
+            textAlign: TextAlign.center,
+          ),
           SizedBox(height: tamanho.height * 0.02),
           Padding(
             padding: const EdgeInsets.all(10.0),
@@ -82,8 +86,8 @@ class _TelaEsqueceuSenhaState extends State<TelaEsqueceuSenha> {
               child: Column(
                 children: [
                   // Campo e-mail.
-                  CampoTexto(
-                    // Campo de texto "E-mail".
+                  CustomTextField(
+                    // Campo de texto 'E-mail'.
                     labelText: 'E-mail',
 
                     // Icone prefixo.
@@ -128,7 +132,7 @@ class _TelaEsqueceuSenhaState extends State<TelaEsqueceuSenha> {
             backgroundColor: Colors.black,
             foregroundColor: Colors.white,
             loading: _loading,
-            labelText: "Confirmar",
+            labelText: 'Confirmar',
             onPressed: () => {
               _formKey.currentState!.validate() ? recuperarSenha() : null,
             },
@@ -142,7 +146,7 @@ class _TelaEsqueceuSenhaState extends State<TelaEsqueceuSenha> {
             ),
             backgroundColor: Colors.black,
             foregroundColor: Colors.white,
-            labelText: "Voltar",
+            labelText: 'Voltar',
             onPressed: () {
               Navigator.of(context).pop();
             },

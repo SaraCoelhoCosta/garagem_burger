@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/components/custom_text.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TelaVazia extends StatelessWidget {
@@ -43,33 +44,25 @@ class TelaVazia extends StatelessWidget {
           Icon(icon, size: availableHeight * 0.30),
           TextButton(
             onPressed: navigator,
-            child: Text(
+            child: CustomText(
               titulo,
-              style: GoogleFonts.oxygen(
-                fontSize: 35,
-                fontWeight: FontWeight.bold,
-                color: Colors.blue,
-                decoration: TextDecoration.underline,
-              ),
+              fontSize: 35,
+              fontWeight: FontWeight.bold,
+              color: Colors.blue,
               textAlign: TextAlign.center,
             ),
           ),
-          Text(
+          CustomText(
             subtitulo,
-            style: GoogleFonts.oxygen(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
             textAlign: TextAlign.center,
           ),
-          Text(
+          CustomText(
             rodape,
-            style: GoogleFonts.oxygen(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.grey,
-            ),
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.grey,
             textAlign: TextAlign.center,
           ),
         ],

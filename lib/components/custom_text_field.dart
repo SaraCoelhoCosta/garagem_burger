@@ -1,8 +1,8 @@
-// ignore_for_file: use_key_in_widget_constructors, must_be_immutable
+// ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
 
-class CampoTexto extends StatelessWidget {
+class CustomTextField extends StatelessWidget {
   final Icon? prefixIcon;
   final Widget? suffixIcon;
   final String labelText;
@@ -18,7 +18,8 @@ class CampoTexto extends StatelessWidget {
   final Function(String)? onChanged;
   bool? enabled;
 
-  CampoTexto({
+  CustomTextField({
+    Key? key,
     required this.labelText,
     this.obscureText = false,
     this.controller,
@@ -33,7 +34,7 @@ class CampoTexto extends StatelessWidget {
     this.suffixIcon,
     this.hintText,
     this.enabled = true,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +47,6 @@ class CampoTexto extends StatelessWidget {
           labelText: labelText,
           hintText: hintText,
         ),
-        
         controller: controller,
         keyboardType: keyboardType,
         focusNode: focusNode,

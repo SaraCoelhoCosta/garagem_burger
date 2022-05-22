@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/app_bar_button.dart';
 import 'package:garagem_burger/components/barra_inferior.dart';
+import 'package:garagem_burger/components/custom_text.dart';
 import 'package:garagem_burger/pages/carrinho/tela_carrinho.dart';
 import 'package:garagem_burger/pages/menu/tela_menu.dart';
 import 'package:garagem_burger/pages/meus_lanches/tela_meus_lanches.dart';
@@ -81,11 +82,10 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
         backgroundColor: const Color(0xfffed80b),
         foregroundColor: Colors.black,
         centerTitle: true,
-        title: Text(
+        title: CustomText(
           currentPage.toStringShort(),
-          style: GoogleFonts.keaniaOne(
-            fontSize: 26.0,
-          ),
+          fontSize: 26.0,
+          fontType: FontType.title,
         ),
         actions: [if (currentButton != null) currentButton as Widget],
       ),

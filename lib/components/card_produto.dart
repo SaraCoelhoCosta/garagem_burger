@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/components/custom_text.dart';
 import 'package:garagem_burger/models/produto.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class CardProduto extends StatelessWidget {
   final Produto produto;
@@ -14,7 +14,6 @@ class CardProduto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final availableHeight = MediaQuery.of(context).size.height -
         (Scaffold.of(context).appBarMaxHeight ?? 0) -
         kBottomNavigationBarHeight;
@@ -57,8 +56,8 @@ class CardProduto extends StatelessWidget {
                           Radius.circular(15),
                         ),
                         child: FadeInImage(
-                          placeholder:
-                              const AssetImage('images/placeholder-produto.jpg'),
+                          placeholder: const AssetImage(
+                              'images/placeholder-produto.jpg'),
                           image: image,
                           fit: BoxFit.cover,
                         ),
@@ -80,13 +79,10 @@ class CardProduto extends StatelessWidget {
                           * Title
                           */
                           FittedBox(
-                            child: Text(
-                              produto.nome, // max: 27 caracteres
-                              style: GoogleFonts.oxygen(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
+                            child: CustomText(
+                              produto.nome,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                           /*
@@ -96,17 +92,14 @@ class CardProduto extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               FittedBox(
-                                child: Text(
+                                child: CustomText(
                                   (produto.recipiente == null
                                           ? ''
                                           : '${produto.recipiente} de ') +
                                       produto.quantidade.toString() +
                                       produto.unidadeMedida,
-                                  style: GoogleFonts.oxygen(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey,
-                                  ),
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey,
                                 ),
                               ),
                               FittedBox(

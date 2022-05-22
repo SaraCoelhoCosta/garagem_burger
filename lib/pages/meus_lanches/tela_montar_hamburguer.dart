@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/components/custom_text.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TelaMontarHamburguer extends StatelessWidget {
@@ -36,13 +37,13 @@ class TelaMontarHamburguer extends StatelessWidget {
             const SizedBox(height: 30),
 
             // Titulo
-            Text(
+            const CustomText(
               'Inicie uma\ncriativa jornada\npara matar a\nfome do\nseu jeito',
+              bordered: true,
               textAlign: TextAlign.center,
-              style: GoogleFonts.keaniaOne(
-                color: Colors.white,
-                fontSize: 45.0,
-              ),
+              color: Colors.white,
+              fontSize: 45.0,
+              fontType: FontType.title,
             ),
           ],
         ),

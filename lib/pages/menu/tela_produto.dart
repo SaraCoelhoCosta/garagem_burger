@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/app_bar_button.dart';
+import 'package:garagem_burger/components/custom_text.dart';
 import 'package:garagem_burger/components/popup_dialog.dart';
 import 'package:garagem_burger/controllers/provider_produtos.dart';
 import 'package:garagem_burger/controllers/provider_usuario.dart';
@@ -80,15 +81,12 @@ class _TelaProdutoState extends State<TelaProduto>
       centerTitle: true,
       elevation: 0,
       title: FittedBox(
-        child: BorderedText(
-          strokeColor: Colors.black,
-          strokeWidth: 3,
-          child: Text(
-            produto.nome,
-            style: GoogleFonts.keaniaOne(
-              fontSize: 30,
-            ),
-          ),
+        child: CustomText(
+          produto.nome,
+          bordered: true,
+          fontSize: 30,
+          fontType: FontType.title,
+          color: Colors.white,
         ),
       ),
     );
@@ -152,29 +150,19 @@ class _TelaProdutoState extends State<TelaProduto>
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      BorderedText(
-                        strokeColor: Colors.black,
-                        strokeWidth: 3,
-                        child: Text(
-                          'Preço',
-                          style: GoogleFonts.oxygen(
-                            color: Colors.white,
-                            fontSize: 30.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                      const CustomText(
+                        'Preço',
+                        bordered: true,
+                        fontSize: 30,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
                       ),
-                      BorderedText(
-                        strokeColor: Colors.black,
-                        strokeWidth: 3,
-                        child: Text(
-                          'R\$ ${produto.preco.toStringAsFixed(2)}',
-                          style: GoogleFonts.oxygen(
-                            color: Colors.white,
-                            fontSize: 30.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                      CustomText(
+                        'R\$ ${produto.preco.toStringAsFixed(2)}',
+                        bordered: true,
+                        fontSize: 30,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
@@ -184,28 +172,18 @@ class _TelaProdutoState extends State<TelaProduto>
                   const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      BorderedText(
-                        strokeColor: Colors.black,
-                        strokeWidth: 3,
-                        child: Text(
-                          'Itens',
-                          style: GoogleFonts.oxygen(
-                            color: Colors.white,
-                            fontSize: 26.0,
-                          ),
-                        ),
+                    children: const [
+                      CustomText(
+                        'Itens',
+                        bordered: true,
+                        fontSize: 26,
+                        color: Colors.white,
                       ),
-                      BorderedText(
-                        strokeColor: Colors.black,
-                        strokeWidth: 3,
-                        child: Text(
-                          'Quantidade',
-                          style: GoogleFonts.oxygen(
-                            color: Colors.white,
-                            fontSize: 26.0,
-                          ),
-                        ),
+                      CustomText(
+                        'Quantidade',
+                        bordered: true,
+                        fontSize: 26,
+                        color: Colors.white,
                       ),
                     ],
                   ),
@@ -220,36 +198,26 @@ class _TelaProdutoState extends State<TelaProduto>
                         children: [
                           Flexible(
                             flex: 7,
-                            child: BorderedText(
-                              strokeColor: Colors.black,
-                              strokeWidth: 3,
-                              child: Text(
-                                '${ingrediente['quantidade']}x ${ing.nome}',
-                                style: GoogleFonts.oxygen(
-                                  color: Colors.white,
-                                  fontSize: 24.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                            child: CustomText(
+                              '${ingrediente['quantidade']}x ${ing.nome}',
+                              bordered: true,
+                              fontSize: 24,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                           Flexible(
                             flex: 3,
-                            child: BorderedText(
-                              strokeColor: Colors.black,
-                              strokeWidth: 3,
-                              child: Text(
-                                '${ing.quantidade * (ingrediente['quantidade'] as int)} '
-                                '${ing.unidadeMedida}'
-                                '${(ing.unidadeMedida == Ingrediente.fatia && ingrediente['quantidade'] > 1 ? 's' : '')}',
-                                style: GoogleFonts.oxygen(
-                                  color: Colors.white,
-                                  fontSize: 24.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                            child: CustomText(
+                              '${ing.quantidade * (ingrediente['quantidade'] as int)} '
+                              '${ing.unidadeMedida}'
+                              '${(ing.unidadeMedida == Ingrediente.fatia && ingrediente['quantidade'] > 1 ? 's' : '')}',
+                              bordered: true,
+                              fontSize: 24,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
                             ),
-                          )
+                          ),
                         ],
                       );
                     }).toList(),
@@ -261,29 +229,19 @@ class _TelaProdutoState extends State<TelaProduto>
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      BorderedText(
-                        strokeColor: Colors.black,
-                        strokeWidth: 3,
-                        child: Text(
-                          'Adicionais',
-                          style: GoogleFonts.oxygen(
-                            color: Colors.white,
-                            fontSize: 30.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                      const CustomText(
+                        'Adicionais',
+                        bordered: true,
+                        fontSize: 30,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
                       ),
-                      BorderedText(
-                        strokeColor: Colors.black,
-                        strokeWidth: 3,
-                        child: Text(
-                          'R\$ ${produto.preco.toStringAsFixed(2)}',
-                          style: GoogleFonts.oxygen(
-                            color: Colors.white,
-                            fontSize: 30.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                      CustomText(
+                        'R\$ ${produto.preco.toStringAsFixed(2)}',
+                        bordered: true,
+                        fontSize: 30,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
@@ -294,29 +252,19 @@ class _TelaProdutoState extends State<TelaProduto>
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      BorderedText(
-                        strokeColor: Colors.black,
-                        strokeWidth: 3,
-                        child: Text(
-                          'Total',
-                          style: GoogleFonts.oxygen(
-                            color: Colors.white,
-                            fontSize: 30.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                      const CustomText(
+                        'Total',
+                        bordered: true,
+                        fontSize: 30,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
                       ),
-                      BorderedText(
-                        strokeColor: Colors.black,
-                        strokeWidth: 3,
-                        child: Text(
-                          'R\$ ${produto.preco.toStringAsFixed(2)}',
-                          style: GoogleFonts.oxygen(
-                            color: Colors.white,
-                            fontSize: 30.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                      CustomText(
+                        'R\$ ${produto.preco.toStringAsFixed(2)}',
+                        bordered: true,
+                        fontSize: 30,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
@@ -411,15 +359,13 @@ class _TelaProdutoState extends State<TelaProduto>
 
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text(
+                                content: CustomText(
                                   (isEditing)
                                       ? '${produto.nome} atualizado para $qnt'
                                       : '$qnt ${produto.nome} adicionado no carrinho',
                                   textAlign: TextAlign.center,
-                                  style: GoogleFonts.oxygen(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold,
                                 ),
                                 elevation: 6.0,
                                 backgroundColor: Colors.blue,

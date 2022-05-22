@@ -36,9 +36,9 @@ class TelaMeusPedidos extends StatelessWidget {
       return ListView(
         children: [
           Column(
-            children: pvdPedido.pedidos.values
-                .map((pedido) => CardPedido(pedido))
-                .toList(),
+            children: pvdPedido.pedidos.values.map((pedido) {
+              return CardPedido(pedido);
+            }).toList(),
           ),
         ],
       );

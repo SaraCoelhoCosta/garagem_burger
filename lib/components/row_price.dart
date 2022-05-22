@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/components/custom_text.dart';
 
 class RowPrice extends StatelessWidget {
   final double value;
@@ -20,19 +21,13 @@ class RowPrice extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
+          CustomText(
             text,
-            style: const TextStyle(
-              fontSize: 20,
-              color: Colors.black,
-            ),
+            fontSize: 20,
           ),
-          Text(
+          CustomText(
             'R\$ ${value.toStringAsFixed(2)}',
-            style: const TextStyle(
-              fontSize: 20,
-              color: Colors.black,
-            ),
+            fontSize: 20,
           ),
         ],
       ),

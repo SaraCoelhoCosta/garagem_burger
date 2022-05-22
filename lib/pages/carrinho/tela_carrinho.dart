@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/botao.dart';
 import 'package:garagem_burger/components/card_dismissible.dart';
+import 'package:garagem_burger/components/custom_text.dart';
 import 'package:garagem_burger/components/row_price.dart';
 import 'package:garagem_burger/pages/carrinho/tela_endereco_entrega.dart';
 import 'package:garagem_burger/pages/menu/tela_menu.dart';
@@ -17,108 +18,109 @@ class TelaCarrinho extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<ProviderCarrinho>(context);
-    return (provider.qntItens == 0)
-        ? TelaVazia(
-            pageName: 'Carrinho',
-            icon: Icons.shopping_cart_outlined,
-            titulo: 'IR PARA O MENU',
-            subtitulo: 'Carrinho vazio!\nFaça seu pedido.',
-            rodape: 'Selecione o produto que deseja e adicione ao carrinho.',
-            navigator: () => Navigator.of(context).pushReplacementNamed(
-              Rotas.main,
-              arguments: {
-                'index': 0,
-                'page': const TelaMenu(),
-                'button': null,
+    final availableHeight = MediaQuery.of(context).size.height -
+        Scaffold.of(context).appBarMaxHeight! -
+        kBottomNavigationBarHeight;
+
+    final pvdCarrinho = Provider.of<ProviderCarrinho>(context);
+
+    if ((pvdCarrinho.qntItens == 0)) {
+      return TelaVazia(
+        pageName: 'Carrinho',
+        icon: Icons.shopping_cart_outlined,
+        titulo: 'IR PARA O MENU',
+        subtitulo: 'Carrinho vazio!\nFaça seu pedido.',
+        rodape: 'Selecione o produto que deseja e adicione ao carrinho.',
+        navigator: () => Navigator.of(context).pushReplacementNamed(
+          Rotas.main,
+          arguments: {
+            'index': 0,
+            'page': const TelaMenu(),
+            'button': null,
+          },
+        ),
+      );
+    } else {
+      return Column(
+        children: [
+          /*
+          * Itens do carrinho
+          */
+          SizedBox(
+            height: availableHeight * 0.60,
+            child: ListView.builder(
+              itemCount: pvdCarrinho.qntItens,
+              itemBuilder: (ctx, index) {
+                final items = pvdCarrinho.itensCarrinho.values.toList();
+                return CardDismissible(
+                  item: items[index],
+                  tipoCard: TipoCard.itemCarrinho,
+                  editar: () => Navigator.of(context).pushNamed(
+                    Rotas.produto,
+                    arguments: [true, items[index].produto],
+                  ),
+                  remover: (id) => pvdCarrinho.removeItemCarrinho(id),
+                );
               },
             ),
-          )
-        : ListView(
-            children: [
-              /*
-              * Itens do carrinho
-              */
-              Column(
-                children: provider.itensCarrinho.values.map((itemCarrinho) {
-                  return CardDismissible(
-                    item: itemCarrinho,
-                    tipoCard: TipoCard.itemCarrinho,
-                    editar: () => Navigator.of(context).pushNamed(
-                      Rotas.produto,
-                      arguments: [true, itemCarrinho.produto],
-                    ),
-                    remover: (id) => provider.removeItemCarrinho(id),
-                  );
-                }).toList(),
-              ),
-              /*
-              * Total e botao de continuar
-              */
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Card(
-                  elevation: 6.0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        RowPrice(
-                          text: 'Total',
-                          value: provider.precoTotal,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Dica: Clicando no ícone ',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.grey[700],
-                              ),
-                            ),
-                            const Icon(Icons.create),
-                            Text(
-                              ' você pode editar a',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.grey[700],
-                              ),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          'quantidade ou configurar seu produto',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey[700],
-                          ),
-                        ),
-                        Botao(
-                          labelText: 'Efetuar pedido',
-                          externalPadding: const EdgeInsets.only(top: 15),
-                          onPressed: () {
-                            Navigator.of(context).pushNamed(
-                              Rotas.main,
-                              arguments: {
-                                'index': 2,
-                                'page': const TelaEnderecoEntrega(),
-                                'button': null,
-                              },
-                            );
-                          },
-                        ),
-                      ],
-                    ),
+          ),
+          /*
+          * Total e botao de continuar
+          */
+          SizedBox(
+            height: availableHeight * 0.40,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                elevation: 6.0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      RowPrice(
+                        text: 'Total',
+                        value: pvdCarrinho.precoTotal,
+                      ),
+                      /*
+                      * Dica
+                      */
+                      const CustomText(
+                        'Dica: Clicando sobre o produto você pode editá-lo.\n'
+                        'Caso queira excluí-lo, basta arrastar para a esquerda.',
+                        color: Colors.grey,
+                        fontSize: 18,
+                        textAlign: TextAlign.center,
+                      ),
+                      /*
+                      * Botão de continuar
+                      */
+                      Botao(
+                        labelText: 'Efetuar pedido',
+                        externalPadding: const EdgeInsets.only(top: 15),
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(
+                            Rotas.main,
+                            arguments: {
+                              'index': 2,
+                              'page': const TelaEnderecoEntrega(),
+                              'button': null,
+                            },
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ],
-          );
+            ),
+          )
+        ],
+      );
+    }
   }
 }

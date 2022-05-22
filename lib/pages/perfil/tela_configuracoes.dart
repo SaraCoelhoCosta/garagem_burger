@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:garagem_burger/components/campo_texto.dart';
+import 'package:garagem_burger/components/botao.dart';
+import 'package:garagem_burger/components/custom_text.dart';
+import 'package:garagem_burger/components/custom_text_field.dart';
 import 'package:garagem_burger/components/popup_dialog.dart';
 import 'package:garagem_burger/controllers/provider_usuario.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -33,7 +35,7 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
   // Máscara para telefone.
   var mascaraTelefone = MaskTextInputFormatter(
     mask: '(##) #####-####',
-    filter: {"#": RegExp(r'[0-9]')},
+    filter: {'#': RegExp(r'[0-9]')},
     type: MaskAutoCompletionType.lazy,
   );
 
@@ -164,13 +166,10 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                 /*
                 * Nome
                 */
-                Text(
+                CustomText(
                   pvdUsuario.usuario!.displayName!,
-                  style: GoogleFonts.oxygen(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
                 ),
               ],
             ),
@@ -187,13 +186,10 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
-                      Text(
+                      CustomText(
                         'Informações pessoais',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
@@ -203,27 +199,20 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                   Row(
                     children: [
                       if (!editingName)
-                        Text(
+                        const CustomText(
                           'Nome: ',
-                          style: GoogleFonts.oxygen(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          fontWeight: FontWeight.bold,
                         ),
                       if (!editingName)
                         Expanded(
-                          child: Text(
+                          child: CustomText(
                             pvdUsuario.usuario!.displayName!,
-                            style: GoogleFonts.oxygen(
-                              color: Colors.grey[700],
-                              fontSize: 18,
-                            ),
+                            color: Colors.grey[700],
                           ),
                         ),
                       if (editingName)
                         Expanded(
-                          child: CampoTexto(
+                          child: CustomTextField(
                             labelText: 'Nome',
                             focusNode: _campoNome,
                             textInputAction: TextInputAction.next,
@@ -249,27 +238,20 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                   Row(
                     children: [
                       if (!editingPassword)
-                        Text(
+                        const CustomText(
                           'Senha: ',
-                          style: GoogleFonts.oxygen(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          fontWeight: FontWeight.bold,
                         ),
                       if (!editingPassword)
                         Expanded(
-                          child: Text(
+                          child: CustomText(
                             '************',
-                            style: GoogleFonts.oxygen(
-                              color: Colors.grey[700],
-                              fontSize: 18,
-                            ),
+                            color: Colors.grey[700],
                           ),
                         ),
                       if (editingPassword)
                         Expanded(
-                          child: CampoTexto(
+                          child: CustomTextField(
                             labelText: 'Senha',
                             focusNode: _campoSenha,
                             textInputAction: TextInputAction.next,
@@ -290,27 +272,6 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                     ],
                   ),
                   /*
-                  * Senha
-                  */
-                  // CampoTexto(
-                  //   labelText: 'Senha',
-                  //   focusNode: _campoSenha,
-                  //   obscureText: true,
-                  //   onFieldSubmitted: (_) {
-                  //     FocusScope.of(context).requestFocus(_campoSenha);
-                  //   },
-                  //   textInputAction: TextInputAction.next,
-                  //   controller: _senha,
-                  //   prefixIcon: const Icon(Icons.lock),
-                  //   keyboardType: TextInputType.visiblePassword,
-                  //   enabled: true,
-                  //   suffixIcon: IconButton(
-                  //     // ignore: avoid_print
-                  //     onPressed: () => print('teste'),
-                  //     icon: const Icon(Icons.edit),
-                  //   ),
-                  // ),
-                  /*
                   * Informações de contato
                   */
                   const Padding(
@@ -327,7 +288,7 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                   /*
                   * Email
                   */
-                  CampoTexto(
+                  CustomTextField(
                     labelText: 'E-mail',
                     focusNode: _campoEmail,
                     onFieldSubmitted: (_) {
@@ -352,27 +313,20 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                   Row(
                     children: [
                       if (!editingPhone)
-                        Text(
+                        const CustomText(
                           'Telefone: ',
-                          style: GoogleFonts.oxygen(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          fontWeight: FontWeight.bold,
                         ),
                       if (!editingPhone)
                         Expanded(
-                          child: Text(
+                          child: CustomText(
                             pvdUsuario.usuario!.phoneNumber ?? 'sem numero',
-                            style: GoogleFonts.oxygen(
-                              color: Colors.grey[700],
-                              fontSize: 18,
-                            ),
+                            color: Colors.grey[700],
                           ),
                         ),
                       if (editingPhone)
                         Expanded(
-                          child: CampoTexto(
+                          child: CustomTextField(
                             labelText: 'Telefone',
                             focusNode: _campoTelefone,
                             inputFormatters: [mascaraTelefone],
@@ -425,24 +379,21 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                             Icons.person,
                             color: Colors.blue,
                           ),
-                          label: Text(
+                          label: const CustomText(
                             'Excluir minha conta',
-                            style: GoogleFonts.oxygen(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.blue,
-                              decoration: TextDecoration.none,
-                            ),
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue,
                           ),
                         ),
-                        // Botao(
-                        //   onPressed: () {},
-                        //   labelText: 'Salvar',
-                        //   internalPadding: const EdgeInsets.symmetric(
-                        //     horizontal: 20,
-                        //     vertical: 15,
-                        //   ),
-                        // ),
+                        Botao(
+                          onPressed: () {},
+                          labelText: 'Salvar',
+                          internalPadding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 15,
+                          ),
+                        ),
                       ],
                     ),
                   ),

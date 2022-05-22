@@ -1,16 +1,15 @@
-// ignore_for_file: prefer_const_constructors, avoid_print
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/botao.dart';
+import 'package:garagem_burger/components/custom_text.dart';
 import 'package:garagem_burger/controllers/provider_cartoes.dart';
 import 'package:garagem_burger/controllers/provider_localizacoes.dart';
 import 'package:garagem_burger/controllers/provider_pedidos.dart';
 import 'package:garagem_burger/controllers/provider_usuario.dart';
 import 'package:garagem_burger/utils/rotas.dart';
-import 'package:garagem_burger/components/campo_texto.dart';
+import 'package:garagem_burger/components/custom_text_field.dart';
 import 'package:garagem_burger/pages/menu/tela_menu.dart';
 import 'package:provider/provider.dart';
 import 'package:sign_button/sign_button.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class TelaLogin extends StatefulWidget {
   const TelaLogin({Key? key}) : super(key: key);
@@ -79,7 +78,7 @@ class _TelaLoginState extends State<TelaLogin> {
       );
     } on AuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(e.message),
+        content: CustomText(e.message),
         backgroundColor: Colors.red,
       ));
     }
@@ -105,7 +104,7 @@ class _TelaLoginState extends State<TelaLogin> {
       );
     } on AuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(e.message),
+        content: CustomText(e.message),
         backgroundColor: Colors.red,
       ));
     }
@@ -132,7 +131,7 @@ class _TelaLoginState extends State<TelaLogin> {
     } on AuthException catch (e) {
       setState(() => _loading = false);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(e.message),
+        content: CustomText(e.message),
         backgroundColor: Colors.red,
       ));
     }
@@ -144,55 +143,34 @@ class _TelaLoginState extends State<TelaLogin> {
     Size tamanho = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: Color(0xfffed80b), // Cor de fundo.
+      backgroundColor: const Color(0xfffed80b), // Cor de fundo.
       body: ListView(
         children: <Widget>[
-          // Espaçamento vertical início da tela e imagem.
           SizedBox(height: tamanho.height * 0.04),
-
-          // Imagem
           Hero(
             tag: 'logo',
             child: SizedBox(
               width: 175,
               height: 175,
-              child: Image.asset("./images/logoHamburgueria.png"),
+              child: Image.asset('./images/logoHamburgueria.png'),
             ),
           ),
-
-          // Espaçamento vertical entre a imagem e o formulário.
           SizedBox(height: tamanho.height * 0.03),
-
           Padding(
             padding: const EdgeInsets.all(10.0),
-            // Formulário.
             child: Form(
               key: _formKey,
               child: Column(
                 children: [
-                  // Campo e-mail.
-                  CampoTexto(
-                    // Campo de texto "E-mail".
+                  CustomTextField(
                     labelText: 'E-mail',
-
-                    // Icone prefixo.
-                    prefixIcon: Icon(Icons.email),
-
-                    // Define o tipo de entrada do campo.
+                    prefixIcon: const Icon(Icons.email),
                     keyboardType: TextInputType.emailAddress,
-
-                    // Oculta texto.
                     obscureText: false,
-
-                    // Aponta para o próximo campo de entrada.
                     onFieldSubmitted: (_) {
                       FocusScope.of(context).requestFocus(_campoSenha);
                     },
-
-                    // O botão de enter leva para o próximo campo.
                     textInputAction: TextInputAction.next,
-
-                    // Validação do campo.
                     validator: (value) {
                       if (value!.trim().isEmpty) {
                         return 'Campo obrigatório';
@@ -202,19 +180,11 @@ class _TelaLoginState extends State<TelaLogin> {
                       }
                       return null;
                     },
-
                     controller: _email,
                   ),
-
-                  // Campo senha.
-                  CampoTexto(
-                    // Campo de texto "Senha".
+                  CustomTextField(
                     labelText: 'Senha',
-
-                    // Icone prefixo.
-                    prefixIcon: Icon(Icons.lock),
-
-                    // Icone sufixo (exibir senha)
+                    prefixIcon: const Icon(Icons.lock),
                     suffixIcon: GestureDetector(
                       child: Icon(_exibirSenha
                           ? Icons.visibility
@@ -225,17 +195,9 @@ class _TelaLoginState extends State<TelaLogin> {
                         });
                       },
                     ),
-
-                    // Oculta o texto.
                     obscureText: !_exibirSenha,
-
-                    // Indica qual é o campo.
                     focusNode: _campoSenha,
-
-                    // O botão de enter leva para o próximo campo.
                     textInputAction: TextInputAction.done,
-
-                    // Validação do campo.
                     validator: (value) {
                       if (value!.trim().isEmpty) {
                         return 'Campo obrigatório';
@@ -244,10 +206,7 @@ class _TelaLoginState extends State<TelaLogin> {
                       }
                       return null;
                     },
-
                     controller: _senha,
-
-                    // Ação realizada quando apertar o enter.
                     onFieldSubmitted: (_) => {
                       if (_formKey.currentState!.validate())
                         {
@@ -255,7 +214,6 @@ class _TelaLoginState extends State<TelaLogin> {
                         },
                     },
                   ),
-
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 5),
                     child: Row(
@@ -274,16 +232,11 @@ class _TelaLoginState extends State<TelaLogin> {
                                 });
                               },
                             ),
-                            Text(
-                              "Mantenha-me conectado",
-                              style:
-                                  // Fonte do Google.
-                                  GoogleFonts.oxygen(
-                                color: Colors.blue, // Cor da fonte.
-                                fontSize: 14, // Tamanho da fonte.
-                                fontWeight:
-                                    FontWeight.w500, // Largura da fonte.
-                              ),
+                            const CustomText(
+                              'Mantenha-me conectado',
+                              color: Colors.blue,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
                             ),
                           ],
                         ),
@@ -293,15 +246,11 @@ class _TelaLoginState extends State<TelaLogin> {
                             TextButton(
                               style: TextButton.styleFrom(
                                   backgroundColor: Colors.transparent),
-                              child: Text(
+                              child: const CustomText(
                                 'Esqueci minha senha',
-                                style: // Fonte do Google.
-                                    GoogleFonts.oxygen(
-                                  color: Colors.blue, // Cor da fonte.
-                                  fontSize: 14, // Tamanho da fonte.
-                                  fontWeight:
-                                      FontWeight.w500, // Largura da fonte.
-                                ),
+                                color: Colors.blue,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
                               ),
                               onPressed: () {
                                 Navigator.of(context).pushNamed(
@@ -318,7 +267,6 @@ class _TelaLoginState extends State<TelaLogin> {
               ),
             ),
           ),
-
           Botao(
             internalPadding: const EdgeInsets.symmetric(vertical: 15),
             externalPadding:
@@ -326,12 +274,11 @@ class _TelaLoginState extends State<TelaLogin> {
             backgroundColor: Colors.black,
             foregroundColor: Colors.white,
             loading: _loading,
-            labelText: "Entrar",
+            labelText: 'Entrar',
             onPressed: () => {
               _formKey.currentState!.validate() ? efetuarLogin() : null,
             },
           ),
-
           Botao(
             internalPadding: const EdgeInsets.symmetric(vertical: 15),
             externalPadding: const EdgeInsets.symmetric(
@@ -340,7 +287,7 @@ class _TelaLoginState extends State<TelaLogin> {
             ),
             backgroundColor: Colors.black,
             foregroundColor: Colors.white,
-            labelText: "Entrar como visitante",
+            labelText: 'Entrar como visitante',
             onPressed: () => Navigator.of(context).pushReplacementNamed(
               Rotas.main,
               arguments: {
@@ -352,60 +299,38 @@ class _TelaLoginState extends State<TelaLogin> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              // Texto.
-              Text(
-                "Não tem conta?",
-                // Fonte do Google.
-                style: GoogleFonts.oxygen(
-                  fontSize: 18, // Tamanho da fonte.
-                  fontWeight: FontWeight.w500, // Largura da fonte.
-                ),
+            children: [
+              const CustomText(
+                'Não tem conta?',
+                fontWeight: FontWeight.w500,
               ),
-
-              // Botão em forma de texto.
               TextButton(
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.transparent,
                 ),
-                // Texto do botão.
-                child: Text(
+                child: const CustomText(
                   'Cadastre-se',
-                  style: GoogleFonts.oxygen(
-                    fontSize: 18, // Tamanho da fonte.
-                    color: Colors.blue, // Cor da fonte.
-                    fontWeight: FontWeight.bold, // Largura da fonte.
-                  ),
+                  fontSize: 18,
+                  color: Colors.blue,
+                  fontWeight: FontWeight.bold,
                 ),
-
-                // Ação executada pelo botão.
                 onPressed: () {
                   Navigator.of(context).pushReplacementNamed(Rotas.cadastro);
                 },
               ),
             ],
           ),
-
-          // Espaçamento vertical entre link e o texto.
           SizedBox(height: tamanho.height * 0.05),
-
           Column(
             children: [
-              Center(
-                child: Text(
-                  "Outras formas de login",
-                  style: // Fonte do Google.
-                      GoogleFonts.oxygen(
-                    color: Colors.black, // Cor da fonte.
-                    fontSize: 22, // Tamanho da fonte.
-                    fontWeight: FontWeight.bold, // Largura da fonte.
-                  ),
+              const Center(
+                child: CustomText(
+                  'Outras formas de login',
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-
-              // Espaçamento vertical entre texto e imagens.
               SizedBox(height: tamanho.height * 0.03),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -415,7 +340,6 @@ class _TelaLoginState extends State<TelaLogin> {
                       efetuarLoginGoogle(),
                     },
                   ),
-                  // Botão facebook.
                   SignInButton.mini(
                     buttonType: ButtonType.facebook,
                     onPressed: () => {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:garagem_burger/components/custom_text.dart';
 import 'package:intl/intl.dart';
 
 class OrderStatusRow extends StatelessWidget {
@@ -35,8 +35,8 @@ class OrderStatusRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
+    return SizedBox(
+      height: 50,
       child: Row(
         children: [
           CircleAvatar(
@@ -44,19 +44,15 @@ class OrderStatusRow extends StatelessWidget {
             radius: 15,
           ),
           const SizedBox(width: 10),
-          Text(
+          CustomText(
             '[' + DateFormat('hh:mm').format(date) + ']  ',
-            style: GoogleFonts.oxygen(
-              fontSize: 20,
-            ),
+            fontSize: 20,
           ),
           Expanded(
-            child: Text(
+            child: CustomText(
               _textStatus[indexStatus][isComplete] ?? '',
-              style: GoogleFonts.oxygen(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ],

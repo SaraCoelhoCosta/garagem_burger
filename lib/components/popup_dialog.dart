@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/botao.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:garagem_burger/components/custom_text.dart';
 
 class PopupDialog extends StatelessWidget {
   final String titulo;
@@ -30,24 +30,17 @@ class PopupDialog extends StatelessWidget {
       ),
       insetPadding: const EdgeInsets.symmetric(horizontal: 70),
       // padd
-      title: Text(
+      title: CustomText(
         titulo,
-        style: GoogleFonts.oxygen(
-          color: Colors.black,
-          fontSize: 22,
-          fontWeight: FontWeight.bold,
-        ),
+        fontSize: 22,
+        fontWeight: FontWeight.bold,
         textAlign: TextAlign.center,
       ),
       content: descricao != null
-          ? Text(
-            descricao!,
-            textAlign: TextAlign.center,
-            style: GoogleFonts.oxygen(
-              color: Colors.black,
-              fontSize: 18,
-            ),
-          )
+          ? CustomText(
+              descricao!,
+              textAlign: TextAlign.center,
+            )
           : null,
       actions: [
         Column(
@@ -64,13 +57,9 @@ class PopupDialog extends StatelessWidget {
             ),
             TextButton(
               onPressed: onPressedNoOption,
-              child: Text(
+              child: CustomText(
                 noLabel,
-                style: GoogleFonts.oxygen(
-                  color: Colors.black,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+                fontWeight: FontWeight.bold,
               ),
             ),
           ],

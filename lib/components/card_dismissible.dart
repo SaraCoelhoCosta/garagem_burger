@@ -1,12 +1,12 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:garagem_burger/components/custom_text.dart';
 import 'package:garagem_burger/components/popup_dialog.dart';
 import 'package:garagem_burger/models/cartao.dart';
 import 'package:garagem_burger/models/item_carrinho.dart';
 import 'package:garagem_burger/models/localizacao.dart';
 import 'package:garagem_burger/models/produto.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 enum TipoCard {
   cartao,
@@ -99,7 +99,6 @@ class CardDismissible extends StatelessWidget {
   Widget build(BuildContext context) {
     _initItem();
 
-    // Altura total da tela, subtraindo as alturas da appBar e bottomBar
     final availableHeight = MediaQuery.of(context).size.height -
         Scaffold.of(context).appBarMaxHeight! -
         kBottomNavigationBarHeight;
@@ -169,29 +168,15 @@ class CardDismissible extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            /*
-                            * Title
-                            */
                             FittedBox(
-                              child: Text(
-                                title, // max: 27 caracteres
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
+                              child: CustomText(
+                                title,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                            /*
-                            * Subtitle
-                            */
-                            Text(
+                            CustomText(
                               subtitle,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey,
-                              ),
+                              color: Colors.grey,
                             ),
                           ],
                         ),
@@ -221,19 +206,17 @@ class CardDismissible extends StatelessWidget {
                           width: constraints.maxWidth * 0.07,
                           margin: const EdgeInsets.only(top: 10),
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Theme.of(context).backgroundColor,
+                            border: Border.all(
+                              color: Theme.of(context).backgroundColor,
+                              width: 2,
+                            ),
+                            shape: BoxShape.circle,
                           ),
-                          child: Center(
-                            child: FittedBox(
-                              child: Text(
-                                '${qntItens}x',
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.oxygen(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: CustomText(
+                              qntItens.toString(),
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),

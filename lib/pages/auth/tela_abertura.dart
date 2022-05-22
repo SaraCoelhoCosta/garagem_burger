@@ -84,7 +84,7 @@ class _TelaAberturaState extends State<TelaAbertura>
           tag: 'logo',
           child: Center(
             child: Image.asset(
-              "./images/logoHamburgueria.png",
+              './images/logoHamburgueria.png',
               height: 250,
               width: 250,
             ),
