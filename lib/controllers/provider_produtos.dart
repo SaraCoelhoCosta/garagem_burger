@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/controllers/firebase.dart';
@@ -38,6 +40,7 @@ class ProviderProdutos with ChangeNotifier {
         ),
       );
     });
+    print('${hamburgueres.length} hambúrgueres carregados.');
     notifyListeners();
   }
 
@@ -61,6 +64,9 @@ class ProviderProdutos with ChangeNotifier {
         ),
       );
     });
+    print('${bebidas.length} bebidas carregados.');
+    print('${acompanhamentos.length} acompanhamentos carregados.');
+    print('${sobremesas.length} sobremesas carregadas.');
     notifyListeners();
   }
 
@@ -81,14 +87,12 @@ class ProviderProdutos with ChangeNotifier {
         ),
       );
     });
+    print('${ingredientes.length} ingredientes carregados.');
+    notifyListeners();
   }
 
   List<Ingrediente> get ingredientes {
     return [..._ingredients];
-  }
-
-  List<Produto> get produtos {
-    return [..._products];
   }
 
   List<Hamburguer> get hamburgueres {
@@ -96,19 +100,19 @@ class ProviderProdutos with ChangeNotifier {
   }
 
   List<Produto> get sobremesas {
-    return produtos.where((product) {
+    return _products.where((product) {
       return product.tipo == Produto.sobremesa;
     }).toList();
   }
 
   List<Produto> get acompanhamentos {
-    return produtos.where((product) {
+    return _products.where((product) {
       return product.tipo == Produto.acompanhamento;
     }).toList();
   }
 
   List<Produto> get bebidas {
-    return produtos.where((product) {
+    return _products.where((product) {
       return product.tipo == Produto.bebida;
     }).toList();
   }

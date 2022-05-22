@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:garagem_burger/models/cartao.dart';
@@ -57,10 +59,11 @@ class ProviderCartoes with ChangeNotifier {
           .get();
       snapshot.docs.asMap().forEach((_, doc) {
         _cartoes.putIfAbsent(
-      doc.id,
-      () => Cartao.fromMap(doc.id, doc.data()),
-    );
+          doc.id,
+          () => Cartao.fromMap(doc.id, doc.data()),
+        );
       });
+      print('$countCards cartões carregados.');
       notifyListeners();
     }
   }

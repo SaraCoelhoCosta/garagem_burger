@@ -55,6 +55,9 @@ class PopupDialog extends StatelessWidget {
                 ),
               ),
             ),
+            const SizedBox(
+              height: 10,
+            ),
             TextButton(
               onPressed: onPressedNoOption,
               child: CustomText(

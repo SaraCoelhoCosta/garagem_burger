@@ -9,7 +9,6 @@ import 'package:garagem_burger/controllers/provider_pedidos.dart';
 import 'package:garagem_burger/controllers/provider_usuario.dart';
 import 'package:garagem_burger/pages/cartoes/tela_novo_cartao.dart';
 import 'package:garagem_burger/utils/rotas.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class TelaPagamento extends StatefulWidget {
@@ -30,18 +29,9 @@ class _TelaPagamentoState extends State<TelaPagamento> {
   String? currentCardId;
 
   Future<void> _efetuarPedido(BuildContext context) async {
-    final pvdCarrinho = Provider.of<ProviderCarrinho>(
-      context,
-      listen: false,
-    );
-    final pvdPedido = Provider.of<ProviderPedidos>(
-      context,
-      listen: false,
-    );
-    final user = Provider.of<ProviderUsuario>(
-      context,
-      listen: false,
-    ).usuario;
+    final pvdCarrinho = Provider.of<ProviderCarrinho>(context, listen: false);
+    final pvdPedido = Provider.of<ProviderPedidos>(context, listen: false);
+    final user = Provider.of<ProviderUsuario>(context, listen: false).usuario;
 
     setState(() => isLoading = true);
     pvdPedido.setMetodoPagamento(isPix ? 'Pix' : 'Cartão');
@@ -55,7 +45,7 @@ class _TelaPagamentoState extends State<TelaPagamento> {
     Navigator.of(context).pushNamedAndRemoveUntil(
       Rotas.pedido,
       (_) => false,
-      arguments: pvdPedido.pedidos.values.last,
+      arguments: pvdPedido.pedidos.values.first,
     );
   }
 
@@ -216,7 +206,7 @@ class _TelaPagamentoState extends State<TelaPagamento> {
             ),
           ),
         /*
-        * Total
+        * Total e botão de confirmar
         */
         Padding(
           padding: const EdgeInsets.all(10.0),

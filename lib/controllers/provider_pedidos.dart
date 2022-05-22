@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -120,6 +122,13 @@ class ProviderPedidos with ChangeNotifier {
     for (int i = 0; i < 4; i++) {
       // Aguarda um tempo para concluir uma etapa e iniciar uma nova
       await Future.delayed(const Duration(seconds: 5));
+
+      // Verifica se o pedido foi cancelado, antes de continuar
+      if (pedido.status == Pedido.cancelado) {
+        notifyListeners();
+        return;
+      }
+
       pedido.etapas[i]['isComplete'] = true;
       if (i < 3) {
         pedido.etapas.add({
@@ -175,6 +184,17 @@ class ProviderPedidos with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<bool> cancelOrder(User? user, Pedido pedido) async {
+    if (pedido.etapas.length <= 2 && !pedido.etapas[1]['isComplete']) {
+      pedido.status = Pedido.cancelado;
+      _pedidos.update(pedido.id, (_) => pedido);
+      await updatePedido(user, pedido);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   // Carrega os pedidos do usuário que estão no firebase
   Future<void> loadPedidos(User? user) async {
     if (user != null) {
@@ -189,6 +209,7 @@ class ProviderPedidos with ChangeNotifier {
           () => Pedido.fromMap(doc.id, doc.data()),
         );
       });
+      print('$qntPedidos pedidos carregados.');
       notifyListeners();
     }
   }

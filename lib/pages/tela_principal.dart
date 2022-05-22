@@ -7,7 +7,6 @@ import 'package:garagem_burger/pages/menu/tela_menu.dart';
 import 'package:garagem_burger/pages/meus_lanches/tela_meus_lanches.dart';
 import 'package:garagem_burger/pages/perfil/tela_perfil.dart';
 import 'package:garagem_burger/utils/rotas.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class TelaPrincipal extends StatefulWidget {
   final bool loginUpdatedPage;

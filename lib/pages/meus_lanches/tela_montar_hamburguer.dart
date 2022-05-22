@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/custom_text.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class TelaMontarHamburguer extends StatelessWidget {
   const TelaMontarHamburguer({Key? key}) : super(key: key);

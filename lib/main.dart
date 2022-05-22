@@ -74,7 +74,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         backgroundColor: const Color(0xfffed80b),
-        // textTheme: TextTheme(),
       ),
       initialRoute: Rotas.home,
       routes: {

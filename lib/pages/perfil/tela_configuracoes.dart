@@ -4,7 +4,6 @@ import 'package:garagem_burger/components/custom_text.dart';
 import 'package:garagem_burger/components/custom_text_field.dart';
 import 'package:garagem_burger/components/popup_dialog.dart';
 import 'package:garagem_burger/controllers/provider_usuario.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
@@ -174,6 +173,7 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
               ],
             ),
             Form(
+              key: formKey,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,

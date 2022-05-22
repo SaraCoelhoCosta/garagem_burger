@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/botao.dart';
 import 'package:garagem_burger/components/custom_text.dart';
+import 'package:garagem_burger/components/popup_dialog.dart';
 import 'package:garagem_burger/controllers/provider_usuario.dart';
 import 'package:garagem_burger/utils/rotas.dart';
 import 'package:garagem_burger/components/custom_text_field.dart';
@@ -30,16 +31,20 @@ class _TelaEsqueceuSenhaState extends State<TelaEsqueceuSenha> {
       final pvdUsuario = context.read<ProviderUsuario>();
       await pvdUsuario.recuperarSenha(_email.text);
 
-      // TODO: Colocar um pop-up.
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: CustomText('Link enviado por e-mail'),
-        backgroundColor: Colors.green,
-      ));
+      //Popup_dialog de confirmação.
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => PopupDialog(
+          titulo: 'Link enviado por e-mail',
+          yesLabel: 'OK',
+          onPressedYesOption: () => Navigator.of(context).pushReplacementNamed(
+            Rotas.login,
+          ),
+        ),
+      );
 
       // Navega para a tela de menu
-      Navigator.of(context).pushReplacementNamed(
-        Rotas.login,
-      );
+
     } on AuthException catch (e) {
       setState(() => _loading = false);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(

@@ -11,9 +11,7 @@ import 'package:garagem_burger/components/modal_produto.dart';
 import 'package:garagem_burger/controllers/provider_carrinho.dart';
 import 'package:garagem_burger/pages/carrinho/tela_carrinho.dart';
 import 'package:garagem_burger/utils/rotas.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:bordered_text/bordered_text.dart';
 
 class TelaProduto extends StatefulWidget {
   const TelaProduto({Key? key}) : super(key: key);
