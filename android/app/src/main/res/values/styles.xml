@@ -16,9 +16,8 @@
         <item name="android:windowBackground">?android:colorBackground</item>
     </style>
 
-    <!-- Adicionado <string> id: 574028967608420 token: 49e446e516612c75eefa33d4310ecdee cliente: 63bc98d98fd871447c73c2c612d8ec32 -->
-    <string name="facebook_app_id">428812319009879</string>
-    <string name="fb_login_protocol_scheme">fb1234</string>
-    <string name="facebook_client_token">8e49fabe864d90b837f985576784ce61</string>
+    <!-- Adicionado <string> id: 574028967683920 token: 49e446e516612c75eefa33d4310ecdee cliente: 63bc98d98fd871447c73c2c612d8ec32 -->
+    <string name="facebook_app_id">574028967683920</string>
+    <string name="facebook_client_token">63bc98d98fd871447c73c2c612d8ec32</string>
     <!-- Adicionado -->   
 </resources>

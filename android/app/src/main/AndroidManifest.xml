@@ -6,6 +6,10 @@
         android:label="Garagem Burger"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <!-- Adicionado -->   
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
+        <!-- Adicionado <meta-data> -->   
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -22,12 +26,6 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
-
-            <!-- Adicionado <meta-data> -->   
-            <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
-   	        <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
-            <!-- Adicionado -->
-
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

@@ -78,7 +78,7 @@ dependencies:
   google_sign_in: ^5.3.1
 
   # Acesso com facebook.
-  flutter_facebook_auth: ^4.3.4
+  flutter_login_facebook: ^1.4.1
 
   # Bordinha no texto
   bordered_text: ^2.0.0
