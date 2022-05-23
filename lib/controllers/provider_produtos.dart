@@ -64,7 +64,7 @@ class ProviderProdutos with ChangeNotifier {
         ),
       );
     });
-    print('${bebidas.length} bebidas carregados.');
+    print('${bebidas.length} bebidas carregadas.');
     print('${acompanhamentos.length} acompanhamentos carregados.');
     print('${sobremesas.length} sobremesas carregadas.');
     notifyListeners();
@@ -117,6 +117,18 @@ class ProviderProdutos with ChangeNotifier {
     }).toList();
   }
 
+  List<Ingrediente> get paes {
+    return _ingredients.where((ingrediente) {
+      return ingrediente.tipo == Ingrediente.pao;
+    }).toList();
+  }
+
+  List<Ingrediente> get carnes {
+    return _ingredients.where((ingrediente) {
+      return ingrediente.tipo == Ingrediente.carne;
+    }).toList();
+  }
+
   Ingrediente ingredientById(String id) {
     return _ingredients.singleWhere(
       (ingrediente) => ingrediente.id == id,
@@ -136,5 +148,80 @@ class ProviderProdutos with ChangeNotifier {
       (hamburguer) => hamburguer.id == id,
       orElse: () => _hamburgers.first,
     );
+  }
+
+  Hamburguer updateHamburguer(
+    Hamburguer hamburguer,
+    String idIng, {
+    String? newId,
+    int? qnt,
+  }) {
+    final updatedIng = hamburguer.ingredientes.map((ing) {
+      // Trocar ingrediente
+      if (newId != null && ing['id'] == idIng) {
+        return {'id': newId, 'quantidade': ing['quantidade']};
+      }
+      // Alterar quantidade
+      else if (qnt != null && ing['id'] == idIng) {
+        return {'id': ing['id'], 'quantidade': qnt};
+      }
+      // Faz nada
+      else {
+        return {'id': ing['id'], 'quantidade': ing['quantidade']};
+      }
+    }).toList();
+
+    return Hamburguer(
+      ingredientes: updatedIng,
+      id: hamburguer.id,
+      nome: hamburguer.nome,
+      preco: hamburguer.preco,
+      urlImage: hamburguer.urlImage,
+      quantidade: hamburguer.quantidade,
+    );
+  }
+
+  // Retorna o pao que tem nesse hamburguer
+  String? hamburguerBread(String id) {
+    final hamburguer = hamburguerById(id);
+    if (hamburguer.totalIngredientes > 0) {
+      final pao = hamburguer.ingredientes.singleWhere((ingrediente) {
+        final ing = ingredientById(ingrediente['id']);
+        return ing.tipo == Ingrediente.pao;
+      });
+      return pao['id'];
+    } else {
+      return null;
+    }
+  }
+
+  // Retorna a carne e a quantidade que tem nesse hamburguer
+  Map<String, dynamic>? hamburguerMeat(String id) {
+    final hamburguer = hamburguerById(id);
+    if (hamburguer.totalIngredientes > 0) {
+      return hamburguer.ingredientes.singleWhere((ingrediente) {
+        final ing = ingredientById(ingrediente['id']);
+        return ing.tipo == Ingrediente.carne;
+      });
+    } else {
+      return null;
+    }
+  }
+
+  // Retorna os ingredientes, mas sem o pao e a carne
+  List<Map<String, dynamic>?> ingHamburguer(Hamburguer hamburguer) {
+    if (hamburguer.totalIngredientes > 0) {
+      return hamburguer.ingredientes.map((ingrediente) {
+        final ing = ingredientById(ingrediente['id']);
+        if (ing.tipo != Ingrediente.carne && ing.tipo != Ingrediente.pao) {
+          return {
+            'id': ingrediente['id'],
+            'quantidade': ingrediente['quantidade'],
+          };
+        }
+      }).toList();
+    } else {
+      return [{}];
+    }
   }
 }

@@ -55,10 +55,12 @@ class TelaCarrinho extends StatelessWidget {
                 return CardDismissible(
                   item: items[index],
                   tipoCard: TipoCard.itemCarrinho,
-                  editar: () => Navigator.of(context).pushNamed(
-                    Rotas.produto,
-                    arguments: [true, items[index].produto],
-                  ),
+                  editar: () {
+                    Navigator.of(context).pushNamed(
+                      Rotas.produto,
+                      arguments: [true, items[index].produto],
+                    );
+                  },
                   remover: (id) => pvdCarrinho.removeItemCarrinho(id),
                 );
               },

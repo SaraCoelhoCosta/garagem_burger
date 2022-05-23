@@ -3,6 +3,7 @@ import 'package:garagem_burger/components/custom_text.dart';
 
 class CardMeatOption extends StatelessWidget {
   final String text;
+  final String value;
   final double imageRatioWidth;
   final double textRatioWidth;
   final double ratioWidth;
@@ -12,6 +13,7 @@ class CardMeatOption extends StatelessWidget {
   const CardMeatOption({
     Key? key,
     required this.text,
+    required this.value,
     required this.isSelected,
     required this.onTap,
     this.imageRatioWidth = 0.50,

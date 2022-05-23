@@ -26,4 +26,5 @@ class Hamburguer extends Produto {
       return ingrediente['quantidade'] + previousValue;
     });
   }
+
 }

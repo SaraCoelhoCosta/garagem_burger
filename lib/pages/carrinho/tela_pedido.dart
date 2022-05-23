@@ -9,7 +9,6 @@ import 'package:garagem_burger/controllers/provider_usuario.dart';
 import 'package:garagem_burger/models/pedido.dart';
 import 'package:garagem_burger/pages/menu/tela_menu.dart';
 import 'package:garagem_burger/utils/rotas.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class TelaPedido extends StatefulWidget {

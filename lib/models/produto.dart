@@ -1,5 +1,4 @@
 class Produto {
-
   // Tipos
   static const bebida = 'Bebida';
   static const acompanhamento = 'Acompanhamento';
@@ -33,4 +32,9 @@ class Produto {
     required this.unidadeMedida,
     this.recipiente,
   });
+
+  bool get isEditable {
+    return tipo == hamburguerCasa || tipo == meuHamburguer || tipo == combo;
+  }
+  
 }

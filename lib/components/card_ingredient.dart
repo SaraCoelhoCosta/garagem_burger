@@ -3,19 +3,27 @@ import 'package:garagem_burger/components/botao.dart';
 import 'package:garagem_burger/components/custom_text.dart';
 import 'package:garagem_burger/models/ingrediente.dart';
 
-class CardIngredient extends StatelessWidget {
+class CardIngredient extends StatefulWidget {
   final Ingrediente ingredient;
   final int count;
-  final Function()? addItem;
-  final Function()? removeItem;
+  final int totalInsumos;
+  final Function(int)? onSwitchCount;
 
   const CardIngredient({
     Key? key,
     required this.ingredient,
     required this.count,
-    this.addItem,
-    this.removeItem,
+    required this.totalInsumos,
+    this.onSwitchCount,
   }) : super(key: key);
+
+  @override
+  State<CardIngredient> createState() => _CardIngredientState();
+}
+
+class _CardIngredientState extends State<CardIngredient> {
+  int _qnt = 1;
+  bool qntUpdated = false;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +31,11 @@ class CardIngredient extends StatelessWidget {
     final availableHeight = MediaQuery.of(context).size.height -
         Scaffold.of(context).appBarMaxHeight!;
     final deviceWidth = MediaQuery.of(context).size.width;
+
+    if (!qntUpdated) {
+      _qnt = widget.count;
+      qntUpdated = true;
+    }
 
     return LayoutBuilder(builder: (ctx, constraints) {
       return SizedBox(
@@ -49,7 +62,7 @@ class CardIngredient extends StatelessWidget {
                     Radius.circular(15),
                   ),
                   child: FadeInImage.assetNetwork(
-                    image: ingredient.urlImage,
+                    image: widget.ingredient.urlImage,
                     placeholder: 'images/placeholder-produto.jpg',
                     fit: BoxFit.cover,
                     placeholderFit: BoxFit.cover,
@@ -74,7 +87,7 @@ class CardIngredient extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         CustomText(
-                          ingredient.nome,
+                          widget.ingredient.nome,
                           fontWeight: FontWeight.bold,
                         ),
                         Container(
@@ -90,7 +103,7 @@ class CardIngredient extends StatelessWidget {
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
                             child: CustomText(
-                              count.toString(),
+                              _qnt.toString(),
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -103,9 +116,9 @@ class CardIngredient extends StatelessWidget {
                     Row(
                       children: [
                         CustomText(
-                          '${ingredient.quantidade} '
-                          '${ingredient.unidadeMedida}'
-                          '\nR\$ ${ingredient.preco.toStringAsFixed(2)}',
+                          '${widget.ingredient.quantidade} '
+                          '${widget.ingredient.unidadeMedida}'
+                          '\nR\$ ${widget.ingredient.preco.toStringAsFixed(2)}',
                           color: Colors.grey,
                           textAlign: TextAlign.left,
                         ),
@@ -113,7 +126,12 @@ class CardIngredient extends StatelessWidget {
                         SizedBox(
                           width: 50,
                           child: Botao(
-                            onPressed: removeItem,
+                            onPressed: (_qnt == 1)
+                                ? null
+                                : () {
+                                    setState(() => _qnt--);
+                                    widget.onSwitchCount!(_qnt);
+                                  },
                             icon: Icons.remove,
                             externalPadding: const EdgeInsets.only(right: 10),
                             internalPadding: EdgeInsets.zero,
@@ -123,7 +141,12 @@ class CardIngredient extends StatelessWidget {
                         SizedBox(
                           width: 40,
                           child: Botao(
-                            onPressed: addItem,
+                            onPressed: (widget.totalInsumos == 15 || _qnt == 3)
+                                ? null
+                                : () {
+                                    setState(() => _qnt++);
+                                    widget.onSwitchCount!(_qnt);
+                                  },
                             icon: Icons.add,
                             internalPadding: EdgeInsets.zero,
                             iconSize: 20,

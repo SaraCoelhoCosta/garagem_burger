@@ -22,11 +22,15 @@ class TelaProduto extends StatefulWidget {
 
 class _TelaProdutoState extends State<TelaProduto>
     with SingleTickerProviderStateMixin {
-  bool showEditOptions = false;
-  bool openedModal = false;
+  // Animações
   AnimationController? _controller;
   Animation<double>? _opacityAnimation;
   final _duration = const Duration(milliseconds: 350);
+
+  bool showEditOptions = false;
+  bool openedModal = false;
+  bool qntUpdated = false;
+  int _qnt = 1;
 
   @override
   void initState() {
@@ -66,12 +70,20 @@ class _TelaProdutoState extends State<TelaProduto>
 
   @override
   Widget build(BuildContext context) {
+    // Dados das rotas e providers
     final pvdProduto = Provider.of<ProviderProdutos>(context);
     final user = Provider.of<ProviderUsuario>(context).usuario;
-    final provider = Provider.of<ProviderCarrinho>(context);
+    final pvdCarrinho = Provider.of<ProviderCarrinho>(context);
     List arguments = ModalRoute.of(context)?.settings.arguments as List;
     Produto produto = arguments[1] as Produto;
     bool isEditing = arguments[0] as bool;
+
+    if (!qntUpdated &&
+        isEditing &&
+        pvdCarrinho.itensCarrinho.containsKey(produto.id)) {
+      qntUpdated = true;
+      _qnt = pvdCarrinho.itensCarrinho[produto.id]!.quantidade;
+    }
 
     final appBar = AppBar(
       backgroundColor: Colors.transparent,
@@ -89,16 +101,19 @@ class _TelaProdutoState extends State<TelaProduto>
       ),
     );
 
+    // Altura disponivel
     final totalHeight = MediaQuery.of(context).size.height;
     final appBarHeight =
         appBar.preferredSize.height + MediaQuery.of(context).padding.top;
     final availableHeight = totalHeight - appBarHeight;
-    final maxHeight = showEditOptions ? 0.95 : ((isEditing) ? 0.47 : 0.40);
+    final maxHeight = showEditOptions
+        ? 0.95
+        : ((isEditing && produto.isEditable) ? 0.47 : 0.40);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: appBar,
-      floatingActionButton: (provider.emptyList || showEditOptions)
+      floatingActionButton: (pvdCarrinho.emptyList || showEditOptions)
           ? null
           : FloatingActionButton(
               backgroundColor: const Color(0xfffed80b),
@@ -149,7 +164,7 @@ class _TelaProdutoState extends State<TelaProduto>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const CustomText(
-                        'Preço',
+                        'Preço Unitário',
                         bordered: true,
                         fontSize: 30,
                         color: Colors.white,
@@ -165,61 +180,71 @@ class _TelaProdutoState extends State<TelaProduto>
                     ],
                   ),
                   /*
-                  * Detalhes do produto
+                  * Detalhes: HAMBURGUER
                   */
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      CustomText(
-                        'Itens',
-                        bordered: true,
-                        fontSize: 26,
-                        color: Colors.white,
-                      ),
-                      CustomText(
-                        'Quantidade',
-                        bordered: true,
-                        fontSize: 26,
-                        color: Colors.white,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 5),
-                  Column(
-                    children:
-                        (produto as Hamburguer).ingredientes.map((ingrediente) {
-                      final ing = pvdProduto.ingredientById(ingrediente['id']);
-                      return Row(
+                  if (produto.tipo == Produto.hamburguerCasa ||
+                      produto.tipo == Produto.meuHamburguer)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Flexible(
-                            flex: 7,
-                            child: CustomText(
-                              '${ingrediente['quantidade']}x ${ing.nome}',
-                              bordered: true,
-                              fontSize: 24,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        children: const [
+                          CustomText(
+                            'Itens',
+                            bordered: true,
+                            fontSize: 26,
+                            color: Colors.white,
                           ),
-                          Flexible(
-                            flex: 3,
-                            child: CustomText(
-                              '${ing.quantidade * (ingrediente['quantidade'] as int)} '
-                              '${ing.unidadeMedida}'
-                              '${(ing.unidadeMedida == Ingrediente.fatia && ingrediente['quantidade'] > 1 ? 's' : '')}',
-                              bordered: true,
-                              fontSize: 24,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          CustomText(
+                            'Quantidade',
+                            bordered: true,
+                            fontSize: 26,
+                            color: Colors.white,
                           ),
                         ],
-                      );
-                    }).toList(),
-                  ),
+                      ),
+                    ),
+                  if (produto.tipo == Produto.hamburguerCasa ||
+                      produto.tipo == Produto.meuHamburguer)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: Column(
+                        children: (produto as Hamburguer)
+                            .ingredientes
+                            .map((ingrediente) {
+                          final ing =
+                              pvdProduto.ingredientById(ingrediente['id']);
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Flexible(
+                                flex: 7,
+                                child: CustomText(
+                                  '${ingrediente['quantidade']}x ${ing.nome}',
+                                  bordered: true,
+                                  fontSize: 24,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Flexible(
+                                flex: 3,
+                                child: CustomText(
+                                  '${ing.quantidade * (ingrediente['quantidade'] as int)} '
+                                  '${ing.unidadeMedida}'
+                                  '${(ing.unidadeMedida == Ingrediente.fatia && ingrediente['quantidade'] > 1 ? 's' : '')}',
+                                  bordered: true,
+                                  fontSize: 24,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          );
+                        }).toList(),
+                      ),
+                    ),
                   /*
                   * Preço adicional
                   */
@@ -258,7 +283,7 @@ class _TelaProdutoState extends State<TelaProduto>
                         fontWeight: FontWeight.bold,
                       ),
                       CustomText(
-                        'R\$ ${produto.preco.toStringAsFixed(2)}',
+                        'R\$ ${(_qnt * produto.preco).toStringAsFixed(2)}',
                         bordered: true,
                         fontSize: 30,
                         color: Colors.white,
@@ -317,13 +342,16 @@ class _TelaProdutoState extends State<TelaProduto>
                         produto: produto,
                         isEditing: isEditing,
                         showEditOptions: showEditOptions,
+                        onSwitchCount: (qnt) {
+                          setState(() => _qnt = qnt);
+                        },
                         onTapEdit: () {
                           setState(() => showEditOptions = true);
                         },
                         onTapReturn: () {
                           setState(() => showEditOptions = false);
                         },
-                        onTap: (ctx, qnt) {
+                        onTap: (ctx, qnt, product) {
                           if (user == null) {
                             showDialog(
                               context: ctx,
@@ -352,15 +380,17 @@ class _TelaProdutoState extends State<TelaProduto>
                           if (user != null) {
                             showModal(false);
                             (isEditing)
-                                ? provider.editarItemCarrinho(produto, qnt)
-                                : provider.addItemCarrinho(produto, qnt);
+                                ? pvdCarrinho.editarItemCarrinho(
+                                    product ?? produto, qnt)
+                                : pvdCarrinho.addItemCarrinho(
+                                    product ?? produto, qnt);
 
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: CustomText(
                                   (isEditing)
-                                      ? '${produto.nome} atualizado para $qnt'
-                                      : '$qnt ${produto.nome} adicionado no carrinho',
+                                      ? 'Alterações enviadas para o carrinho'
+                                      : '$qnt ${(product ?? produto).nome} adicionado no carrinho',
                                   textAlign: TextAlign.center,
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.bold,

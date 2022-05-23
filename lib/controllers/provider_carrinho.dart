@@ -39,7 +39,9 @@ class ProviderCarrinho with ChangeNotifier {
       _itens.putIfAbsent(
         produto.id,
         () => ItemCarrinho(
-          id: Random().nextDouble().toString(),
+          id: Random()
+              .nextDouble()
+              .toString(), //TODO: Alterar id do itemCarrinho?
           produto: produto,
           quantidade: quantidade,
         ),
@@ -54,12 +56,12 @@ class ProviderCarrinho with ChangeNotifier {
         produto.id,
         (itemCarrinho) => ItemCarrinho(
           id: itemCarrinho.id,
-          produto: itemCarrinho.produto,
+          produto: produto,
           quantidade: quantidade,
         ),
       );
     }
-    
+
     notifyListeners();
   }
 

@@ -10,12 +10,16 @@ class CardCategory extends StatelessWidget {
   final double ratioWidth;
   final double ratioHeight;
   final int flex;
+  final bool isNetworkImage;
+  final bool isSelected;
   final Function()? onTap;
 
   const CardCategory({
     Key? key,
     required this.urlImage,
     required this.text,
+    this.isNetworkImage = false,
+    this.isSelected = false,
     this.flex = 1,
     this.ratioHeight = 0.15,
     this.imageRatioWidth = 0.50,
@@ -38,9 +42,9 @@ class CardCategory extends StatelessWidget {
           elevation: 8.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0),
-            side: const BorderSide(
-              width: 0.3,
-              color: Colors.grey,
+            side: BorderSide(
+              width: isSelected ? 1.0 : 0.3,
+              color: isSelected ? Colors.black : Colors.grey,
             ),
           ),
           child: Container(
@@ -54,18 +58,39 @@ class CardCategory extends StatelessWidget {
                   /*
                   * Imagem
                   */
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(15),
+                  if (!isNetworkImage)
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(15),
+                        ),
+                        image: DecorationImage(
+                          image: AssetImage(urlImage),
+                          fit: BoxFit.contain,
+                        ),
                       ),
-                      image: DecorationImage(
-                        image: AssetImage(urlImage),
-                        fit: BoxFit.contain,
-                      ),
+                      width: constraints.maxWidth * imageRatioWidth,
                     ),
-                    width: constraints.maxWidth * imageRatioWidth,
-                  ),
+                  if (isNetworkImage)
+                    Container(
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15),
+                        ),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(15),
+                        ),
+                        child: FadeInImage.assetNetwork(
+                          image: urlImage,
+                          placeholder: 'images/pao.png',
+                          fit: BoxFit.cover,
+                          placeholderFit: BoxFit.cover,
+                        ),
+                      ),
+                      width: constraints.maxWidth * imageRatioWidth,
+                    ),
                   /*
                   * Title (Nome do ingrediente)
                   */
