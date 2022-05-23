@@ -16,8 +16,8 @@
         <item name="android:windowBackground">?android:colorBackground</item>
     </style>
 
-    <!-- Adicionado <string> id: 574028967683920 token: 49e446e516612c75eefa33d4310ecdee cliente: 63bc98d98fd871447c73c2c612d8ec32 -->
-    <string name="facebook_app_id">574028967683920</string>
-    <string name="facebook_client_token">63bc98d98fd871447c73c2c612d8ec32</string>
+    <!-- Adicionado <string> -->
+    <string name="facebook_app_id">XXXX</string>
+    <string name="facebook_client_token">XXXX</string>
     <!-- Adicionado -->   
 </resources>
