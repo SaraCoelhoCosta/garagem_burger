@@ -21,15 +21,13 @@ class TelaConfiguracoes extends StatefulWidget {
 class TelaConfiguracoesState extends State<TelaConfiguracoes> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final _campoNome = FocusNode();
-  final _campoSenha = FocusNode();
-  final _campoEmail = FocusNode();
   final _campoTelefone = FocusNode();
 
   // Verificações de edição de campo
   bool editingName = false;
-  bool editingPassword = false;
-  bool editingEmail = false;
+  bool loadingName = false;
   bool editingPhone = false;
+  bool loadingPhone = false;
 
   // Máscara para telefone.
   var mascaraTelefone = MaskTextInputFormatter(
@@ -43,16 +41,14 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
   void dispose() {
     super.dispose();
     _campoNome.dispose();
-    _campoSenha.dispose();
-    _campoEmail.dispose();
     _campoTelefone.dispose();
   }
 
   // Campos de texto.
   final _nome = TextEditingController();
-  final _senha = TextEditingController();
-  final _email = TextEditingController();
   final _telefone = TextEditingController();
+
+  Map<String, dynamic> dadosUsuario = {};
 
   String? userPhotoURL;
   bool updatingPhoto = false;
@@ -82,10 +78,14 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
 
   @override
   void initState() {
-    userPhotoURL = Provider.of<ProviderUsuario>(
+    final pvdUsuario = Provider.of<ProviderUsuario>(
       context,
       listen: false,
-    ).usuario!.photoURL;
+    );
+
+    userPhotoURL = pvdUsuario.usuario!.photoURL;
+
+    dadosUsuario = pvdUsuario.userData ?? {};
 
     super.initState();
   }
@@ -166,7 +166,7 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                 * Nome
                 */
                 CustomText(
-                  pvdUsuario.usuario!.displayName!,
+                  pvdUsuario.usuario!.displayName ?? '',
                   fontWeight: FontWeight.bold,
                   fontSize: 22,
                 ),
@@ -206,7 +206,7 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                       if (!editingName)
                         Expanded(
                           child: CustomText(
-                            pvdUsuario.usuario!.displayName!,
+                            pvdUsuario.usuario!.displayName ?? '',
                             color: Colors.grey[700],
                           ),
                         ),
@@ -215,20 +215,62 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                           child: CustomTextField(
                             labelText: 'Nome',
                             focusNode: _campoNome,
-                            textInputAction: TextInputAction.next,
+                            enabled: !loadingName,
+                            textInputAction: TextInputAction.done,
                             controller: _nome,
                             prefixIcon: const Icon(Icons.person),
                             keyboardType: TextInputType.name,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Insira um nome válido';
+                              } else if (value.length < 3) {
+                                return 'O nome deve conter ao menos 4 letras';
+                              }
+                              return null;
+                            },
+                            onFieldSubmitted: (_) async {
+                              setState(() {
+                                editingName = !editingName;
+                                if (!editingName) {
+                                  loadingName = true;
+                                }
+                              });
+                              dadosUsuario['nome'] = _nome.text;
+                              await pvdUsuario.updateUsuario(
+                                pvdUsuario.usuario,
+                                dadosUsuario,
+                              );
+                              setState(() => loadingName = false);
+                            },
                           ),
                         ),
                       IconButton(
-                        onPressed: () {
-                          setState(() => editingName = !editingName);
+                        onPressed: () async {
+                          setState(() {
+                            editingName = !editingName;
+                            if (!editingName) {
+                              loadingName = true;
+                            }
+                          });
+
+                          if (!editingName) {
+                            dadosUsuario['nome'] = _nome.text;
+                            await pvdUsuario.updateUsuario(
+                              pvdUsuario.usuario,
+                              dadosUsuario,
+                            );
+                          } else {
+                            FocusScope.of(context).requestFocus(_campoNome);
+                          }
+
+                          setState(() => loadingName = false);
                         },
-                        icon: Icon(
-                          (editingName) ? Icons.check : Icons.edit,
-                          color: Colors.grey[700],
-                        ),
+                        icon: (loadingName)
+                            ? const CircularProgressIndicator()
+                            : Icon(
+                                (editingName) ? Icons.check : Icons.edit,
+                                color: Colors.grey[700],
+                              ),
                       ),
                     ],
                   ),
@@ -237,35 +279,38 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                   */
                   Row(
                     children: [
-                      if (!editingPassword)
-                        const CustomText(
-                          'Senha: ',
-                          fontWeight: FontWeight.bold,
+                      const CustomText(
+                        'Senha: ',
+                        fontWeight: FontWeight.bold,
+                      ),
+                      Expanded(
+                        child: CustomText(
+                          '************',
+                          color: Colors.grey[700],
                         ),
-                      if (!editingPassword)
-                        Expanded(
-                          child: CustomText(
-                            '************',
-                            color: Colors.grey[700],
-                          ),
-                        ),
-                      if (editingPassword)
-                        Expanded(
-                          child: CustomTextField(
-                            labelText: 'Senha',
-                            focusNode: _campoSenha,
-                            textInputAction: TextInputAction.next,
-                            controller: _senha,
-                            prefixIcon: const Icon(Icons.lock),
-                            keyboardType: TextInputType.visiblePassword,
-                          ),
-                        ),
+                      ),
                       IconButton(
                         onPressed: () {
-                          setState(() => editingPassword = !editingPassword);
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return PopupDialog(
+                                isPassword: true,
+                                titulo: 'Alterar senha',
+                                yesLabel: 'Confirmar',
+                                noLabel: 'Cancelar',
+                                onPressedNoOption: () {
+                                  Navigator.of(context).pop();
+                                },
+                                onPressedYesOption: () {
+                                  Navigator.of(context).pop();
+                                },
+                              );
+                            },
+                          );
                         },
                         icon: Icon(
-                          (editingPassword) ? Icons.check : Icons.edit,
+                          Icons.edit,
                           color: Colors.grey[700],
                         ),
                       ),
@@ -288,22 +333,22 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                   /*
                   * Email
                   */
-                  CustomTextField(
-                    labelText: 'E-mail',
-                    focusNode: _campoEmail,
-                    onFieldSubmitted: (_) {
-                      FocusScope.of(context).requestFocus(_campoEmail);
-                    },
-                    textInputAction: TextInputAction.next,
-                    controller: _email,
-                    prefixIcon: const Icon(Icons.email),
-                    keyboardType: TextInputType.emailAddress,
-                    // TODO: Editar campo de texto
-                    enabled: true,
-                    suffixIcon: IconButton(
-                      // ignore: avoid_print
-                      onPressed: () => print('teste'),
-                      icon: const Icon(Icons.edit),
+
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Row(
+                      children: [
+                        const CustomText(
+                          'E-mail: ',
+                          fontWeight: FontWeight.bold,
+                        ),
+                        Expanded(
+                          child: CustomText(
+                            pvdUsuario.usuario!.email!,
+                            color: Colors.grey[700],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   /*
@@ -320,7 +365,7 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                       if (!editingPhone)
                         Expanded(
                           child: CustomText(
-                            pvdUsuario.usuario!.phoneNumber ?? 'sem numero',
+                            dadosUsuario['telefone'] ?? 'Sem telefone',
                             color: Colors.grey[700],
                           ),
                         ),
@@ -330,20 +375,58 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                             labelText: 'Telefone',
                             focusNode: _campoTelefone,
                             inputFormatters: [mascaraTelefone],
-                            textInputAction: TextInputAction.next,
+                            textInputAction: TextInputAction.done,
                             controller: _telefone,
-                            prefixIcon: const Icon(Icons.person),
-                            keyboardType: TextInputType.name,
+                            prefixIcon: const Icon(Icons.phone),
+                            keyboardType: TextInputType.number,
+                            validator: (value) {
+                              if (value!.isEmpty || value.length < 11) {
+                                return 'Telefone inválido';
+                              }
+                              return null;
+                            },
+                            onFieldSubmitted: (_) async {
+                              setState(() {
+                                editingPhone = !editingPhone;
+                                if (!editingPhone) {
+                                  loadingPhone = true;
+                                }
+                              });
+                              if (!editingPhone) {
+                                dadosUsuario['telefone'] = _telefone.text;
+                                await pvdUsuario.updateUsuario(
+                                  pvdUsuario.usuario,
+                                  dadosUsuario,
+                                );
+                              } else {
+                                FocusScope.of(context)
+                                    .requestFocus(_campoTelefone);
+                              }
+                              setState(() => loadingPhone = false);
+                            },
                           ),
                         ),
                       IconButton(
-                        onPressed: () {
-                          setState(() => editingPhone = !editingPhone);
+                        onPressed: () async {
+                          setState(() {
+                            editingPhone = !editingPhone;
+                            if (!editingPhone) {
+                              loadingPhone = true;
+                            }
+                          });
+                          dadosUsuario['telefone'] = _telefone.text;
+                          await pvdUsuario.updateUsuario(
+                            pvdUsuario.usuario,
+                            dadosUsuario,
+                          );
+                          setState(() => loadingPhone = false);
                         },
-                        icon: Icon(
-                          (editingPhone) ? Icons.check : Icons.edit,
-                          color: Colors.grey[700],
-                        ),
+                        icon: (loadingPhone)
+                            ? const CircularProgressIndicator()
+                            : Icon(
+                                (editingPhone) ? Icons.check : Icons.edit,
+                                color: Colors.grey[700],
+                              ),
                       ),
                     ],
                   ),

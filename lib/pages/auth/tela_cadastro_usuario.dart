@@ -248,7 +248,7 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
                     controller: _confirmarSenha,
                     validator: (value) {
                       if (value!.trim().isEmpty) {
-                        return 'Campo onrigatório';
+                        return 'Campo obrigatório';
                       } else if (value.length < 6) {
                         return 'Sua senha deve ter no mínimo 6 caracteres';
                       } else if (_confirmarSenha.text != _senha.text) {

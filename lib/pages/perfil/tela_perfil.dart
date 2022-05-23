@@ -72,7 +72,7 @@ class _TelaPerfilState extends State<TelaPerfil> {
                 ),
                 const SizedBox(width: 30),
                 CustomText(
-                  pvdUsuario.usuario!.displayName!,
+                  pvdUsuario.usuario!.displayName ?? '',
                   fontWeight: FontWeight.bold,
                   fontSize: 22,
                 ),
