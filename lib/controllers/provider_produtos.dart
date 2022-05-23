@@ -123,4 +123,18 @@ class ProviderProdutos with ChangeNotifier {
       orElse: () => _ingredients.first,
     );
   }
+
+  Produto productById(String id) {
+    return _products.singleWhere(
+      (produto) => produto.id == id,
+      orElse: () => _products.first,
+    );
+  }
+
+  Hamburguer hamburguerById(String id) {
+    return _hamburgers.singleWhere(
+      (hamburguer) => hamburguer.id == id,
+      orElse: () => _hamburgers.first,
+    );
+  }
 }

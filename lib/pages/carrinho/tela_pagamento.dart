@@ -159,8 +159,10 @@ class _TelaPagamentoState extends State<TelaPagamento> {
                             'button': null,
                           },
                         ).then((isSubmit) {
-                          isNewCard = (isSubmit as bool);
-                          updatedCard = !isNewCard;
+                          if (isSubmit != null) {
+                            isNewCard = (isSubmit as bool);
+                            updatedCard = !isNewCard;
+                          }
                         });
                       },
                       child: const CustomText(

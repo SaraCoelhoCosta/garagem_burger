@@ -10,6 +10,7 @@ class Botao extends StatelessWidget {
   final EdgeInsets internalPadding;
   final EdgeInsets externalPadding;
   final bool loading;
+  final bool disabled;
   final double iconSize;
 
   const Botao({
@@ -21,6 +22,7 @@ class Botao extends StatelessWidget {
     this.foregroundColor = Colors.black,
     this.backgroundColor = const Color(0xfffed80b),
     this.loading = false,
+    this.disabled = false,
     this.iconSize = 24,
     required this.onPressed,
   }) : super(key: key);
@@ -57,7 +59,7 @@ class Botao extends StatelessWidget {
         ),
         style: ElevatedButton.styleFrom(
           padding: internalPadding,
-          primary: backgroundColor,
+          primary: disabled ? Colors.grey[400] : backgroundColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),

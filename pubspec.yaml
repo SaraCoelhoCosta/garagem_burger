@@ -118,6 +118,7 @@ flutter:
      - images/ingredientes.png
      - images/placeholder-produto.jpg
      - images/placeholder-perfil.png
+     - images/fundo-hamburguer-2.jpg
      
   # To add assets to your application, add an assets section, like this:
   # assets:

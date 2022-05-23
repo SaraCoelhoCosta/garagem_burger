@@ -48,6 +48,7 @@ class OrderStatusRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color? color = Colors.grey;
+    //TODO: (Juao) => é assim que to mudando a cor quando cancela o pedido
     if (isCanceled) {
       color = Theme.of(context).errorColor;
     }

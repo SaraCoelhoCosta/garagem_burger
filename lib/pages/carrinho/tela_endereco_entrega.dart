@@ -80,8 +80,10 @@ class _TelaEnderecoEntregaState extends State<TelaEnderecoEntrega> {
                           'button': null,
                         },
                       ).then((isSubmit) {
-                        isNewLocal = (isSubmit as bool);
-                        updatedLocal = !isNewLocal;
+                        if (isSubmit != null) {
+                          isNewLocal = (isSubmit as bool);
+                          updatedLocal = !isNewLocal;
+                        }
                       });
                     },
                     child: const CustomText(

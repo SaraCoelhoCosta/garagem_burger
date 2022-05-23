@@ -7,7 +7,7 @@ import 'package:garagem_burger/pages/auth/tela_abertura.dart';
 import 'package:garagem_burger/pages/auth/tela_cadastro_usuario.dart';
 import 'package:garagem_burger/pages/auth/tela_esqueceu_senha.dart';
 import 'package:garagem_burger/pages/auth/tela_login.dart';
-import 'package:garagem_burger/pages/pedido/tela_pedido.dart';
+import 'package:garagem_burger/pages/carrinho/tela_pedido.dart';
 import 'package:garagem_burger/pages/meus_lanches/tela_montar_hamburguer.dart';
 import 'package:garagem_burger/controllers/provider_carrinho.dart';
 import 'package:garagem_burger/controllers/provider_cartoes.dart';
