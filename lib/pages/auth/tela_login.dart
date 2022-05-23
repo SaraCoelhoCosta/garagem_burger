@@ -217,9 +217,9 @@ class _TelaLoginState extends State<TelaLogin> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 5),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Row(
+                        /*Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Checkbox(
@@ -239,7 +239,7 @@ class _TelaLoginState extends State<TelaLogin> {
                               fontWeight: FontWeight.w500,
                             ),
                           ],
-                        ),
+                        ),*/
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
