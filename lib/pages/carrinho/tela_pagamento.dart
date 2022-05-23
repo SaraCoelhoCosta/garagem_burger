@@ -10,6 +10,8 @@ import 'package:garagem_burger/controllers/provider_usuario.dart';
 import 'package:garagem_burger/pages/cartoes/tela_novo_cartao.dart';
 import 'package:garagem_burger/utils/rotas.dart';
 import 'package:provider/provider.dart';
+import 'package:mercadopago_transparent/mercadopago_transparent.dart'
+    as mercadopago;
 
 class TelaPagamento extends StatefulWidget {
   const TelaPagamento({Key? key}) : super(key: key);
@@ -22,11 +24,20 @@ class TelaPagamento extends StatefulWidget {
 }
 
 class _TelaPagamentoState extends State<TelaPagamento> {
+  final mercado = mercadopago.MercadoPago(
+    acessToken: "",
+    publicKey: "",
+    applicationId: '',
+  );
+  mercadopago.Payment? pay;
+
   bool isPix = false;
   bool updatedCard = false;
   bool isNewCard = false;
   bool isLoading = false;
   String? currentCardId;
+  String? status;
+  int primeiraVez = 0;
 
   Future<void> _efetuarPedido(BuildContext context) async {
     final pvdCarrinho = Provider.of<ProviderCarrinho>(context, listen: false);
@@ -35,6 +46,7 @@ class _TelaPagamentoState extends State<TelaPagamento> {
 
     setState(() => isLoading = true);
     pvdPedido.setMetodoPagamento(isPix ? 'Pix' : 'Cartão');
+
     await pvdPedido.addPedido(
       user,
       pvdCarrinho.itensCarrinho.values.toList(),
@@ -53,6 +65,7 @@ class _TelaPagamentoState extends State<TelaPagamento> {
   Widget build(BuildContext context) {
     final pvdCarrinho = Provider.of<ProviderCarrinho>(context);
     final pvdCartao = Provider.of<ProviderCartoes>(context);
+    final user = Provider.of<ProviderUsuario>(context).usuario;
     if (!updatedCard) {
       currentCardId = (isNewCard)
           ? pvdCartao.cartoes.keys.last
@@ -76,8 +89,17 @@ class _TelaPagamentoState extends State<TelaPagamento> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
-                    onPressed: () {
+                    onPressed: () async {
                       setState(() => isPix = true);
+                      if (primeiraVez < 1) {
+                        pay = await mercado.payment.pix(
+                          amount: 0.01,
+                          name: user!.displayName ?? "",
+                          email: user.email ?? "",
+                          docNumber: '',
+                        );
+                      }
+                      primeiraVez++;
                     },
                     icon: const Icon(Icons.pix),
                     iconSize: 50,
@@ -195,8 +217,8 @@ class _TelaPagamentoState extends State<TelaPagamento> {
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
-                  subtitle: const CustomText(
-                    '95.752.445/0001-34',
+                  subtitle: CustomText(
+                    pay?.qrCode ?? "",
                     color: Colors.grey,
                   ),
                   trailing: IconButton(
@@ -231,7 +253,28 @@ class _TelaPagamentoState extends State<TelaPagamento> {
                     labelText: 'Confirmar',
                     loading: isLoading,
                     externalPadding: const EdgeInsets.only(top: 10),
-                    onPressed: () => _efetuarPedido(context),
+                    onPressed: () => {
+                      /*setState(() => status = pay!.status),
+                                print(pay?.qrCode), // TODO: teste (chave pix)
+                                print(status), // TODO: status do pagamento
+                                if (status == "accredited")
+                                  {
+                                    _efetuarPedido(context),
+                                  }
+                                else
+                                  {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: CustomText(
+                                            'Faça o pagamento primeiro para continuar'),
+                                        backgroundColor: Colors.red,
+                                      ),
+                                    )
+                                  }
+                              }
+                            else*/
+                      _efetuarPedido(context),
+                    },
                   ),
                 ],
               ),

@@ -114,7 +114,7 @@ class _TelaLoginState extends State<TelaLogin> {
     setState(() => _loading = true);
     try {
       final pvdUsuario = context.read<ProviderUsuario>();
-      await pvdUsuario.login(_email.text, _senha.text, _isMarcado);
+      await pvdUsuario.login(_email.text, _senha.text);
 
       // Carrega os dados do usuario
       await loadUserData();
