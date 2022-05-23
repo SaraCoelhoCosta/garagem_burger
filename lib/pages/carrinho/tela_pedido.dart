@@ -115,9 +115,6 @@ class _TelaPedidoState extends State<TelaPedido> {
                       expandedHeaderPadding: const EdgeInsets.only(bottom: 10),
                       expansionCallback: (panelIndex, isExpanded) {
                         setState(() {
-                          panel[0]['isExpanded'] = isExpanded;
-                          panel[1]['isExpanded'] = isExpanded;
-                          panel[2]['isExpanded'] = isExpanded;
                           panel[panelIndex]['isExpanded'] = !isExpanded;
                         });
                       },
@@ -131,7 +128,10 @@ class _TelaPedidoState extends State<TelaPedido> {
                           isExpanded: panel[0]['isExpanded'],
                           headerBuilder: (context, isExpanded) {
                             return const ListTile(
-                              title: CustomText('Itens do Pedido'),
+                              title: CustomText(
+                                'Itens do Pedido',
+                                fontWeight: FontWeight.bold,
+                              ),
                             );
                           },
                           body: Padding(
@@ -196,9 +196,13 @@ class _TelaPedidoState extends State<TelaPedido> {
                           isExpanded: panel[1]['isExpanded'],
                           headerBuilder: (context, isExpanded) {
                             return const ListTile(
-                              title: CustomText('Endereço de Entrega'),
+                              title: CustomText(
+                                'Endereço de Entrega',
+                                fontWeight: FontWeight.bold,
+                              ),
                             );
                           },
+                          // TODO: Descrever o endereço de entrega e frete
                           body: Padding(
                             padding: const EdgeInsets.only(
                               left: 16,
@@ -251,6 +255,23 @@ class _TelaPedidoState extends State<TelaPedido> {
                               ],
                             ),
                           ),
+                        ),
+                        /*
+                        * Pagamento
+                        */
+                        ExpansionPanel(
+                          canTapOnHeader: true,
+                          backgroundColor: Colors.grey[100],
+                          isExpanded: panel[0]['isExpanded'],
+                          headerBuilder: (context, isExpanded) {
+                            return const ListTile(
+                              title: CustomText(
+                                'Pagamento',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            );
+                          },
+                          body: const CustomText('Dados de pagamento'),
                         ),
                       ],
                     ),

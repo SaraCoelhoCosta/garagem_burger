@@ -248,26 +248,29 @@ class _TelaProdutoState extends State<TelaProduto>
                   /*
                   * Preço adicional
                   */
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const CustomText(
-                        'Adicionais',
-                        bordered: true,
-                        fontSize: 30,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                  if (produto.isEditable)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const CustomText(
+                            'Adicionais',
+                            bordered: true,
+                            fontSize: 30,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          CustomText(
+                            'R\$ ${produto.preco.toStringAsFixed(2)}',
+                            bordered: true,
+                            fontSize: 30,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ],
                       ),
-                      CustomText(
-                        'R\$ ${produto.preco.toStringAsFixed(2)}',
-                        bordered: true,
-                        fontSize: 30,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ],
-                  ),
+                    ),
                   /*
                   * Preço total
                   */

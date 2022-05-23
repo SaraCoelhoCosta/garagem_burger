@@ -47,3 +47,6 @@ app.*.map.json
 
 # Alterações de Sarinha
 /android/app/src/main/res/values/styles.xml
+
+# Tokens e IDs de pagamento
+lib/utils/payment.dart

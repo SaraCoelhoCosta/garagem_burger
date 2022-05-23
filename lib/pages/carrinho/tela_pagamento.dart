@@ -8,6 +8,7 @@ import 'package:garagem_burger/controllers/provider_cartoes.dart';
 import 'package:garagem_burger/controllers/provider_pedidos.dart';
 import 'package:garagem_burger/controllers/provider_usuario.dart';
 import 'package:garagem_burger/pages/cartoes/tela_novo_cartao.dart';
+import 'package:garagem_burger/utils/payment.dart';
 import 'package:garagem_burger/utils/rotas.dart';
 import 'package:provider/provider.dart';
 import 'package:mercadopago_transparent/mercadopago_transparent.dart'
@@ -25,9 +26,9 @@ class TelaPagamento extends StatefulWidget {
 
 class _TelaPagamentoState extends State<TelaPagamento> {
   final mercado = mercadopago.MercadoPago(
-    acessToken: "",
-    publicKey: "",
-    applicationId: '',
+    acessToken: Payment.accessToken,
+    publicKey: Payment.publicKey,
+    applicationId: Payment.applicationId,
   );
   mercadopago.Payment? pay;
 
@@ -253,7 +254,7 @@ class _TelaPagamentoState extends State<TelaPagamento> {
                     labelText: 'Confirmar',
                     loading: isLoading,
                     externalPadding: const EdgeInsets.only(top: 10),
-                    onPressed: () => {
+                    onPressed: () async => {
                       /*setState(() => status = pay!.status),
                                 print(pay?.qrCode), // TODO: teste (chave pix)
                                 print(status), // TODO: status do pagamento
@@ -273,7 +274,8 @@ class _TelaPagamentoState extends State<TelaPagamento> {
                                   }
                               }
                             else*/
-                      _efetuarPedido(context),
+                      await Future.delayed(const Duration(seconds: 5)),
+                      await _efetuarPedido(context),
                     },
                   ),
                 ],
