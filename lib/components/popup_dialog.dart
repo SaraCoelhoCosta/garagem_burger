@@ -7,6 +7,7 @@ class PopupDialog extends StatelessWidget {
   final String? descricao;
   final String yesLabel;
   final String noLabel;
+  final bool isPassword;
   final void Function()? onPressedNoOption;
   final void Function()? onPressedYesOption;
 
@@ -14,11 +15,25 @@ class PopupDialog extends StatelessWidget {
     Key? key,
     required this.titulo,
     this.descricao,
+    this.isPassword = false,
     this.onPressedNoOption,
     this.onPressedYesOption,
     this.yesLabel = 'Sim',
     this.noLabel = 'Não',
   }) : super(key: key);
+
+  Widget? buildContent() {
+    if (isPassword) {
+      return CustomText('$isPassword: botões de senha');
+    } else if (descricao != null) {
+      return CustomText(
+        descricao!,
+        textAlign: TextAlign.center,
+      );
+    } else {
+      return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,12 +51,7 @@ class PopupDialog extends StatelessWidget {
         fontWeight: FontWeight.bold,
         textAlign: TextAlign.center,
       ),
-      content: descricao != null
-          ? CustomText(
-              descricao!,
-              textAlign: TextAlign.center,
-            )
-          : null,
+      content: buildContent(),
       actions: [
         Column(
           mainAxisAlignment: MainAxisAlignment.center,

@@ -19,7 +19,7 @@ class TelaLogin extends StatefulWidget {
 }
 
 class _TelaLoginState extends State<TelaLogin> {
-// Chave do formulário.
+  // Chave do formulário.
   final _formKey = GlobalKey<FormState>();
 
   // Campos que estão com foco.
@@ -143,9 +143,9 @@ class _TelaLoginState extends State<TelaLogin> {
     Size tamanho = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: const Color(0xfffed80b), // Cor de fundo.
+      backgroundColor: const Color(0xfffed80b),
       body: ListView(
-        children: <Widget>[
+        children: [
           SizedBox(height: tamanho.height * 0.04),
           Hero(
             tag: 'logo',
@@ -242,7 +242,7 @@ class _TelaLoginState extends State<TelaLogin> {
                         ),*/
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
+                          children: [
                             TextButton(
                               style: TextButton.styleFrom(
                                   backgroundColor: Colors.transparent),
@@ -333,7 +333,7 @@ class _TelaLoginState extends State<TelaLogin> {
               SizedBox(height: tamanho.height * 0.03),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
+                children: [
                   SignInButton.mini(
                     buttonType: ButtonType.google,
                     onPressed: () => {

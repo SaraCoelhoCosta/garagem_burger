@@ -321,9 +321,7 @@ class _ModalProdutoState extends State<ModalProduto> {
           /*
           * Botão de editar produto
           */
-          if (widget.isEditing &&
-              !widget.showEditOptions &&
-              widget.produto.isEditable)
+          if (!widget.showEditOptions && widget.produto.isEditable)
             Botao(
               labelText: 'Editar Produto',
               externalPadding: const EdgeInsets.only(bottom: 5),
@@ -360,7 +358,7 @@ class _ModalProdutoState extends State<ModalProduto> {
           /*
           * Botão de voltar
           */
-          if (widget.isEditing && widget.showEditOptions)
+          if (widget.showEditOptions)
             Botao(
               labelText: 'Voltar',
               externalPadding: const EdgeInsets.only(top: 5),

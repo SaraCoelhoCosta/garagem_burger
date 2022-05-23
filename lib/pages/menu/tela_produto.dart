@@ -106,9 +106,8 @@ class _TelaProdutoState extends State<TelaProduto>
     final appBarHeight =
         appBar.preferredSize.height + MediaQuery.of(context).padding.top;
     final availableHeight = totalHeight - appBarHeight;
-    final maxHeight = showEditOptions
-        ? 0.95
-        : ((isEditing && produto.isEditable) ? 0.47 : 0.40);
+    final maxHeight =
+        showEditOptions ? 0.95 : (produto.isEditable ? 0.47 : 0.40);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -134,7 +133,7 @@ class _TelaProdutoState extends State<TelaProduto>
                 },
               ),
             ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndTop,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
@@ -355,6 +354,32 @@ class _TelaProdutoState extends State<TelaProduto>
                           setState(() => showEditOptions = false);
                         },
                         onTap: (ctx, qnt, product) {
+                          if (user != null) {
+                            showModal(false);
+                            (isEditing)
+                                ? pvdCarrinho.editarItemCarrinho(
+                                    product ?? produto, qnt)
+                                : pvdCarrinho.addItemCarrinho(
+                                    product ?? produto, qnt);
+
+                            // TODO: Uma forma melhor de notificar isso?
+                            // ScaffoldMessenger.of(context).showSnackBar(
+                            //   SnackBar(
+                            //     content: CustomText(
+                            //       (isEditing)
+                            //           ? 'Alterações enviadas para o carrinho'
+                            //           : '$qnt ${(product ?? produto).nome} adicionado no carrinho',
+                            //       textAlign: TextAlign.center,
+                            //       fontSize: 16.0,
+                            //       fontWeight: FontWeight.bold,
+                            //     ),
+                            //     elevation: 6.0,
+                            //     backgroundColor: Colors.blue,
+                            //     duration: const Duration(milliseconds: 1500),
+                            //   ),
+                            // );
+                          }
+
                           if (user == null) {
                             showDialog(
                               context: ctx,
@@ -377,31 +402,6 @@ class _TelaProdutoState extends State<TelaProduto>
                                   },
                                 );
                               },
-                            );
-                          }
-
-                          if (user != null) {
-                            showModal(false);
-                            (isEditing)
-                                ? pvdCarrinho.editarItemCarrinho(
-                                    product ?? produto, qnt)
-                                : pvdCarrinho.addItemCarrinho(
-                                    product ?? produto, qnt);
-
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: CustomText(
-                                  (isEditing)
-                                      ? 'Alterações enviadas para o carrinho'
-                                      : '$qnt ${(product ?? produto).nome} adicionado no carrinho',
-                                  textAlign: TextAlign.center,
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                elevation: 6.0,
-                                backgroundColor: Colors.blue,
-                                duration: const Duration(milliseconds: 1500),
-                              ),
                             );
                           }
                         },
