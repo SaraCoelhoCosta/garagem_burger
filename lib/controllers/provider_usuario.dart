@@ -8,7 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:garagem_burger/controllers/firebase.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 
 class AuthException implements Exception {
   String message;
@@ -22,6 +22,7 @@ class ProviderUsuario extends ChangeNotifier {
   User? usuario;
   Map<String, dynamic>? userData;
   bool isLoading = true;
+  bool primeiroAcesso = true;
 
   ProviderUsuario() {
     _authCheck();
@@ -148,7 +149,6 @@ class ProviderUsuario extends ChangeNotifier {
   }
 
   signInWithGoogle() async {
-    // TODO: Cadastrar usuário e fazer logout.
     final googleUser = GoogleSignIn();
     final GoogleSignInAccount? googleUserAccount = await googleUser.signIn();
     final GoogleSignInAuthentication? googleAuth =
@@ -157,26 +157,81 @@ class ProviderUsuario extends ChangeNotifier {
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
     );
-    await _auth.signInWithCredential(credential);
+
+    await _auth.signInWithCredential(credential).then((credencial) async {
+      await firestore.collection("usuarios").get().then((value) async {
+        value.docs.asMap().forEach((_,element) {
+          if (element.get('email').toString() ==
+              _auth.currentUser!.email.toString()) {
+            primeiroAcesso = false;
+          }
+        });
+      });
+    });
+
+    if (primeiroAcesso) {
+      await firestore.collection('usuarios').doc(_auth.currentUser!.uid).set({
+        'nome': _auth.currentUser!.displayName,
+        'email': _auth.currentUser!.email,
+        'telefone': '',
+      });
+    }
     _getUser();
   }
 
   signInWithFacebook() async {
-    // TODO: Com erro (Colocar token no style.xml), concluir login, cadastrar usuário e fazer logout.
-    print('Entrei no facebook');
-    final facebookUser = FacebookAuth.instance;
+    final fb = FacebookLogin();
 
-    print('Passo 1: no facebook');
-    final LoginResult loginResult = await facebookUser.login();
+    final res = await fb.logIn(permissions: [
+      FacebookPermission.publicProfile,
+      FacebookPermission.email,
+      FacebookPermission.userPhotos,
+    ]);
 
-    print('Passo 2: no facebook');
-    final facebookAuthCredential =
-        FacebookAuthProvider.credential(loginResult.accessToken!.token);
+    switch (res.status) {
+      case FacebookLoginStatus.success:
+        final FacebookAccessToken accessToken = res.accessToken!;
+        final profile = await fb.getUserProfile();
+        final email = await fb.getUserEmail();
 
-    print('Passo 3: no facebook');
-    await _auth.signInWithCredential(facebookAuthCredential);
+        final OAuthCredential facebookAuthCredential =
+            FacebookAuthProvider.credential(accessToken.token);
 
-    _getUser();
+        await _auth
+            .signInWithCredential(facebookAuthCredential)
+            .then((credencial) async {
+          await firestore.collection("usuarios").get().then((value) async {
+            value.docs.asMap().forEach((_,element) {
+              if (element.get('email').toString() ==
+                  _auth.currentUser!.email.toString()) {
+                primeiroAcesso = false;
+              }
+            });
+          });
+        });
+
+        if (primeiroAcesso) {
+          await firestore
+              .collection('usuarios')
+              .doc(_auth.currentUser!.uid)
+              .set({
+            'nome': profile!.name,
+            'email': email,
+            'telefone': '',
+          });
+          //TODO: Foto do usuário (não está salvando).
+          //final imageUrl = await fb.getProfileImageUrl(width: 100);
+          //print('Your profile image: $imageUrl');
+        }
+        _getUser();
+
+        break;
+      case FacebookLoginStatus.cancel:
+        break;
+      case FacebookLoginStatus.error:
+        throw AuthException(
+            'Erro ao fazer login com Facebook. Tente novamente!');
+    }
   }
 
   // Realiza o logout do usuário.
@@ -190,19 +245,20 @@ class ProviderUsuario extends ChangeNotifier {
     User? user,
     Map<String, dynamic> dadosUsuario,
   ) async {
+    userData = dadosUsuario;
     await firestore
         .collection('usuarios')
         .doc(usuario!.uid)
         .update(dadosUsuario);
-    await _auth.currentUser!.updateDisplayName(dadosUsuario['nome']);
-    userData = dadosUsuario;
+    await _auth.currentUser!.updateDisplayName(dadosUsuario['nome'].toString());
     _getUser();
   }
 
   // Remove usuário
   Future<void> deleteUsuario(User? user) async {
-    // TODO: confirmar se remove do BD.
+    // TODO: Verificar se remove dados e usuário
     await firestore.collection('usuarios').doc(user!.uid).delete();
+    await _auth.currentUser!.delete();
     _getUser();
   }
 

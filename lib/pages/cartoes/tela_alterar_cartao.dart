@@ -147,6 +147,7 @@ class _TelaAlterarCartaoState extends State<TelaAlterarCartao> {
     _numeroCartao.text = widget.cartao.numeroCartao;
     _cvv.text = widget.cartao.cvv;
     _vencimentoCartao.text = widget.cartao.dataVencimento;
+    _card = widget.cartao.tipo == "Crédito" ? CardType.credito : CardType.debito;
     super.initState();
   }
 
@@ -327,7 +328,7 @@ class _TelaAlterarCartaoState extends State<TelaAlterarCartao> {
                         },
                       ),
                       Row(
-                        // TODO: retornar valor do RadioListTile.
+                        // TODO: Verificar se retorna valor correto do RadioListTile.
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Expanded(
@@ -372,6 +373,9 @@ class _TelaAlterarCartaoState extends State<TelaAlterarCartao> {
                               widget.cartao.numeroCartao = _numeroCartao.text,
                               widget.cartao.cvv = _cvv.text,
                               widget.cartao.descricao = _descricao.text,
+                              widget.cartao.tipo = _card == CardType.credito
+                                  ? 'Crédito'
+                                  : 'Débito',
                               alterarCartao(context),
                             }
                         },

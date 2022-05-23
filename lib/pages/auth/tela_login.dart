@@ -86,7 +86,7 @@ class _TelaLoginState extends State<TelaLogin> {
 
   efetuarLoginFacebook() async {
     try {
-      // TODO: Arrumar login (Não cadastrta usuário).
+      // TODO: Arrumar login (Não cadastra usuário).
       final pvdUsuario = context.read<ProviderUsuario>();
       await pvdUsuario.signInWithFacebook();
 
