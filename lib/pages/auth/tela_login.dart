@@ -114,7 +114,7 @@ class _TelaLoginState extends State<TelaLogin> {
     setState(() => _loading = true);
     try {
       final pvdUsuario = context.read<ProviderUsuario>();
-      await pvdUsuario.login(_email.text, _senha.text, _isMarcado);
+      await pvdUsuario.login(_email.text, _senha.text);
 
       // Carrega os dados do usuario
       await loadUserData();
@@ -217,9 +217,9 @@ class _TelaLoginState extends State<TelaLogin> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 5),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Row(
+                        /*Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Checkbox(
@@ -239,7 +239,7 @@ class _TelaLoginState extends State<TelaLogin> {
                               fontWeight: FontWeight.w500,
                             ),
                           ],
-                        ),
+                        ),*/
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[

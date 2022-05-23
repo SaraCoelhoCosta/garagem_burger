@@ -71,10 +71,10 @@ class ProviderUsuario extends ChangeNotifier {
   }
 
   // Realiza login do usuário.
-  login(String email, String senha, bool manterLogin) async {
+  login(String email, String senha) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: senha);
-      await _auth.currentUser!.getIdTokenResult(manterLogin);
+      // await _auth.currentUser!.getIdTokenResult(manterLogin);
       _getUser();
     } on FirebaseAuthException catch (e) {
       // Mensagem de erro.
