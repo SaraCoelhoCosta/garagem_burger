@@ -27,7 +27,6 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
 
   // Verificações de edição de campo
   bool editingName = false;
-  bool editingPassword = false;
   bool editingEmail = false;
   bool editingPhone = false;
 
@@ -237,35 +236,39 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                   */
                   Row(
                     children: [
-                      if (!editingPassword)
-                        const CustomText(
-                          'Senha: ',
-                          fontWeight: FontWeight.bold,
+                      const CustomText(
+                        'Senha: ',
+                        fontWeight: FontWeight.bold,
+                      ),
+                      Expanded(
+                        child: CustomText(
+                          '************',
+                          color: Colors.grey[700],
                         ),
-                      if (!editingPassword)
-                        Expanded(
-                          child: CustomText(
-                            '************',
-                            color: Colors.grey[700],
-                          ),
-                        ),
-                      if (editingPassword)
-                        Expanded(
-                          child: CustomTextField(
-                            labelText: 'Senha',
-                            focusNode: _campoSenha,
-                            textInputAction: TextInputAction.next,
-                            controller: _senha,
-                            prefixIcon: const Icon(Icons.lock),
-                            keyboardType: TextInputType.visiblePassword,
-                          ),
-                        ),
+                      ),
                       IconButton(
                         onPressed: () {
-                          setState(() => editingPassword = !editingPassword);
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return PopupDialog(
+                                isPassword: true,
+                                titulo: 'Alterar senha',
+                                yesLabel: 'Confirmar',
+                                noLabel: 'Cancelar',
+                                onPressedNoOption: () {
+                                  Navigator.of(context).pop();
+                                },
+                                onPressedYesOption: () {
+                                  Navigator.of(context).pop();
+                                },
+                              );
+                            },
+                          );
+                          // setState(() => editingPassword = !editingPassword);
                         },
                         icon: Icon(
-                          (editingPassword) ? Icons.check : Icons.edit,
+                          Icons.edit,
                           color: Colors.grey[700],
                         ),
                       ),
@@ -288,22 +291,22 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                   /*
                   * Email
                   */
-                  CustomTextField(
-                    labelText: 'E-mail',
-                    focusNode: _campoEmail,
-                    onFieldSubmitted: (_) {
-                      FocusScope.of(context).requestFocus(_campoEmail);
-                    },
-                    textInputAction: TextInputAction.next,
-                    controller: _email,
-                    prefixIcon: const Icon(Icons.email),
-                    keyboardType: TextInputType.emailAddress,
-                    // TODO: Editar campo de texto
-                    enabled: true,
-                    suffixIcon: IconButton(
-                      // ignore: avoid_print
-                      onPressed: () => print('teste'),
-                      icon: const Icon(Icons.edit),
+
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Row(
+                      children: [
+                        const CustomText(
+                          'E-mail: ',
+                          fontWeight: FontWeight.bold,
+                        ),
+                        Expanded(
+                          child: CustomText(
+                            pvdUsuario.usuario!.email!,
+                            color: Colors.grey[700],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   /*

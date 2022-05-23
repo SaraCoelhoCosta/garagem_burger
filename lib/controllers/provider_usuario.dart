@@ -70,6 +70,22 @@ class ProviderUsuario extends ChangeNotifier {
     await firestore.collection('usuarios').doc(usuario!.uid).set(dadosUsuario);
   }
 
+  Future<bool> verifyPassword(User? user, String password) async {
+    try {
+      await _auth.signInWithEmailAndPassword(
+        email: user!.email!,
+        password: password,
+      );
+      return true;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'wrong-password') {
+        // throw AuthException('Senha incorreta.');
+        return false;
+      }
+      return false;
+    }
+  }
+
   // Realiza login do usuário.
   login(String email, String senha) async {
     try {
