@@ -90,6 +90,7 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
     super.initState();
   }
 
+  bool flag = false;
   @override
   Widget build(BuildContext context) {
     // Altura total da tela, subtraindo as alturas da appBar e bottomBar
@@ -222,8 +223,14 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                             keyboardType: TextInputType.name,
                             validator: (value) {
                               if (value!.isEmpty) {
+                                setState(() {
+                                  flag = true;
+                                });
                                 return 'Insira um nome válido';
                               } else if (value.length < 3) {
+                                setState(() {
+                                  flag = true;
+                                });
                                 return 'O nome deve conter ao menos 4 letras';
                               }
                               return null;
@@ -383,6 +390,9 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                             keyboardType: TextInputType.number,
                             validator: (value) {
                               if (value!.isEmpty || value.length < 11) {
+                                setState(() {
+                                  flag = true;
+                                });
                                 return 'Telefone inválido';
                               }
                               return null;
@@ -476,7 +486,24 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                             //TODO: O botão salvar vai realmente salvar ou só voltar?
                             // De qlqr forma, eu deixaria pra pelo menos 'parecer' que salvou,
                             // mas pode tirar, se quiser
-                            Navigator.of(context).pop;
+
+                            //TODO: Não está funcionando (n sei pq).
+                            if (flag == true) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return PopupDialog(
+                                    titulo: 'Preencha os campos corretamente',
+                                    yesLabel: 'OK',
+                                    onPressedYesOption: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  );
+                                },
+                              );
+                            } else {
+                              Navigator.of(context).pop;
+                            }
                           },
                           labelText: 'Salvar',
                           internalPadding: const EdgeInsets.symmetric(
