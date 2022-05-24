@@ -28,6 +28,8 @@ class _TelaProdutoState extends State<TelaProduto>
   Animation<double>? _opacityAnimation;
   final _duration = const Duration(milliseconds: 350);
 
+  late Produto _editedProduct;
+  bool _updatedProduct = false;
   bool showEditOptions = false;
   bool openedModal = false;
   bool qntUpdated = false;
@@ -79,6 +81,11 @@ class _TelaProdutoState extends State<TelaProduto>
     Produto produto = arguments[1] as Produto;
     bool isEditing = arguments[0] as bool;
 
+    if (!_updatedProduct) {
+      _editedProduct = produto;
+      _updatedProduct = true;
+    }
+
     if (!qntUpdated &&
         isEditing &&
         pvdCarrinho.itensCarrinho.containsKey(produto.id)) {
@@ -93,7 +100,7 @@ class _TelaProdutoState extends State<TelaProduto>
       elevation: 0,
       title: FittedBox(
         child: CustomText(
-          produto.nome,
+          _editedProduct.nome,
           bordered: true,
           fontSize: 30,
           fontType: FontType.title,
@@ -108,12 +115,13 @@ class _TelaProdutoState extends State<TelaProduto>
         appBar.preferredSize.height + MediaQuery.of(context).padding.top;
     final availableHeight = totalHeight - appBarHeight;
     final maxHeight =
-        showEditOptions ? 0.95 : (produto.isEditable ? 0.47 : 0.40);
+        showEditOptions ? 0.95 : (_editedProduct.isEditable ? 0.47 : 0.40);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: appBar,
-      floatingActionButton: (pvdCarrinho.emptyList || showEditOptions)
+      floatingActionButton: (pvdCarrinho.emptyList ||
+              (showEditOptions && openedModal))
           ? null
           : FloatingActionButton(
               backgroundColor: const Color(0xfffed80b),
@@ -171,7 +179,7 @@ class _TelaProdutoState extends State<TelaProduto>
                         fontWeight: FontWeight.bold,
                       ),
                       CustomText(
-                        'R\$ ${produto.preco.toStringAsFixed(2)}',
+                        'R\$ ${_editedProduct.preco.toStringAsFixed(2)}',
                         bordered: true,
                         fontSize: 30,
                         color: Colors.white,
@@ -182,15 +190,15 @@ class _TelaProdutoState extends State<TelaProduto>
                   /*
                   * Detalhes: ACOMPANHAMENTOS, BEBIDAS E SOBREMESAS
                   */
-                  if (produto.tipo == Produto.acompanhamento ||
-                      produto.tipo == Produto.bebida ||
-                      produto.tipo == Produto.sobremesa)
+                  if (_editedProduct.tipo == Produto.acompanhamento ||
+                      _editedProduct.tipo == Produto.bebida ||
+                      _editedProduct.tipo == Produto.sobremesa)
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: Row(
                         children: [
                           CustomText(
-                            '${produto.recipiente} de ${produto.quantidade}${produto.unidadeMedida}',
+                            '${_editedProduct.recipiente} de ${_editedProduct.quantidade}${_editedProduct.unidadeMedida}',
                             bordered: true,
                             fontSize: 26,
                             color: Colors.white,
@@ -201,7 +209,7 @@ class _TelaProdutoState extends State<TelaProduto>
                   /*
                   * Detalhes: TITULO PARA HAMBURGUERES E COMBOS
                   */
-                  if (produto.isEditable)
+                  if (_editedProduct.isEditable)
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: Row(
@@ -225,11 +233,11 @@ class _TelaProdutoState extends State<TelaProduto>
                   /*
                   * Detalhes: COMBO
                   */
-                  if (produto.tipo == Produto.combo)
+                  if (_editedProduct.tipo == Produto.combo)
                     Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: Column(
-                        children: (produto as Combo).itens.map((item) {
+                        children: (_editedProduct as Combo).itens.map((item) {
                           final prod = pvdProduto.productById(item['id']);
                           final hamb = pvdProduto.hamburguerById(item['id']);
                           final bool isHamb = hamb != null;
@@ -272,12 +280,12 @@ class _TelaProdutoState extends State<TelaProduto>
                   /*
                   * Detalhes: HAMBURGUERES
                   */
-                  if (produto.tipo == Produto.hamburguerCasa ||
-                      produto.tipo == Produto.meuHamburguer)
+                  if (_editedProduct.tipo == Produto.hamburguerCasa ||
+                      _editedProduct.tipo == Produto.meuHamburguer)
                     Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: Column(
-                        children: (produto as Hamburguer)
+                        children: (_editedProduct as Hamburguer)
                             .ingredientes
                             .map((ingrediente) {
                           final ing =
@@ -320,7 +328,7 @@ class _TelaProdutoState extends State<TelaProduto>
                   /*
                   * Preço adicional
                   */
-                  if (produto.isEditable)
+                  if (_editedProduct.isEditable)
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: Row(
@@ -334,7 +342,7 @@ class _TelaProdutoState extends State<TelaProduto>
                             fontWeight: FontWeight.bold,
                           ),
                           CustomText(
-                            'R\$ ${produto.preco.toStringAsFixed(2)}',
+                            'R\$ ${_editedProduct.preco.toStringAsFixed(2)}',
                             bordered: true,
                             fontSize: 30,
                             color: Colors.white,
@@ -358,7 +366,7 @@ class _TelaProdutoState extends State<TelaProduto>
                         fontWeight: FontWeight.bold,
                       ),
                       CustomText(
-                        'R\$ ${(_qnt * produto.preco).toStringAsFixed(2)}',
+                        'R\$ ${(_qnt * _editedProduct.preco).toStringAsFixed(2)}',
                         bordered: true,
                         fontSize: 30,
                         color: Colors.white,
@@ -414,8 +422,9 @@ class _TelaProdutoState extends State<TelaProduto>
                       * Modal
                       */
                       child: ModalProduto(
-                        produto: produto,
+                        produto: _editedProduct,
                         isEditing: isEditing,
+                        isOpened: openedModal,
                         showEditOptions: showEditOptions,
                         onSwitchCount: (qnt) {
                           setState(() => _qnt = qnt);
@@ -423,17 +432,23 @@ class _TelaProdutoState extends State<TelaProduto>
                         onTapEdit: () {
                           setState(() => showEditOptions = true);
                         },
-                        onTapReturn: () {
-                          setState(() => showEditOptions = false);
+                        onTapReturn: (editedProduct) {
+                          setState(() {
+                            _editedProduct = editedProduct ?? produto;
+                            showEditOptions = false;
+                          });
                         },
-                        onTap: (ctx, qnt, product) {
+                        onTapConfirm: (ctx, qnt, editedProduct) {
+                          setState(() {
+                            _editedProduct = editedProduct ?? produto;
+                          });
                           if (user != null) {
                             showModal(false);
                             (isEditing)
                                 ? pvdCarrinho.editarItemCarrinho(
-                                    product ?? produto, qnt)
+                                    editedProduct ?? produto, qnt)
                                 : pvdCarrinho.addItemCarrinho(
-                                    product ?? produto, qnt);
+                                    editedProduct ?? produto, qnt);
 
                             // TODO: Uma forma melhor de notificar isso?
                             // ScaffoldMessenger.of(context).showSnackBar(
@@ -441,7 +456,7 @@ class _TelaProdutoState extends State<TelaProduto>
                             //     content: CustomText(
                             //       (isEditing)
                             //           ? 'Alterações enviadas para o carrinho'
-                            //           : '$qnt ${(product ?? produto).nome} adicionado no carrinho',
+                            //           : '$qnt ${(editedProduct ?? produto).nome} adicionado no carrinho',
                             //       textAlign: TextAlign.center,
                             //       fontSize: 16.0,
                             //       fontWeight: FontWeight.bold,

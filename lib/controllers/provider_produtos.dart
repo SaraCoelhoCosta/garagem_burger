@@ -220,11 +220,15 @@ class ProviderProdutos with ChangeNotifier {
   String? hamburguerBread(String id) {
     final hamburguer = hamburguerById(id);
     if (hamburguer!.totalIngredientes > 0) {
-      final pao = hamburguer.ingredientes.singleWhere((ingrediente) {
-        final ing = ingredientById(ingrediente['id']);
-        return ing?.tipo == Ingrediente.pao;
-      });
-      return pao['id'];
+      try {
+        final pao = hamburguer.ingredientes.singleWhere((ingrediente) {
+          final ing = ingredientById(ingrediente['id']);
+          return ing!.tipo == Ingrediente.pao;
+        });
+        return pao['id'];
+      } catch (_) {
+        return null;
+      }
     } else {
       return null;
     }
@@ -234,10 +238,14 @@ class ProviderProdutos with ChangeNotifier {
   Map<String, dynamic>? hamburguerMeat(String id) {
     final hamburguer = hamburguerById(id);
     if (hamburguer!.totalIngredientes > 0) {
-      return hamburguer.ingredientes.singleWhere((ingrediente) {
-        final ing = ingredientById(ingrediente['id']);
-        return ing?.tipo == Ingrediente.carne;
-      });
+      try {
+        return hamburguer.ingredientes.singleWhere((ingrediente) {
+          final ing = ingredientById(ingrediente['id']);
+          return ing!.tipo == Ingrediente.carne;
+        });
+      } catch (_) {
+        return null;
+      }
     } else {
       return null;
     }
@@ -247,12 +255,16 @@ class ProviderProdutos with ChangeNotifier {
   List<Map<String, dynamic>?> ingHamburguer(Hamburguer hamburguer) {
     if (hamburguer.totalIngredientes > 0) {
       return hamburguer.ingredientes.map((ingrediente) {
-        final ing = ingredientById(ingrediente['id']);
-        if (ing?.tipo != Ingrediente.carne && ing?.tipo != Ingrediente.pao) {
-          return {
-            'id': ingrediente['id'],
-            'quantidade': ingrediente['quantidade'],
-          };
+        try {
+          final ing = ingredientById(ingrediente['id']);
+          if (ing!.tipo != Ingrediente.carne && ing.tipo != Ingrediente.pao) {
+            return {
+              'id': ingrediente['id'],
+              'quantidade': ingrediente['quantidade'],
+            };
+          }
+        } catch (_) {
+          return null;
         }
       }).toList();
     } else {
