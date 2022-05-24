@@ -11,6 +11,8 @@ class TelaMeusLanches extends StatelessWidget {
   @override
   String toStringShort() => 'Meus Lanches';
 
+//TODO: Mesmo não tendo a tela de montagem do hambúrguer feita ainda,
+// mas lembrar de remover esses exemplos de lanches, e tbm o "João vai pagar hambúrguer..."
   @override
   Widget build(BuildContext context) {
     final pvdLanches = Provider.of<ProviderLanches>(context);

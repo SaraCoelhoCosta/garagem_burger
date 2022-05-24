@@ -31,6 +31,9 @@ class _TelaEsqueceuSenhaState extends State<TelaEsqueceuSenha> {
       final pvdUsuario = context.read<ProviderUsuario>();
       await pvdUsuario.recuperarSenha(_email.text);
 
+      //TODO: Verificar porque pop-up aparece mesmo com e-mail não cadastro
+      // no aplicativo
+
       //Popup_dialog de confirmação.
       showDialog(
         context: context,

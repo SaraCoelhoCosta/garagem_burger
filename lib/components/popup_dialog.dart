@@ -13,6 +13,8 @@ class PopupDialog extends StatefulWidget {
   final String yesLabel;
   final String noLabel;
   final bool isPassword;
+  final bool isTextField;
+  final String? titleTextField;
   final void Function()? onPressedNoOption;
   final void Function()? onPressedYesOption;
 
@@ -21,29 +23,20 @@ class PopupDialog extends StatefulWidget {
     required this.titulo,
     this.descricao,
     this.isPassword = false,
+    this.isTextField = false,
     this.onPressedNoOption,
     this.onPressedYesOption,
     this.yesLabel = 'Sim',
     this.noLabel = 'Não',
+    this.titleTextField,
   }) : super(key: key);
-
-  Widget? buildContent() {
-    if (isPassword) {
-      return CustomText('$isPassword: botões de senha');
-    } else if (descricao != null) {
-      return CustomText(
-        descricao!,
-        textAlign: TextAlign.center,
-      );
-    } else {
-      return null;
-    }
-  }
 
   @override
   State<PopupDialog> createState() => _PopupDialogState();
 }
 
+//TODO: Verificar os campos de nome do hambúrguer (montagem do hambúrguer)
+// e senha (pra excluir conta na tela de configurações)
 class _PopupDialogState extends State<PopupDialog> {
   final _formKey = GlobalKey<FormState>();
 
@@ -60,6 +53,8 @@ class _PopupDialogState extends State<PopupDialog> {
   final _novaSenha = TextEditingController();
 
   final _confirmarNovaSenha = TextEditingController();
+
+  final _nomeDoHamburguer = TextEditingController();
 
   // Flags
   bool exibirSenha = false;
@@ -96,6 +91,7 @@ class _PopupDialogState extends State<PopupDialog> {
   }
 
   Widget? buildContent(BuildContext context) {
+    bool flag = false;
     if (widget.isPassword) {
       return SingleChildScrollView(
         child: Form(
@@ -128,6 +124,11 @@ class _PopupDialogState extends State<PopupDialog> {
                 if (value!.trim().isEmpty) {
                   return 'Campo obrigatório';
                 }
+                if (!_updatedPassword) {
+                  return 'Senha incorreta';
+                  //TODO: (Juao: SIM) = Fazer logout para entrar com a nova senha?
+                }
+
                 return null;
               },
             ),
@@ -186,7 +187,7 @@ class _PopupDialogState extends State<PopupDialog> {
                   await alterarSenha(context);
                   if (_updatedPassword) {
                     Navigator.of(context).pop();
-                    //TODO: Fazer logout para entrar com a nova senha?
+                    //TODO: (Juao: SIM) = Fazer logout para entrar com a nova senha?
                   } else {
                     // TODO: Avisar para o usuário que a senha atual está incorreta
                     print('senha incorreta');
@@ -213,6 +214,38 @@ class _PopupDialogState extends State<PopupDialog> {
       return CustomText(
         widget.descricao!,
         textAlign: TextAlign.center,
+      );
+    } else if (widget.isTextField && widget.titleTextField == 'Senha') {
+      CustomTextField(
+        labelText: 'Senha',
+        suffixIcon: GestureDetector(
+          child:
+              Icon(exibirNovaSenha ? Icons.visibility : Icons.visibility_off),
+          onTap: () {
+            setState(() {
+              exibirNovaSenha = !exibirNovaSenha;
+            });
+          },
+        ),
+        obscureText: !exibirNovaSenha,
+        controller: _novaSenha,
+        validator: (value) {
+          if (value!.trim().isEmpty) {
+            return 'Campo obrigatório';
+          }
+          return null;
+        },
+      );
+    } else if (widget.isTextField &&
+        widget.titleTextField == 'Nome do hambúrguer') {
+      return CustomTextField(
+        labelText: 'Nome do hambúrguer',
+        controller: _nomeDoHamburguer,
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'Insira um nome válido';
+          }
+        },
       );
     } else {
       return null;
@@ -249,10 +282,9 @@ class _PopupDialogState extends State<PopupDialog> {
                           await alterarSenha(context);
                           if (_updatedPassword) {
                             Navigator.of(context).pop();
-                            //TODO: Fazer logout para entrar com a nova senha?
+                            //TODO: (Juao: SIM) Fazer logout para entrar com a nova senha?
                           } else {
-                            // TODO: Avisar para o usuário que a senha atual está incorreta
-                            print('senha incorreta');
+                            //TODO: Verifiquei se a senha estava correta ali na linha 128, mas a mensagem continua
                           }
                         }
                       }

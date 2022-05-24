@@ -76,6 +76,7 @@ class _TelaMenuState extends State<TelaMenu> {
                     child: CustomText('Montar Hambúrguer'),
                   ),
                   const PopupMenuItem(
+                    //TODO: Remover ofertas especiais, já que não vamos pôr mais isso
                     value: Filter.ofertas,
                     child: CustomText('Ofertas Especiais'),
                   ),
@@ -159,6 +160,7 @@ class _TelaMenuState extends State<TelaMenu> {
         */
         if (filter == Filter.all || filter == Filter.ofertas)
           const ProductList(
+            //TODO: Remover ofertas especiais, já que não vamos pôr mais isso
             title: 'OFERTAS ESPECIAIS',
             isOfertasEspeciais: true,
           ),

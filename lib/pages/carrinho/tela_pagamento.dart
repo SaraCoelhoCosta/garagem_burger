@@ -90,6 +90,7 @@ class _TelaPagamentoState extends State<TelaPagamento> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
+                    //TODO: Pix vai manter, né? Vi dizerem que estava funcionando
                     onPressed: () async {
                       setState(() => isPix = true);
                       if (primeiraVez < 1) {
@@ -155,6 +156,8 @@ class _TelaPagamentoState extends State<TelaPagamento> {
                 child: Column(
                   children: [
                     ComboBox(
+                      //TODO: Diacho de comboBox também não funciona aqui
+                      // *não tá pegando os cartões já cadastrados*
                       value: currentCardId,
                       items: pvdCartao.cartoes.values.map((cartao) {
                         return {

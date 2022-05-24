@@ -291,6 +291,8 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                       ),
                       IconButton(
                         onPressed: () {
+                          //TODO: Aumentar a largura do popup, pois a descrição
+                          // "Sua sua deve ter no mínimo 6 caracteres" n aparece por completo
                           showDialog(
                             context: context,
                             builder: (context) {
@@ -470,7 +472,12 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                           ),
                         ),
                         Botao(
-                          onPressed: () {},
+                          onPressed: () {
+                            //TODO: O botão salvar vai realmente salvar ou só voltar?
+                            // De qlqr forma, eu deixaria pra pelo menos 'parecer' que salvou,
+                            // mas pode tirar, se quiser
+                            Navigator.of(context).pop;
+                          },
                           labelText: 'Salvar',
                           internalPadding: const EdgeInsets.symmetric(
                             horizontal: 20,

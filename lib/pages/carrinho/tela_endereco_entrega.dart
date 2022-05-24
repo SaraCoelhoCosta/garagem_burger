@@ -52,6 +52,7 @@ class _TelaEnderecoEntregaState extends State<TelaEnderecoEntrega> {
               padding: const EdgeInsets.all(10.0),
               child: Column(
                 children: [
+                  //TODO: Diacho de comboBox não tá pegando as localizações já cadastradas
                   ComboBox(
                     value: currentLocalId,
                     items: pvdLocal.locations.values.map((local) {

@@ -259,6 +259,7 @@ class _TelaPedidoState extends State<TelaPedido> {
                         /*
                         * Pagamento
                         */
+                        //TODO: Pegar dados de pagamento, endereço de entrega e itens do pedido
                         ExpansionPanel(
                           canTapOnHeader: true,
                           backgroundColor: Colors.grey[100],
@@ -296,21 +297,35 @@ class _TelaPedidoState extends State<TelaPedido> {
                       : () {
                           return showDialog(
                             context: context,
-                            builder: (ctx) => PopupDialog(
+                            builder: (BuildContext context) => PopupDialog(
                               titulo:
                                   'Tem certeza que deseja cancelar o pedido?',
                               yesLabel: 'Sim',
                               noLabel: 'Não',
                               onPressedYesOption: () =>
-                                  Navigator.of(ctx).pop(true),
+                                  Navigator.of(context).pop(true),
                               onPressedNoOption: () =>
-                                  Navigator.of(ctx).pop(false),
+                                  Navigator.of(context).pop(false),
                             ),
                           ).then((selectedYesOption) async {
                             if (selectedYesOption) {
                               setState(() => canceling = true);
                               await pvdPedido.cancelOrder(user, pedido);
-                              // TODO: (Juao) => mostrar para o usuário que o pedido foi cancelado
+
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) => PopupDialog(
+                                  titulo: 'Pedido cancelado',
+                                  yesLabel: 'Sim',
+                                  onPressedYesOption: () {
+                                    Navigator.of(context)
+                                        .pushNamedAndRemoveUntil(
+                                      Rotas.home,
+                                      (_) => false,
+                                    );
+                                  },
+                                ),
+                              );
                               setState(() => canceling = false);
                             }
                           });
