@@ -187,7 +187,7 @@ class _ModalProdutoState extends State<ModalProduto> {
                       final ing = pvdProduto.ingredientById(dadosIng['id']);
                       return CardIngredient(
                         count: dadosIng['quantidade'] as int,
-                        ingredient: ing,
+                        ingredient: ing!,
                         totalInsumos: _insumos,
                         onSwitchCount: (qnt) {
                           setState(() {

@@ -4,6 +4,7 @@ import 'package:garagem_burger/components/custom_text.dart';
 import 'package:garagem_burger/components/popup_dialog.dart';
 import 'package:garagem_burger/controllers/provider_produtos.dart';
 import 'package:garagem_burger/controllers/provider_usuario.dart';
+import 'package:garagem_burger/models/combo.dart';
 import 'package:garagem_burger/models/hamburguer.dart';
 import 'package:garagem_burger/models/ingrediente.dart';
 import 'package:garagem_burger/models/produto.dart';
@@ -179,10 +180,28 @@ class _TelaProdutoState extends State<TelaProduto>
                     ],
                   ),
                   /*
-                  * Detalhes: HAMBURGUER
+                  * Detalhes: ACOMPANHAMENTOS, BEBIDAS E SOBREMESAS
                   */
-                  if (produto.tipo == Produto.hamburguerCasa ||
-                      produto.tipo == Produto.meuHamburguer)
+                  if (produto.tipo == Produto.acompanhamento ||
+                      produto.tipo == Produto.bebida ||
+                      produto.tipo == Produto.sobremesa)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Row(
+                        children: [
+                          CustomText(
+                            '${produto.recipiente} de ${produto.quantidade}${produto.unidadeMedida}',
+                            bordered: true,
+                            fontSize: 26,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
+                    ),
+                  /*
+                  * Detalhes: TITULO PARA HAMBURGUERES E COMBOS
+                  */
+                  if (produto.isEditable)
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: Row(
@@ -203,6 +222,56 @@ class _TelaProdutoState extends State<TelaProduto>
                         ],
                       ),
                     ),
+                  /*
+                  * Detalhes: COMBO
+                  */
+                  if (produto.tipo == Produto.combo)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: Column(
+                        children: (produto as Combo).itens.map((item) {
+                          final prod = pvdProduto.productById(item['id']);
+                          final hamb = pvdProduto.hamburguerById(item['id']);
+                          final bool isHamb = hamb != null;
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Flexible(
+                                  flex: 7,
+                                  child: CustomText(
+                                    '${item['quantidade']}x ' +
+                                        (isHamb ? hamb.nome : prod!.nome),
+                                    bordered: true,
+                                    fontSize: 24,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Flexible(
+                                  flex: 3,
+                                  child: CustomText(
+                                    (isHamb
+                                        ? '${hamb.quantidade}g'
+                                        : '${prod!.recipiente} de ${prod.quantidade}${prod.unidadeMedida}'),
+                                    bordered: true,
+                                    textAlign: TextAlign.right,
+                                    fontSize: 24,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  /*
+                  * Detalhes: HAMBURGUERES
+                  */
                   if (produto.tipo == Produto.hamburguerCasa ||
                       produto.tipo == Produto.meuHamburguer)
                     Padding(
@@ -213,34 +282,38 @@ class _TelaProdutoState extends State<TelaProduto>
                             .map((ingrediente) {
                           final ing =
                               pvdProduto.ingredientById(ingrediente['id']);
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Flexible(
-                                flex: 7,
-                                child: CustomText(
-                                  '${ingrediente['quantidade']}x ${ing.nome}',
-                                  bordered: true,
-                                  fontSize: 24,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
+                          if (ing == null) {
+                            return const SizedBox();
+                          } else {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Flexible(
+                                  flex: 7,
+                                  child: CustomText(
+                                    '${ingrediente['quantidade']}x ${ing.nome}',
+                                    bordered: true,
+                                    fontSize: 24,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              Flexible(
-                                flex: 3,
-                                child: CustomText(
-                                  '${ing.quantidade * (ingrediente['quantidade'] as int)} '
-                                  '${ing.unidadeMedida}'
-                                  '${(ing.unidadeMedida == Ingrediente.fatia && ingrediente['quantidade'] > 1 ? 's' : '')}',
-                                  bordered: true,
-                                  fontSize: 24,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
+                                Flexible(
+                                  flex: 3,
+                                  child: CustomText(
+                                    '${ing.quantidade! * (ingrediente['quantidade'] as int)} '
+                                    '${ing.unidadeMedida}'
+                                    '${(ing.unidadeMedida == Ingrediente.fatia && ingrediente['quantidade'] > 1 ? 's' : '')}',
+                                    bordered: true,
+                                    fontSize: 24,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          );
+                              ],
+                            );
+                          }
                         }).toList(),
                       ),
                     ),

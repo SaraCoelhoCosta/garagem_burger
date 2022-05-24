@@ -14,6 +14,7 @@ enum Filter {
   sobremesas,
   acompanhamentos,
   bebidas,
+  combos,
 }
 
 class TelaMenu extends StatefulWidget {
@@ -95,6 +96,10 @@ class _TelaMenuState extends State<TelaMenu> {
                     value: Filter.bebidas,
                     child: CustomText('Bebidas'),
                   ),
+                  const PopupMenuItem(
+                    value: Filter.combos,
+                    child: CustomText('Combos'),
+                  ),
                 ],
               ),
               /*
@@ -166,6 +171,11 @@ class _TelaMenuState extends State<TelaMenu> {
           ProductList(
             title: 'HAMBÚRGUERES DA CASA',
             produtos: provider.hamburgueres,
+          ),
+        if (filter == Filter.all || filter == Filter.combos)
+          ProductList(
+            title: 'COMBOS',
+            produtos: provider.combos,
           ),
         if (filter == Filter.all || filter == Filter.acompanhamentos)
           ProductList(

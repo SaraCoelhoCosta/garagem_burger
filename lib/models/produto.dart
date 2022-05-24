@@ -18,9 +18,11 @@ class Produto {
   String nome;
   double preco;
   String tipo;
-  int quantidade;
-  String unidadeMedida;
+
+  // Peso / Volume
   String? recipiente;
+  int? quantidade;
+  String? unidadeMedida;
 
   Produto({
     required this.id,
@@ -28,13 +30,12 @@ class Produto {
     required this.preco,
     required this.tipo,
     required this.urlImage,
-    required this.quantidade,
-    required this.unidadeMedida,
+    this.quantidade,
+    this.unidadeMedida,
     this.recipiente,
   });
 
   bool get isEditable {
-    return tipo == hamburguerCasa || tipo == meuHamburguer || tipo == combo;
+    return tipo == hamburguerCasa || tipo == meuHamburguer; // || tipo == combo;
   }
-  
 }

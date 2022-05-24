@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/controllers/firebase.dart';
+import 'package:garagem_burger/models/combo.dart';
 import 'package:garagem_burger/models/hamburguer.dart';
 import 'package:garagem_burger/models/ingrediente.dart';
 import 'package:garagem_burger/models/produto.dart';
@@ -11,6 +12,7 @@ class ProviderProdutos with ChangeNotifier {
   final List<Produto> _products = [];
   final List<Ingrediente> _ingredients = [];
   final List<Hamburguer> _hamburgers = [];
+  final List<Combo> _combos = [];
 
   Future<void> loadHamburgers() async {
     _hamburgers.clear();
@@ -70,6 +72,32 @@ class ProviderProdutos with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> loadCombos() async {
+    _combos.clear();
+    final snapshot = await Firebase.getFirestore()
+        .collection('produtos')
+        .where('tipo', isEqualTo: Produto.combo)
+        .get();
+    snapshot.docs.asMap().forEach((_, doc) {
+      _combos.add(
+        Combo(
+          id: doc.id,
+          nome: doc.data()['nome'],
+          preco: double.parse(doc.data()['preco'].toString()),
+          urlImage: doc.data()['img'] ?? '',
+          itens: (doc.data()['itens'] as List<dynamic>).map((item) {
+            return {
+              'id': (item['id'] as DocumentReference<Map<String, dynamic>>).id,
+              'quantidade': item['quantidade'],
+            };
+          }).toList(),
+        ),
+      );
+    });
+    print('${combos.length} combos carregados.');
+    notifyListeners();
+  }
+
   Future<void> loadIngredients() async {
     _ingredients.clear();
     final snapshot =
@@ -93,6 +121,10 @@ class ProviderProdutos with ChangeNotifier {
 
   List<Ingrediente> get ingredientes {
     return [..._ingredients];
+  }
+
+  List<Combo> get combos {
+    return [..._combos];
   }
 
   List<Hamburguer> get hamburgueres {
@@ -129,25 +161,28 @@ class ProviderProdutos with ChangeNotifier {
     }).toList();
   }
 
-  Ingrediente ingredientById(String id) {
-    return _ingredients.singleWhere(
-      (ingrediente) => ingrediente.id == id,
-      orElse: () => _ingredients.first,
-    );
+  Ingrediente? ingredientById(String id) {
+    try {
+      return _ingredients.singleWhere((ingrediente) => ingrediente.id == id);
+    } catch (_) {
+      return null;
+    }
   }
 
-  Produto productById(String id) {
-    return _products.singleWhere(
-      (produto) => produto.id == id,
-      orElse: () => _products.first,
-    );
+  Produto? productById(String id) {
+    try {
+      return _products.singleWhere((produto) => produto.id == id);
+    } catch (_) {
+      return null;
+    }
   }
 
-  Hamburguer hamburguerById(String id) {
-    return _hamburgers.singleWhere(
-      (hamburguer) => hamburguer.id == id,
-      orElse: () => _hamburgers.first,
-    );
+  Hamburguer? hamburguerById(String id) {
+    try {
+      return _hamburgers.singleWhere((hamburguer) => hamburguer.id == id);
+    } catch (_) {
+      return null;
+    }
   }
 
   Hamburguer updateHamburguer(
@@ -177,17 +212,17 @@ class ProviderProdutos with ChangeNotifier {
       nome: hamburguer.nome,
       preco: hamburguer.preco,
       urlImage: hamburguer.urlImage,
-      quantidade: hamburguer.quantidade,
+      quantidade: hamburguer.quantidade!,
     );
   }
 
   // Retorna o pao que tem nesse hamburguer
   String? hamburguerBread(String id) {
     final hamburguer = hamburguerById(id);
-    if (hamburguer.totalIngredientes > 0) {
+    if (hamburguer!.totalIngredientes > 0) {
       final pao = hamburguer.ingredientes.singleWhere((ingrediente) {
         final ing = ingredientById(ingrediente['id']);
-        return ing.tipo == Ingrediente.pao;
+        return ing?.tipo == Ingrediente.pao;
       });
       return pao['id'];
     } else {
@@ -198,10 +233,10 @@ class ProviderProdutos with ChangeNotifier {
   // Retorna a carne e a quantidade que tem nesse hamburguer
   Map<String, dynamic>? hamburguerMeat(String id) {
     final hamburguer = hamburguerById(id);
-    if (hamburguer.totalIngredientes > 0) {
+    if (hamburguer!.totalIngredientes > 0) {
       return hamburguer.ingredientes.singleWhere((ingrediente) {
         final ing = ingredientById(ingrediente['id']);
-        return ing.tipo == Ingrediente.carne;
+        return ing?.tipo == Ingrediente.carne;
       });
     } else {
       return null;
@@ -213,7 +248,7 @@ class ProviderProdutos with ChangeNotifier {
     if (hamburguer.totalIngredientes > 0) {
       return hamburguer.ingredientes.map((ingrediente) {
         final ing = ingredientById(ingrediente['id']);
-        if (ing.tipo != Ingrediente.carne && ing.tipo != Ingrediente.pao) {
+        if (ing?.tipo != Ingrediente.carne && ing?.tipo != Ingrediente.pao) {
           return {
             'id': ingrediente['id'],
             'quantidade': ingrediente['quantidade'],
