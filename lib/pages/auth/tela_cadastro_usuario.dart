@@ -210,7 +210,7 @@ class _TelaCadastroUsuarioState extends State<TelaCadastroUsuario> {
                       if (value!.trim().isEmpty) {
                         return 'Campo obrigatório';
                       } else if (value.trim().length < 6) {
-                        return 'Sua senha deve ter no mínimo 6 caracteres';
+                        return 'Mínimo de 6 caracteres';
                       }
                       return null;
                     },

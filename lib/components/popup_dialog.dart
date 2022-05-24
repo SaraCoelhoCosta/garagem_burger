@@ -158,7 +158,7 @@ class _PopupDialogState extends State<PopupDialog> {
                 if (value!.trim().isEmpty) {
                   return 'Campo obrigatório';
                 } else if (value.length < 6) {
-                  return 'Sua senha deve ter no mínimo 6 caracteres';
+                  return 'Mínimo de 6 caracteres';
                 } else if (_confirmarNovaSenha.text != _novaSenha.text) {
                   return 'As senhas são diferentes';
                 }
@@ -200,7 +200,7 @@ class _PopupDialogState extends State<PopupDialog> {
                 if (value!.trim().isEmpty) {
                   return 'Campo obrigatório';
                 } else if (value.length < 6) {
-                  return 'Sua senha deve ter no mínimo 6 caracteres';
+                  return 'Mínimo de 6 caracteres';
                 } else if (_confirmarNovaSenha.text != _novaSenha.text) {
                   return 'As senhas são diferentes';
                 }

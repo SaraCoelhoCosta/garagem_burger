@@ -28,6 +28,7 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
   bool loadingName = false;
   bool editingPhone = false;
   bool loadingPhone = false;
+  bool flag = false;
 
   // Máscara para telefone.
   var mascaraTelefone = MaskTextInputFormatter(
@@ -90,7 +91,6 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
     super.initState();
   }
 
-  bool flag = false;
   @override
   Widget build(BuildContext context) {
     // Altura total da tela, subtraindo as alturas da appBar e bottomBar
@@ -221,13 +221,14 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
                             controller: _nome,
                             prefixIcon: const Icon(Icons.person),
                             keyboardType: TextInputType.name,
-                            validator: (value) {
-                              if (value!.isEmpty) {
+                            validator: (_nome) {
+                              if (_nome!.isEmpty || _nome == '') {
+                                print('nome empty');
                                 setState(() {
                                   flag = true;
                                 });
                                 return 'Insira um nome válido';
-                              } else if (value.length < 3) {
+                              } else if (_nome.length < 3) {
                                 setState(() {
                                   flag = true;
                                 });
@@ -489,6 +490,7 @@ class TelaConfiguracoesState extends State<TelaConfiguracoes> {
 
                             //TODO: Não está funcionando (n sei pq).
                             if (flag == true) {
+                              print('teste');
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
