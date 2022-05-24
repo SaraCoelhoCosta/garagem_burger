@@ -12,12 +12,7 @@ class TelaAbertura extends StatefulWidget {
 
 class _TelaAberturaState extends State<TelaAbertura>
     with SingleTickerProviderStateMixin {
-  /* 
-   * Realiza transicao de uma tela para outra (mudanca de estado).
-   * Tempo de duração da transacao é de 2 seg.
-   * Chama a tela de login.
-   */
-
+  // Animações
   late final AnimationController _controller = AnimationController(
     duration: const Duration(seconds: 1),
     vsync: this,
@@ -30,6 +25,34 @@ class _TelaAberturaState extends State<TelaAbertura>
     curve: Curves.fastLinearToSlowEaseIn,
   ));
 
+  bool loadedProducts = false;
+
+  Future<void> loadAllProducts(BuildContext context) async {
+    //Carrega os ingredientes do banco de dados
+    await Provider.of<ProviderProdutos>(
+      context,
+      listen: false,
+    ).loadIngredients();
+
+    //Carrega os produtos do banco de dados
+    await Provider.of<ProviderProdutos>(
+      context,
+      listen: false,
+    ).loadProducts();
+
+    //Carrega os hamburgueres do banco de dados
+    await Provider.of<ProviderProdutos>(
+      context,
+      listen: false,
+    ).loadHamburgers();
+
+    //Carrega os combos do banco de dados
+    await Provider.of<ProviderProdutos>(
+      context,
+      listen: false,
+    ).loadCombos();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -39,23 +62,7 @@ class _TelaAberturaState extends State<TelaAbertura>
       overlays: SystemUiOverlay.values,
     );
 
-    //Carrega os produtos do banco de dados
-    Provider.of<ProviderProdutos>(
-      context,
-      listen: false,
-    ).loadProducts();
-
-    //Carrega os ingredientes do banco de dados
-    Provider.of<ProviderProdutos>(
-      context,
-      listen: false,
-    ).loadIngredients();
-
-    //Carrega os hamburgueres do banco de dados
-    Provider.of<ProviderProdutos>(
-      context,
-      listen: false,
-    ).loadHamburgers();
+    loadAllProducts(context);
 
     Future.delayed(Duration(seconds: 2)).then((_) {
       Navigator.of(context).pushNamedAndRemoveUntil(

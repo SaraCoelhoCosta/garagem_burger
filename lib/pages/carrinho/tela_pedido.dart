@@ -161,7 +161,7 @@ class _TelaPedidoState extends State<TelaPedido> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         CustomText(
-                                          '${qnt}x ${produto.nome}',
+                                          '${qnt}x ${produto!.nome}',
                                         ),
                                         CustomText(
                                           'R\$ ${(qnt * produto.preco).toStringAsFixed(2)}',
@@ -230,7 +230,7 @@ class _TelaPedidoState extends State<TelaPedido> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         CustomText(
-                                          '${qnt}x ${produto.nome}',
+                                          '${qnt}x ${produto!.nome}',
                                         ),
                                         CustomText(
                                           'R\$ ${(qnt * produto.preco).toStringAsFixed(2)}',

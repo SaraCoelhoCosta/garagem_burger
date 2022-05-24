@@ -5,6 +5,7 @@ import 'package:garagem_burger/components/card_ingredient.dart';
 import 'package:garagem_burger/components/card_meat.dart';
 import 'package:garagem_burger/components/category_grid.dart';
 import 'package:garagem_burger/components/custom_text.dart';
+import 'package:garagem_burger/components/popup_dialog.dart';
 import 'package:garagem_burger/controllers/provider_produtos.dart';
 import 'package:garagem_burger/models/hamburguer.dart';
 import 'package:garagem_burger/models/produto.dart';
@@ -23,17 +24,19 @@ enum OptionEdit {
 class ModalProduto extends StatefulWidget {
   final Produto produto;
   final bool isEditing;
+  final bool isOpened;
   final bool showEditOptions;
-  final void Function(BuildContext, int, Produto?) onTap;
+  final void Function(BuildContext, int, Produto?) onTapConfirm;
+  final void Function(Produto?)? onTapReturn;
   final void Function()? onTapEdit;
-  final void Function()? onTapReturn;
   final void Function(int)? onSwitchCount;
 
   const ModalProduto({
     Key? key,
     required this.produto,
-    required this.onTap,
+    required this.onTapConfirm,
     required this.isEditing,
+    required this.isOpened,
     this.showEditOptions = false,
     this.onTapEdit,
     this.onTapReturn,
@@ -47,8 +50,9 @@ class ModalProduto extends StatefulWidget {
 class _ModalProdutoState extends State<ModalProduto> {
   int _qnt = 1;
   int _insumos = 1;
-  String selectedBread = '';
-  Map<String, dynamic>? _selectedMeat;
+  String _selectedBread = '';
+  String _selectedMeat = '';
+  int _meatCount = 1;
   bool modalUpdated = false;
   bool hamburguerUpdated = false;
   late Hamburguer hamburguer;
@@ -81,6 +85,7 @@ class _ModalProdutoState extends State<ModalProduto> {
     final appBarHeight = Scaffold.of(context).appBarMaxHeight;
     final availableHeight = (totalHeight - appBarHeight!) * 0.85;
 
+    // Atualiza a quantidade de itens exibida no modal
     if (!modalUpdated &&
         widget.isEditing &&
         pvdCarrinho.itensCarrinho.containsKey(widget.produto.id)) {
@@ -88,14 +93,18 @@ class _ModalProdutoState extends State<ModalProduto> {
       _qnt = pvdCarrinho.itensCarrinho[widget.produto.id]!.quantidade;
     }
 
+    // Dados do hamburguer, caso o produto seja um hamburguer
     if ((widget.produto.tipo == Produto.hamburguerCasa ||
             widget.produto.tipo == Produto.meuHamburguer) &&
         !hamburguerUpdated) {
+          print('Hamburguer atualizado');
       hamburguerUpdated = true;
       hamburguer = widget.produto as Hamburguer;
       _insumos = hamburguer.totalIngredientes;
-      selectedBread = pvdProduto.hamburguerBread(hamburguer.id) ?? '';
-      _selectedMeat = pvdProduto.hamburguerMeat(hamburguer.id);
+      _selectedBread = pvdProduto.hamburguerBread(hamburguer.id) ?? '';
+      final _meat = pvdProduto.hamburguerMeat(hamburguer.id) ?? {};
+      _selectedMeat = _meat['id'] ?? '';
+      _meatCount = _meat['quantidade'] ?? 1;
     }
 
     return Padding(
@@ -187,7 +196,7 @@ class _ModalProdutoState extends State<ModalProduto> {
                       final ing = pvdProduto.ingredientById(dadosIng['id']);
                       return CardIngredient(
                         count: dadosIng['quantidade'] as int,
-                        ingredient: ing,
+                        ingredient: ing!,
                         totalInsumos: _insumos,
                         onSwitchCount: (qnt) {
                           setState(() {
@@ -214,30 +223,32 @@ class _ModalProdutoState extends State<ModalProduto> {
             SizedBox(
               height: availableHeight * 0.55,
               child: CardMeat(
-                  insumos: _insumos,
-                  selectedMeat: _selectedMeat!['id'],
-                  meatCount: _selectedMeat!['quantidade'],
-                  onSwitchCount: (qnt) {
-                    setState(() {
-                      _selectedMeat!['quantidade'] = qnt;
-                      hamburguer = pvdProduto.updateHamburguer(
-                        hamburguer,
-                        _selectedMeat!['id'],
-                        qnt: qnt,
-                      );
-                    });
-                  },
-                  onTap: (selectedMeat) {
-                    final oldSelectedMeat = _selectedMeat!['id'];
-                    setState(() {
-                      _selectedMeat!['id'] = selectedMeat;
-                      hamburguer = pvdProduto.updateHamburguer(
-                        hamburguer,
-                        oldSelectedMeat,
-                        newId: selectedMeat,
-                      );
-                    });
-                  }),
+                insumos: _insumos,
+                selectedMeat: _selectedMeat,
+                meatCount: _meatCount,
+                onSwitchCount: (qnt) {
+                  setState(() {
+                    hamburguer = pvdProduto.updateHamburguer(
+                      hamburguer,
+                      _selectedMeat,
+                      qnt: qnt,
+                    );
+                    _meatCount = qnt;
+                    _insumos = hamburguer.totalIngredientes;
+                  });
+                },
+                onTap: (selectedMeat) {
+                  final oldSelectedMeat = _selectedMeat;
+                  setState(() {
+                    _selectedMeat = selectedMeat;
+                    hamburguer = pvdProduto.updateHamburguer(
+                      hamburguer,
+                      oldSelectedMeat,
+                      newId: selectedMeat,
+                    );
+                  });
+                },
+              ),
             ),
           /*
           * Opções de edição (Opções de Pão)
@@ -251,19 +262,19 @@ class _ModalProdutoState extends State<ModalProduto> {
                   return CardCategory(
                     urlImage: pao.urlImage,
                     text: pao.nome,
-                    isSelected: pao.id == selectedBread,
+                    isSelected: pao.id == _selectedBread,
                     isNetworkImage: true,
                     imageRatioWidth: 0.30,
                     textRatioWidth: 0.65,
                     ratioWidth: 0.92,
                     onTap: () {
-                      final oldSelectedBread = selectedBread;
+                      final oldSelectedBread = _selectedBread;
                       setState(() {
-                        selectedBread = pao.id;
+                        _selectedBread = pao.id;
                         hamburguer = pvdProduto.updateHamburguer(
                           hamburguer,
                           oldSelectedBread,
-                          newId: selectedBread,
+                          newId: _selectedBread,
                         );
                       });
                     },
@@ -333,41 +344,72 @@ class _ModalProdutoState extends State<ModalProduto> {
               },
             ),
           /*
-          * Botão de salvar 
+          * Botão de salvar / adicionar no carrinho
           */
           Botao(
-            labelText: (widget.isEditing)
+            labelText: (widget.isEditing || widget.showEditOptions)
                 ? 'Salvar Alterações'
                 : 'Adicionar no Carrinho',
             onPressed: (widget.produto.isEditable)
                 ? () {
-                    setState(() => optionEdit = OptionEdit.none);
-                    widget.onTapReturn!();
-                    widget.onTap(
-                      context,
-                      _qnt,
-                      hamburguer,
-                    );
+                    if (widget.showEditOptions) {
+                      setState(() => optionEdit = OptionEdit.none);
+                      widget.onTapReturn!(hamburguer);
+                    } else {
+                      setState(() => optionEdit = OptionEdit.none);
+                      widget.onTapConfirm(
+                        context,
+                        _qnt,
+                        hamburguer,
+                      );
+                    }
                   }
-                : () => widget.onTap(
+                : () => widget.onTapConfirm(
                       context,
                       _qnt,
                       null,
                     ),
           ),
           /*
-          * Botão de voltar
+          * Botão de voltar / cancelar
           */
           if (widget.showEditOptions)
             Botao(
-              labelText: 'Voltar',
+              labelText: (optionEdit != OptionEdit.categories)
+                  ? 'Voltar'
+                  : 'Descartar Alterações',
               externalPadding: const EdgeInsets.only(top: 5),
               onPressed: () {
                 if (optionEdit != OptionEdit.categories) {
                   setState(() => optionEdit = OptionEdit.categories);
+                  // TODO: alterar aqui para meu hamburguer
                 } else if (widget.onTapReturn != null) {
-                  setState(() => optionEdit = OptionEdit.none);
-                  widget.onTapReturn!();
+                  return showDialog(
+                    context: context,
+                    builder: (context) {
+                      return PopupDialog(
+                        titulo: 'Descartar alterações',
+                        descricao:
+                            'Tem certeza que deseja descartar as alterações?',
+                        onPressedYesOption: () {
+                          Navigator.of(context).pop(true);
+                        },
+                        onPressedNoOption: () {
+                          Navigator.of(context).pop(false);
+                        },
+                      );
+                    },
+                  ).then((selectedYesOption) {
+                    if (selectedYesOption) {
+                      setState(() {
+                        optionEdit = OptionEdit.none;
+                        hamburguerUpdated = false;
+                        hamburguer = widget.produto as Hamburguer;
+                        _insumos = hamburguer.totalIngredientes;
+                      });
+                      widget.onTapReturn!(null);
+                    }
+                  });
                 }
               },
             ),

@@ -96,8 +96,8 @@ class CardProduto extends StatelessWidget {
                                   (produto.recipiente == null
                                           ? ''
                                           : '${produto.recipiente} de ') +
-                                      produto.quantidade.toString() +
-                                      produto.unidadeMedida,
+                                      '${produto.quantidade ?? 'Teste'}' +
+                                      (produto.unidadeMedida ?? ' 1'),
                                   fontWeight: FontWeight.bold,
                                   color: Colors.grey,
                                 ),
