@@ -5,6 +5,7 @@ import 'package:garagem_burger/controllers/products.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:garagem_burger/pages/main_page.dart';
+import 'package:garagem_burger/pages/opening_page.dart';
 import 'package:garagem_burger/pages/product_detail_page.dart';
 import 'package:garagem_burger/utils/routes.dart';
 import 'package:provider/provider.dart';
@@ -53,7 +54,7 @@ class MyApp extends StatelessWidget {
           backgroundColor: const Color(0xfffed80b),
         ),
         routes: {
-          // Routes.home: (context) => const OpeningPage(),
+          Routes.home: (context) => const OpeningPage(),
           Routes.main: (context) => const MainPage(),
           Routes.product: (context) => const ProductDetailPage(),
         },
