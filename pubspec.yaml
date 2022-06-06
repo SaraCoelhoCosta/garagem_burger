@@ -113,6 +113,10 @@ flutter:
   # Imagens
   assets:
      - images/logo-garagem-burguer.png
+     - images/fundo-hamburguer.jpeg
+     - images/montar-hamburguer.jpeg
+     - images/hamburguer.jpg
+     - images/placeholder-produto.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

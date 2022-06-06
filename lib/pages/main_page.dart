@@ -13,25 +13,38 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  int currentIndex = 0;
-  Widget currentPage = const MenuPage();
-
   _switchTab(int index, Pages pvdPages) {
-    setState(() {
-      currentIndex = index;
+    pvdPages.setCurrentIndex(index);
+    pvdPages.setCurrentPage(const MenuPage());
 
-      // Limpar as rotas anteriores
-      // if (Navigator.of(context).canPop()) {
-      //   Navigator.of(context).pushNamedAndRemoveUntil(
-      //     Routes.main,
-      //     (_) => false,
-      //     arguments: {
-      //       'index': currentIndex,
-      //       'page': currentPage,
-      //     },
-      //   );
-      // }
-    });
+    // Limpar as rotas anteriores
+    // if (Navigator.of(context).canPop()) {
+    //   Navigator.of(context).pushNamedAndRemoveUntil(
+    //     Routes.main,
+    //     (_) => false,
+    //     arguments: {
+    //       'index': currentIndex,
+    //       'page': currentPage,
+    //     },
+    //   );
+    // }
+  }
+
+  @override
+  void initState() {
+    // Index inicial
+    Provider.of<Pages>(
+      context,
+      listen: false,
+    ).setCurrentIndex(0);
+
+    // Tela inicial
+    Provider.of<Pages>(
+      context,
+      listen: false,
+    ).setCurrentPage(const MenuPage());
+
+    super.initState();
   }
 
   @override
@@ -43,12 +56,12 @@ class _MainPageState extends State<MainPage> {
         foregroundColor: Colors.black,
         centerTitle: true,
         title: CustomText(
-          currentPage.toStringShort(),
+          pvdPages.currentPage.toStringShort(),
           fontSize: 26.0,
           fontType: FontType.title,
         ),
       ),
-      body: currentPage,
+      body: pvdPages.currentPage,
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -76,7 +89,7 @@ class _MainPageState extends State<MainPage> {
         ],
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.black,
-        currentIndex: currentIndex,
+        currentIndex: pvdPages.currentIndex,
         selectedItemColor: const Color(0xfffed80b),
         unselectedItemColor: Colors.white,
         onTap: (index) => _switchTab(index, pvdPages),

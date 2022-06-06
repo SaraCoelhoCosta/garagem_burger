@@ -52,6 +52,14 @@ class _OpeningPageState extends State<OpeningPage>
       context,
       listen: false,
     ).loadCombos();
+
+    // Redireciona para a tela do aplicativo
+    Future.delayed(const Duration(seconds: 1)).then((_) {
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        Routes.main,
+        (_) => false,
+      );
+    });
   }
 
   @override
@@ -64,13 +72,6 @@ class _OpeningPageState extends State<OpeningPage>
     );
 
     loadAllProducts(context);
-
-    Future.delayed(const Duration(seconds: 2)).then((_) {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-        Routes.main,
-        (_) => false,
-      );
-    });
   }
 
   @override
