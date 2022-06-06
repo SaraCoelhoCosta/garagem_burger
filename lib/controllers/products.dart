@@ -8,7 +8,7 @@ import 'package:garagem_burger/models/hamburguer.dart';
 import 'package:garagem_burger/models/ingrediente.dart';
 import 'package:garagem_burger/models/produto.dart';
 
-class ProviderProdutos with ChangeNotifier {
+class Products with ChangeNotifier {
   final List<Produto> _products = [];
   final List<Ingrediente> _ingredients = [];
   final List<Hamburguer> _hamburgers = [];

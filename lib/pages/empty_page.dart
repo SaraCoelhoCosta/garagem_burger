@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/custom_text.dart';
 
-class TelaVazia extends StatelessWidget {
+class EmptyPage extends StatelessWidget {
   final String pageName;
   final IconData icon;
   final String titulo;
@@ -9,7 +9,7 @@ class TelaVazia extends StatelessWidget {
   final String rodape;
   final Function() navigator;
 
-  const TelaVazia({
+  const EmptyPage({
     Key? key,
     required this.pageName,
     required this.icon,

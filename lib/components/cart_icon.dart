@@ -1,29 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/custom_text.dart';
-import 'package:garagem_burger/controllers/provider_carrinho.dart';
-import 'package:provider/provider.dart';
 
-class IconeCarrinho extends StatelessWidget {
-  final Widget child;
-  final String value;
+class CartIcon extends StatelessWidget {
+  final int value;
   final Color? color;
 
-  const IconeCarrinho({
+  const CartIcon({
     Key? key,
-    required this.child,
     required this.value,
     this.color = Colors.white,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<ProviderCarrinho>(context);
     return Stack(
       clipBehavior: Clip.none,
       alignment: Alignment.center,
       children: [
-        child,
-        if (provider.qntItens > 0)
+        const Icon(Icons.shopping_cart_outlined),
+        if (value > 0)
           Positioned(
             left: 14,
             bottom: 12,
@@ -38,7 +33,7 @@ class IconeCarrinho extends StatelessWidget {
                 minWidth: 14,
               ),
               child: CustomText(
-                value,
+                value.toString(),
                 fontSize: 10,
                 fontWeight: FontWeight.w900,
                 textAlign: TextAlign.center,

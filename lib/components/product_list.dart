@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/card_produto.dart';
-import 'package:garagem_burger/components/card_ofertas.dart';
 import 'package:garagem_burger/components/custom_text.dart';
 import 'package:garagem_burger/models/produto.dart';
-import 'package:garagem_burger/utils/rotas.dart';
+import 'package:garagem_burger/utils/routes.dart';
 
 class ProductList extends StatelessWidget {
   final String title;
   final List<Produto>? produtos;
-  final bool isOfertasEspeciais;
 
   const ProductList({
     Key? key,
     required this.title,
     this.produtos,
-    this.isOfertasEspeciais = false,
   }) : super(key: key);
 
   @override
@@ -39,33 +36,19 @@ class ProductList extends StatelessWidget {
         /*
         * Lista de Produtos
         */
-        if (!isOfertasEspeciais && produtos != null)
+        if (produtos != null)
           Column(
             children: produtos!.map(
               (produto) {
                 return CardProduto(
                   produto: produto,
                   onTap: () => Navigator.of(context).pushNamed(
-                    Rotas.produto,
+                    Routes.product,
                     arguments: [false, produto],
                   ),
                 );
               },
             ).toList(),
-          ),
-        /*
-        * Lista de Produtos com scroll horizontal
-        */
-        if (isOfertasEspeciais)
-          Container(
-            width: double.infinity,
-            height: 100,
-            padding: const EdgeInsets.all(10.0),
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 10,
-              itemBuilder: (ctx, _) => const CardOfertas(),
-            ),
           ),
       ],
     );

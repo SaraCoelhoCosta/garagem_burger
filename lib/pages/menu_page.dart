@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/custom_text.dart';
 import 'package:garagem_burger/components/product_list.dart';
-import 'package:garagem_burger/controllers/provider_usuario.dart';
-import 'package:garagem_burger/controllers/provider_produtos.dart';
-import 'package:garagem_burger/utils/rotas.dart';
+import 'package:garagem_burger/controllers/products.dart';
 import 'package:provider/provider.dart';
 
 enum Filter {
@@ -17,24 +15,23 @@ enum Filter {
   combos,
 }
 
-class TelaMenu extends StatefulWidget {
-  const TelaMenu({Key? key}) : super(key: key);
+class MenuPage extends StatefulWidget {
+  const MenuPage({Key? key}) : super(key: key);
 
   @override
   String toStringShort() => 'Menu';
 
   @override
-  State<TelaMenu> createState() => _TelaMenuState();
+  State<MenuPage> createState() => _MenuPageState();
 }
 
-class _TelaMenuState extends State<TelaMenu> {
+class _MenuPageState extends State<MenuPage> {
   Filter filter = Filter.all;
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<ProviderProdutos>(context);
-    final user = Provider.of<ProviderUsuario>(context).usuario;
-    final userName = user?.displayName?.split(' ').elementAt(0) ?? 'Convidado';
+    final provider = Provider.of<Products>(context);
+    const userName = 'Convidado';
 
     return ListView(
       children: [
@@ -77,11 +74,6 @@ class _TelaMenuState extends State<TelaMenu> {
                     child: CustomText('Montar Hambúrguer'),
                   ),
                   const PopupMenuItem(
-                    //TODO: Remover ofertas especiais, já que não vamos pôr mais isso
-                    value: Filter.ofertas,
-                    child: CustomText('Ofertas Especiais'),
-                  ),
-                  const PopupMenuItem(
                     value: Filter.hamburgueres,
                     child: CustomText('Hambúrgueres da Casa'),
                   ),
@@ -107,11 +99,11 @@ class _TelaMenuState extends State<TelaMenu> {
               * Perfil de usuário
               */
               Row(
-                children: [
+                children: const [
                   CustomText(
                     'Bem Vindo, $userName!',
                   ),
-                  const Icon(
+                  Icon(
                     Icons.account_circle_outlined,
                     size: 30,
                   ),
@@ -125,13 +117,8 @@ class _TelaMenuState extends State<TelaMenu> {
         */
         if (filter == Filter.all || filter == Filter.montarHamburguer)
           GestureDetector(
-            onTap: () => Navigator.of(context).pushNamed(
-              Rotas.montarHamburguer,
-            ),
+            onTap: () {},
             child: Container(
-              // height: availableHeight * 0.40,
-              // Define a altura máxima de acordo com a altura da imagem,
-              // para que ela não fique esticada demais
               constraints: const BoxConstraints(
                 minHeight: 200,
                 maxHeight: 346,
@@ -163,12 +150,6 @@ class _TelaMenuState extends State<TelaMenu> {
         /*
         * Listas de produtos
         */
-        if (filter == Filter.all || filter == Filter.ofertas)
-          const ProductList(
-            //TODO: Remover ofertas especiais, já que não vamos pôr mais isso
-            title: 'OFERTAS ESPECIAIS',
-            isOfertasEspeciais: true,
-          ),
         if (filter == Filter.all || filter == Filter.hamburgueres)
           ProductList(
             title: 'HAMBÚRGUERES DA CASA',
