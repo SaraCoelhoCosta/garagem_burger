@@ -30,12 +30,12 @@ dependencies:
   flutter:
     sdk: flutter
   
-  # Acesso à galeria (câmera)
-  image_picker: ^0.8.5+3
-  
   # Idioma.
   flutter_localizations:
       sdk: flutter
+
+  # Acesso à galeria (câmera)
+  image_picker: ^0.8.5+3
 
   # Máscara.
   mask_text_input_formatter: ^2.1.0
@@ -77,16 +77,8 @@ dependencies:
   # Acesso com google.
   google_sign_in: ^5.3.1
 
-  # Acesso com facebook.
-  flutter_login_facebook: ^1.4.1
-
   # Bordinha no texto
   bordered_text: ^2.0.0
-
-  # Pagamento pelo mercado pago
-  # mercado_pago_mobile_checkout: ^0.1.1
-  mercadopago_transparent: ^1.0.1
-  # qr_flutter: ^4.0.0
 
 dev_dependencies:
   
