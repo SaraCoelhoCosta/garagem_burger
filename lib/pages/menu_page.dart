@@ -31,7 +31,7 @@ class _MenuPageState extends State<MenuPage> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<Products>(context);
-    const userName = 'Convidado';
+    String userName = 'Convidado';
 
     return ListView(
       children: [
@@ -99,11 +99,11 @@ class _MenuPageState extends State<MenuPage> {
               * Perfil de usuário
               */
               Row(
-                children: const [
+                children: [
                   CustomText(
-                    'Bem Vindo, $userName!',
+                    'Bem Vindo(a), $userName!',
                   ),
-                  Icon(
+                  const Icon(
                     Icons.account_circle_outlined,
                     size: 30,
                   ),

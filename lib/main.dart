@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:garagem_burger/controllers/cart.dart';
 import 'package:garagem_burger/controllers/pages.dart';
 import 'package:garagem_burger/controllers/products.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => Products()),
         ChangeNotifierProvider(create: (_) => Pages()),
+        ChangeNotifierProvider(create: (_) => Cart()),
       ],
       child: MaterialApp(
         localizationsDelegates: const [

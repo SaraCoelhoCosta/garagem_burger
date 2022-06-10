@@ -7,7 +7,7 @@ class EmptyPage extends StatelessWidget {
   final String titulo;
   final String subtitulo;
   final String rodape;
-  final Function() navigator;
+  final Function() switchPage;
 
   const EmptyPage({
     Key? key,
@@ -16,7 +16,7 @@ class EmptyPage extends StatelessWidget {
     required this.titulo,
     required this.subtitulo,
     required this.rodape,
-    required this.navigator,
+    required this.switchPage,
   }) : super(key: key);
 
   @override
@@ -42,7 +42,7 @@ class EmptyPage extends StatelessWidget {
         children: [
           Icon(icon, size: availableHeight * 0.30),
           TextButton(
-            onPressed: navigator,
+            onPressed: switchPage,
             child: CustomText(
               titulo,
               fontSize: 35,

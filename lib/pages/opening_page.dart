@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:garagem_burger/controllers/pages.dart';
 import 'package:garagem_burger/controllers/products.dart';
 import 'package:garagem_burger/utils/routes.dart';
 import 'package:provider/provider.dart';
@@ -52,6 +53,12 @@ class _OpeningPageState extends State<OpeningPage>
       context,
       listen: false,
     ).loadCombos();
+
+    // Define a tela inicial
+    Provider.of<Pages>(
+      context,
+      listen: false,
+    ).clear();
 
     // Redireciona para a tela do aplicativo
     Future.delayed(const Duration(seconds: 1)).then((_) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:garagem_burger/components/custom_text.dart';
 
-class Botao extends StatelessWidget {
+class CustomButton extends StatelessWidget {
   final String? labelText;
   final IconData? icon;
   final Function()? onPressed;
@@ -13,7 +13,7 @@ class Botao extends StatelessWidget {
   final bool disabled;
   final double iconSize;
 
-  const Botao({
+  const CustomButton({
     Key? key,
     this.labelText,
     this.icon,
