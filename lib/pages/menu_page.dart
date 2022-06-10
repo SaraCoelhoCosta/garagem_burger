@@ -4,16 +4,6 @@ import 'package:garagem_burger/components/product_list.dart';
 import 'package:garagem_burger/controllers/products.dart';
 import 'package:provider/provider.dart';
 
-enum Filter {
-  montarHamburguer,
-  ofertas,
-  hamburgueres,
-  sobremesas,
-  acompanhamentos,
-  bebidas,
-  combos,
-}
-
 class MenuPage extends StatefulWidget {
   const MenuPage({Key? key}) : super(key: key);
 
@@ -74,55 +64,6 @@ class _MenuPageState extends State<MenuPage> {
                   ],
                 ),
               ),
-              // PopupMenuButton(
-              //   child: Row(
-              //     mainAxisSize: MainAxisSize.min,
-              //     children: const [
-              //       Icon(
-              //         Icons.filter_list,
-              //         size: 30,
-              //       ),
-              //       CustomText(
-              //         '  Filtros',
-              //         fontWeight: FontWeight.bold,
-              //       ),
-              //     ],
-              //   ),
-              //   initialValue: filter,
-              //   onSelected: (selectedFilter) {
-              //     setState(() => filter = selectedFilter as Filter);
-              //   },
-              //   itemBuilder: (ctx) => [
-              //     const PopupMenuItem(
-              //       value: Filter.all,
-              //       child: CustomText('Tudo'),
-              //     ),
-              //     const PopupMenuItem(
-              //       value: Filter.montarHamburguer,
-              //       child: CustomText('Montar Hambúrguer'),
-              //     ),
-              //     const PopupMenuItem(
-              //       value: Filter.hamburgueres,
-              //       child: CustomText('Hambúrgueres da Casa'),
-              //     ),
-              //     const PopupMenuItem(
-              //       value: Filter.acompanhamentos,
-              //       child: CustomText('Acompanhamentos'),
-              //     ),
-              //     const PopupMenuItem(
-              //       value: Filter.sobremesas,
-              //       child: CustomText('Sobremesas'),
-              //     ),
-              //     const PopupMenuItem(
-              //       value: Filter.bebidas,
-              //       child: CustomText('Bebidas'),
-              //     ),
-              //     const PopupMenuItem(
-              //       value: Filter.combos,
-              //       child: CustomText('Combos'),
-              //     ),
-              //   ],
-              // ),
               /*
               * Perfil de usuário
               */
@@ -167,6 +108,7 @@ class _MenuPageState extends State<MenuPage> {
                       },
                       child: Chip(
                         label: CustomText(filters[index]),
+                        elevation: 2,
                         backgroundColor: (currentFilter == index)
                             ? Theme.of(context).backgroundColor
                             : null,
