@@ -1,16 +1,27 @@
 # Garagem Burguer
 
-A new Flutter project.
+Este é um projeto de um aplicativo desenvolvido para a disciplina de Engenharia de Software 1 e 2, que simula a experiência de compra em uma hamburgueria. O aplicativo permite aos clientes fazer a compra de lanches prontos ou montar seu próprio hambúrguer personalizado.
 
-## Getting Started
+## Funcionalidades
 
-This project is a starting point for a Flutter application.
+- **Compra de Lanches Prontos:** Os clientes podem visualizar a lista de lanches prontos disponíveis e fazer a compra de sua escolha.
 
-A few resources to get you started if this is your first Flutter project:
+- **Montagem Personalizada:** Em desenvolvimento, essa funcionalidade permitirá aos clientes criar seu próprio hambúrguer, escolhendo ingredientes, tamanhos e outros detalhes.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Tecnologias Utilizadas
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Flutter (Dart)
+- Firebase (Firestore)
+
+## Requisitos
+
+- Flutter SDK instalado (versão recomendada: 2.2.3 ou superior)
+- Dispositivo Android ou iOS (ou emulador) para teste
+
+## Status do Projeto
+
+Este projeto foi desenvolvido como parte da disciplina de Engenharia de Software 1 e 2. A funcionalidade de compra de lanches prontos praticamente completa, enquanto a parte de montagem personalizada ainda está em desenvolvimento.
+
+## Contribuição
+
+Este projeto foi criado com fins educacionais e de avaliação acadêmica. Se você identificar melhorias ou tiver sugestões para o projeto, fique à vontade para fazer um fork do repositório, implementar suas mudanças e enviar um pull request.
